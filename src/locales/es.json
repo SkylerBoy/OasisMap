@@ -37,5 +37,6 @@
   "noResults": "Sin resultados",
   "language": "Idioma",
   "noRoute": "No hay un camino hasta este punto.",
-  "satFallback": "La capa satélite no está disponible; se usa el mapa."
+  "satFallback": "La capa satélite no está disponible; se usa el mapa.",
+  "simHint": "Toca el mapa para simular tu posición."
 }

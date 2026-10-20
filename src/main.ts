@@ -4,7 +4,7 @@ import { distance, type LngLat } from './geo';
 import { PathGraph, type Snap } from './graph';
 import { LANGUAGES, currentLang, detectLang, formatDistance, pick, setLang, t } from './i18n';
 import { Compass, LocationTracker, type Fix } from './location';
-import { ParkMap } from './map';
+import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
 import { startCapture } from './capture';
 
@@ -71,7 +71,9 @@ async function init() {
     renderHeading();
   });
   tracker = new LocationTracker(onFix, (err) => {
-    showStatus(err === 'denied' ? t('locationDenied') : t('locationUnavailable'));
+    if (state.fix?.simulated) return;
+    const msg = err === 'denied' ? t('locationDenied') : t('locationUnavailable');
+    showStatus(captureMode ? msg : `${msg} ${t('simHint')}`);
   });
 
   buildLanguageSelect();
@@ -356,6 +358,7 @@ function bindUi() {
     else toast(t('locating'));
   });
   $('btn-layer').addEventListener('click', cycleLayer);
+  $('btn-layer').hidden = !HAS_TILES && !pmap.hasOverlay;
   $('sheet-close').addEventListener('click', closeSheet);
   $('sheet-backdrop').addEventListener('click', closeSheet);
   $('sheet-go').addEventListener('click', () => state.selected && startNavigation(state.selected));

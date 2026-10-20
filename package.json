@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:artifact": "node scripts/build-artifact.mjs"
   },
   "dependencies": {
     "maplibre-gl": "^5.24.0"

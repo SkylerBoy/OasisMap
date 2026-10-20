@@ -12,11 +12,11 @@
   --radius: 18px;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
-  color-scheme: light dark;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --bg: #151815;
     --surface: #20241f;
     --ink: #eef0ea;
@@ -24,7 +24,19 @@
     --line: #333830;
     --chip: #2b302a;
     --shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+    color-scheme: dark;
   }
+}
+
+:root[data-theme='dark'] {
+  --bg: #151815;
+  --surface: #20241f;
+  --ink: #eef0ea;
+  --muted: #a4aa9f;
+  --line: #333830;
+  --chip: #2b302a;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
 }
 
 * {

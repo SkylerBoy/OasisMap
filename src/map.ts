@@ -5,7 +5,14 @@ import { circlePolygon, type LngLat } from './geo';
 import { pick } from './i18n';
 import type { Fix } from './location';
 
+// Hosts that forbid blob: workers (strict CSP) can ship MapLibre's worker as a file.
+const workerUrl = import.meta.env.VITE_MAPLIBRE_WORKER as string | undefined;
+if (workerUrl) maplibregl.setWorkerUrl(new URL(workerUrl, location.href).href);
+
 export type BaseLayer = 'osm' | 'pnoa';
+
+/** Builds for hosts that block external images skip the tiled base maps. */
+export const HAS_TILES = !import.meta.env.VITE_NO_TILES;
 
 const EMPTY: GeoJSON.FeatureCollection = { type: 'FeatureCollection', features: [] };
 
@@ -76,6 +83,11 @@ function style(data: ParkData): StyleSpecification {
       },
     ],
   };
+  if (!HAS_TILES) {
+    delete s.sources.osm;
+    delete s.sources.pnoa;
+    s.layers = s.layers.filter((l) => l.id !== 'osm' && l.id !== 'pnoa');
+  }
   if (config.overlay) {
     s.sources.overlay = { type: 'image', url: config.overlay.url, coordinates: config.overlay.coordinates };
     s.layers.splice(3, 0, {
@@ -155,6 +167,7 @@ export class ParkMap {
 
   setBase(base: BaseLayer): void {
     this.base = base;
+    if (!HAS_TILES) return;
     const apply = () => {
       this.map.setLayoutProperty('osm', 'visibility', base === 'osm' ? 'visible' : 'none');
       this.map.setLayoutProperty('pnoa', 'visibility', base === 'pnoa' ? 'visible' : 'none');

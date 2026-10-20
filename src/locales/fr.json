@@ -37,5 +37,6 @@
   "noResults": "Aucun résultat",
   "language": "Langue",
   "noRoute": "Aucun chemin ne mène à ce point.",
-  "satFallback": "Couche satellite indisponible ; la carte est utilisée."
+  "satFallback": "Couche satellite indisponible ; la carte est utilisée.",
+  "simHint": "Touchez la carte pour simuler votre position."
 }

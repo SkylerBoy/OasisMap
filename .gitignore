@@ -4,3 +4,4 @@ dist
 # Illustrated park map: copyrighted, keep it out of the repo
 public/overlay/*
 !public/overlay/README.md
+dist-artifact

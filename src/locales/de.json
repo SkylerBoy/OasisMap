@@ -37,5 +37,6 @@
   "noResults": "Keine Ergebnisse",
   "language": "Sprache",
   "noRoute": "Es gibt keinen Weg zu diesem Punkt.",
-  "satFallback": "Satellitenebene nicht verfügbar; Karte wird verwendet."
+  "satFallback": "Satellitenebene nicht verfügbar; Karte wird verwendet.",
+  "simHint": "Tippen Sie auf die Karte, um Ihre Position zu simulieren."
 }

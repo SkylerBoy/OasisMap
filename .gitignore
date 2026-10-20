@@ -1,0 +1,6 @@
+node_modules
+dist
+.DS_Store
+# Illustrated park map: copyrighted, keep it out of the repo
+public/overlay/*
+!public/overlay/README.md

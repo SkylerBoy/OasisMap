@@ -1,0 +1,416 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "entrance",
+    "category": "service",
+    "name": {
+     "es": "Entrada / Salida",
+     "ca": "Entrada / Sortida",
+     "eu": "Sarrera / Irteera",
+     "en": "Entrance / Exit",
+     "de": "Eingang / Ausgang",
+     "fr": "Entrée / Sortie",
+     "it": "Ingresso / Uscita"
+    },
+    "description": {
+     "es": "Taquillas, taxis y parking.",
+     "en": "Ticket office, taxis and parking.",
+     "de": "Kassen, Taxis und Parkplatz."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1543576,
+     28.1881562
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sealions",
+    "category": "show",
+    "name": {
+     "es": "Show de leones marinos",
+     "ca": "Espectacle de lleons marins",
+     "eu": "Itsas lehoien ikuskizuna",
+     "en": "Sea Lions Live",
+     "de": "Seelöwen-Show",
+     "fr": "Spectacle des otaries",
+     "it": "Spettacolo dei leoni marini"
+    },
+    "description": {
+     "es": "Espectáculo con los leones marinos.",
+     "en": "Show with our sea lions.",
+     "de": "Show mit unseren Seelöwen."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.158898,
+     28.1859349
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fauna",
+    "category": "show",
+    "name": {
+     "es": "Fauna Live",
+     "ca": "Fauna Live",
+     "eu": "Fauna Live",
+     "en": "Fauna Live",
+     "de": "Fauna Live",
+     "fr": "Fauna Live",
+     "it": "Fauna Live"
+    },
+    "description": {
+     "es": "Presentación de animales en vivo.",
+     "en": "Live animal presentation.",
+     "de": "Live-Tierpräsentation."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1604284,
+     28.1850626
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "birds",
+    "category": "show",
+    "name": {
+     "es": "Show de aves",
+     "ca": "Espectacle d'aus",
+     "eu": "Hegaztien ikuskizuna",
+     "en": "Birds Live",
+     "de": "Vogel-Show",
+     "fr": "Spectacle d'oiseaux",
+     "it": "Spettacolo di uccelli"
+    },
+    "description": {
+     "es": "Exhibición de vuelo de aves rapaces.",
+     "en": "Birds of prey flight display.",
+     "de": "Flugshow mit Greifvögeln."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1618058,
+     28.187167
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "patio",
+    "category": "food",
+    "name": {
+     "es": "Restaurante Patio Majorero",
+     "ca": "Restaurant Patio Majorero",
+     "eu": "Patio Majorero jatetxea",
+     "en": "Patio Majorero Restaurant",
+     "de": "Restaurant Patio Majorero",
+     "fr": "Restaurant Patio Majorero",
+     "it": "Ristorante Patio Majorero"
+    },
+    "number": "C",
+    "description": {
+     "es": "Cocina canaria tradicional.",
+     "en": "Traditional Canarian food.",
+     "de": "Traditionelle kanarische Küche."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.164224,
+     28.1873468
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "market",
+    "category": "food",
+    "name": {
+     "es": "Oasis Market",
+     "ca": "Oasis Market",
+     "eu": "Oasis Market",
+     "en": "Oasis Market",
+     "de": "Oasis Market",
+     "fr": "Oasis Market",
+     "it": "Oasis Market"
+    },
+    "number": "B"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1549698,
+     28.1883631
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "elephants",
+    "category": "animal",
+    "name": {
+     "es": "Elefantes",
+     "ca": "Elefants",
+     "eu": "Elefanteak",
+     "en": "Elephants",
+     "de": "Elefanten",
+     "fr": "Éléphants",
+     "it": "Elefanti"
+    },
+    "number": "31",
+    "description": {
+     "es": "Zona de los elefantes africanos.",
+     "en": "African elephants area.",
+     "de": "Bereich der Afrikanischen Elefanten."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1611937,
+     28.1900448
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "giraffes",
+    "category": "animal",
+    "name": {
+     "es": "Jirafas",
+     "ca": "Girafes",
+     "eu": "Jirafak",
+     "en": "Giraffes",
+     "de": "Giraffen",
+     "fr": "Girafes",
+     "it": "Giraffe"
+    },
+    "number": "30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1601223,
+     28.1895322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "flamingos",
+    "category": "animal",
+    "name": {
+     "es": "Flamencos",
+     "ca": "Flamencs",
+     "eu": "Flamenkoak",
+     "en": "Flamingos",
+     "de": "Flamingos",
+     "fr": "Flamants",
+     "it": "Fenicotteri"
+    },
+    "number": "10"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1551738,
+     28.1877066
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lemurs",
+    "category": "experience",
+    "name": {
+     "es": "Experiencia lémures",
+     "ca": "Experiència lèmurs",
+     "eu": "Lemur esperientzia",
+     "en": "Lemur Experience",
+     "de": "Lemuren-Erlebnis",
+     "fr": "Expérience lémuriens",
+     "it": "Esperienza lemuri"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1557554,
+     28.1876436
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hippos",
+    "category": "animal",
+    "name": {
+     "es": "Hipopótamos",
+     "ca": "Hipopòtams",
+     "eu": "Hipopotamoak",
+     "en": "Hippos",
+     "de": "Flusspferde",
+     "fr": "Hippopotames",
+     "it": "Ippopotami"
+    },
+    "number": "20"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1573675,
+     28.1869242
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "crocs",
+    "category": "animal",
+    "name": {
+     "es": "Caimanes",
+     "ca": "Caimans",
+     "eu": "Kaimanak",
+     "en": "Alligators",
+     "de": "Alligatoren",
+     "fr": "Alligators",
+     "it": "Alligatori"
+    },
+    "number": "38"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1599693,
+     28.1855302
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic",
+    "category": "botanic",
+    "name": {
+     "es": "Jardín botánico",
+     "ca": "Jardí botànic",
+     "eu": "Lorategi botanikoa",
+     "en": "Botanical garden",
+     "de": "Botanischer Garten",
+     "fr": "Jardin botanique",
+     "it": "Giardino botanico"
+    },
+    "description": {
+     "es": "Cactus, suculentas y flora canaria.",
+     "en": "Cacti, succulents and Canarian flora.",
+     "de": "Kakteen, Sukkulenten und kanarische Flora."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1672135,
+     28.1859079
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "wc1",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "ca": "Lavabos",
+     "eu": "Komunak",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1585409,
+     28.1862946
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "camel2",
+    "category": "experience",
+    "name": {
+     "es": "Paseo en camello",
+     "ca": "Passeig en camell",
+     "eu": "Gamelu ibilaldia",
+     "en": "Camel ride",
+     "de": "Kamelritt",
+     "fr": "Balade à dos de chameau",
+     "it": "Giro in cammello"
+    },
+    "number": "2"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1627241,
+     28.1893523
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "info",
+    "category": "service",
+    "name": {
+     "es": "Información",
+     "ca": "Informació",
+     "eu": "Informazioa",
+     "en": "Information",
+     "de": "Information",
+     "fr": "Information",
+     "it": "Informazioni"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1582858,
+     28.1860248
+    ]
+   }
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#8c1c2c" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icon.svg" />
+    <title>Oasis Wildlife Map</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <strong data-i18n="title">Oasis Wildlife</strong>
+        <span data-i18n="subtitle">Mapa del parque</span>
+      </div>
+      <label class="lang">
+        <span class="sr-only" data-i18n="language">Idioma</span>
+        <select id="lang-select"></select>
+      </label>
+    </header>
+
+    <div id="demo-banner" class="banner" hidden data-i18n="demo"></div>
+    <div id="status-banner" class="banner info" hidden></div>
+
+    <section id="map-card" class="map-card">
+      <div id="map"></div>
+
+      <div id="nav-hud" class="nav-hud" hidden>
+        <div class="hud-arrow-wrap">
+          <svg id="hud-arrow" class="hud-arrow" viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M50 6 L84 88 L50 70 L16 88 Z" />
+          </svg>
+        </div>
+        <div class="hud-text">
+          <div id="hud-instruction" class="hud-instruction"></div>
+          <div id="hud-meta" class="hud-meta"></div>
+          <button id="hud-compass" class="hud-compass" type="button" hidden data-i18n="compass"></button>
+        </div>
+        <button id="hud-stop" class="hud-stop" type="button" data-i18n="stop">Parar</button>
+      </div>
+
+      <div class="map-controls">
+        <button id="btn-expand" class="fab" type="button" data-i18n-title="map.expand">⤢</button>
+        <button id="btn-locate" class="fab" type="button" data-i18n-title="map.locate">◎</button>
+        <button id="btn-layer" class="fab" type="button" data-i18n-title="layer.map">🗺️</button>
+      </div>
+    </section>
+
+    <main id="browse" class="browse">
+      <input id="search" class="search" type="search" autocomplete="off" data-i18n-placeholder="search" />
+      <div id="chips" class="chips" role="tablist"></div>
+      <ul id="poi-list" class="poi-list"></ul>
+    </main>
+
+    <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
+    <section id="sheet" class="sheet" aria-hidden="true">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <span id="sheet-icon" class="sheet-icon"></span>
+        <div>
+          <h2 id="sheet-title"></h2>
+          <div id="sheet-sub" class="sheet-sub"></div>
+        </div>
+      </div>
+      <p id="sheet-desc" class="sheet-desc"></p>
+      <p id="sheet-schedule" class="sheet-schedule" hidden></p>
+      <div class="sheet-actions">
+        <button id="sheet-go" class="btn primary" type="button" data-i18n="go">Ir</button>
+        <button id="sheet-close" class="btn" type="button" data-i18n="close">Cerrar</button>
+      </div>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

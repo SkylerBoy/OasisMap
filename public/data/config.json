@@ -1,0 +1,24 @@
+{
+  "name": "Oasis Wildlife Fuerteventura",
+  "demoData": true,
+  "center": [
+    -14.1605305,
+    28.187149
+  ],
+  "zoom": 16.3,
+  "minZoom": 14.5,
+  "maxZoom": 20,
+  "bounds": [
+    [
+      -14.1743046,
+      28.1768068
+    ],
+    [
+      -14.145736,
+      28.1965918
+    ]
+  ],
+  "base": "osm",
+  "overlay": null,
+  "walkingSpeed": 1.1
+}

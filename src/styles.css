@@ -290,7 +290,7 @@ body.map-expanded {
 .move-mode .poi-marker {
   cursor: grab;
   touch-action: none;
-  outline: 2px dashed #ff7a00;
+  outline: 2px dashed var(--brand);
   outline-offset: 2px;
 }
 
@@ -683,6 +683,11 @@ body.map-expanded {
   transform: translate(-50%, 0);
 }
 
+/* Developer mode: map numbers are not needed in the list */
+.dev-mode .row-num {
+  display: none;
+}
+
 /* --- developer mode PIN -------------------------------------------------------- */
 
 .pin-overlay {
@@ -749,7 +754,7 @@ body.map-expanded {
   z-index: 40;
   padding: 10px;
   border-radius: var(--r-md);
-  background: #ff7a00;
+  background: var(--brand);
   color: #fff;
   box-shadow: var(--shadow);
 }
@@ -772,7 +777,7 @@ body.map-expanded {
   border: 0;
   border-radius: var(--r-sm);
   background: rgb(255 255 255 / 0.92);
-  color: #7a3a00;
+  color: var(--brand);
   font-weight: 600;
   font-size: 0.85rem;
 }

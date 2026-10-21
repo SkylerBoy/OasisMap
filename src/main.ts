@@ -90,6 +90,7 @@ async function init() {
   if (captureMode) {
     captureMode = await unlockDevMode();
     if (captureMode) {
+      document.body.classList.add('dev-mode');
       const panel = startCapture(pmap, tracker);
       startMoveTool(panel, pmap, data.pois, (poi, coord) => {
         poi.coord = coord;
@@ -242,8 +243,13 @@ function renderHeading() {
 
 function buildLanguageSelect() {
   const sel = $<HTMLSelectElement>('lang-select');
-  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}" title="${l.name}">${l.code.toUpperCase()}</option>`).join('');
+  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.code.toUpperCase()}</option>`).join('');
   sel.value = currentLang();
+  // Closed it shows "ES"; the list it opens shows the full names ("Español").
+  const label = (full: boolean) =>
+    [...sel.options].forEach((o, i) => (o.textContent = full ? LANGUAGES[i].name : LANGUAGES[i].code.toUpperCase()));
+  for (const ev of ['pointerdown', 'focus', 'keydown']) sel.addEventListener(ev, () => label(true));
+  for (const ev of ['change', 'blur']) sel.addEventListener(ev, () => label(false));
   sel.addEventListener('change', async () => {
     await setLang(sel.value);
     applyI18n();

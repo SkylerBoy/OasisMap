@@ -175,13 +175,13 @@ export function startCapture(pmap: ParkMap, tracker: LocationTracker): HTMLEleme
   };
   const setup = () => {
     map.addSource('capture', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-    map.addLayer({ id: 'capture-lines', type: 'line', source: 'capture', filter: ['==', '$type', 'LineString'], paint: { 'line-color': '#ff7a00', 'line-width': 3 } });
+    map.addLayer({ id: 'capture-lines', type: 'line', source: 'capture', filter: ['==', '$type', 'LineString'], paint: { 'line-color': '#a71d2f', 'line-width': 3 } });
     map.addLayer({
       id: 'capture-points',
       type: 'circle',
       source: 'capture',
       filter: ['==', '$type', 'Point'],
-      paint: { 'circle-color': '#ff7a00', 'circle-radius': 6, 'circle-stroke-color': '#fff', 'circle-stroke-width': 2 },
+      paint: { 'circle-color': '#a71d2f', 'circle-radius': 6, 'circle-stroke-color': '#fff', 'circle-stroke-width': 2 },
     });
     draw();
   };

@@ -363,8 +363,8 @@ body.map-expanded {
 
 /* Points with a drawing from the printed map: the drawing is the marker. */
 .poi-marker.art {
-  width: 52px;
-  height: 40px;
+  width: calc(var(--aw, 40) * var(--art-k, 0.55) * 1px);
+  height: calc(var(--ah, 30) * var(--art-k, 0.55) * 1px);
   border: 0;
   border-radius: 0;
   background: none;
@@ -379,14 +379,13 @@ body.map-expanded {
   pointer-events: none;
 }
 
-.z-far .poi-marker.art {
-  width: 36px;
-  height: 28px;
-}
-
 .poi-marker.art .poi-num {
   top: -6px;
   right: -4px;
+}
+
+.z-far .poi-marker.art:not(.selected) .poi-num {
+  display: none;
 }
 
 .poi-marker.art.selected {

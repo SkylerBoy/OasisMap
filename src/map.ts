@@ -161,6 +161,10 @@ export class ParkMap {
       const face = poi.art
         ? `<img class="poi-art" src="${import.meta.env.BASE_URL}${poi.art}" alt="" draggable="false">`
         : `<span class="poi-icon">${poiIconSvg(poiIcon(poi), 20)}</span>`;
+      if (poi.art && poi.artSize) {
+        el.style.setProperty('--aw', String(poi.artSize[0]));
+        el.style.setProperty('--ah', String(poi.artSize[1]));
+      }
       el.innerHTML = `${face}${
         poi.number ? `<span class="poi-num">${poi.number}</span>` : ''
       }`;
@@ -180,6 +184,8 @@ export class ParkMap {
       const z = this.map.getZoom();
       mapEl.classList.toggle('z-far', z < 16.6);
       mapEl.classList.toggle('z-near', z >= 17.4);
+      // Drawings grow and shrink with the map, like on the printed map, within limits.
+      mapEl.style.setProperty('--art-k', Math.min(1.4, Math.max(0.6, 0.85 * 2 ** ((z - 17) * 0.6))).toFixed(3));
     };
     this.map.on('zoom', onZoom);
     onZoom();

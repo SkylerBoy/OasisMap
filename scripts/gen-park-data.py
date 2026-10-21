@@ -12,6 +12,7 @@ Run: python3 scripts/gen-park-data.py
 import json
 import math
 import os
+import re
 
 # --- projection: map pixel -> lon/lat -------------------------------------------
 # The printed map is drawn roughly upside down (FV-2 road at the top, real
@@ -559,6 +560,8 @@ def main():
             props['image'] = image
         if os.path.exists(f'public/img/map-art/{pid}.svg'):  # drawing from the printed map (extract-map-art.py)
             props['art'] = f'img/map-art/{pid}.svg'
+            vb = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', open(f'public/img/map-art/{pid}.svg').read())
+            props['artSize'] = [float(vb[1]), float(vb[2])]  # size on the printed map (pt), keeps drawings in proportion
         coord = px(x, y)
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)

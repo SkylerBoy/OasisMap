@@ -33,6 +33,8 @@ export interface Poi {
   image?: string;
   /** Drawing cut from the printed map, used as the map marker. */
   art?: string;
+  /** Drawing size on the printed map (pt), so drawings keep their relative size. */
+  artSize?: [number, number];
   /** Icon name from src/poi-icons.ts. */
   icon?: string;
   /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */

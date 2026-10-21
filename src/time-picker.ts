@@ -30,9 +30,16 @@ function wheel(values: number[], selected: number, label: (v: number) => string)
 }
 
 /** Ask for a time "H:MM"; resolves to null if cancelled. */
-export function pickTime(title: string, current: string, opts: { from?: number; to?: number; step?: number } = {}): Promise<string | null> {
+export function pickTime(
+  title: string,
+  current: string,
+  opts: { min?: string; max?: string; step?: number } = {},
+): Promise<string | null> {
+  const toMin = (s: string) => s.split(':').map(Number).reduce((h, m) => h * 60 + m);
+  const lo = toMin(opts.min ?? '8:00');
+  const hi = toMin(opts.max ?? '20:00');
   const [h0, m0] = current.split(':').map(Number);
-  const hours = Array.from({ length: (opts.to ?? 20) - (opts.from ?? 8) + 1 }, (_, i) => (opts.from ?? 8) + i);
+  const hours = Array.from({ length: Math.floor(hi / 60) - Math.floor(lo / 60) + 1 }, (_, i) => Math.floor(lo / 60) + i);
   const step = opts.step ?? 5;
   const mins = Array.from({ length: 60 / step }, (_, i) => i * step);
 
@@ -67,6 +74,10 @@ export function pickTime(title: string, current: string, opts: { from?: number; 
     };
     root.querySelector('.tp-backdrop')!.addEventListener('click', () => finish(null));
     root.querySelector('.tp-cancel')!.addEventListener('click', () => finish(null));
-    root.querySelector('.tp-ok')!.addEventListener('click', () => finish(`${hw.value()}:${String(mw.value()).padStart(2, '0')}`));
+    root.querySelector('.tp-ok')!.addEventListener('click', () => {
+      // keep it within the allowed range (e.g. 16:45 when the latest is 16:30)
+      const v = Math.min(hi, Math.max(lo, hw.value() * 60 + mw.value()));
+      finish(`${Math.floor(v / 60)}:${String(v % 60).padStart(2, '0')}`);
+    });
   });
 }

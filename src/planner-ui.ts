@@ -25,6 +25,9 @@ const STAY = { animal: 10, botanic: 10, show: 30, experience: 30 } as const; // 
 const LUNCH_MIN = 45;
 const LUNCH: [number, number] = [toMinutes('12:30'), toMinutes('14:45')];
 const KEY = 'oasis.plan';
+const OPEN = '9:00';
+const CLOSE = '18:00';
+const LAST_ARRIVAL = '16:30';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const hhmm = (m: number) => `${Math.floor(m / 60)}:${String(Math.round(m) % 60).padStart(2, '0')}`;
@@ -220,7 +223,7 @@ export function startPlanner(ctx: PlannerContext) {
 
   function open() {
     const now = parkMinutes();
-    const start = now >= toMinutes('9:00') && now < toMinutes('16:30') ? Math.ceil(now / 5) * 5 : toMinutes('9:00');
+    const start = now >= toMinutes(OPEN) && now < toMinutes(LAST_ARRIVAL) ? Math.ceil(now / 5) * 5 : toMinutes(OPEN);
     setTime('plan-start', hhmm(start));
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
     renderChoices();
@@ -236,14 +239,20 @@ export function startPlanner(ctx: PlannerContext) {
 
   function setTime(id: string, v: string) {
     $(id).dataset.value = v;
-    $(id).textContent = v;
+    $(id).querySelector('.plan-time-v')!.textContent = v;
   }
-  for (const [id, label] of [['plan-start', 'plan.start'], ['plan-end', 'plan.end']] as const) {
-    $(id).addEventListener('click', async () => {
-      const v = await pickTime(t(label), $(id).dataset.value ?? '9:00');
-      if (v) setTime(id, v);
-    });
-  }
+  // Arrival between opening and 16:30; leaving at least 30 min later and by closing time.
+  $('plan-start').addEventListener('click', async () => {
+    const v = await pickTime(t('plan.start'), $('plan-start').dataset.value ?? OPEN, { min: OPEN, max: LAST_ARRIVAL });
+    if (!v) return;
+    setTime('plan-start', v);
+    if (toMinutes($('plan-end').dataset.value ?? CLOSE) < toMinutes(v) + 30) setTime('plan-end', hhmm(toMinutes(v) + 30));
+  });
+  $('plan-end').addEventListener('click', async () => {
+    const min = hhmm(toMinutes($('plan-start').dataset.value ?? OPEN) + 30);
+    const v = await pickTime(t('plan.end'), $('plan-end').dataset.value ?? CLOSE, { min, max: CLOSE });
+    if (v) setTime('plan-end', v);
+  });
 
   $('plan-open').addEventListener('click', open);
   $('plan-close').addEventListener('click', close);

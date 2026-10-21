@@ -1,5 +1,5 @@
 /**
- * PIN gate for developer mode (?modo=desarrollador).
+ * PIN gate for developer mode (?mode=dev).
  *
  * This only keeps visitors out of the staff tools; it is not real security:
  * the code is public and a 4-digit PIN can be guessed. Only a hash of the PIN

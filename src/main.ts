@@ -53,8 +53,8 @@ let pmap: ParkMap;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
-/** Staff tools (?modo=desarrollador), unlocked with a PIN. */
-let captureMode = params.get('modo') === 'desarrollador';
+/** Staff tools (?mode=dev), unlocked with a PIN. */
+let captureMode = params.get('mode') === 'dev';
 
 async function init() {
   await setLang(detectLang());
@@ -100,7 +100,7 @@ async function init() {
     }
     else {
       // Cancelled: carry on as a visitor and drop the parameter from the URL.
-      params.delete('modo');
+      params.delete('mode');
       const q = params.toString();
       history.replaceState(null, '', location.pathname + (q ? `?${q}` : '') + location.hash);
     }

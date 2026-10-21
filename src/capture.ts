@@ -4,7 +4,7 @@ import type { Fix, LocationTracker } from './location';
 import type { ParkMap } from './map';
 
 /**
- * Staff tool ("modo desarrollador", open with ?modo=desarrollador and the PIN): walk the park and
+ * Staff tool ("modo desarrollador", open with ?mode=dev and the PIN): walk the park and
  * record exact points (averaged GPS) and paths, then export them as GeoJSON
  * to refine pois.geojson / paths.geojson in QGIS or geojson.io.
  * Spanish only on purpose: it is not shown to visitors.

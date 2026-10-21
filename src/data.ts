@@ -54,7 +54,8 @@ export interface ParkData {
 const base = import.meta.env.BASE_URL;
 
 async function getJson<T>(file: string): Promise<T> {
-  const res = await fetch(`${base}data/${file}`);
+  // Always revalidate: park data changes with each deploy.
+  const res = await fetch(`${base}data/${file}`, { cache: 'no-cache' });
   if (!res.ok) throw new Error(`${file}: HTTP ${res.status}`);
   return res.json() as Promise<T>;
 }

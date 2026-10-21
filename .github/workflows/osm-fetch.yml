@@ -1,0 +1,50 @@
+name: Fetch OpenStreetMap data
+
+# Downloads paths, amenities and water around the zoo from OpenStreetMap
+# (Overpass API) into data/osm/oasis.json and commits it to the branch it
+# runs on. The app's paths are then rebuilt from it with
+# scripts/osm-to-paths.py. Run it from the Actions tab.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Query Overpass
+        run: |
+          # south, west, north, east around the park
+          BBOX="28.1760,-14.1760,28.1920,-14.1500"
+          QUERY="[out:json][timeout:90];
+          (
+            way[\"highway\"](${BBOX});
+            nwr[\"tourism\"](${BBOX});
+            nwr[\"amenity\"](${BBOX});
+            nwr[\"leisure\"](${BBOX});
+            nwr[\"natural\"=\"water\"](${BBOX});
+            nwr[\"barrier\"=\"gate\"](${BBOX});
+          );
+          out geom tags;"
+          mkdir -p data/osm
+          for url in https://overpass-api.de/api/interpreter https://overpass.kumi.systems/api/interpreter; do
+            if curl -sSf --retry 2 --max-time 120 --data-urlencode "data=${QUERY}" "$url" -o data/osm/oasis.json; then
+              echo "Downloaded from $url"; break
+            fi
+          done
+          test -s data/osm/oasis.json
+          jq '{elements: (.elements | length), ways: ([.elements[] | select(.type=="way")] | length), timestamp: .osm3s.timestamp_osm_base}' data/osm/oasis.json
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add data/osm/oasis.json
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Update OpenStreetMap data (data/osm/oasis.json)"
+          git push

@@ -57,11 +57,13 @@
     --line: #343a30;
     --chip: #2b3027;
     --shadow: 0 6px 22px rgb(0 0 0 / 0.5);
+    --icon-invert: 1;
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
+  --icon-invert: 1;
   --accent: #3f6b45;
   --accent-strong: #4f8256;
   --accent-ink: #eaf7e8;
@@ -1005,6 +1007,20 @@ body.map-expanded {
 
 .maplibregl-ctrl-attrib {
   font-size: 10px;
+}
+
+/* credits follow the theme (light or dark) */
+.maplibregl-map .maplibregl-ctrl-attrib.maplibregl-compact {
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+.maplibregl-map .maplibregl-ctrl-attrib a {
+  color: var(--muted);
+}
+
+.maplibregl-map .maplibregl-ctrl-attrib-button {
+  filter: invert(var(--icon-invert, 0));
 }
 
 @media (prefers-reduced-motion: reduce) {

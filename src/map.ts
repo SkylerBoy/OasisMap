@@ -189,6 +189,7 @@ export class ParkMap {
     };
     this.map.on('zoom', onZoom);
     onZoom();
+    this.watchTheme();
   }
 
   get hasOverlay(): boolean {
@@ -198,6 +199,42 @@ export class ParkMap {
   /** Update marker labels after a language change. */
   relabel(): void {
     for (const { el, poi } of this.poiMarkers.values()) el.setAttribute('aria-label', pick(poi.name));
+  }
+
+  /** Dark map when the phone (or the page) is in dark mode. */
+  private watchTheme(): void {
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = () => {
+      const forced = document.documentElement.dataset.theme;
+      return forced ? forced === 'dark' : mq.matches;
+    };
+    const apply = () => this.applyTheme(isDark());
+    mq.addEventListener('change', apply);
+    // style.load fires before the tiles arrive, so the first frame already has the right colours
+    if (this.map.isStyleLoaded()) apply();
+    else this.map.once('style.load', apply);
+  }
+
+  private applyTheme(dark: boolean): void {
+    const m = this.map;
+    const paint = (layer: string, prop: string, value: unknown) => {
+      if (m.getLayer(layer)) m.setPaintProperty(layer, prop, value);
+    };
+    paint('bg', 'background-color', dark ? '#1b2019' : '#e8efd9');
+    // OSM: invert the brightness and turn the hues back, so green stays green but dark.
+    paint('osm', 'raster-brightness-min', dark ? 0.82 : 0);
+    paint('osm', 'raster-brightness-max', dark ? 0.06 : 1);
+    paint('osm', 'raster-hue-rotate', dark ? 180 : 0);
+    paint('osm', 'raster-saturation', dark ? -0.35 : 0);
+    paint('osm', 'raster-contrast', dark ? -0.1 : 0);
+    // Orthophoto: just dimmed.
+    paint('pnoa', 'raster-brightness-max', dark ? 0.62 : 1);
+    paint('pnoa', 'raster-saturation', dark ? -0.2 : 0);
+    paint('paths-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+    paint('paths-casing', 'line-opacity', dark ? 0.55 : 0.8);
+    paint('paths', 'line-color', dark ? '#8f7f5c' : '#d9c49a');
+    paint('route-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+    paint('route', 'line-color', dark ? '#e0485c' : '#a3162b');
   }
 
   setBase(base: BaseLayer): void {

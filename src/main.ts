@@ -8,6 +8,7 @@ import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
 import { startCapture } from './capture';
 import { unlockDevMode } from './dev-pin';
+import { startMoveTool } from './dev-move';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 
@@ -88,7 +89,15 @@ async function init() {
 
   if (captureMode) {
     captureMode = await unlockDevMode();
-    if (captureMode) startCapture(pmap, tracker);
+    if (captureMode) {
+      const panel = startCapture(pmap, tracker);
+      startMoveTool(panel, pmap, data.pois, (poi, coord) => {
+        poi.coord = coord;
+        poiSnaps.set(poi.id, graph.snap(coord));
+        updateWalkDistances();
+        renderList();
+      });
+    }
     else {
       // Cancelled: carry on as a visitor and drop the parameter from the URL.
       params.delete('modo');

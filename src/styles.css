@@ -282,8 +282,16 @@ body.map-expanded {
 }
 
 /* Secondary points (toilets, viewpoints…) only when zoomed in or selected. */
-.maplibregl-map:not(.z-near) .poi-marker.minor:not(.selected) {
+.maplibregl-map:not(.z-near):not(.move-mode) .poi-marker.minor:not(.selected) {
   visibility: hidden;
+}
+
+/* Developer mode: draggable markers */
+.move-mode .poi-marker {
+  cursor: grab;
+  touch-action: none;
+  outline: 2px dashed #ff7a00;
+  outline-offset: 2px;
 }
 
 .cat-animal { --cat: var(--cat-animal); }

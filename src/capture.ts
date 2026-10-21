@@ -36,7 +36,8 @@ function load(): Store {
   }
 }
 
-export function startCapture(pmap: ParkMap, tracker: LocationTracker): void {
+/** Returns the tools panel so other developer tools can add their own row. */
+export function startCapture(pmap: ParkMap, tracker: LocationTracker): HTMLElement {
   const store = load();
   const save = () => {
     try {
@@ -187,4 +188,5 @@ export function startCapture(pmap: ParkMap, tracker: LocationTracker): void {
   if (map.isStyleLoaded()) setup();
   else map.once('load', setup);
   info();
+  return panel;
 }

@@ -113,6 +113,8 @@ export class ParkMap {
   private userMarker: maplibregl.Marker | null = null;
   private userEl: HTMLElement | null = null;
   private base: BaseLayer;
+  /** Developer mode: markers can be dragged and clicks do not open the sheet. */
+  private moveMode = false;
   private pnoaFailed = false;
 
   constructor(container: HTMLElement, private readonly data: ParkData, handlers: MapHandlers) {
@@ -161,9 +163,10 @@ export class ParkMap {
       }`;
       el.addEventListener('click', (ev) => {
         ev.stopPropagation();
-        handlers.onPoiClick(poi);
+        if (!this.moveMode) handlers.onPoiClick(poi);
       });
       const marker = new maplibregl.Marker({ element: el }).setLngLat(poi.coord).addTo(this.map);
+      this.makeDraggable(el, marker, poi);
       this.poiMarkers.set(poi.id, { marker, el, poi });
     }
     this.relabel();
@@ -205,6 +208,55 @@ export class ParkMap {
 
   setOverlayVisible(visible: boolean): void {
     if (this.hasOverlay) this.map.setLayoutProperty('overlay', 'visibility', visible ? 'visible' : 'none');
+  }
+
+  /** Developer mode: drag markers to move points (mouse or finger). */
+  setMoveMode(on: boolean, onMoved?: (poi: Poi, coord: LngLat) => void): void {
+    this.moveMode = on;
+    this.onMoved = onMoved ?? null;
+    this.map.getContainer().classList.toggle('move-mode', on);
+  }
+
+  private onMoved: ((poi: Poi, coord: LngLat) => void) | null = null;
+
+  /** Pointer-based dragging; MapLibre's own marker drag pans the map here instead. */
+  private makeDraggable(el: HTMLElement, marker: maplibregl.Marker, poi: Poi): void {
+    let dragging = false;
+    let moved = false;
+    el.addEventListener('pointerdown', (e) => {
+      if (!this.moveMode) return;
+      e.preventDefault();
+      e.stopPropagation();
+      el.setPointerCapture(e.pointerId);
+      dragging = true;
+      moved = false;
+    });
+    el.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      const r = this.map.getContainer().getBoundingClientRect();
+      marker.setLngLat(this.map.unproject([e.clientX - r.left, e.clientY - r.top]));
+      moved = true;
+    });
+    const end = (e: PointerEvent) => {
+      if (!dragging) return;
+      dragging = false;
+      el.releasePointerCapture(e.pointerId);
+      if (moved && this.onMoved) {
+        const p = marker.getLngLat();
+        this.onMoved(poi, [+p.lng.toFixed(7), +p.lat.toFixed(7)]);
+      }
+    };
+    el.addEventListener('pointerup', end);
+    el.addEventListener('pointercancel', end);
+    // Keep the map from panning underneath (it listens to mouse/touch events).
+    for (const type of ['mousedown', 'touchstart'] as const) {
+      el.addEventListener(type, (e) => this.moveMode && e.stopPropagation(), { passive: true });
+    }
+  }
+
+  movePoi(id: string, coord: LngLat): void {
+    this.poiMarkers.get(id)?.marker.setLngLat(coord);
   }
 
   highlight(id: string | null): void {

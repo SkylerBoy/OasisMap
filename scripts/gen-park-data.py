@@ -319,6 +319,19 @@ FIXED = {
     'nutria': (-14.1585944, 28.1861766),  # north (upper) side of its path
 }
 
+def _load_overrides():
+    """Positions moved by hand in developer mode (exported position-overrides.json,
+    saved as data/position-overrides.json). They win over everything else."""
+    import os
+    path = 'data/position-overrides.json'
+    if not os.path.exists(path):
+        return {}
+    pts = json.load(open(path)).get('points', {})
+    return {pid: (v['coord'] if isinstance(v, dict) else v) for pid, v in pts.items()}
+
+
+OVERRIDES = _load_overrides()
+
 # Points that sit on a specific OSM path (confirmed on site): moved onto it.
 MONKEY_PATH = 1570352508  # path along the primates between areas 11 and 16
 CROC_BRIDGE_PATH = 50854121  # path with the crocodile bridge
@@ -464,7 +477,9 @@ def main():
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)
         coord = onto_way(pid, coord)
-        if pid in FIXED:
+        if pid in OVERRIDES:
+            coord = list(OVERRIDES[pid])
+        elif pid in FIXED:
             coord = list(FIXED[pid])
         feats.append({'type': 'Feature', 'properties': props, 'geometry': {'type': 'Point', 'coordinates': coord}})
     with open('public/data/pois.geojson', 'w') as f:

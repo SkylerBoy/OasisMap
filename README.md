@@ -127,6 +127,11 @@ python3 scripts/osm-to-paths.py    # caminos: senderos OSM + tramos del mapa ofi
 npm test                           # cada punto cerca de un camino y alcanzable
 ```
 
+En el modo desarrollador, **✋ Mover puntos** permite arrastrar puntos en el mapa;
+los cambios se guardan en el móvil y **⬇ Ajustes** los exporta como
+`position-overrides.json`. Guardado en `data/position-overrides.json`, el generador
+los aplica por encima de todo lo demás.
+
 Las posiciones reales conocidas (restaurantes de OSM, comprobaciones en el parque)
 van en `KNOWN`, dentro de `scripts/gen-park-data.py`. Datos © colaboradores de
 OpenStreetMap (ODbL).

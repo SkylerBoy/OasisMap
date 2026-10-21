@@ -312,6 +312,12 @@ ICON = {
 }
 ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'observatorio': 'bird', 'ecotour': 'train'}
 
+# Exact positions for single points (confirmed on site). Applied last and,
+# unlike KNOWN, they do not move anything around them.
+FIXED = {
+    'puercoespin': (-14.1572344, 28.186585),  # inside its enclosure building
+}
+
 # Points that sit on a specific OSM path (confirmed on site): moved onto it.
 MONKEY_PATH = 1570352508  # path along the primates between areas 11 and 16
 CROC_BRIDGE_PATH = 50854121  # path with the crocodile bridge
@@ -457,6 +463,8 @@ def main():
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)
         coord = onto_way(pid, coord)
+        if pid in FIXED:
+            coord = list(FIXED[pid])
         feats.append({'type': 'Feature', 'properties': props, 'geometry': {'type': 'Point', 'coordinates': coord}})
     with open('public/data/pois.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': feats}, f, indent=1, ensure_ascii=False)

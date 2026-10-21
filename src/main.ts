@@ -347,13 +347,25 @@ function renderList() {
 }
 
 /** Show or hide the "meet our animals" part of the sheet. */
+/** Height of the closed sheet: everything down to the "swipe up" hint. */
+function peekHeight(): number {
+  const sheet = $('sheet');
+  const hint = $('more-hint');
+  return hint.offsetTop + hint.offsetHeight + parseFloat(getComputedStyle(sheet).paddingBottom);
+}
+
+/** Open or close the "meet our animals" part; the height eases to its new size. */
 function setSheetExpanded(on: boolean) {
   const sheet = $('sheet');
+  const from = sheet.style.maxHeight || `${sheet.offsetHeight}px`;
+  sheet.style.setProperty('--peek', `${peekHeight()}px`);
   sheet.classList.toggle('expanded', on);
-  $('sheet-more').hidden = !on;
-  $('more-hint').hidden = on || !state.selected || !data.animals[state.selected.id];
-  if (on) requestAnimationFrame(() => $('sheet-more').scrollIntoView({ behavior: 'smooth', block: 'start' }));
-  else sheet.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!on) sheet.scrollTo({ top: 0, behavior: 'smooth' });
+  // animate from where the finger left it to the snapped height
+  sheet.style.maxHeight = from;
+  requestAnimationFrame(() => {
+    sheet.style.maxHeight = '';
+  });
 }
 
 const SEX = { m: '♂', f: '♀' } as const;
@@ -366,10 +378,12 @@ function yearsText(n: number): string {
 /** Species status and one card per animal, picked with the name tabs. */
 function renderAnimals(p: Poi) {
   const info = data.animals[p.id];
-  const hint = $('more-hint');
-  hint.hidden = !info || $('sheet').classList.contains('expanded');
+  const sheet = $('sheet');
+  sheet.classList.toggle('has-more', !!info);
+  $('more-hint').hidden = !info;
+  $('sheet-more').hidden = !info;
   if (!info) {
-    $('sheet-more').hidden = true;
+    sheet.classList.remove('expanded');
     return;
   }
   const names = info.individuals.map((a) => a.name);
@@ -428,6 +442,7 @@ function renderAnimals(p: Poi) {
     tabs.appendChild(b);
   });
   show(Math.min(animalIdx, info.individuals.length - 1));
+  sheet.style.setProperty('--peek', `${peekHeight()}px`);
 }
 
 function statusBadge(st: Status): HTMLElement {
@@ -466,7 +481,7 @@ function openSheet(poi: Poi) {
   animalIdx = 0;
   const sheet = $('sheet');
   sheet.classList.remove('expanded', 'hint-bounce');
-  $('sheet-more').hidden = true;
+  sheet.style.maxHeight = '';
   sheet.scrollTop = 0;
   renderSheet();
   // A little bounce says there is more to see when swiping up.
@@ -564,30 +579,59 @@ function bindUi() {
     state.query = (e.target as HTMLInputElement).value;
     renderList();
   });
-  // Swipe up: meet the animals. Swipe down: back, or close the sheet.
+  // The sheet follows the finger: up to meet the animals, down to go back or close it.
   const sheet = $('sheet');
-  let startY: number | null = null;
-  let startScroll = 0;
+  type Drag = { y0: number; scroll0: number; h0: number; mode: 'expand' | 'collapse' | 'close' | null; dy: number };
+  let drag: Drag | null = null;
   sheet.addEventListener(
     'touchstart',
     (e) => {
-      startY = e.touches[0].clientY;
-      startScroll = sheet.scrollTop;
+      drag = { y0: e.touches[0].clientY, scroll0: sheet.scrollTop, h0: sheet.offsetHeight, mode: null, dy: 0 };
     },
     { passive: true },
   );
-  sheet.addEventListener('touchend', (e) => {
-    if (startY == null) return;
-    const dy = e.changedTouches[0].clientY - startY;
-    startY = null;
-    const expanded = sheet.classList.contains('expanded');
-    if (dy < -40 && !expanded && !$('more-hint').hidden) setSheetExpanded(true);
-    else if (dy > 60 && startScroll <= 0) {
-      if (expanded) setSheetExpanded(false);
-      else closeSheet();
+  sheet.addEventListener(
+    'touchmove',
+    (e) => {
+      if (!drag) return;
+      const dy = e.touches[0].clientY - drag.y0;
+      drag.dy = dy;
+      const expanded = sheet.classList.contains('expanded');
+      if (!drag.mode) {
+        if (Math.abs(dy) < 6) return;
+        if (!expanded && dy < 0 && sheet.classList.contains('has-more')) drag.mode = 'expand';
+        else if (!expanded && dy > 0) drag.mode = 'close';
+        else if (expanded && dy > 0 && drag.scroll0 <= 0) drag.mode = 'collapse';
+        else {
+          drag = null; // normal scrolling inside the sheet
+          return;
+        }
+        sheet.classList.add('dragging');
+      }
+      e.preventDefault();
+      const max = window.innerHeight * 0.9;
+      if (drag.mode === 'close') sheet.style.transform = `translateY(${Math.max(0, dy)}px)`;
+      else sheet.style.maxHeight = `${Math.min(max, Math.max(peekHeight(), drag.h0 - dy))}px`;
+    },
+    { passive: false },
+  );
+  const endDrag = () => {
+    if (!drag?.mode) {
+      drag = null;
+      return;
     }
-  });
-  $('more-hint').addEventListener('click', () => setSheetExpanded(true));
+    const { mode, dy } = drag;
+    drag = null;
+    sheet.classList.remove('dragging');
+    sheet.style.transform = '';
+    if (mode === 'close') {
+      if (dy > 80) closeSheet();
+    } else if (mode === 'expand') setSheetExpanded(dy < -50);
+    else setSheetExpanded(dy < 50);
+  };
+  sheet.addEventListener('touchend', endDrag);
+  sheet.addEventListener('touchcancel', endDrag);
+  $('more-hint').addEventListener('click', () => setSheetExpanded(!$('sheet').classList.contains('expanded')));
 }
 
 function applyI18n() {

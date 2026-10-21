@@ -1173,15 +1173,29 @@ input, select, textarea, button { font-family: inherit; }
   50% { transform: translateY(-4px); opacity: 1; }
 }
 
-/* the sheet itself nudges up twice when it opens */
+/* Closed sheet with more below: cut at the hint; the height eases when it snaps. */
+.sheet.has-more {
+  transition: transform 0.25s ease, max-height 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sheet.has-more:not(.expanded) {
+  max-height: var(--peek, 60dvh);
+  overflow: hidden;
+}
+
+.sheet.dragging {
+  transition: none;
+}
+
+/* The sheet nudges up twice when it opens; the shadow below keeps it joined to the bottom edge. */
 .sheet.open.hint-bounce {
   animation: sheet-bounce 0.7s ease 0.35s 2;
 }
 
 @keyframes sheet-bounce {
-  0%, 100% { transform: translateY(0); }
-  40% { transform: translateY(-22px); }
-  70% { transform: translateY(4px); }
+  0%, 100% { transform: translateY(0); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
+  40% { transform: translateY(-22px); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
+  70% { transform: translateY(4px); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1192,7 +1206,7 @@ input, select, textarea, button { font-family: inherit; }
 }
 
 .sheet-more {
-  margin-top: 18px;
+  margin-top: 32px; /* below the cut of the closed sheet */
   padding-top: 16px;
   border-top: 1px solid var(--line);
   scroll-margin-top: 8px;

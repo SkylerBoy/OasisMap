@@ -3,8 +3,8 @@ Generates public/data/{pois,paths}.geojson from the official park map
 (oasiswildlifefuerteventura.com/mapa_es.pdf, October 2026).
 
 Positions are read off the map image (pixels of a 1372 x 1195 render) and
-projected with a rough rotation + scale anchored at the ticket office, so the
-layout matches the printed map but coordinates are APPROXIMATE. Replace them
+projected onto real coordinates (see "projection" below), so the layout
+matches the printed map but coordinates are APPROXIMATE. Replace them
 with surveyed ones (modo jardinero / QGIS) as they become available.
 
 Run: python3 scripts/gen-park-data.py
@@ -13,21 +13,105 @@ import json
 import math
 
 # --- projection: map pixel -> lon/lat -------------------------------------------
+# The printed map is drawn roughly upside down (FV-2 road at the top, real
+# south-east) and not to scale. Two ways to place it:
+#
+# 1. ANCHORS (preferred): pairs of (map pixel, real lon/lat) measured on site,
+#    e.g. with ?modo=jardinero. With 3 or more, a least-squares affine fit is
+#    used and every point follows it.
+# 2. Fallback model: the map's FV-2 edge is laid along the real FV-2, scaled
+#    along the road (from the map's distance table) and across it (from the
+#    entrance's distance to the road), anchored at the zoo entrance.
 ORIGIN = (-14.1590, 28.1858)  # local metres origin
-ANCHOR_PX = (249, 827)  # ticket office on the map image
-ANCHOR_M = (450, 250)  # ticket office in local metres (approx. real entrance)
-SCALE = 0.8  # metres per map pixel (from the map's distance table)
-ROT = math.radians(171)  # map "up-right" (road) -> real south-west
-
 KX = math.cos(math.radians(ORIGIN[1])) * 6371008.8 * math.pi / 180
 KY = 6371008.8 * math.pi / 180
 
+ANCHORS = [
+    # ((map_x, map_y), (lon, lat)),
+]
+
+# FV-2 as drawn on the map (it bends round the park; the real road is almost straight).
+MAP_ROAD = [(0, 826), (450, 553), (580, 345), (741, 194), (800, 130), (855, 100), (923, 98), (995, 116),
+            (1059, 171), (1090, 250), (1177, 257), (1245, 221), (1314, 214), (1372, 248)]
+ENTRANCE_PX = (249, 827)
+ENTRANCE_LL = (-14.1560252, 28.1877767)  # zoo entrance by the "Zoo" bus stops (OSM)
+ENTRANCE_ROAD_M = 67.5  # real distance from the entrance to the FV-2 centre line
+ROAD_BEARING = 58.76  # real FV-2, towards the north-east
+SCALE_ALONG = 0.9  # metres per map pixel along the road (fitted to the map's distance table)
+ROAD_MARGIN_M = 15  # park points drawn right on the road edge stay this far from it
+SCALE_ACROSS = (ENTRANCE_ROAD_M - ROAD_MARGIN_M) / 130  # metres per map pixel away from the road (entrance distance in map px below)
+
+
+def to_m(ll):
+    return ((ll[0] - ORIGIN[0]) * KX, (ll[1] - ORIGIN[1]) * KY)
+
+
+def to_ll(m):
+    return [round(ORIGIN[0] + m[0] / KX, 7), round(ORIGIN[1] + m[1] / KY, 7)]
+
+
+def _fit_affine(pairs):
+    """Least squares x' = a x + b y + c, y' = d x + e y + f (normal equations)."""
+    import itertools
+    rows = [(x, y, 1.0) for (x, y), _ in pairs]
+    def solve(vals):
+        ata = [[sum(r[i] * r[j] for r in rows) for j in range(3)] for i in range(3)]
+        atb = [sum(r[i] * v for r, v in zip(rows, vals)) for i in range(3)]
+        # Gaussian elimination
+        mtx = [ata[i] + [atb[i]] for i in range(3)]
+        for i in range(3):
+            piv = max(range(i, 3), key=lambda k: abs(mtx[k][i]))
+            mtx[i], mtx[piv] = mtx[piv], mtx[i]
+            for k in range(3):
+                if k != i:
+                    f = mtx[k][i] / mtx[i][i]
+                    mtx[k] = [a - f * b for a, b in zip(mtx[k], mtx[i])]
+        return [mtx[i][3] / mtx[i][i] for i in range(3)]
+    mx = solve([to_m(ll)[0] for _, ll in pairs])
+    my = solve([to_m(ll)[1] for _, ll in pairs])
+    return lambda x, y: (mx[0] * x + mx[1] * y + mx[2], my[0] * x + my[1] * y + my[2])
+
+
+def _road_model():
+    """Unfold the map along its drawn FV-2: arc length -> distance along the real
+    road, offset from the drawn road -> distance from the real one (park side +)."""
+    segs, acc = [], 0.0
+    for p, q in zip(MAP_ROAD, MAP_ROAD[1:]):
+        L = math.dist(p, q)
+        segs.append((p, (q[0] - p[0]) / L, (q[1] - p[1]) / L, L, acc))
+        acc += L
+
+    def curv(x, y):
+        best = None
+        for p, ax, ay, L, s0 in segs:
+            t = max(0.0, min(L, (x - p[0]) * ax + (y - p[1]) * ay))
+            d = math.hypot(x - p[0] - ax * t, y - p[1] - ay * t)
+            sign = 1 if ax * (y - p[1]) - ay * (x - p[0]) > 0 else -1
+            if best is None or d < best[0]:
+                best = (d, s0 + t, sign * d)
+        return best[1], best[2]
+
+    b = math.radians(ROAD_BEARING)
+    u = (math.sin(b), math.cos(b))  # real road, south-west -> north-east
+    n = (-u[1], u[0])  # real north-west (park side)
+    e = to_m(ENTRANCE_LL)
+    r0 = (e[0] - ENTRANCE_ROAD_M * n[0], e[1] - ENTRANCE_ROAD_M * n[1])  # road point abeam the entrance
+    s_entrance, _ = curv(*ENTRANCE_PX)
+
+    def f(x, y):
+        s, c = curv(x, y)
+        along = (s - s_entrance) * SCALE_ALONG  # map arc runs towards the real south-west
+        across = c * SCALE_ACROSS + (ROAD_MARGIN_M if c > 0 else -ROAD_MARGIN_M)
+        return (r0[0] - along * u[0] + across * n[0], r0[1] - along * u[1] + across * n[1])
+
+    return f
+
+
+_project = _fit_affine(ANCHORS) if len(ANCHORS) >= 3 else _road_model()
+
 
 def px(x, y):
-    vx, vy = (x - ANCHOR_PX[0]) * SCALE, -(y - ANCHOR_PX[1]) * SCALE
-    mx = ANCHOR_M[0] + vx * math.cos(ROT) - vy * math.sin(ROT)
-    my = ANCHOR_M[1] + vx * math.sin(ROT) + vy * math.cos(ROT)
-    return [round(ORIGIN[0] + mx / KX, 7), round(ORIGIN[1] + my / KY, 7)]
+    return to_ll(_project(x, y))
 
 
 LANGS = ['es', 'en', 'de', 'fr', 'it', 'ca', 'eu']

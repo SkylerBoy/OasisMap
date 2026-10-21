@@ -107,19 +107,24 @@ def _road_model():
     return f
 
 
-# Known real positions of single points (from OSM or on-site checks). With fewer
-# than 3 ANCHORS the model is shifted so the first of these lands exactly.
+# Known real positions of some points (OSM features confirmed on site). With fewer
+# than 3 ANCHORS the model is corrected to them: one point -> shift; two or
+# more -> best-fit shift + rotation + scale (similarity), applied to everything.
 KNOWN = [
-    ('malvarrisco', (-14.1559462, 28.1875579)),  # "Malvarrisco Restaurante" label on OSM, confirmed on site
+    ('malvarrisco', (-14.1559462, 28.1875579)),  # "Malvarrisco Restaurante" on OSM
+    ('oasis-market', (-14.1605551, 28.1851384)),  # "Restaurante Oasis Market" on OSM
+    ('snack-leones', (-14.1605394, 28.1855352)),  # fast-food icon on OSM
+    ('sea-lion-live', (-14.1603901, 28.1847444)),  # sea lion pool area on OSM
 ]
 
 _project = _fit_affine(ANCHORS) if len(ANCHORS) >= 3 else _road_model()
-_offset = (0.0, 0.0)  # metres, set in main() from KNOWN
+_correct = lambda m: m  # model -> real correction, set in main() from KNOWN
+RUBBER_SIGMA_M = 60  # reach of the local correction around each known point
 
 
 def px(x, y):
     mx, my = _project(x, y)
-    return to_ll((mx + _offset[0], my + _offset[1]))
+    return to_ll(_correct((mx, my)))
 
 
 LANGS = ['es', 'en', 'de', 'fr', 'it', 'ca', 'eu']
@@ -306,13 +311,44 @@ MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parkin
 
 
 def main():
-    global _offset
+    global _correct
     if len(ANCHORS) < 3 and KNOWN:
-        pid, ll = KNOWN[0]
-        x, y = next((p[3], p[4]) for p in POIS if p[0] == pid)
-        base, real = _project(x, y), to_m(ll)
-        _offset = (real[0] - base[0], real[1] - base[1])
-        print(f'shift {round(_offset[0])} m east, {round(_offset[1])} m north to match {pid}')
+        zs, ws = [], []
+        for pid, ll in KNOWN:
+            x, y = next((p[3], p[4]) for p in POIS if p[0] == pid)
+            zs.append(complex(*_project(x, y)))
+            ws.append(complex(*to_m(ll)))
+        zm, wm = sum(zs) / len(zs), sum(ws) / len(ws)
+        if len(zs) == 1:
+            alpha = 1
+        else:  # least-squares similarity w = alpha * z + beta
+            alpha = sum((w - wm) * (z - zm).conjugate() for z, w in zip(zs, ws)) / sum(abs(z - zm) ** 2 for z in zs)
+        beta = wm - alpha * zm
+        # Local "rubber sheet": Gaussian RBF interpolation of what the global fit
+        # misses, exact at known points and fading out over ~RUBBER_SIGMA_M.
+        fitted = [alpha * z + beta for z in zs]
+        res = [w - f for w, f in zip(ws, fitted)]
+        k = lambda a, b: math.exp(-(abs(a - b) / RUBBER_SIGMA_M) ** 2)
+        n = len(zs)
+        mtx = [[k(fitted[i], fitted[j]) for j in range(n)] + [res[i]] for i in range(n)]
+        for i in range(n):  # Gauss-Jordan on complex right-hand sides
+            piv = max(range(i, n), key=lambda r: abs(mtx[r][i]))
+            mtx[i], mtx[piv] = mtx[piv], mtx[i]
+            for r in range(n):
+                if r != i:
+                    f = mtx[r][i] / mtx[i][i]
+                    mtx[r] = [a - f * b for a, b in zip(mtx[r], mtx[i])]
+        coef = [mtx[i][n] / mtx[i][i] for i in range(n)]
+
+        def _correct(m):
+            w = alpha * complex(*m) + beta
+            w += sum(c * k(w, f) for c, f in zip(coef, fitted))
+            return (w.real, w.imag)
+
+        rot = math.degrees(math.atan2(alpha.imag, alpha.real)) if len(zs) > 1 else 0
+        print(f'correction: scale {abs(alpha):.2f}, rotation {rot:.1f}°')
+        for (pid, ll), f, r in zip(KNOWN, fitted, res):
+            print(f'  {pid}: moved {abs(r):.0f} m locally to its known position')
     feats = []
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}

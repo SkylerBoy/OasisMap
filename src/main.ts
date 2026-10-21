@@ -6,9 +6,8 @@ import { LANGUAGES, currentLang, detectLang, formatDistance, pick, setLang, t } 
 import { Compass, LocationTracker, type Fix } from './location';
 import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
-import { startCapture } from './capture';
 import { unlockDevMode } from './dev-pin';
-import { startMoveTool } from './dev-move';
+import { startDevTools } from './dev-tools';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 
@@ -91,8 +90,7 @@ async function init() {
     captureMode = await unlockDevMode();
     if (captureMode) {
       document.body.classList.add('dev-mode');
-      const panel = startCapture(pmap, tracker);
-      startMoveTool(panel, pmap, data.pois, (poi, coord) => {
+      startDevTools(pmap, tracker, data.pois, (poi, coord) => {
         poi.coord = coord;
         poiSnaps.set(poi.id, graph.snap(coord));
         updateWalkDistances();

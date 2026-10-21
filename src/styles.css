@@ -744,47 +744,128 @@ body.map-expanded {
   margin-top: 8px;
 }
 
-/* --- staff capture tool ------------------------------------------------------- */
+/* --- developer tools bar ------------------------------------------------------- */
 
-.capture-panel {
+.dev {
   position: fixed;
-  left: 10px;
-  right: 10px;
+  left: max(10px, env(safe-area-inset-left, 0px));
+  right: max(10px, env(safe-area-inset-right, 0px));
   bottom: calc(10px + var(--safe-b));
   z-index: 40;
-  padding: 10px;
-  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.dev-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  padding: 6px;
+  border-radius: var(--r-lg);
   background: var(--brand);
   color: #fff;
   box-shadow: var(--shadow);
 }
 
-.cap-title {
+.dev-badge {
   display: flex;
-  justify-content: space-between;
-  font-weight: 700;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 10px 0 6px;
+  border-right: 1px solid rgb(255 255 255 / 0.25);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
-.cap-row {
-  display: flex;
-  gap: 6px;
-  margin-top: 8px;
+.dev-badge small {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  opacity: 0.8;
+  font-variant-numeric: tabular-nums;
 }
 
-.cap-row button {
+.dev-tool {
   flex: 1;
-  padding: 10px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
   border: 0;
-  border-radius: var(--r-sm);
-  background: rgb(255 255 255 / 0.92);
-  color: var(--brand);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: inherit;
+  font-size: 0.72rem;
   font-weight: 600;
+}
+
+.dev-tool.active {
+  background: #fff;
+  color: var(--brand);
+}
+
+.dev-more {
+  flex: 0 0 44px;
+  justify-content: center;
+}
+
+.dev-status {
+  align-self: center;
+  max-width: 100%;
+  padding: 8px 14px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
   font-size: 0.85rem;
 }
 
-.cap-info {
-  margin-top: 6px;
-  font-size: 0.8rem;
+.dev-menu {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  min-width: 240px;
+  padding: 6px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.dev-menu[hidden],
+.dev-status[hidden] {
+  display: none;
+}
+
+.dev-menu button {
+  padding: 12px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--ink);
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.dev-menu button:active {
+  background: var(--chip);
+}
+
+.dev-menu button:disabled {
+  color: var(--muted);
+}
+
+.dev-menu button[data-act='exit'] {
+  border-top: 1px solid var(--line);
+  color: var(--brand);
+}
+
+/* keep the end of the list visible above the bar */
+.dev-mode .browse {
+  padding-bottom: 110px;
 }
 
 .maplibregl-ctrl-attrib {

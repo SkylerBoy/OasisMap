@@ -74,9 +74,10 @@ o cuando el extremo de uno toca otro (cruce en T). En QGIS activa el
    `https://www.ign.es/wmts/pnoa-ma`, calca los caminos como `LineString` y
    coloca los puntos. Exporta como GeoJSON (EPSG:4326).
 2. **Modo desarrollador** (`?mode=dev` + PIN) en el móvil, recorriendo el parque:
-   - 📍 *Punto*: pide un nombre y promedia el GPS durante 10 s (quieto).
-   - ⏺ *Camino*: graba la ruta mientras caminas (un vértice cada 3 m).
-   - ⬇ *Exportar*: descarga un `.geojson` para revisarlo en QGIS.
+   - *Mover*: arrastra puntos en el mapa para corregirlos.
+   - *Punto*: pide un nombre y promedia el GPS durante 10 s (quieto).
+   - *Camino*: graba la ruta mientras caminas (un vértice cada 3 m).
+   - *⋯ → Exportar ajustes*: descarga `position-overrides.json` con todo.
    Sirve para validar y corregir lo calcado sobre la ortofoto.
 3. **Mapa ilustrado (opcional):** georreferéncialo con el *Georreferenciador*
    de QGIS usando 6–10 puntos de control (cruces, edificios), exporta a PNG y
@@ -107,7 +108,7 @@ src/
   nav.ts       flecha, giros, llegada, fuera de camino
   location.ts  GPS y brújula
   map.ts       MapLibre: capas, marcadores, ruta
-  capture.ts   modo desarrollador
+  dev-tools.ts herramientas del modo desarrollador (mover, punto, camino, exportar)
   dev-pin.ts   PIN del modo desarrollador (solo guarda su hash)
   main.ts      interfaz
   locales/     textos por idioma
@@ -127,10 +128,11 @@ python3 scripts/osm-to-paths.py    # caminos: senderos OSM + tramos del mapa ofi
 npm test                           # cada punto cerca de un camino y alcanzable
 ```
 
-En el modo desarrollador, **✋ Mover puntos** permite arrastrar puntos en el mapa;
-los cambios se guardan en el móvil y **⬇ Ajustes** los exporta como
-`position-overrides.json`. Guardado en `data/position-overrides.json`, el generador
-los aplica por encima de todo lo demás.
+En el modo desarrollador, **Mover** permite arrastrar puntos en el mapa; los cambios
+se guardan en el móvil y **⋯ → Exportar ajustes** los descarga en
+`position-overrides.json` (junto con los puntos y caminos grabados, en `captured`).
+Guardado en `data/position-overrides.json`, el generador aplica los puntos movidos
+por encima de todo lo demás.
 
 Las posiciones reales conocidas (restaurantes de OSM, comprobaciones en el parque)
 van en `KNOWN`, dentro de `scripts/gen-park-data.py`. Datos © colaboradores de

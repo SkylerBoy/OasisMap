@@ -16,6 +16,9 @@ import math
 OSM = 'data/osm/oasis.json'
 POIS = 'public/data/pois.geojson'
 OUT = 'public/data/paths.geojson'
+MAP_PATHS = 'data/map-paths.geojson'  # traced from the printed map (gen-park-data.py)
+COVER_M = 35  # map-traced path parts closer than this to an OSM path are dropped
+SPLICE_M = 80  # a kept map-traced run is spliced to the OSM network if its end is this close
 
 WALKABLE = {'footway', 'path', 'pedestrian', 'steps', 'track', 'service', 'living_street', 'corridor', 'cycleway', 'bridleway'}
 NO_ACCESS = {'private', 'no'}
@@ -155,11 +158,44 @@ def main():
     dropped = len(lines) - len(kept)
     print(f'joined pieces with {len(connectors)} connector(s); dropped {dropped} stray way(s)')
 
+    # Fill areas OSM has no paths for (e.g. the botanic garden) with the
+    # map-traced paths, spliced onto the OSM network.
+    osm_segs = list(segs(kept))
+
+    def near_osm(q):
+        return min(seg_closest(q, a, b)[0] for a, b in osm_segs)
+
+    extra = []
+    try:
+        traced = [[xy(p) for p in f['geometry']['coordinates']] for f in json.load(open(MAP_PATHS))['features']]
+    except FileNotFoundError:
+        traced = []
+    for line in traced:
+        dense = []
+        for a, b in zip(line, line[1:]):
+            n = max(1, int(math.dist(a, b) // 10))
+            dense += [(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n) for i in range(n)]
+        dense.append(line[-1])
+        run = []
+        for q in dense + [None]:
+            if q is not None and near_osm(q) > COVER_M:
+                run.append(q)
+                continue
+            if len(run) >= 2:
+                for end in (run[0], run[-1]):  # splice both ends onto OSM when close
+                    d, c = min((seg_closest(end, a, b) for a, b in osm_segs), key=lambda r: r[0])
+                    if d <= SPLICE_M:
+                        connectors.append([end, c])
+                extra.append(run)
+            run = []
+    print(f'map-traced runs added where OSM has no paths: {len(extra)}')
+
     pois = json.load(open(POIS))['features']
     poi_links = 0
     for f in pois:
         q = xy(f['geometry']['coordinates'])
-        best = min((seg_closest(q, a, b) for a, b in segs(kept)), key=lambda r: r[0])
+        all_segs = osm_segs + [(a, b) for r in extra for a, b in zip(r, r[1:])]
+        best = min((seg_closest(q, a, b) for a, b in all_segs), key=lambda r: r[0])
         if best[0] > POI_CONNECT_M:
             connectors.append([q, best[1]])
             poi_links += 1
@@ -168,6 +204,8 @@ def main():
 
     feats = [{'type': 'Feature', 'properties': {'source': 'osm', 'osm_id': lines[i]['id'], 'highway': lines[i]['hw']},
               'geometry': {'type': 'LineString', 'coordinates': [ll(q) for q in lines[i]['pts']]}} for i in kept]
+    feats += [{'type': 'Feature', 'properties': {'source': 'map'},
+               'geometry': {'type': 'LineString', 'coordinates': [ll(q) for q in r]}} for r in extra]
     feats += [{'type': 'Feature', 'properties': {'source': 'connector'},
                'geometry': {'type': 'LineString', 'coordinates': [ll(q) for q in c]}} for c in connectors]
     json.dump({'type': 'FeatureCollection', 'features': feats}, open(OUT, 'w'), indent=1)

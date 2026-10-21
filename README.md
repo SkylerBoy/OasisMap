@@ -115,6 +115,21 @@ public/
   sw.js        caché offline
 ```
 
+## Datos de OpenStreetMap
+
+La tarea **Fetch OpenStreetMap data** (pestaña Actions de GitHub) descarga los datos
+de OpenStreetMap de la zona a `data/osm/oasis.json`. Después:
+
+```bash
+python3 scripts/gen-park-data.py   # puntos (mapa oficial + posiciones conocidas)
+python3 scripts/osm-to-paths.py    # caminos: senderos OSM + tramos del mapa oficial donde OSM no tiene
+npm test                           # cada punto cerca de un camino y alcanzable
+```
+
+Las posiciones reales conocidas (restaurantes de OSM, comprobaciones en el parque)
+van en `KNOWN`, dentro de `scripts/gen-park-data.py`. Datos © colaboradores de
+OpenStreetMap (ODbL).
+
 ## Iconos
 
 Los iconos de los puntos salen de [Fluent Emoji High Contrast](https://github.com/microsoft/fluentui-emoji)

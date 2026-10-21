@@ -1,5 +1,5 @@
 """
-Generates public/data/{pois,paths}.geojson from the official park map
+Generates public/data/pois.geojson and data/map-paths.geojson from the official park map
 (oasiswildlifefuerteventura.com/mapa_es.pdf, October 2026).
 
 Positions are read off the map image (pixels of a 1372 x 1195 render) and
@@ -107,12 +107,14 @@ def _road_model():
     return f
 
 
-# Known real positions of some points (OSM features confirmed on site). With fewer
-# than 3 ANCHORS the model is corrected to them: a best-fit shift + rotation +
-# scale for everything, plus a local rubber sheet so each lands exactly.
+# Known real positions of some points (OSM features confirmed on site). With 3 or
+# more, the map is placed by a least-squares affine fit to them (instead of the
+# road model), plus a local rubber sheet so each lands exactly.
 KNOWN = [
-    ('malvarrisco', (-14.1559462, 28.1875579)),  # "Malvarrisco Restaurante" on OSM
-    ('oasis-market', (-14.1605551, 28.1851384)),  # "Restaurante Oasis Market" on OSM
+    ('malvarrisco', (-14.1559277, 28.1876045)),  # "Malvarrisco Restaurant" node on OSM
+    ('oasis-market', (-14.1605541, 28.1851566)),  # "Restaurante Oasis Market" node on OSM
+    ('patio-majorero', (-14.1648645, 28.1843674)),  # "Restaurante Patio" on OSM
+    ('souvenir', (-14.1562679, 28.1872644)),  # "Oasis Park-souvenirs" on OSM
     ('snack-leones', (-14.1605394, 28.1855352)),  # fast-food icon on OSM
     ('sea-lion-live', (-14.1603901, 28.1847444)),  # sea lion pool area on OSM
     ('snack-fauna', (-14.1625598, 28.1830326)),  # fast-food icon on OSM
@@ -313,25 +315,25 @@ MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parkin
 
 
 def main():
-    global _correct
-    if len(ANCHORS) < 3 and KNOWN:
-        zs, ws = [], []
-        for pid, ll in KNOWN:
-            x, y = next((p[3], p[4]) for p in POIS if p[0] == pid)
-            zs.append(complex(*_project(x, y)))
-            ws.append(complex(*to_m(ll)))
-        zm, wm = sum(zs) / len(zs), sum(ws) / len(ws)
-        if len(zs) == 1:
-            alpha = 1
-        else:  # least-squares similarity w = alpha * z + beta
-            alpha = sum((w - wm) * (z - zm).conjugate() for z, w in zip(zs, ws)) / sum(abs(z - zm) ** 2 for z in zs)
-        beta = wm - alpha * zm
+    global _project, _correct
+    if len(ANCHORS) < 3 and len(KNOWN) >= 3:
+        # Affine fit straight from map pixels to the known real positions: it
+        # beat unfolding along the road (mean error 42 m vs 100+ m, and more
+        # points inside the OSM zoo outline).
+        pairs = [(next((p[3], p[4]) for p in POIS if p[0] == pid), ll) for pid, ll in KNOWN]
+        _project = _fit_affine(pairs)
+        print(f'map -> real: affine fit on {len(KNOWN)} known points')
+    if KNOWN:
         # Local "rubber sheet": Gaussian RBF interpolation of what the global fit
         # misses, exact at known points and fading out over ~RUBBER_SIGMA_M.
-        fitted = [alpha * z + beta for z in zs]
-        res = [w - f for w, f in zip(ws, fitted)]
+        fitted, res = [], []
+        for pid, ll in KNOWN:
+            x, y = next((p[3], p[4]) for p in POIS if p[0] == pid)
+            f = complex(*_project(x, y))
+            fitted.append(f)
+            res.append(complex(*to_m(ll)) - f)
         k = lambda a, b: math.exp(-(abs(a - b) / RUBBER_SIGMA_M) ** 2)
-        n = len(zs)
+        n = len(fitted)
         mtx = [[k(fitted[i], fitted[j]) for j in range(n)] + [res[i]] for i in range(n)]
         for i in range(n):  # Gauss-Jordan on complex right-hand sides
             piv = max(range(i, n), key=lambda r: abs(mtx[r][i]))
@@ -343,14 +345,12 @@ def main():
         coef = [mtx[i][n] / mtx[i][i] for i in range(n)]
 
         def _correct(m):
-            w = alpha * complex(*m) + beta
+            w = complex(*m)
             w += sum(c * k(w, f) for c, f in zip(coef, fitted))
             return (w.real, w.imag)
 
-        rot = math.degrees(math.atan2(alpha.imag, alpha.real)) if len(zs) > 1 else 0
-        print(f'correction: scale {abs(alpha):.2f}, rotation {rot:.1f}°')
-        for (pid, ll), f, r in zip(KNOWN, fitted, res):
-            print(f'  {pid}: moved {abs(r):.0f} m locally to its known position')
+        for (pid, _), r in zip(KNOWN, res):
+            print(f'  {pid}: {abs(r):.0f} m local correction')
     feats = []
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}
@@ -369,7 +369,8 @@ def main():
 
     lines = [{'type': 'Feature', 'properties': {}, 'geometry': {'type': 'LineString', 'coordinates': [px(x, y) for x, y in p]}}
              for p in PATHS]
-    with open('public/data/paths.geojson', 'w') as f:
+    # Paths traced from the printed map; scripts/osm-to-paths.py merges them with OSM.
+    with open('data/map-paths.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': lines}, f, indent=1)
 
     # Keep the initial view centred on the park.

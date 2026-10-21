@@ -1187,15 +1187,16 @@ input, select, textarea, button { font-family: inherit; }
   transition: none;
 }
 
-/* The sheet nudges up twice when it opens; the shadow below keeps it joined to the bottom edge. */
-.sheet.open.hint-bounce {
-  animation: sheet-bounce 0.7s ease 0.35s 2;
+/* When it opens, the closed sheet grows a little twice, letting the animals section peek in.
+   It stays on the bottom edge: only its height changes. */
+.sheet.open.has-more.hint-bounce:not(.expanded):not(.dragging) {
+  animation: sheet-peek 0.8s cubic-bezier(0.3, 0.7, 0.3, 1) 0.35s 2;
 }
 
-@keyframes sheet-bounce {
-  0%, 100% { transform: translateY(0); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
-  40% { transform: translateY(-22px); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
-  70% { transform: translateY(4px); box-shadow: var(--shadow), 0 40px 0 0 var(--surface); }
+@keyframes sheet-peek {
+  0%, 100% { max-height: var(--peek); }
+  45% { max-height: calc(var(--peek) + 96px); }
+  75% { max-height: calc(var(--peek) - 4px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

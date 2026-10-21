@@ -108,18 +108,20 @@ def _road_model():
 
 
 # Known real positions of some points (OSM features confirmed on site). With fewer
-# than 3 ANCHORS the model is corrected to them: one point -> shift; two or
-# more -> best-fit shift + rotation + scale (similarity), applied to everything.
+# than 3 ANCHORS the model is corrected to them: a best-fit shift + rotation +
+# scale for everything, plus a local rubber sheet so each lands exactly.
 KNOWN = [
     ('malvarrisco', (-14.1559462, 28.1875579)),  # "Malvarrisco Restaurante" on OSM
     ('oasis-market', (-14.1605551, 28.1851384)),  # "Restaurante Oasis Market" on OSM
     ('snack-leones', (-14.1605394, 28.1855352)),  # fast-food icon on OSM
     ('sea-lion-live', (-14.1603901, 28.1847444)),  # sea lion pool area on OSM
+    ('snack-fauna', (-14.1625598, 28.1830326)),  # fast-food icon on OSM
+    ('cocodrilo-nilo', (-14.1626756, 28.1827073)),  # pond on OSM
 ]
 
 _project = _fit_affine(ANCHORS) if len(ANCHORS) >= 3 else _road_model()
 _correct = lambda m: m  # model -> real correction, set in main() from KNOWN
-RUBBER_SIGMA_M = 60  # reach of the local correction around each known point
+RUBBER_SIGMA_M = 100  # reach of the local correction around each known point
 
 
 def px(x, y):

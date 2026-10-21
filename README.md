@@ -21,7 +21,7 @@ la primera visita). El visitante entra escaneando un QR.
 - 7 idiomas: es, ca, eu, en, de, fr, it. Se detecta el del navegador.
 - Fuera del parque (o con `?sim=1`) puedes **tocar el mapa para simular tu
   posición** y probarlo desde casa.
-- **Modo jardinero** (`?modo=jardinero`): herramienta para tomar datos reales
+- **Modo desarrollador** (`?modo=desarrollador`, pide PIN): herramienta para tomar datos reales
   caminando por el parque (ver abajo).
 
 ## Tecnologías
@@ -73,7 +73,7 @@ o cuando el extremo de uno toca otro (cruce en T). En QGIS activa el
 1. **QGIS + ortofoto PNOA** (gratis, muy alta resolución): añade la capa WMTS
    `https://www.ign.es/wmts/pnoa-ma`, calca los caminos como `LineString` y
    coloca los puntos. Exporta como GeoJSON (EPSG:4326).
-2. **Modo jardinero** (`?modo=jardinero`) en el móvil, recorriendo el parque:
+2. **Modo desarrollador** (`?modo=desarrollador` + PIN) en el móvil, recorriendo el parque:
    - 📍 *Punto*: pide un nombre y promedia el GPS durante 10 s (quieto).
    - ⏺ *Camino*: graba la ruta mientras caminas (un vértice cada 3 m).
    - ⬇ *Exportar*: descarga un `.geojson` para revisarlo en QGIS.
@@ -107,7 +107,8 @@ src/
   nav.ts       flecha, giros, llegada, fuera de camino
   location.ts  GPS y brújula
   map.ts       MapLibre: capas, marcadores, ruta
-  capture.ts   modo jardinero
+  capture.ts   modo desarrollador
+  dev-pin.ts   PIN del modo desarrollador (solo guarda su hash)
   main.ts      interfaz
   locales/     textos por idioma
 public/

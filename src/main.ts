@@ -7,6 +7,7 @@ import { Compass, LocationTracker, type Fix } from './location';
 import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
 import { startCapture } from './capture';
+import { unlockDevMode } from './dev-pin';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 
@@ -51,7 +52,8 @@ let pmap: ParkMap;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
-const captureMode = params.get('modo') === 'jardinero';
+/** Staff tools (?modo=desarrollador), unlocked with a PIN. */
+let captureMode = params.get('modo') === 'desarrollador';
 
 async function init() {
   await setLang(detectLang());
@@ -84,7 +86,16 @@ async function init() {
   applyI18n();
   renderList();
 
-  if (captureMode) startCapture(pmap, tracker);
+  if (captureMode) {
+    captureMode = await unlockDevMode();
+    if (captureMode) startCapture(pmap, tracker);
+    else {
+      // Cancelled: carry on as a visitor and drop the parameter from the URL.
+      params.delete('modo');
+      const q = params.toString();
+      history.replaceState(null, '', location.pathname + (q ? `?${q}` : '') + location.hash);
+    }
+  }
   showStatus(t('locating'));
   tracker.start();
   registerServiceWorker();

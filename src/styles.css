@@ -675,6 +675,62 @@ body.map-expanded {
   transform: translate(-50%, 0);
 }
 
+/* --- developer mode PIN -------------------------------------------------------- */
+
+.pin-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(0 0 0 / 0.45);
+}
+
+.pin-card {
+  width: min(320px, 100%);
+  padding: 22px 20px 18px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.pin-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.pin-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+}
+
+.pin-input {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--bg);
+  color: var(--ink);
+  font-size: 1.8rem;
+  letter-spacing: 0.6em;
+  text-align: center;
+}
+
+.pin-error {
+  min-height: 1.4em;
+  color: var(--brand) !important;
+  font-weight: 600;
+}
+
+.pin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
 /* --- staff capture tool ------------------------------------------------------- */
 
 .capture-panel {

@@ -4,7 +4,7 @@ import type { Fix, LocationTracker } from './location';
 import type { ParkMap } from './map';
 
 /**
- * Staff tool ("modo jardinero", open with ?modo=jardinero): walk the park and
+ * Staff tool ("modo desarrollador", open with ?modo=desarrollador and the PIN): walk the park and
  * record exact points (averaged GPS) and paths, then export them as GeoJSON
  * to refine pois.geojson / paths.geojson in QGIS or geojson.io.
  * Spanish only on purpose: it is not shown to visitors.
@@ -53,7 +53,7 @@ export function startCapture(pmap: ParkMap, tracker: LocationTracker): void {
   const panel = document.createElement('div');
   panel.className = 'capture-panel';
   panel.innerHTML = `
-    <div class="cap-title">🌿 Modo jardinero <span id="cap-acc">—</span></div>
+    <div class="cap-title">🛠️ Modo desarrollador <span id="cap-acc">—</span></div>
     <div class="cap-row">
       <button type="button" id="cap-point">📍 Punto</button>
       <button type="button" id="cap-track">⏺ Camino</button>

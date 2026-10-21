@@ -55,19 +55,12 @@
   "status.trainAt": "Tren a les {t}",
   "status.noMoreTrains": "Avui no hi ha més trens",
   "eco.next": "Proper tren",
-  "day.0": "diumenge",
   "days.0": "Diumenges",
-  "day.1": "dilluns",
   "days.1": "Dilluns",
-  "day.2": "dimarts",
   "days.2": "Dimarts",
-  "day.3": "dimecres",
   "days.3": "Dimecres",
-  "day.4": "dijous",
   "days.4": "Dijous",
-  "day.5": "divendres",
   "days.5": "Divendres",
-  "day.6": "dissabte",
   "days.6": "Dissabtes",
-  "status.onDay": "{d} a les {t}"
+  "status.startsInH": "En {h} h {m} min"
 }

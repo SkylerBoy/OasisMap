@@ -43,10 +43,12 @@ describe('exhibitions', () => {
 
 describe('weekly sessions', () => {
   const feeding = { ...show, id: 'a', times: ['14:45'], days: [6] } as Poi;
-  it('only counts down on Saturdays', () => {
+  it('only shows a badge on Saturdays, until it ends', () => {
+    expect(poiStatus(feeding, m('10:00'), 6)?.tone).toBe('later');
     expect(poiStatus(feeding, m('14:30'), 6)?.tone).toBe('soon');
     expect(poiStatus(feeding, m('14:50'), 6)?.tone).toBe('live');
-    expect(poiStatus(feeding, m('14:30'), 3)?.tone).toBe('later');
+    expect(poiStatus(feeding, m('15:30'), 6)).toBeNull();
+    expect(poiStatus(feeding, m('14:30'), 3)).toBeNull();
   });
 });
 

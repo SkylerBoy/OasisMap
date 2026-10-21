@@ -55,19 +55,12 @@
   "status.trainAt": "Trena {t}etan",
   "status.noMoreTrains": "Gaur ez dago tren gehiago",
   "eco.next": "Hurrengo trena",
-  "day.0": "igandea",
   "days.0": "Igandeetan",
-  "day.1": "astelehena",
   "days.1": "Astelehenetan",
-  "day.2": "asteartea",
   "days.2": "Asteartetan",
-  "day.3": "asteazkena",
   "days.3": "Asteazkenetan",
-  "day.4": "osteguna",
   "days.4": "Ostegunetan",
-  "day.5": "ostirala",
   "days.5": "Ostiraletan",
-  "day.6": "larunbata",
   "days.6": "Larunbatetan",
-  "status.onDay": "{d}, {t}etan"
+  "status.startsInH": "{h} h {m} min barru"
 }

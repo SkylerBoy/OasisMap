@@ -36,11 +36,17 @@ export function toMinutes(hhmm: string): number {
 }
 
 export function poiStatus(p: Poi, now = parkMinutes(), today = parkWeekday()): Status | null {
-  if (p.days && !p.days.includes(today)) {
-    const next = [...p.days].sort((a, b) => ((a - today + 7) % 7) - ((b - today + 7) % 7))[0];
-    const at = p.times?.[0] ?? p.hours?.[0] ?? '';
-    const text = t('status.onDay', { d: t(`day.${next}`), t: at });
-    return { tone: 'later', text: text.charAt(0).toUpperCase() + text.slice(1) };
+  if (p.days) {
+    // Weekly session: the schedule already names the day, so only a countdown or "on now" on that day.
+    if (!p.days.includes(today)) return null;
+    const st = poiStatus({ ...p, days: undefined }, now);
+    if (!st || st.tone === 'closed') return null;
+    if (st.tone === 'later') {
+      const next = p.times!.map(toMinutes).find((x) => x > now)!;
+      const d = next - now;
+      return { tone: 'later', text: t('status.startsInH', { h: Math.floor(d / 60), m: d % 60 }) };
+    }
+    return st;
   }
   if (p.hours) {
     const [open, close] = p.hours.map(toMinutes);

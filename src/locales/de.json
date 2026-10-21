@@ -55,19 +55,12 @@
   "status.trainAt": "Zug um {t}",
   "status.noMoreTrains": "Heute keine Züge mehr",
   "eco.next": "Nächster Zug",
-  "day.0": "Sonntag",
   "days.0": "Sonntags",
-  "day.1": "Montag",
   "days.1": "Montags",
-  "day.2": "Dienstag",
   "days.2": "Dienstags",
-  "day.3": "Mittwoch",
   "days.3": "Mittwochs",
-  "day.4": "Donnerstag",
   "days.4": "Donnerstags",
-  "day.5": "Freitag",
   "days.5": "Freitags",
-  "day.6": "Samstag",
   "days.6": "Samstags",
-  "status.onDay": "{d} um {t}"
+  "status.startsInH": "In {h} Std. {m} Min."
 }

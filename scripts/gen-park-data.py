@@ -115,6 +115,8 @@ KNOWN = [
     ('oasis-market', (-14.1605541, 28.1851566)),  # "Restaurante Oasis Market" node on OSM
     ('patio-majorero', (-14.1648645, 28.1843674)),  # "Restaurante Patio" on OSM
     ('souvenir', (-14.1562679, 28.1872644)),  # "Oasis Park-souvenirs" on OSM
+    ('entrada', (-14.1570546, 28.1873575)),  # "Oasis Park-tickets" on OSM
+    ('flamencos', (-14.1567297, 28.1869342)),  # flamingo pond (OSM map, confirmed on site)
     ('snack-leones', (-14.1605394, 28.1855352)),  # fast-food icon on OSM
     ('sea-lion-live', (-14.1603901, 28.1847444)),  # sea lion pool area on OSM
     ('snack-fauna', (-14.1625598, 28.1830326)),  # fast-food icon on OSM
@@ -310,6 +312,58 @@ ICON = {
 }
 ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'observatorio': 'bird', 'ecotour': 'train'}
 
+# Points that really are outside the OSM zoo outline (or not covered by it).
+OUTSIDE_ZOO = {'camel-experience', 'parking', 'parking-accesible', 'taxi'}
+ROAD_NEAR_M = 60  # outside the outline and this close to the FV-2 -> pulled inside
+INSET_M = 12  # how far inside the outline such points are placed
+
+
+def _zoo_clamp():
+    """Keep zoo points off the FV-2: a point near the main road that is outside the
+    OSM zoo outline, or inside but hugging its edge, is moved INSET_M inside it.
+    No-op without OSM data."""
+    import importlib.util
+    import os
+    if not os.path.exists('data/osm/oasis.json'):
+        return lambda pid, c: c
+    spec = importlib.util.spec_from_file_location('osm', os.path.join(os.path.dirname(__file__), 'osm-to-paths.py'))
+    osm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(osm)
+    els = osm.with_geometry(json.load(open('data/osm/oasis.json'))['elements'])
+    rings = osm.zoo_rings(els)
+    roads = [[to_m((g['lon'], g['lat'])) for g in e['geometry']] for e in els
+             if e['type'] == 'way' and e.get('tags', {}).get('highway') in ('trunk', 'primary', 'trunk_link') and e.get('geometry')]
+    if not rings or not roads:
+        return lambda pid, c: c
+
+    def clamp(pid, c):
+        m = to_m(c)
+        road_d = min(osm.seg_closest(m, a, b)[0] for r in roads for a, b in zip(r, r[1:]))
+        if road_d > ROAD_NEAR_M:
+            return c
+        inside = any(osm.inside(m, r) for r in rings)
+        edge_d = min(osm.seg_closest(m, a, b)[0] for r in rings for a, b in zip(r, r[1:] + r[:1]))
+        if inside and edge_d >= INSET_M:
+            return c
+        best = None
+        for r in rings:
+            for a, b in zip(r, r[1:] + r[:1]):
+                d, q = osm.seg_closest(m, a, b)
+                if best is None or d < best[0]:
+                    best = (d, q, a, b)
+        _, q, a, b = best
+        L = math.dist(a, b) or 1
+        nx, ny = -(b[1] - a[1]) / L, (b[0] - a[0]) / L
+        if not any(osm.inside((q[0] + nx * 2, q[1] + ny * 2), r) for r in rings):
+            nx, ny = -nx, -ny
+        moved = (q[0] + nx * INSET_M, q[1] + ny * INSET_M)
+        where = f'{edge_d:.0f} m inside the edge' if inside else f'{edge_d:.0f} m outside the zoo outline'
+        print(f'  kept off the road: {pid} ({where})')
+        return to_ll(moved)
+
+    return clamp
+
+
 # Secondary services: drawn on the map only when zoomed in (always in the list).
 MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parking', 'photoasis'}
 
@@ -352,6 +406,7 @@ def main():
         for (pid, _), r in zip(KNOWN, res):
             print(f'  {pid}: {abs(r):.0f} m local correction')
     feats = []
+    keep_inside = _zoo_clamp()
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}
         icon = ICON.get(pid) or ICON_PREFIX.get(pid.split('-')[0])
@@ -363,7 +418,10 @@ def main():
             props['number'] = num
         if desc:
             props['description'] = desc
-        feats.append({'type': 'Feature', 'properties': props, 'geometry': {'type': 'Point', 'coordinates': px(x, y)}})
+        coord = px(x, y)
+        if pid not in OUTSIDE_ZOO:
+            coord = keep_inside(pid, coord)
+        feats.append({'type': 'Feature', 'properties': props, 'geometry': {'type': 'Point', 'coordinates': coord}})
     with open('public/data/pois.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': feats}, f, indent=1, ensure_ascii=False)
 

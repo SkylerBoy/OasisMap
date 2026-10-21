@@ -313,8 +313,8 @@ body.map-expanded {
   gap: 12px;
   padding: 12px;
   border-radius: var(--r-lg);
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--brand);
+  color: var(--brand-ink);
   box-shadow: var(--shadow);
 }
 
@@ -374,7 +374,8 @@ body.map-expanded {
 }
 
 .nav-hud.arrived {
-  background: var(--accent-strong);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* --- browse list -------------------------------------------------------------- */

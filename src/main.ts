@@ -241,15 +241,13 @@ function renderHeading() {
 
 function buildLanguageSelect() {
   const sel = $<HTMLSelectElement>('lang-select');
-  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.code.toUpperCase()}</option>`).join('');
+  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.name}</option>`).join('');
   sel.value = currentLang();
-  // Closed it shows "ES"; the list it opens shows the full names ("Español").
-  const label = (full: boolean) =>
-    [...sel.options].forEach((o, i) => (o.textContent = full ? LANGUAGES[i].name : LANGUAGES[i].code.toUpperCase()));
-  for (const ev of ['pointerdown', 'focus', 'keydown']) sel.addEventListener(ev, () => label(true));
-  for (const ev of ['change', 'blur']) sel.addEventListener(ev, () => label(false));
+  const code = () => ($('lang-code').textContent = currentLang().toUpperCase());
+  code();
   sel.addEventListener('change', async () => {
     await setLang(sel.value);
+    code();
     applyI18n();
     buildChips();
     renderList();

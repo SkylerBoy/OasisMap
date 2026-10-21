@@ -164,21 +164,37 @@ input:focus-visible {
   background: rgb(255 255 255 / 0.15);
 }
 
-.lang select {
-  appearance: none;
-  -webkit-appearance: none;
+.lang {
+  position: relative;
+  display: block;
+}
+
+/* Visible label shows the code ("ES"); the real select sits invisibly on top,
+   so its native list always shows the full names ("Español"). */
+.lang-code {
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 36px;
-  padding: 0;
   border: 1.5px solid rgb(255 255 255 / 0.55);
   border-radius: var(--r-sm);
-  background: transparent;
-  color: inherit;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  text-align: center;
-  text-align-last: center;
+}
+
+.lang select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.lang:focus-within .lang-code {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
 }
 
 .lang option {

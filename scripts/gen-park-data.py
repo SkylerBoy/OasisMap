@@ -319,6 +319,15 @@ def main():
     with open('public/data/paths.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': lines}, f, indent=1)
 
+    # Keep the initial view centred on the park.
+    with open('public/data/config.json') as f:
+        cfg = json.load(f)
+    lons = [ft['geometry']['coordinates'][0] for ft in feats]
+    lats = [ft['geometry']['coordinates'][1] for ft in feats]
+    cfg['center'] = [round((min(lons) + max(lons)) / 2, 5), round((min(lats) + max(lats)) / 2, 5)]
+    with open('public/data/config.json', 'w') as f:
+        json.dump(cfg, f, indent=2)
+
     xs = [c for ft in feats for c in [ft['geometry']['coordinates']]]
     lon = [c[0] for c in xs]
     lat = [c[1] for c in xs]

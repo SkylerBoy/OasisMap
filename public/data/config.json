@@ -2,10 +2,10 @@
   "name": "Oasis Wildlife Fuerteventura",
   "demoData": true,
   "center": [
-    -14.1582,
-    28.1866
+    -14.16121,
+    28.18477
   ],
-  "zoom": 16.2,
+  "zoom": 15.6,
   "minZoom": 14.5,
   "maxZoom": 20,
   "bounds": [

@@ -1766,3 +1766,38 @@ input, select, textarea, button { font-family: inherit; }
 .tp-actions .btn {
   flex: 1;
 }
+
+.plan-days {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 0 -16px 14px;
+  padding: 0 16px 2px;
+  scrollbar-width: none;
+}
+
+.plan-day {
+  flex: none;
+  padding: 8px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.95rem;
+  text-transform: capitalize;
+}
+
+.plan-day[aria-pressed='true'] {
+  border-color: var(--brand);
+  background: var(--brand);
+  color: #fff;
+}
+
+.plan-free {
+  margin: 6px 0;
+  padding: 8px 12px;
+  border: 1.5px dashed var(--line);
+  border-radius: var(--r-md);
+  color: var(--muted);
+  font-size: 0.9rem;
+}

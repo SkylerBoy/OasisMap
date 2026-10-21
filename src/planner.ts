@@ -65,14 +65,16 @@ function simulate(seq: Slot[], inp: PlanInput, margin: number): PlanStep[] | nul
   for (const s of seq) {
     const walk = inp.walk(at, s.loc);
     if (!isFinite(walk)) return null;
-    const arrive = t + walk;
+    let arrive = t + walk;
     let start = arrive;
     if (s.session !== undefined) {
       if (arrive > s.session - margin) return null;
+      arrive = s.session - margin; // no need to wait there longer than the margin
       start = s.session;
     } else if (s.item.window) {
       start = Math.max(arrive, s.item.window[0]);
       if (start + s.item.dur > s.item.window[1]) return null;
+      arrive = start; // leave so as to arrive when it opens
     }
     const end = start + s.item.dur;
     if (end > inp.endTime) return null;

@@ -111,5 +111,8 @@
   "plan.lunchShort": "el dinar",
   "plan.skipped": "No hi cap en el teu horari: {list}.",
   "cancel": "Cancel·lar",
-  "done": "Fet"
+  "done": "Fet",
+  "plan.today": "Avui",
+  "plan.tomorrow": "Demà",
+  "plan.free": "☕ {t} · Temps lliure ({d})"
 }

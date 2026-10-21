@@ -46,6 +46,9 @@ export function startPlanner(ctx: PlannerContext) {
   }
   const selected = new Set(saved.sel.filter((id) => byId.has(id)));
   let plan: Plan | null = null;
+  /** Days from today (0 = today) and the weekday of the chosen day. */
+  let dayOffset = 0;
+  const weekdayOf = (offset: number) => (parkWeekday() + offset) % 7;
 
   const persist = () => {
     try {
@@ -106,7 +109,9 @@ export function startPlanner(ctx: PlannerContext) {
           updateCount();
         });
         li.querySelector('.plan-name')!.textContent = pick(p.name);
-        li.querySelector('small')!.textContent = p.schedule ?? '';
+        li.querySelector('small')!.textContent = p.days
+          ? `${p.days.map((d) => t(`days.${d}`)).join(', ')} ${p.schedule ?? ''}`
+          : (p.schedule ?? '');
         ul.appendChild(li);
       }
       box.appendChild(group);
@@ -121,13 +126,15 @@ export function startPlanner(ctx: PlannerContext) {
 
   // --- plan -------------------------------------------------------------------------
   function items(): PlanItem[] {
-    const today = parkWeekday();
+    const day = weekdayOf(dayOffset);
     const out: PlanItem[] = [];
     for (const id of selected) {
       const p = byId.get(id)!;
       const cat = p.category as keyof typeof STAY;
-      if (p.times?.length && (!p.days || p.days.includes(today)) && p.timesKind !== 'train' && cat === 'show') {
-        out.push({ id, kind: 'show', dur: STAY.show, sessions: p.times.map(toMinutes), locs: [id] });
+      // exhibitions, and weekly sessions (alligator feeding) on their day, have fixed times
+      const timed = p.times?.length && p.timesKind !== 'train' && (p.days ? p.days.includes(day) : cat === 'show');
+      if (timed) {
+        out.push({ id, kind: 'show', dur: STAY.show, sessions: p.times!.map(toMinutes), locs: [id] });
       } else if (p.hours) {
         out.push({ id, kind: 'window', dur: STAY[cat] ?? 20, window: [toMinutes(p.hours[0]), toMinutes(p.hours[1])], locs: [id] });
       } else out.push({ id, kind: 'visit', dur: STAY[cat] ?? 10, locs: [id] });
@@ -158,6 +165,8 @@ export function startPlanner(ctx: PlannerContext) {
     show('result');
   }
 
+  const start0 = () => toMinutes($('plan-start').dataset.value || OPEN);
+
   function renderPlan() {
     if (!plan) return;
     const steps = plan.steps;
@@ -167,8 +176,18 @@ export function startPlanner(ctx: PlannerContext) {
       : t('plan.empty');
     const ol = $('plan-steps');
     ol.innerHTML = '';
+    let free = start0();
     for (const s of steps) {
       const p = byId.get(s.loc)!;
+      // a long gap before leaving for this stop: free time
+      const gap = s.arrive - s.walk - free;
+      if (gap >= 20) {
+        const g = document.createElement('li');
+        g.className = 'plan-free';
+        g.textContent = t('plan.free', { t: hhmm(free), d: gap >= 60 ? `${Math.floor(gap / 60)} h ${gap % 60} min` : `${gap} min` });
+        ol.appendChild(g);
+      }
+      free = s.end;
       if (s.walk > 0) {
         const w = document.createElement('li');
         w.className = 'plan-walk';
@@ -195,7 +214,7 @@ export function startPlanner(ctx: PlannerContext) {
     sk.textContent = plan.skipped.length
       ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
       : '';
-    $('plan-remind').hidden = !steps.some((s) => s.item.kind === 'show');
+    $('plan-remind').hidden = dayOffset !== 0 || !steps.some((s) => s.item.kind === 'show');
   }
 
   function routeCoords(): LngLat[] {
@@ -221,10 +240,40 @@ export function startPlanner(ctx: PlannerContext) {
     $('plan-body').scrollTop = 0;
   }
 
-  function open() {
+  /** Chips for today and the next 6 days. */
+  function renderDays() {
+    const box = $('plan-days');
+    box.innerHTML = '';
+    const fmt = new Intl.DateTimeFormat(currentLang(), { timeZone: 'Atlantic/Canary', weekday: 'short', day: 'numeric' });
+    for (let k = 0; k < 7; k++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plan-day';
+      b.setAttribute('aria-pressed', String(k === dayOffset));
+      b.textContent = k === 0 ? t('plan.today') : k === 1 ? t('plan.tomorrow') : fmt.format(new Date(Date.now() + k * 86_400_000));
+      b.addEventListener('click', () => {
+        dayOffset = k;
+        plan = null;
+        renderDays();
+        defaultStart();
+      });
+      box.appendChild(b);
+    }
+  }
+
+  /** Today: from now (if the park is open); another day: from opening time. */
+  function defaultStart() {
     const now = parkMinutes();
-    const start = now >= toMinutes(OPEN) && now < toMinutes(LAST_ARRIVAL) ? Math.ceil(now / 5) * 5 : toMinutes(OPEN);
+    const start =
+      dayOffset === 0 && now >= toMinutes(OPEN) && now < toMinutes(LAST_ARRIVAL) ? Math.ceil(now / 5) * 5 : toMinutes(OPEN);
     setTime('plan-start', hhmm(start));
+  }
+
+  function open() {
+    // after closing time, plan for tomorrow
+    if (!plan) dayOffset = parkMinutes() >= toMinutes(LAST_ARRIVAL) ? 1 : 0;
+    renderDays();
+    defaultStart();
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
     renderChoices();
     show(plan ? 'result' : 'choose');

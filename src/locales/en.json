@@ -111,5 +111,8 @@
   "plan.lunchShort": "lunch",
   "plan.skipped": "Does not fit in your time: {list}.",
   "cancel": "Cancel",
-  "done": "Done"
+  "done": "Done",
+  "plan.today": "Today",
+  "plan.tomorrow": "Tomorrow",
+  "plan.free": "☕ {t} · Free time ({d})"
 }

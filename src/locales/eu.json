@@ -111,5 +111,8 @@
   "plan.lunchShort": "bazkaria",
   "plan.skipped": "Ez da sartzen zure ordutegian: {list}.",
   "cancel": "Utzi",
-  "done": "Eginda"
+  "done": "Eginda",
+  "plan.today": "Gaur",
+  "plan.tomorrow": "Bihar",
+  "plan.free": "☕ {t} · Denbora librea ({d})"
 }

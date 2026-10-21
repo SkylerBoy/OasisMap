@@ -107,11 +107,19 @@ def _road_model():
     return f
 
 
+# Known real positions of single points (from OSM or on-site checks). With fewer
+# than 3 ANCHORS the model is shifted so the first of these lands exactly.
+KNOWN = [
+    ('malvarrisco', (-14.1559462, 28.1875579)),  # "Malvarrisco Restaurante" label on OSM, confirmed on site
+]
+
 _project = _fit_affine(ANCHORS) if len(ANCHORS) >= 3 else _road_model()
+_offset = (0.0, 0.0)  # metres, set in main() from KNOWN
 
 
 def px(x, y):
-    return to_ll(_project(x, y))
+    mx, my = _project(x, y)
+    return to_ll((mx + _offset[0], my + _offset[1]))
 
 
 LANGS = ['es', 'en', 'de', 'fr', 'it', 'ca', 'eu']
@@ -298,6 +306,13 @@ MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parkin
 
 
 def main():
+    global _offset
+    if len(ANCHORS) < 3 and KNOWN:
+        pid, ll = KNOWN[0]
+        x, y = next((p[3], p[4]) for p in POIS if p[0] == pid)
+        base, real = _project(x, y), to_m(ll)
+        _offset = (real[0] - base[0], real[1] - base[1])
+        print(f'shift {round(_offset[0])} m east, {round(_offset[1])} m north to match {pid}')
     feats = []
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}

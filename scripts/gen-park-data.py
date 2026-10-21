@@ -557,6 +557,8 @@ def main():
                       if os.path.exists(f'{IMAGE_DIR}/{pid}.{ext}')), None)
         if image:
             props['image'] = image
+        if os.path.exists(f'public/img/map-art/{pid}.svg'):  # drawing from the printed map (extract-map-art.py)
+            props['art'] = f'img/map-art/{pid}.svg'
         coord = px(x, y)
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)

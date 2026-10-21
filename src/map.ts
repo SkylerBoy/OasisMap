@@ -156,9 +156,12 @@ export class ParkMap {
 
     for (const poi of data.pois) {
       const el = document.createElement('button');
-      el.className = `poi-marker cat-${poi.category}${poi.minor ? ' minor' : ''}`;
+      el.className = `poi-marker cat-${poi.category}${poi.minor ? ' minor' : ''}${poi.art ? ' art' : ''}`;
       el.type = 'button';
-      el.innerHTML = `<span class="poi-icon">${poiIconSvg(poiIcon(poi), 20)}</span>${
+      const face = poi.art
+        ? `<img class="poi-art" src="${import.meta.env.BASE_URL}${poi.art}" alt="" draggable="false">`
+        : `<span class="poi-icon">${poiIconSvg(poiIcon(poi), 20)}</span>`;
+      el.innerHTML = `${face}${
         poi.number ? `<span class="poi-num">${poi.number}</span>` : ''
       }`;
       el.addEventListener('click', (ev) => {

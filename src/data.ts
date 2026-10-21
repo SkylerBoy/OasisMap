@@ -31,6 +31,8 @@ export interface Poi {
   schedule?: string;
   /** Photo path under public/, e.g. img/poi/flamencos.jpg (placeholder when missing). */
   image?: string;
+  /** Drawing cut from the printed map, used as the map marker. */
+  art?: string;
   /** Icon name from src/poi-icons.ts. */
   icon?: string;
   /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */

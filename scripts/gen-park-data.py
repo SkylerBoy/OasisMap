@@ -312,6 +312,45 @@ ICON = {
 }
 ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'observatorio': 'bird', 'ecotour': 'train'}
 
+# Points that sit on a specific OSM path (confirmed on site): moved onto it.
+MONKEY_PATH = 1570352508  # path along the primates between areas 11 and 16
+CROC_BRIDGE_PATH = 50854121  # path with the crocodile bridge
+ON_OSM_WAY = {
+    'capuchino': MONKEY_PATH, 'crias-cocodrilo': MONKEY_PATH, 'talapoin': MONKEY_PATH,
+    'tamarino-algodon-2': MONKEY_PATH, 'titi-plateado': MONKEY_PATH,
+    'fenec': CROC_BRIDGE_PATH,
+}
+
+
+def _osm():
+    import importlib.util
+    import os
+    if not os.path.exists('data/osm/oasis.json'):
+        return None, None
+    spec = importlib.util.spec_from_file_location('osm', os.path.join(os.path.dirname(__file__), 'osm-to-paths.py'))
+    osm = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(osm)
+    return osm, osm.with_geometry(json.load(open('data/osm/oasis.json'))['elements'])
+
+
+def _onto_way():
+    osm, els = _osm()
+    if not osm:
+        return lambda pid, c: c
+    ways = {e['id']: [to_m((g['lon'], g['lat'])) for g in e['geometry']] for e in els if e['type'] == 'way' and e.get('geometry')}
+
+    def onto(pid, c):
+        line = ways.get(ON_OSM_WAY.get(pid))
+        if not line:
+            return c
+        m = to_m(c)
+        d, q = min((osm.seg_closest(m, a, b) for a, b in zip(line, line[1:])), key=lambda r: r[0])
+        print(f'  on its path: {pid} (moved {d:.0f} m)')
+        return to_ll(q)
+
+    return onto
+
+
 # Points that really are outside the OSM zoo outline (or not covered by it).
 OUTSIDE_ZOO = {'camel-experience', 'parking', 'parking-accesible', 'taxi'}
 ROAD_NEAR_M = 60  # outside the outline and this close to the FV-2 -> pulled inside
@@ -322,14 +361,9 @@ def _zoo_clamp():
     """Keep zoo points off the FV-2: a point near the main road that is outside the
     OSM zoo outline, or inside but hugging its edge, is moved INSET_M inside it.
     No-op without OSM data."""
-    import importlib.util
-    import os
-    if not os.path.exists('data/osm/oasis.json'):
+    osm, els = _osm()
+    if not osm:
         return lambda pid, c: c
-    spec = importlib.util.spec_from_file_location('osm', os.path.join(os.path.dirname(__file__), 'osm-to-paths.py'))
-    osm = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(osm)
-    els = osm.with_geometry(json.load(open('data/osm/oasis.json'))['elements'])
     rings = osm.zoo_rings(els)
     roads = [[to_m((g['lon'], g['lat'])) for g in e['geometry']] for e in els
              if e['type'] == 'way' and e.get('tags', {}).get('highway') in ('trunk', 'primary', 'trunk_link') and e.get('geometry')]
@@ -407,6 +441,7 @@ def main():
             print(f'  {pid}: {abs(r):.0f} m local correction')
     feats = []
     keep_inside = _zoo_clamp()
+    onto_way = _onto_way()
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}
         icon = ICON.get(pid) or ICON_PREFIX.get(pid.split('-')[0])
@@ -421,6 +456,7 @@ def main():
         coord = px(x, y)
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)
+        coord = onto_way(pid, coord)
         feats.append({'type': 'Feature', 'properties': props, 'geometry': {'type': 'Point', 'coordinates': coord}})
     with open('public/data/pois.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': feats}, f, indent=1, ensure_ascii=False)

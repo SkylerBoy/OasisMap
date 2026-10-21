@@ -346,15 +346,17 @@ function openSheet(poi: Poi) {
 function renderSheet() {
   const p = state.selected;
   if (!p) return;
-  $('sheet-icon').innerHTML = poiIconSvg(poiIcon(p), 30);
-  $('sheet-icon').className = `sheet-icon cat-${p.category}`;
+  const hero = $('sheet-hero');
+  hero.className = `sheet-hero cat-${p.category}${p.image ? ' has-photo' : ''}`;
+  hero.style.backgroundImage = p.image ? `url("${import.meta.env.BASE_URL}${p.image}")` : '';
+  $('sheet-art').innerHTML = p.image ? '' : poiIconSvg(poiIcon(p), 120);
+  $('sheet-num').hidden = !p.number;
+  $('sheet-num').textContent = p.number ?? '';
   $('sheet-title').textContent = pick(p.name);
-  $('sheet-sub').textContent = [p.number ? `#${p.number}` : '', t(`cat.${p.category}`), walkText(p.id)]
-    .filter(Boolean)
-    .join(' · ');
+  $('sheet-sub').textContent = [t(`cat.${p.category}`), walkText(p.id)].filter(Boolean).join(' · ');
   $('sheet-desc').textContent = pick(p.description);
   $('sheet-schedule').hidden = !p.schedule;
-  $('sheet-schedule').textContent = p.schedule ? `🕒 ${p.schedule}` : '';
+  $('sheet-times').textContent = p.schedule ?? '';
 }
 
 function closeSheet() {

@@ -11,6 +11,7 @@ Run: python3 scripts/gen-park-data.py
 """
 import json
 import math
+import os
 
 # --- projection: map pixel -> lon/lat -------------------------------------------
 # The printed map is drawn roughly upside down (FV-2 road at the top, real
@@ -427,8 +428,74 @@ def _zoo_clamp():
     return clamp
 
 
+# Opening times and show times (official timetable "Horarios", Oct 2026).
+SCHEDULE = {
+    'entrada': '9:00 – 18:00',
+    'sea-lion-live': '11:15 · 15:40', 'fauna-live': '12:20 · 13:15 · 15:15', 'birds-live': '13:40 · 14:30 · 15:30',
+    'camel-experience': '9:30 – 16:30', 'lemur-experience': '9:45 – 16:15',
+    'malvarrisco': '9:00 – 17:30', 'oasis-market': '11:45 – 16:00',
+    'snack-leones': '9:30 – 16:00', 'snack-fauna': '12:00 – 15:30', 'snack-sabana': '11:30 – 16:30',
+}
+for n in range(6):  # Ecotour: hourly from stop 0 at 12:00, 5 min between stops; the 16:00 run ends at stop 4
+    SCHEDULE[f'ecotour-{n}'] = ' · '.join(f'{h}:{5 * n:02d}' for h in (range(12, 16) if n == 5 else range(12, 17)))
+
+_FREE_SHOW = L('Exhibición educativa gratuita de unos 30 minutos.', 'Free educational show, about 30 minutes.',
+               'Kostenlose Lernvorführung, ca. 30 Minuten.', 'Spectacle éducatif gratuit d’environ 30 minutes.',
+               'Spettacolo educativo gratuito di circa 30 minuti.', 'Exhibició educativa gratuïta d’uns 30 minuts.',
+               'Doako hezkuntza-erakustaldia, 30 minutu inguru.')
+_EXPERIENCE = L('Cada 20 minutos aprox. Ticket en taquillas; horario sujeto a disponibilidad.',
+                'About every 20 minutes. Tickets at the ticket office; times subject to availability.',
+                'Etwa alle 20 Minuten. Tickets an der Kasse; Zeiten je nach Verfügbarkeit.',
+                'Environ toutes les 20 minutes. Billets en caisse ; horaires selon disponibilité.',
+                'Circa ogni 20 minuti. Biglietti in biglietteria; orari soggetti a disponibilità.',
+                'Cada 20 minuts aprox. Tiquet a les taquilles; horari subjecte a disponibilitat.',
+                '20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera.')
+# Extra sentences appended to a point's description.
+EXTRA_DESC = {
+    'sea-lion-live': _FREE_SHOW, 'fauna-live': _FREE_SHOW, 'birds-live': _FREE_SHOW,
+    'camel-experience': _EXPERIENCE, 'lemur-experience': _EXPERIENCE,
+    'malvarrisco': L('Cocina hasta las 16:30.', 'Kitchen until 16:30.', 'Küche bis 16:30 Uhr.', 'Cuisine jusqu’à 16h30.',
+                     'Cucina fino alle 16:30.', 'Cuina fins a les 16:30.', 'Sukaldea 16:30 arte.'),
+    'aligator': L('Zookeeper time: alimentación del cocodrilo los sábados a las 14:45 (gratis).',
+                  'Zookeeper time: crocodile feeding on Saturdays at 14:45 (free).',
+                  'Zookeeper Time: Krokodilfütterung samstags um 14:45 Uhr (kostenlos).',
+                  'Zookeeper time : nourrissage du crocodile le samedi à 14h45 (gratuit).',
+                  'Zookeeper time: pasto del coccodrillo il sabato alle 14:45 (gratis).',
+                  'Zookeeper time: alimentació del cocodril els dissabtes a les 14:45 (gratuït).',
+                  'Zookeeper time: krokodiloari janaria larunbatetan 14:45ean (doan).'),
+    'entrada': L('El parque abre de 9:00 a 18:00.', 'The park is open from 9:00 to 18:00.', 'Der Park ist von 9 bis 18 Uhr geöffnet.',
+                 'Le parc est ouvert de 9h à 18h.', 'Il parco è aperto dalle 9:00 alle 18:00.', 'El parc obre de 9:00 a 18:00.',
+                 'Parkea 9:00etatik 18:00etara dago irekita.'),
+}
+
+# Photos: public/img/poi/<id>.jpg (or .webp/.png). Points without one show a placeholder
+# and are listed in docs/imagenes-pendientes.md.
+IMAGE_DIR = 'public/img/poi'
+
 # Secondary services: drawn on the map only when zoomed in (always in the list).
 MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parking', 'photoasis'}
+
+
+def write_missing_images(feats):
+    """docs/imagenes-pendientes.md: checklist of points still without a photo."""
+    titles = {'animal': 'Animales', 'show': 'Shows', 'experience': 'Experiencias', 'food': 'Dónde comer',
+              'botanic': 'Oasis Botanic', 'service': 'Servicios'}
+    missing = [f['properties'] for f in feats if 'image' not in f['properties'] and not f['properties'].get('minor')]
+    lines = ['# Imágenes pendientes', '',
+             f'{len(missing)} lugares sin foto (la app muestra una imagen provisional). Formato: horizontal 16:9,',
+             f'mínimo 1200×675 px, JPG o WebP, guardada como `{IMAGE_DIR}/<id>.jpg`. Los servicios menores',
+             '(aseos, miradores, desfibriladores, paradas del Ecotour…) no llevan foto.', '']
+    for cat, title in titles.items():
+        rows = [p for p in missing if p['category'] == cat]
+        if not rows:
+            continue
+        lines += [f'## {title} ({len(rows)})', '']
+        lines += [f"- [ ] {('#' + p['number'] + ' ') if p.get('number') else ''}{p['name']['es']} — `{p['id']}.jpg`" for p in rows]
+        lines.append('')
+    os.makedirs('docs', exist_ok=True)
+    with open('docs/imagenes-pendientes.md', 'w') as f:
+        f.write('\n'.join(lines))
+    print(f'docs/imagenes-pendientes.md: {len(missing)} without a photo')
 
 
 def main():
@@ -480,8 +547,17 @@ def main():
             props['minor'] = True
         if num:
             props['number'] = num
+        if pid in EXTRA_DESC:
+            extra = EXTRA_DESC[pid]
+            desc = {k: ' '.join(x for x in ((desc or {}).get(k), extra.get(k)) if x) for k in LANGS}
         if desc:
             props['description'] = desc
+        if pid in SCHEDULE:
+            props['schedule'] = SCHEDULE[pid]
+        image = next((f'img/poi/{pid}.{ext}' for ext in ('webp', 'jpg', 'jpeg', 'png')
+                      if os.path.exists(f'{IMAGE_DIR}/{pid}.{ext}')), None)
+        if image:
+            props['image'] = image
         coord = px(x, y)
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)
@@ -496,6 +572,8 @@ def main():
 
     lines = [{'type': 'Feature', 'properties': {}, 'geometry': {'type': 'LineString', 'coordinates': [px(x, y) for x, y in p]}}
              for p in PATHS]
+    write_missing_images(feats)
+
     # Paths traced from the printed map; scripts/osm-to-paths.py merges them with OSM.
     with open('data/map-paths.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': lines}, f, indent=1)

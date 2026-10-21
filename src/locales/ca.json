@@ -39,5 +39,6 @@
   "noRoute": "No hi ha cap camí fins a aquest punt.",
   "satFallback": "La capa de satèl·lit no està disponible; s'utilitza el mapa.",
   "simHint": "Toca el mapa per simular la teva posició.",
-  "pdfMap": "Veure o descarregar el mapa del parc (PDF)"
+  "pdfMap": "Veure o descarregar el mapa del parc (PDF)",
+  "schedule": "Horari"
 }

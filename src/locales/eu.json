@@ -39,5 +39,6 @@
   "noRoute": "Ez dago biderik puntu honetaraino.",
   "satFallback": "Satelite geruza ez dago erabilgarri; mapa erabiltzen da.",
   "simHint": "Ukitu mapa zure posizioa simulatzeko.",
-  "pdfMap": "Ikusi edo deskargatu parkearen mapa (PDF)"
+  "pdfMap": "Ikusi edo deskargatu parkearen mapa (PDF)",
+  "schedule": "Ordutegia"
 }

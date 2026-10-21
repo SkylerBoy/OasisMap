@@ -39,5 +39,6 @@
   "noRoute": "No hay un camino hasta este punto.",
   "satFallback": "La capa satélite no está disponible; se usa el mapa.",
   "simHint": "Toca el mapa para simular tu posición.",
-  "pdfMap": "Ver o descargar el mapa del parque (PDF)"
+  "pdfMap": "Ver o descargar el mapa del parque (PDF)",
+  "schedule": "Horario"
 }

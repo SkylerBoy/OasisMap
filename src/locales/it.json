@@ -39,5 +39,6 @@
   "noRoute": "Non c'è un sentiero fino a questo punto.",
   "satFallback": "Livello satellite non disponibile; si usa la mappa.",
   "simHint": "Tocca la mappa per simulare la tua posizione.",
-  "pdfMap": "Vedi o scarica la mappa del parco (PDF)"
+  "pdfMap": "Vedi o scarica la mappa del parco (PDF)",
+  "schedule": "Orari"
 }

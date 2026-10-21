@@ -70,15 +70,17 @@
     <div id="sheet-backdrop" class="sheet-backdrop" hidden></div>
     <section id="sheet" class="sheet" aria-hidden="true">
       <div class="sheet-handle"></div>
-      <div class="sheet-head">
-        <span id="sheet-icon" class="sheet-icon"></span>
-        <div>
-          <h2 id="sheet-title"></h2>
-          <div id="sheet-sub" class="sheet-sub"></div>
-        </div>
+      <div id="sheet-hero" class="sheet-hero">
+        <span id="sheet-art" class="hero-art" aria-hidden="true"></span>
+        <span id="sheet-num" class="hero-num" hidden></span>
+        <h2 id="sheet-title" class="hero-title"></h2>
+      </div>
+      <div id="sheet-sub" class="sheet-sub"></div>
+      <div id="sheet-schedule" class="sheet-schedule" hidden>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span><b data-i18n="schedule">Horario</b> <span id="sheet-times"></span></span>
       </div>
       <p id="sheet-desc" class="sheet-desc"></p>
-      <p id="sheet-schedule" class="sheet-schedule" hidden></p>
       <div class="sheet-actions">
         <button id="sheet-go" class="btn primary" type="button" data-i18n="go">Ir</button>
         <button id="sheet-close" class="btn" type="button" data-i18n="close">Cerrar</button>

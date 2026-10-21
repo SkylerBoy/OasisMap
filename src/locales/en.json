@@ -39,5 +39,6 @@
   "noRoute": "There is no path to this point.",
   "satFallback": "Satellite layer unavailable; using the map.",
   "simHint": "Tap the map to simulate your position.",
-  "pdfMap": "View or download the park map (PDF)"
+  "pdfMap": "View or download the park map (PDF)",
+  "schedule": "Times"
 }

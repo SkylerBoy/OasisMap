@@ -841,7 +841,16 @@
      "eu": "Aligator amerikarra"
     },
     "icon": "crocodile",
-    "number": "36"
+    "number": "36",
+    "description": {
+     "es": "Zookeeper time: alimentación del cocodrilo los sábados a las 14:45 (gratis).",
+     "en": "Zookeeper time: crocodile feeding on Saturdays at 14:45 (free).",
+     "de": "Zookeeper Time: Krokodilfütterung samstags um 14:45 Uhr (kostenlos).",
+     "fr": "Zookeeper time : nourrissage du crocodile le samedi à 14h45 (gratuit).",
+     "it": "Zookeeper time: pasto del coccodrillo il sabato alle 14:45 (gratis).",
+     "ca": "Zookeeper time: alimentació del cocodril els dissabtes a les 14:45 (gratuït).",
+     "eu": "Zookeeper time: krokodiloari janaria larunbatetan 14:45ean (doan)."
+    }
    },
    "geometry": {
     "type": "Point",
@@ -1201,14 +1210,15 @@
     },
     "icon": "seal",
     "description": {
-     "es": "Exhibición de leones marinos.",
-     "en": "Sea lion show.",
-     "de": "Seelöwen-Show.",
-     "fr": "Spectacle des otaries.",
-     "it": "Spettacolo dei leoni marini.",
-     "ca": "Exhibició de lleons marins.",
-     "eu": "Itsas lehoien erakustaldia."
-    }
+     "es": "Exhibición de leones marinos. Exhibición educativa gratuita de unos 30 minutos.",
+     "en": "Sea lion show. Free educational show, about 30 minutes.",
+     "de": "Seelöwen-Show. Kostenlose Lernvorführung, ca. 30 Minuten.",
+     "fr": "Spectacle des otaries. Spectacle éducatif gratuit d’environ 30 minutes.",
+     "it": "Spettacolo dei leoni marini. Spettacolo educativo gratuito di circa 30 minuti.",
+     "ca": "Exhibició de lleons marins. Exhibició educativa gratuïta d’uns 30 minuts.",
+     "eu": "Itsas lehoien erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+    },
+    "schedule": "11:15 · 15:40"
    },
    "geometry": {
     "type": "Point",
@@ -1234,14 +1244,15 @@
     },
     "icon": "parrot",
     "description": {
-     "es": "Exhibición de animales en directo.",
-     "en": "Live animal show.",
-     "de": "Live-Tiershow.",
-     "fr": "Spectacle d’animaux en direct.",
-     "it": "Spettacolo di animali dal vivo.",
-     "ca": "Exhibició d’animals en directe.",
-     "eu": "Animalien zuzeneko erakustaldia."
-    }
+     "es": "Exhibición de animales en directo. Exhibición educativa gratuita de unos 30 minutos.",
+     "en": "Live animal show. Free educational show, about 30 minutes.",
+     "de": "Live-Tiershow. Kostenlose Lernvorführung, ca. 30 Minuten.",
+     "fr": "Spectacle d’animaux en direct. Spectacle éducatif gratuit d’environ 30 minutes.",
+     "it": "Spettacolo di animali dal vivo. Spettacolo educativo gratuito di circa 30 minuti.",
+     "ca": "Exhibició d’animals en directe. Exhibició educativa gratuïta d’uns 30 minuts.",
+     "eu": "Animalien zuzeneko erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+    },
+    "schedule": "12:20 · 13:15 · 15:15"
    },
    "geometry": {
     "type": "Point",
@@ -1267,14 +1278,15 @@
     },
     "icon": "eagle",
     "description": {
-     "es": "Exhibición de vuelo de aves.",
-     "en": "Bird flight show.",
-     "de": "Greifvogel-Flugshow.",
-     "fr": "Spectacle d’oiseaux en vol.",
-     "it": "Spettacolo di uccelli in volo.",
-     "ca": "Exhibició de vol d’aus.",
-     "eu": "Hegaztien hegaldi-erakustaldia."
-    }
+     "es": "Exhibición de vuelo de aves. Exhibición educativa gratuita de unos 30 minutos.",
+     "en": "Bird flight show. Free educational show, about 30 minutes.",
+     "de": "Greifvogel-Flugshow. Kostenlose Lernvorführung, ca. 30 Minuten.",
+     "fr": "Spectacle d’oiseaux en vol. Spectacle éducatif gratuit d’environ 30 minutes.",
+     "it": "Spettacolo di uccelli in volo. Spettacolo educativo gratuito di circa 30 minuti.",
+     "ca": "Exhibició de vol d’aus. Exhibició educativa gratuïta d’uns 30 minuts.",
+     "eu": "Hegaztien hegaldi-erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+    },
+    "schedule": "13:40 · 14:30 · 15:30"
    },
    "geometry": {
     "type": "Point",
@@ -1301,14 +1313,15 @@
     "icon": "dromedary",
     "number": "1",
     "description": {
-     "es": "Paseo en camello. Se realiza en la parte exterior del parque.",
-     "en": "Camel ride. It takes place outside the park.",
-     "de": "Kamelritt. Findet außerhalb des Parks statt.",
-     "fr": "Balade à dos de chameau, à l’extérieur du parc.",
-     "it": "Giro in cammello, all’esterno del parco.",
-     "ca": "Passeig en camell, a l’exterior del parc.",
-     "eu": "Gamelu-ibilaldia, parketik kanpo."
-    }
+     "es": "Paseo en camello. Se realiza en la parte exterior del parque. Cada 20 minutos aprox. Ticket en taquillas; horario sujeto a disponibilidad.",
+     "en": "Camel ride. It takes place outside the park. About every 20 minutes. Tickets at the ticket office; times subject to availability.",
+     "de": "Kamelritt. Findet außerhalb des Parks statt. Etwa alle 20 Minuten. Tickets an der Kasse; Zeiten je nach Verfügbarkeit.",
+     "fr": "Balade à dos de chameau, à l’extérieur du parc. Environ toutes les 20 minutes. Billets en caisse ; horaires selon disponibilité.",
+     "it": "Giro in cammello, all’esterno del parco. Circa ogni 20 minuti. Biglietti in biglietteria; orari soggetti a disponibilità.",
+     "ca": "Passeig en camell, a l’exterior del parc. Cada 20 minuts aprox. Tiquet a les taquilles; horari subjecte a disponibilitat.",
+     "eu": "Gamelu-ibilaldia, parketik kanpo. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
+    },
+    "schedule": "9:30 – 16:30"
    },
    "geometry": {
     "type": "Point",
@@ -1334,14 +1347,15 @@
     },
     "icon": "monkey",
     "description": {
-     "es": "Encuentro con lémures.",
-     "en": "Lemur encounter.",
-     "de": "Begegnung mit Lemuren.",
-     "fr": "Rencontre avec les lémuriens.",
-     "it": "Incontro con i lemuri.",
-     "ca": "Trobada amb lèmurs.",
-     "eu": "Lemurrekin topaketa."
-    }
+     "es": "Encuentro con lémures. Cada 20 minutos aprox. Ticket en taquillas; horario sujeto a disponibilidad.",
+     "en": "Lemur encounter. About every 20 minutes. Tickets at the ticket office; times subject to availability.",
+     "de": "Begegnung mit Lemuren. Etwa alle 20 Minuten. Tickets an der Kasse; Zeiten je nach Verfügbarkeit.",
+     "fr": "Rencontre avec les lémuriens. Environ toutes les 20 minutes. Billets en caisse ; horaires selon disponibilité.",
+     "it": "Incontro con i lemuri. Circa ogni 20 minuti. Biglietti in biglietteria; orari soggetti a disponibilità.",
+     "ca": "Trobada amb lèmurs. Cada 20 minuts aprox. Tiquet a les taquilles; horari subjecte a disponibilitat.",
+     "eu": "Lemurrekin topaketa. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
+    },
+    "schedule": "9:45 – 16:15"
    },
    "geometry": {
     "type": "Point",
@@ -1399,7 +1413,17 @@
      "eu": "Malvarrisco jatetxea"
     },
     "icon": "restaurant",
-    "number": "A"
+    "number": "A",
+    "description": {
+     "es": "Cocina hasta las 16:30.",
+     "en": "Kitchen until 16:30.",
+     "de": "Küche bis 16:30 Uhr.",
+     "fr": "Cuisine jusqu’à 16h30.",
+     "it": "Cucina fino alle 16:30.",
+     "ca": "Cuina fins a les 16:30.",
+     "eu": "Sukaldea 16:30 arte."
+    },
+    "schedule": "9:00 – 17:30"
    },
    "geometry": {
     "type": "Point",
@@ -1424,7 +1448,8 @@
      "eu": "Oasis Market jatetxea"
     },
     "icon": "restaurant",
-    "number": "B"
+    "number": "B",
+    "schedule": "11:45 – 16:00"
    },
    "geometry": {
     "type": "Point",
@@ -1483,7 +1508,8 @@
      "eu": "Itsas Lehoien snack-barra"
     },
     "icon": "snack",
-    "number": "D"
+    "number": "D",
+    "schedule": "9:30 – 16:00"
    },
    "geometry": {
     "type": "Point",
@@ -1508,7 +1534,8 @@
      "eu": "Fauna snack-barra"
     },
     "icon": "snack",
-    "number": "E"
+    "number": "E",
+    "schedule": "12:00 – 15:30"
    },
    "geometry": {
     "type": "Point",
@@ -1533,7 +1560,8 @@
      "eu": "Sabana snack-barra"
     },
     "icon": "snack",
-    "number": "F"
+    "number": "F",
+    "schedule": "11:30 – 16:30"
    },
    "geometry": {
     "type": "Point",
@@ -1805,7 +1833,17 @@
      "ca": "Entrada / Sortida i taquilles",
      "eu": "Sarrera / Irteera eta txarteldegia"
     },
-    "icon": "ticket"
+    "icon": "ticket",
+    "description": {
+     "es": "El parque abre de 9:00 a 18:00.",
+     "en": "The park is open from 9:00 to 18:00.",
+     "de": "Der Park ist von 9 bis 18 Uhr geöffnet.",
+     "fr": "Le parc est ouvert de 9h à 18h.",
+     "it": "Il parco è aperto dalle 9:00 alle 18:00.",
+     "ca": "El parc obre de 9:00 a 18:00.",
+     "eu": "Parkea 9:00etatik 18:00etara dago irekita."
+    },
+    "schedule": "9:00 – 18:00"
    },
    "geometry": {
     "type": "Point",
@@ -2484,7 +2522,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:00 · 13:00 · 14:00 · 15:00 · 16:00"
    },
    "geometry": {
     "type": "Point",
@@ -2519,7 +2558,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:05 · 13:05 · 14:05 · 15:05 · 16:05"
    },
    "geometry": {
     "type": "Point",
@@ -2554,7 +2594,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:10 · 13:10 · 14:10 · 15:10 · 16:10"
    },
    "geometry": {
     "type": "Point",
@@ -2589,7 +2630,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:15 · 13:15 · 14:15 · 15:15 · 16:15"
    },
    "geometry": {
     "type": "Point",
@@ -2624,7 +2666,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:20 · 13:20 · 14:20 · 15:20 · 16:20"
    },
    "geometry": {
     "type": "Point",
@@ -2659,7 +2702,8 @@
      "it": "Trenino gratuito che percorre il parco.",
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
-    }
+    },
+    "schedule": "12:25 · 13:25 · 14:25 · 15:25"
    },
    "geometry": {
     "type": "Point",

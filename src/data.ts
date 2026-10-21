@@ -29,6 +29,8 @@ export interface Poi {
   description?: Localized;
   /** Free text, e.g. "11:30 · 15:00". */
   schedule?: string;
+  /** Photo path under public/, e.g. img/poi/flamencos.jpg (placeholder when missing). */
+  image?: string;
   /** Icon name from src/poi-icons.ts. */
   icon?: string;
   /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */

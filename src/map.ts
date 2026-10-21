@@ -143,7 +143,7 @@ export class ParkMap {
 
     for (const poi of data.pois) {
       const el = document.createElement('button');
-      el.className = `poi-marker cat-${poi.category}`;
+      el.className = `poi-marker cat-${poi.category}${poi.minor ? ' minor' : ''}`;
       el.type = 'button';
       el.innerHTML = `<span class="poi-icon">${CATEGORY_ICON[poi.category] ?? '📍'}</span>${
         poi.number ? `<span class="poi-num">${poi.number}</span>` : ''
@@ -156,6 +156,16 @@ export class ParkMap {
       this.poiMarkers.set(poi.id, { marker, el, poi });
     }
     this.relabel();
+
+    // Zoom classes: smaller markers far out, secondary points only up close.
+    const mapEl = this.map.getContainer();
+    const onZoom = () => {
+      const z = this.map.getZoom();
+      mapEl.classList.toggle('z-far', z < 16.6);
+      mapEl.classList.toggle('z-near', z >= 17.4);
+    };
+    this.map.on('zoom', onZoom);
+    onZoom();
   }
 
   get hasOverlay(): boolean {

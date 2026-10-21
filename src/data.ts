@@ -24,6 +24,8 @@ export interface Poi {
   description?: Localized;
   /** Free text, e.g. "11:30 · 15:00". */
   schedule?: string;
+  /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */
+  minor?: boolean;
   coord: LngLat;
 }
 

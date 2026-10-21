@@ -4,411 +4,2453 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "entrance",
-    "category": "service",
-    "name": {
-     "es": "Entrada / Salida",
-     "ca": "Entrada / Sortida",
-     "eu": "Sarrera / Irteera",
-     "en": "Entrance / Exit",
-     "de": "Eingang / Ausgang",
-     "fr": "Entrée / Sortie",
-     "it": "Ingresso / Uscita"
-    },
-    "description": {
-     "es": "Taquillas, taxis y parking.",
-     "en": "Ticket office, taxis and parking.",
-     "de": "Kassen, Taxis und Parkplatz."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1543576,
-     28.1881562
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "sealions",
-    "category": "show",
-    "name": {
-     "es": "Show de leones marinos",
-     "ca": "Espectacle de lleons marins",
-     "eu": "Itsas lehoien ikuskizuna",
-     "en": "Sea Lions Live",
-     "de": "Seelöwen-Show",
-     "fr": "Spectacle des otaries",
-     "it": "Spettacolo dei leoni marini"
-    },
-    "description": {
-     "es": "Espectáculo con los leones marinos.",
-     "en": "Show with our sea lions.",
-     "de": "Show mit unseren Seelöwen."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.158898,
-     28.1859349
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "fauna",
-    "category": "show",
-    "name": {
-     "es": "Fauna Live",
-     "ca": "Fauna Live",
-     "eu": "Fauna Live",
-     "en": "Fauna Live",
-     "de": "Fauna Live",
-     "fr": "Fauna Live",
-     "it": "Fauna Live"
-    },
-    "description": {
-     "es": "Presentación de animales en vivo.",
-     "en": "Live animal presentation.",
-     "de": "Live-Tierpräsentation."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1604284,
-     28.1850626
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "birds",
-    "category": "show",
-    "name": {
-     "es": "Show de aves",
-     "ca": "Espectacle d'aus",
-     "eu": "Hegaztien ikuskizuna",
-     "en": "Birds Live",
-     "de": "Vogel-Show",
-     "fr": "Spectacle d'oiseaux",
-     "it": "Spettacolo di uccelli"
-    },
-    "description": {
-     "es": "Exhibición de vuelo de aves rapaces.",
-     "en": "Birds of prey flight display.",
-     "de": "Flugshow mit Greifvögeln."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1618058,
-     28.187167
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "patio",
-    "category": "food",
-    "name": {
-     "es": "Restaurante Patio Majorero",
-     "ca": "Restaurant Patio Majorero",
-     "eu": "Patio Majorero jatetxea",
-     "en": "Patio Majorero Restaurant",
-     "de": "Restaurant Patio Majorero",
-     "fr": "Restaurant Patio Majorero",
-     "it": "Ristorante Patio Majorero"
-    },
-    "number": "C",
-    "description": {
-     "es": "Cocina canaria tradicional.",
-     "en": "Traditional Canarian food.",
-     "de": "Traditionelle kanarische Küche."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.164224,
-     28.1873468
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "market",
-    "category": "food",
-    "name": {
-     "es": "Oasis Market",
-     "ca": "Oasis Market",
-     "eu": "Oasis Market",
-     "en": "Oasis Market",
-     "de": "Oasis Market",
-     "fr": "Oasis Market",
-     "it": "Oasis Market"
-    },
-    "number": "B"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1549698,
-     28.1883631
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "elephants",
+    "id": "titi-geoffroy",
     "category": "animal",
     "name": {
-     "es": "Elefantes",
-     "ca": "Elefants",
-     "eu": "Elefanteak",
-     "en": "Elephants",
-     "de": "Elefanten",
-     "fr": "Éléphants",
-     "it": "Elefanti"
+     "es": "Tití de Geoffroy",
+     "en": "Geoffroy's marmoset",
+     "de": "Geoffroy-Seidenäffchen",
+     "fr": "Ouistiti de Geoffroy",
+     "it": "Uistitì di Geoffroy",
+     "ca": "Titi de Geoffroy",
+     "eu": "Geoffroy titia"
     },
-    "number": "31",
-    "description": {
-     "es": "Zona de los elefantes africanos.",
-     "en": "African elephants area.",
-     "de": "Bereich der Afrikanischen Elefanten."
-    }
+    "number": "1"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -14.1611937,
-     28.1900448
+     -14.1534527,
+     28.1877109
     ]
    }
   },
   {
    "type": "Feature",
    "properties": {
-    "id": "giraffes",
+    "id": "tamarino-algodon-1",
     "category": "animal",
     "name": {
-     "es": "Jirafas",
-     "ca": "Girafes",
-     "eu": "Jirafak",
-     "en": "Giraffes",
-     "de": "Giraffen",
-     "fr": "Girafes",
-     "it": "Giraffe"
-    },
-    "number": "30"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1601223,
-     28.1895322
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "flamingos",
-    "category": "animal",
-    "name": {
-     "es": "Flamencos",
-     "ca": "Flamencs",
-     "eu": "Flamenkoak",
-     "en": "Flamingos",
-     "de": "Flamingos",
-     "fr": "Flamants",
-     "it": "Fenicotteri"
-    },
-    "number": "10"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1551738,
-     28.1877066
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "lemurs",
-    "category": "experience",
-    "name": {
-     "es": "Experiencia lémures",
-     "ca": "Experiència lèmurs",
-     "eu": "Lemur esperientzia",
-     "en": "Lemur Experience",
-     "de": "Lemuren-Erlebnis",
-     "fr": "Expérience lémuriens",
-     "it": "Esperienza lemuri"
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1557554,
-     28.1876436
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "hippos",
-    "category": "animal",
-    "name": {
-     "es": "Hipopótamos",
-     "ca": "Hipopòtams",
-     "eu": "Hipopotamoak",
-     "en": "Hippos",
-     "de": "Flusspferde",
-     "fr": "Hippopotames",
-     "it": "Ippopotami"
-    },
-    "number": "20"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1573675,
-     28.1869242
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "crocs",
-    "category": "animal",
-    "name": {
-     "es": "Caimanes",
-     "ca": "Caimans",
-     "eu": "Kaimanak",
-     "en": "Alligators",
-     "de": "Alligatoren",
-     "fr": "Alligators",
-     "it": "Alligatori"
-    },
-    "number": "38"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1599693,
-     28.1855302
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "botanic",
-    "category": "botanic",
-    "name": {
-     "es": "Jardín botánico",
-     "ca": "Jardí botànic",
-     "eu": "Lorategi botanikoa",
-     "en": "Botanical garden",
-     "de": "Botanischer Garten",
-     "fr": "Jardin botanique",
-     "it": "Giardino botanico"
-    },
-    "description": {
-     "es": "Cactus, suculentas y flora canaria.",
-     "en": "Cacti, succulents and Canarian flora.",
-     "de": "Kakteen, Sukkulenten und kanarische Flora."
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1672135,
-     28.1859079
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "wc1",
-    "category": "service",
-    "name": {
-     "es": "Aseos",
-     "ca": "Lavabos",
-     "eu": "Komunak",
-     "en": "Toilets",
-     "de": "Toiletten",
-     "fr": "Toilettes",
-     "it": "Bagni"
-    }
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1585409,
-     28.1862946
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "camel2",
-    "category": "experience",
-    "name": {
-     "es": "Paseo en camello",
-     "ca": "Passeig en camell",
-     "eu": "Gamelu ibilaldia",
-     "en": "Camel ride",
-     "de": "Kamelritt",
-     "fr": "Balade à dos de chameau",
-     "it": "Giro in cammello"
+     "es": "Tamarino cabeza de algodón",
+     "en": "Cotton-top tamarin",
+     "de": "Lisztäffchen",
+     "fr": "Tamarin pinché",
+     "it": "Tamarino edipo",
+     "ca": "Tamarí cap de cotó",
+     "eu": "Kotoi-buru tamarinoa"
     },
     "number": "2"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -14.1627241,
-     28.1893523
+     -14.1534034,
+     28.1878934
     ]
    }
   },
   {
    "type": "Feature",
    "properties": {
-    "id": "info",
-    "category": "service",
+    "id": "avefrias-saki",
+    "category": "animal",
     "name": {
-     "es": "Información",
-     "ca": "Informació",
-     "eu": "Informazioa",
-     "en": "Information",
-     "de": "Information",
-     "fr": "Information",
-     "it": "Informazioni"
+     "es": "Avefrías y saki",
+     "en": "Lapwings and saki",
+     "de": "Kiebitze und Saki",
+     "fr": "Vanneaux et saki",
+     "it": "Pavoncelle e saki",
+     "ca": "Fredelugues i saki",
+     "eu": "Hegabakarrak eta sakia"
+    },
+    "number": "4"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1532153,
+     28.1881585
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tunel-lemures",
+    "category": "animal",
+    "name": {
+     "es": "Túnel de lémures",
+     "en": "Lemur tunnel",
+     "de": "Lemurentunnel",
+     "fr": "Tunnel des lémuriens",
+     "it": "Tunnel dei lemuri",
+     "ca": "Túnel de lèmurs",
+     "eu": "Lemurren tunela"
+    },
+    "number": "5"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1529951,
+     28.1881423
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "grulla-damisela",
+    "category": "animal",
+    "name": {
+     "es": "Grulla damisela",
+     "en": "Demoiselle crane",
+     "de": "Jungfernkranich",
+     "fr": "Grue demoiselle",
+     "it": "Damigella di Numidia",
+     "ca": "Grua damisel·la",
+     "eu": "Kurrilo dama"
+    },
+    "number": "6"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1526328,
+     28.1879971
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "macaca-cangrejera",
+    "category": "animal",
+    "name": {
+     "es": "Macaca cangrejera",
+     "en": "Crab-eating macaque",
+     "de": "Javaneraffe",
+     "fr": "Macaque crabier",
+     "it": "Macaco cinomolgo",
+     "ca": "Macaco menjacrancs",
+     "eu": "Karramarro-jale makakoa"
+    },
+    "number": "7"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1530148,
+     28.1878027
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mono-arana",
+    "category": "animal",
+    "name": {
+     "es": "Mono araña",
+     "en": "Spider monkey",
+     "de": "Klammeraffe",
+     "fr": "Singe-araignée",
+     "it": "Scimmia ragno",
+     "ca": "Mona aranya",
+     "eu": "Armiarma-tximinoa"
+    },
+    "number": "8"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.15362,
+     28.1876541
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mono-patas",
+    "category": "animal",
+    "name": {
+     "es": "Mono patas",
+     "en": "Patas monkey",
+     "de": "Husarenaffe",
+     "fr": "Singe rouge",
+     "it": "Scimmia patas",
+     "ca": "Mona patas",
+     "eu": "Patas tximinoa"
+    },
+    "number": "9"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1538942,
+     28.187554
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "flamencos",
+    "category": "animal",
+    "name": {
+     "es": "Flamencos",
+     "en": "Flamingos",
+     "de": "Flamingos",
+     "fr": "Flamants",
+     "it": "Fenicotteri",
+     "ca": "Flamencs",
+     "eu": "Flamenkoak"
+    },
+    "number": "10"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1542238,
+     28.187651
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "titi-pigmeo",
+    "category": "animal",
+    "name": {
+     "es": "Tití pigmeo",
+     "en": "Pygmy marmoset",
+     "de": "Zwergseidenäffchen",
+     "fr": "Ouistiti pygmée",
+     "it": "Uistitì pigmeo",
+     "ca": "Titi pigmeu",
+     "eu": "Titi pigmeoa"
+    },
+    "number": "11"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1544663,
+     28.1873134
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "puercoespin",
+    "category": "animal",
+    "name": {
+     "es": "Puercoespín",
+     "en": "Porcupine",
+     "de": "Stachelschwein",
+     "fr": "Porc-épic",
+     "it": "Istrice",
+     "ca": "Porc espí",
+     "eu": "Triku-ugaraxoa"
+    },
+    "number": "12"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1546718,
+     28.1871818
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "capuchino",
+    "category": "animal",
+    "name": {
+     "es": "Capuchino",
+     "en": "Capuchin monkey",
+     "de": "Kapuzineraffe",
+     "fr": "Capucin",
+     "it": "Cebo cappuccino",
+     "ca": "Caputxí",
+     "eu": "Kaputxino tximinoa"
+    },
+    "number": "13"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1548101,
+     28.1871938
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "crias-cocodrilo",
+    "category": "animal",
+    "name": {
+     "es": "Crías de cocodrilo",
+     "en": "Baby crocodiles",
+     "de": "Krokodil-Nachwuchs",
+     "fr": "Bébés crocodiles",
+     "it": "Cuccioli di coccodrillo",
+     "ca": "Cries de cocodril",
+     "eu": "Krokodilo kumeak"
+    },
+    "number": "14"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1550371,
+     28.1872182
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fenec",
+    "category": "animal",
+    "name": {
+     "es": "Fénec",
+     "en": "Fennec fox",
+     "de": "Fennek",
+     "fr": "Fennec",
+     "it": "Fennec",
+     "ca": "Fennec",
+     "eu": "Fenekoa"
+    },
+    "number": "15"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1552909,
+     28.1870934
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "talapoin",
+    "category": "animal",
+    "name": {
+     "es": "Talapoin",
+     "en": "Talapoin monkey",
+     "de": "Zwergmeerkatze",
+     "fr": "Talapoin",
+     "it": "Talapoino",
+     "ca": "Talapoin",
+     "eu": "Talapoina"
+    },
+    "number": "16"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1555057,
+     28.1869559
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "nutria",
+    "category": "animal",
+    "name": {
+     "es": "Nutria asiática de uñas cortas",
+     "en": "Asian small-clawed otter",
+     "de": "Zwergotter",
+     "fr": "Loutre cendrée",
+     "it": "Lontra dalle piccole unghie",
+     "ca": "Llúdriga asiàtica d’ungles curtes",
+     "eu": "Azazkal laburreko igaraba"
+    },
+    "number": "17"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.155754,
+     28.1869541
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "camello-ovejas",
+    "category": "animal",
+    "name": {
+     "es": "Camello bactriano y ovejas",
+     "en": "Bactrian camel and sheep",
+     "de": "Trampeltier und Schafe",
+     "fr": "Chameau de Bactriane et moutons",
+     "it": "Cammello della Battriana e pecore",
+     "ca": "Camell bactrià i ovelles",
+     "eu": "Baktriako gamelua eta ardiak"
+    },
+    "number": "19"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1567717,
+     28.1867174
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hipopotamo-1",
+    "category": "animal",
+    "name": {
+     "es": "Hipopótamo",
+     "en": "Hippopotamus",
+     "de": "Flusspferd",
+     "fr": "Hippopotame",
+     "it": "Ippopotamo",
+     "ca": "Hipopòtam",
+     "eu": "Hipopotamoa"
+    },
+    "number": "20"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1572409,
+     28.1869577
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aves-zancudas",
+    "category": "animal",
+    "name": {
+     "es": "Tántalo, marabú, jabirú e ibis sagrado",
+     "en": "Stork, marabou, saddle-billed stork and sacred ibis",
+     "de": "Nimmersatt, Marabu, Sattelstorch und Heiliger Ibis",
+     "fr": "Tantale, marabout, jabiru et ibis sacré",
+     "it": "Tantalo, marabù, jabiru e ibis sacro",
+     "ca": "Tàntal, marabú, jabirú i ibis sagrat",
+     "eu": "Tantaloa, marabua, jabirua eta ibis sakratua"
+    },
+    "number": "22"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1569531,
+     28.1870414
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "niala-calao-grulla",
+    "category": "animal",
+    "name": {
+     "es": "Niala, cálao y grulla coronada",
+     "en": "Nyala, hornbill and crowned crane",
+     "de": "Nyala, Hornrabe und Kronenkranich",
+     "fr": "Nyala, calao et grue couronnée",
+     "it": "Nyala, bucero e gru coronata",
+     "ca": "Niala, calau i grua coronada",
+     "eu": "Niala, kalaoa eta kurrilo koroaduna"
+    },
+    "number": "23"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1573824,
+     28.1865841
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "llamas-guanacos",
+    "category": "animal",
+    "name": {
+     "es": "Llamas y guanacos",
+     "en": "Llamas and guanacos",
+     "de": "Lamas und Guanakos",
+     "fr": "Lamas et guanacos",
+     "it": "Lama e guanachi",
+     "ca": "Llames i guanacs",
+     "eu": "Lamak eta guanakoak"
+    },
+    "number": "24"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1581204,
+     28.1864322
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "hipopotamo-2",
+    "category": "animal",
+    "name": {
+     "es": "Hipopótamo",
+     "en": "Hippopotamus",
+     "de": "Flusspferd",
+     "fr": "Hippopotame",
+     "it": "Ippopotamo",
+     "ca": "Hipopòtam",
+     "eu": "Hipopotamoa"
+    },
+    "number": "25"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1582968,
+     28.1866462
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tortuga-florida",
+    "category": "animal",
+    "name": {
+     "es": "Tortuga de Florida",
+     "en": "Florida turtle",
+     "de": "Florida-Schmuckschildkröte",
+     "fr": "Tortue de Floride",
+     "it": "Tartaruga della Florida",
+     "ca": "Tortuga de Florida",
+     "eu": "Floridako dortoka"
+    },
+    "number": "26"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1580044,
+     28.1868021
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sabana",
+    "category": "animal",
+    "name": {
+     "es": "Sabana africana",
+     "en": "African savannah",
+     "de": "Afrikanische Savanne",
+     "fr": "Savane africaine",
+     "it": "Savana africana",
+     "ca": "Sabana africana",
+     "eu": "Afrikako sabana"
+    },
+    "number": "27"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1586649,
+     28.1871274
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "watusi",
+    "category": "animal",
+    "name": {
+     "es": "Watusi",
+     "en": "Watusi cattle",
+     "de": "Watussirind",
+     "fr": "Watusi",
+     "it": "Watusi",
+     "ca": "Watusi",
+     "eu": "Watusi behiak"
+    },
+    "number": "28"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1589478,
+     28.1873927
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "dromedarios",
+    "category": "animal",
+    "name": {
+     "es": "Reserva de dromedarios",
+     "en": "Dromedary reserve",
+     "de": "Dromedar-Reservat",
+     "fr": "Réserve de dromadaires",
+     "it": "Riserva dei dromedari",
+     "ca": "Reserva de dromedaris",
+     "eu": "Dromedarioen erreserba"
+    },
+    "number": "29"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1590855,
+     28.1877761
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "jirafas",
+    "category": "animal",
+    "name": {
+     "es": "Jirafa, gacela de Cuvier, gran eland y cobo de Lechwe",
+     "en": "Giraffe, Cuvier's gazelle, giant eland and lechwe",
+     "de": "Giraffe, Cuvier-Gazelle, Riesenelenantilope und Litschi-Moorantilope",
+     "fr": "Girafe, gazelle de Cuvier, éland de Derby et cobe lechwe",
+     "it": "Giraffa, gazzella di Cuvier, eland gigante e lechwe",
+     "ca": "Girafa, gasela de Cuvier, gran elan i cob de Lechwe",
+     "eu": "Jirafa, Cuvierren gazela, eland handia eta lechwea"
+    },
+    "number": "30"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1587018,
+     28.1879338
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "elefantes",
+    "category": "animal",
+    "name": {
+     "es": "Elefante, facóquero y órice gacela",
+     "en": "Elephant, warthog and gemsbok",
+     "de": "Elefant, Warzenschwein und Spießbock",
+     "fr": "Éléphant, phacochère et oryx gazelle",
+     "it": "Elefante, facocero e orice gazzella",
+     "ca": "Elefant, facoquer i òrix gasela",
+     "eu": "Elefantea, fakokeroa eta orix gazela"
+    },
+    "number": "31"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.159064,
+     28.1883558
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cueva-reptiles",
+    "category": "animal",
+    "name": {
+     "es": "Cueva de reptiles",
+     "en": "Reptile cave",
+     "de": "Reptilienhöhle",
+     "fr": "Grotte des reptiles",
+     "it": "Grotta dei rettili",
+     "ca": "Cova de rèptils",
+     "eu": "Narrastien kobazuloa"
+    },
+    "number": "32"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1580683,
+     28.18617
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tortuga-estrellada",
+    "category": "animal",
+    "name": {
+     "es": "Tortuga estrellada de Madagascar",
+     "en": "Radiated tortoise",
+     "de": "Strahlenschildkröte",
+     "fr": "Tortue radiée",
+     "it": "Testuggine raggiata",
+     "ca": "Tortuga estrellada de Madagascar",
+     "eu": "Madagaskarko dortoka izarduna"
+    },
+    "number": "33"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1590037,
+     28.185288
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "iguanas-tortugas",
+    "category": "animal",
+    "name": {
+     "es": "Iguanas y tortugas",
+     "en": "Iguanas and tortoises",
+     "de": "Leguane und Schildkröten",
+     "fr": "Iguanes et tortues",
+     "it": "Iguane e tartarughe",
+     "ca": "Iguanes i tortugues",
+     "eu": "Iguanak eta dortokak"
+    },
+    "number": "34"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1591585,
+     28.1853461
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tortuga-aldabra",
+    "category": "animal",
+    "name": {
+     "es": "Tortuga gigante de Aldabra",
+     "en": "Aldabra giant tortoise",
+     "de": "Aldabra-Riesenschildkröte",
+     "fr": "Tortue géante d'Aldabra",
+     "it": "Testuggine gigante di Aldabra",
+     "ca": "Tortuga gegant d'Aldabra",
+     "eu": "Aldabrako dortoka erraldoia"
+    },
+    "number": "35"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1592833,
+     28.1853416
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aligator-1",
+    "category": "animal",
+    "name": {
+     "es": "Aligátor americano",
+     "en": "American alligator",
+     "de": "Mississippi-Alligator",
+     "fr": "Alligator d’Amérique",
+     "it": "Alligatore americano",
+     "ca": "Al·ligàtor americà",
+     "eu": "Aligator amerikarra"
+    },
+    "number": "36"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1594225,
+     28.1853028
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "iguana-rinoceronte",
+    "category": "animal",
+    "name": {
+     "es": "Iguana rinoceronte",
+     "en": "Rhinoceros iguana",
+     "de": "Nashornleguan",
+     "fr": "Iguane rhinocéros",
+     "it": "Iguana rinoceronte",
+     "ca": "Iguana rinoceront",
+     "eu": "Iguana errinozeroa"
+    },
+    "number": "37"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1595562,
+     28.1852486
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aligator-2",
+    "category": "animal",
+    "name": {
+     "es": "Aligátor americano",
+     "en": "American alligator",
+     "de": "Mississippi-Alligator",
+     "fr": "Alligator d’Amérique",
+     "it": "Alligatore americano",
+     "ca": "Al·ligàtor americà",
+     "eu": "Aligator amerikarra"
+    },
+    "number": "38"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1596805,
+     28.1852004
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lagartos-tortugas",
+    "category": "animal",
+    "name": {
+     "es": "Lagartos y tortugas",
+     "en": "Lizards and tortoises",
+     "de": "Echsen und Schildkröten",
+     "fr": "Lézards et tortues",
+     "it": "Lucertole e tartarughe",
+     "ca": "Llangardaixos i tortugues",
+     "eu": "Muskerrak eta dortokak"
+    },
+    "number": "39"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.158868,
+     28.184985
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "cocodrilo-nilo",
+    "category": "animal",
+    "name": {
+     "es": "Cocodrilo del Nilo",
+     "en": "Nile crocodile",
+     "de": "Nilkrokodil",
+     "fr": "Crocodile du Nil",
+     "it": "Coccodrillo del Nilo",
+     "ca": "Cocodril del Nil",
+     "eu": "Niloko krokodiloa"
+    },
+    "number": "40"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1590332,
+     28.1848478
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "autillo",
+    "category": "animal",
+    "name": {
+     "es": "Autillo chóliba",
+     "en": "Tropical screech owl",
+     "de": "Choliba-Kreischeule",
+     "fr": "Petit-duc choliba",
+     "it": "Assiolo choliba",
+     "ca": "Xot xoliba",
+     "eu": "Txoliba hontza"
+    },
+    "number": "41"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.160013,
+     28.1864779
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "grullas-tortugas",
+    "category": "animal",
+    "name": {
+     "es": "Grullas, tortuga de espolones africana y tortuga leopardo",
+     "en": "Cranes, African spurred tortoise and leopard tortoise",
+     "de": "Kraniche, Spornschildkröte und Pantherschildkröte",
+     "fr": "Grues, tortue sillonnée et tortue léopard",
+     "it": "Gru, testuggine sulcata e testuggine leopardo",
+     "ca": "Grues, tortuga d’esperons africana i tortuga lleopard",
+     "eu": "Kurriloak, Afrikako dortoka ezproiduna eta dortoka leopardoa"
+    },
+    "number": "43"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1572259,
+     28.186351
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "macaco-bonnet",
+    "category": "animal",
+    "name": {
+     "es": "Macaco de Bonnet",
+     "en": "Bonnet macaque",
+     "de": "Indischer Hutaffe",
+     "fr": "Macaque bonnet chinois",
+     "it": "Macaco del Bonnet",
+     "ca": "Macaco de Bonnet",
+     "eu": "Bonnet makakoa"
+    },
+    "number": "44"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1568288,
+     28.1862155
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "emu-ualabi",
+    "category": "animal",
+    "name": {
+     "es": "Emú, ualabí de Bennet y varias aves",
+     "en": "Emu, Bennett's wallaby and other birds",
+     "de": "Emu, Bennett-Wallaby und verschiedene Vögel",
+     "fr": "Émeu, wallaby de Bennett et divers oiseaux",
+     "it": "Emù, wallaby di Bennett e altri uccelli",
+     "ca": "Emú, ualabi de Bennett i diverses aus",
+     "eu": "Emua, Bennetten ualabia eta beste hegazti batzuk"
+    },
+    "number": "45"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1566874,
+     28.1863123
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "armadillo",
+    "category": "animal",
+    "name": {
+     "es": "Armadillo",
+     "en": "Armadillo",
+     "de": "Gürteltier",
+     "fr": "Tatou",
+     "it": "Armadillo",
+     "ca": "Armadillo",
+     "eu": "Armadiloa"
+    },
+    "number": "46"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1560877,
+     28.1866146
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tamarino-labiado",
+    "category": "animal",
+    "name": {
+     "es": "Tamarino labiado",
+     "en": "Moustached tamarin",
+     "de": "Lippentamarin",
+     "fr": "Tamarin à moustaches",
+     "it": "Tamarino labiato",
+     "ca": "Tamarí de llavis blancs",
+     "eu": "Ezpain-zuri tamarinoa"
+    },
+    "number": "47"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1558606,
+     28.1867286
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tamarino-algodon-2",
+    "category": "animal",
+    "name": {
+     "es": "Tamarino cabeza de algodón",
+     "en": "Cotton-top tamarin",
+     "de": "Lisztäffchen",
+     "fr": "Tamarin pinché",
+     "it": "Tamarino edipo",
+     "ca": "Tamarí cap de cotó",
+     "eu": "Kotoi-buru tamarinoa"
+    },
+    "number": "48"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1550636,
+     28.1868868
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "titi-plateado",
+    "category": "animal",
+    "name": {
+     "es": "Tití plateado",
+     "en": "Silvery marmoset",
+     "de": "Silberäffchen",
+     "fr": "Ouistiti argenté",
+     "it": "Uistitì argentato",
+     "ca": "Titi platejat",
+     "eu": "Titi zilarkara"
+    },
+    "number": "49"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1549566,
+     28.1869302
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "sea-lion-live",
+    "category": "show",
+    "name": {
+     "es": "Sea Lion Live",
+     "en": "Sea Lion Live",
+     "de": "Sea Lion Live",
+     "fr": "Sea Lion Live",
+     "it": "Sea Lion Live",
+     "ca": "Sea Lion Live",
+     "eu": "Sea Lion Live"
+    },
+    "description": {
+     "es": "Exhibición de leones marinos.",
+     "en": "Sea lion show.",
+     "de": "Seelöwen-Show.",
+     "fr": "Spectacle des otaries.",
+     "it": "Spettacolo dei leoni marini.",
+     "ca": "Exhibició de lleons marins.",
+     "eu": "Itsas lehoien erakustaldia."
     }
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
-     -14.1582858,
-     28.1860248
+     -14.1576006,
+     28.1856458
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "fauna-live",
+    "category": "show",
+    "name": {
+     "es": "Fauna Live",
+     "en": "Fauna Live",
+     "de": "Fauna Live",
+     "fr": "Fauna Live",
+     "it": "Fauna Live",
+     "ca": "Fauna Live",
+     "eu": "Fauna Live"
+    },
+    "description": {
+     "es": "Exhibición de animales en directo.",
+     "en": "Live animal show.",
+     "de": "Live-Tiershow.",
+     "fr": "Spectacle d’animaux en direct.",
+     "it": "Spettacolo di animali dal vivo.",
+     "ca": "Exhibició d’animals en directe.",
+     "eu": "Animalien zuzeneko erakustaldia."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1587446,
+     28.184844
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "birds-live",
+    "category": "show",
+    "name": {
+     "es": "Birds Live",
+     "en": "Birds Live",
+     "de": "Birds Live",
+     "fr": "Birds Live",
+     "it": "Birds Live",
+     "ca": "Birds Live",
+     "eu": "Birds Live"
+    },
+    "description": {
+     "es": "Exhibición de vuelo de aves.",
+     "en": "Bird flight show.",
+     "de": "Greifvogel-Flugshow.",
+     "fr": "Spectacle d’oiseaux en vol.",
+     "it": "Spettacolo di uccelli in volo.",
+     "ca": "Exhibició de vol d’aus.",
+     "eu": "Hegaztien hegaldi-erakustaldia."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1605263,
+     28.1867025
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "camel-experience",
+    "category": "experience",
+    "name": {
+     "es": "Camel Experience",
+     "en": "Camel Experience",
+     "de": "Camel Experience",
+     "fr": "Camel Experience",
+     "it": "Camel Experience",
+     "ca": "Camel Experience",
+     "eu": "Camel Experience"
+    },
+    "number": "1",
+    "description": {
+     "es": "Paseo en camello. Se realiza en la parte exterior del parque.",
+     "en": "Camel ride. It takes place outside the park.",
+     "de": "Kamelritt. Findet außerhalb des Parks statt.",
+     "fr": "Balade à dos de chameau, à l’extérieur du parc.",
+     "it": "Giro in cammello, all’esterno del parco.",
+     "ca": "Passeig en camell, a l’exterior del parc.",
+     "eu": "Gamelu-ibilaldia, parketik kanpo."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1544118,
+     28.1867886
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "lemur-experience",
+    "category": "experience",
+    "name": {
+     "es": "Lemur Experience",
+     "en": "Lemur Experience",
+     "de": "Lemur Experience",
+     "fr": "Lemur Experience",
+     "it": "Lemur Experience",
+     "ca": "Lemur Experience",
+     "eu": "Lemur Experience"
+    },
+    "description": {
+     "es": "Encuentro con lémures.",
+     "en": "Lemur encounter.",
+     "de": "Begegnung mit Lemuren.",
+     "fr": "Rencontre avec les lémuriens.",
+     "it": "Incontro con i lemuri.",
+     "ca": "Trobada amb lèmurs.",
+     "eu": "Lemurrekin topaketa."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1526688,
+     28.1881186
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "malvarrisco",
+    "category": "food",
+    "name": {
+     "es": "Restaurante Malvarrisco",
+     "en": "Malvarrisco Restaurant",
+     "de": "Restaurant Malvarrisco",
+     "fr": "Restaurant Malvarrisco",
+     "it": "Ristorante Malvarrisco",
+     "ca": "Restaurant Malvarrisco",
+     "eu": "Malvarrisco jatetxea"
+    },
+    "number": "A"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1536283,
+     28.1879758
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "oasis-market",
+    "category": "food",
+    "name": {
+     "es": "Oasis Market Restaurante",
+     "en": "Oasis Market Restaurant",
+     "de": "Restaurant Oasis Market",
+     "fr": "Restaurant Oasis Market",
+     "it": "Ristorante Oasis Market",
+     "ca": "Restaurant Oasis Market",
+     "eu": "Oasis Market jatetxea"
+    },
+    "number": "B"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1577942,
+     28.1861317
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "patio-majorero",
+    "category": "food",
+    "name": {
+     "es": "Patio Majorero Restaurante",
+     "en": "Patio Majorero Restaurant",
+     "de": "Restaurant Patio Majorero",
+     "fr": "Restaurant Patio Majorero",
+     "it": "Ristorante Patio Majorero",
+     "ca": "Restaurant Patio Majorero",
+     "eu": "Patio Majorero jatetxea"
+    },
+    "number": "C",
+    "description": {
+     "es": "Fuera de servicio.",
+     "en": "Out of service.",
+     "de": "Außer Betrieb.",
+     "fr": "Hors service.",
+     "it": "Fuori servizio.",
+     "ca": "Fora de servei.",
+     "eu": "Ez dabil."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.161554,
+     28.1868241
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "snack-leones",
+    "category": "food",
+    "name": {
+     "es": "Snack Bar Leones Marinos",
+     "en": "Sea Lions Snack Bar",
+     "de": "Snackbar Seelöwen",
+     "fr": "Snack-bar des Otaries",
+     "it": "Snack bar Leoni Marini",
+     "ca": "Snack bar Lleons Marins",
+     "eu": "Itsas Lehoien snack-barra"
+    },
+    "number": "A"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1578993,
+     28.1864669
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "snack-fauna",
+    "category": "food",
+    "name": {
+     "es": "Snack Bar Fauna",
+     "en": "Fauna Snack Bar",
+     "de": "Snackbar Fauna",
+     "fr": "Snack-bar Fauna",
+     "it": "Snack bar Fauna",
+     "ca": "Snack bar Fauna",
+     "eu": "Fauna snack-barra"
+    },
+    "number": "B"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1589736,
+     28.1850872
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-cactus",
+    "category": "botanic",
+    "name": {
+     "es": "Cactus",
+     "en": "Cacti",
+     "de": "Kakteen",
+     "fr": "Cactus",
+     "it": "Cactus",
+     "ca": "Cactus",
+     "eu": "Kaktusak"
+    },
+    "number": "1"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.160072,
+     28.1847233
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-madagascar",
+    "category": "botanic",
+    "name": {
+     "es": "Plantas de Madagascar",
+     "en": "Plants of Madagascar",
+     "de": "Pflanzen aus Madagaskar",
+     "fr": "Plantes de Madagascar",
+     "it": "Piante del Madagascar",
+     "ca": "Plantes de Madagascar",
+     "eu": "Madagaskarko landareak"
+    },
+    "number": "2"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1603028,
+     28.1857389
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-halofilas",
+    "category": "botanic",
+    "name": {
+     "es": "Comunidad de halófilas costeras",
+     "en": "Coastal halophyte community",
+     "de": "Küsten-Salzpflanzen",
+     "fr": "Halophytes côtières",
+     "it": "Comunità di alofite costiere",
+     "ca": "Comunitat d’halòfiles costaneres",
+     "eu": "Kostaldeko halofiloen komunitatea"
+    },
+    "number": "3"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1614541,
+     28.1855864
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-cardonal",
+    "category": "botanic",
+    "name": {
+     "es": "Comunidad cardonal-tabaibal",
+     "en": "Cardón and tabaiba scrub",
+     "de": "Cardonal-Tabaibal-Gesellschaft",
+     "fr": "Communauté cardonal-tabaibal",
+     "it": "Comunità cardonal-tabaibal",
+     "ca": "Comunitat cardonal-tabaibal",
+     "eu": "Cardonal-tabaibal komunitatea"
+    },
+    "number": "4"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1623262,
+     28.1861598
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-termofilo",
+    "category": "botanic",
+    "name": {
+     "es": "Comunidad de bosque termófilo",
+     "en": "Thermophilous woodland",
+     "de": "Thermophiler Wald",
+     "fr": "Forêt thermophile",
+     "it": "Bosco termofilo",
+     "ca": "Comunitat de bosc termòfil",
+     "eu": "Baso termofiloaren komunitatea"
+    },
+    "number": "5"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1621927,
+     28.1859372
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-laurisilva",
+    "category": "botanic",
+    "name": {
+     "es": "Comunidad de laurisilva",
+     "en": "Laurel forest",
+     "de": "Lorbeerwald",
+     "fr": "Laurisylve",
+     "it": "Laurisilva",
+     "ca": "Comunitat de laurisilva",
+     "eu": "Laurisilva komunitatea"
+    },
+    "number": "6"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1627353,
+     28.1862752
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-palmeral",
+    "category": "botanic",
+    "name": {
+     "es": "Comunidad de palmeral",
+     "en": "Palm grove",
+     "de": "Palmenhain",
+     "fr": "Palmeraie",
+     "it": "Palmeto",
+     "ca": "Comunitat de palmerar",
+     "eu": "Palmondoen komunitatea"
+    },
+    "number": "7"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1629502,
+     28.1858608
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "botanic-socotra",
+    "category": "botanic",
+    "name": {
+     "es": "Plantas de Socotra",
+     "en": "Plants of Socotra",
+     "de": "Pflanzen aus Sokotra",
+     "fr": "Plantes de Socotra",
+     "it": "Piante di Socotra",
+     "ca": "Plantes de Socotra",
+     "eu": "Sokotrako landareak"
+    },
+    "number": "8"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.160145,
+     28.1871228
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "palmetum",
+    "category": "botanic",
+    "name": {
+     "es": "Palmetum",
+     "en": "Palmetum",
+     "de": "Palmetum",
+     "fr": "Palmetum",
+     "it": "Palmetum",
+     "ca": "Palmetum",
+     "eu": "Palmetuma"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1596642,
+     28.1847392
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "reserva-autoctonas",
+    "category": "botanic",
+    "name": {
+     "es": "Reserva de Plantas Autóctonas",
+     "en": "Native plant reserve",
+     "de": "Reservat einheimischer Pflanzen",
+     "fr": "Réserve de plantes indigènes",
+     "it": "Riserva di piante autoctone",
+     "ca": "Reserva de plantes autòctones",
+     "eu": "Bertako landareen erreserba"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1617074,
+     28.1856946
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "entrada",
+    "category": "service",
+    "name": {
+     "es": "Entrada / Salida y taquillas",
+     "en": "Entrance / Exit and tickets",
+     "de": "Eingang / Ausgang und Kassen",
+     "fr": "Entrée / Sortie et billetterie",
+     "it": "Ingresso / Uscita e biglietteria",
+     "ca": "Entrada / Sortida i taquilles",
+     "eu": "Sarrera / Irteera eta txarteldegia"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1544086,
+     28.1880483
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "info-entrada",
+    "category": "service",
+    "name": {
+     "es": "Oficina de Información",
+     "en": "Information office",
+     "de": "Information",
+     "fr": "Bureau d'information",
+     "it": "Ufficio informazioni",
+     "ca": "Oficina d'informació",
+     "eu": "Informazio bulegoa"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.153741,
+     28.1882683
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "info-centro",
+    "category": "service",
+    "name": {
+     "es": "Punto de información",
+     "en": "Information point",
+     "de": "Infopunkt",
+     "fr": "Point d'information",
+     "it": "Punto informazioni",
+     "ca": "Punt d'informació",
+     "eu": "Informazio-gunea"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1576544,
+     28.186542
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "souvenir",
+    "category": "service",
+    "name": {
+     "es": "Souvenir Shop",
+     "en": "Souvenir shop",
+     "de": "Souvenirladen",
+     "fr": "Boutique de souvenirs",
+     "it": "Negozio di souvenir",
+     "ca": "Botiga de records",
+     "eu": "Oroigarri-denda"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1539342,
+     28.1879748
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "photoasis",
+    "category": "service",
+    "name": {
+     "es": "Photoasis",
+     "en": "Photoasis",
+     "de": "Photoasis",
+     "fr": "Photoasis",
+     "it": "Photoasis",
+     "ca": "Photoasis",
+     "eu": "Photoasis"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1540552,
+     28.1879917
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "casa-comida",
+    "category": "service",
+    "name": {
+     "es": "Casa de comida de animales y taller de enriquecimiento",
+     "en": "Animal food house and enrichment workshop",
+     "de": "Futterhaus und Beschäftigungswerkstatt",
+     "fr": "Cuisine des animaux et atelier d'enrichissement",
+     "it": "Cucina degli animali e laboratorio di arricchimento",
+     "ca": "Casa de menjar d'animals i taller d'enriquiment",
+     "eu": "Animalien janari-etxea eta aberastze-tailerra"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1546526,
+     28.1872884
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "clinica",
+    "category": "service",
+    "name": {
+     "es": "Hospital Clínica Veterinaria",
+     "en": "Veterinary hospital",
+     "de": "Tierklinik",
+     "fr": "Clinique vétérinaire",
+     "it": "Ospedale veterinario",
+     "ca": "Hospital clínica veterinària",
+     "eu": "Albaitaritza-ospitalea"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1563201,
+     28.1869311
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "enfermeria",
+    "category": "service",
+    "name": {
+     "es": "Enfermería y desfibrilador",
+     "en": "First aid and defibrillator",
+     "de": "Erste Hilfe und Defibrillator",
+     "fr": "Infirmerie et défibrillateur",
+     "it": "Infermeria e defibrillatore",
+     "ca": "Infermeria i desfibril·lador",
+     "eu": "Erizaintza eta desfibriladorea"
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1536511,
+     28.1881247
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "desfib-leones",
+    "category": "service",
+    "name": {
+     "es": "Desfibrilador",
+     "en": "Defibrillator",
+     "de": "Defibrillator",
+     "fr": "Défibrillateur",
+     "it": "Defibrillatore",
+     "ca": "Desfibril·lador",
+     "eu": "Desfibriladorea"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1576581,
+     28.1859233
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "desfib-birds",
+    "category": "service",
+    "name": {
+     "es": "Desfibrilador",
+     "en": "Defibrillator",
+     "de": "Defibrillator",
+     "fr": "Défibrillateur",
+     "it": "Defibrillatore",
+     "ca": "Desfibril·lador",
+     "eu": "Desfibriladorea"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.160285,
+     28.1864357
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mirador-1",
+    "category": "service",
+    "name": {
+     "es": "Mirador panorámico",
+     "en": "Viewpoint",
+     "de": "Aussichtspunkt",
+     "fr": "Belvédère",
+     "it": "Belvedere",
+     "ca": "Mirador panoràmic",
+     "eu": "Begiratokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1602661,
+     28.185253
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mirador-2",
+    "category": "service",
+    "name": {
+     "es": "Mirador panorámico",
+     "en": "Viewpoint",
+     "de": "Aussichtspunkt",
+     "fr": "Belvédère",
+     "it": "Belvedere",
+     "ca": "Mirador panoràmic",
+     "eu": "Begiratokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1606368,
+     28.1855816
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "mirador-3",
+    "category": "service",
+    "name": {
+     "es": "Mirador panorámico",
+     "en": "Viewpoint",
+     "de": "Aussichtspunkt",
+     "fr": "Belvédère",
+     "it": "Belvedere",
+     "ca": "Mirador panoràmic",
+     "eu": "Begiratokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1598776,
+     28.1881052
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "observatorio-1",
+    "category": "service",
+    "name": {
+     "es": "Observatorio ornitológico",
+     "en": "Birdwatching hide",
+     "de": "Vogelwarte",
+     "fr": "Observatoire ornithologique",
+     "it": "Osservatorio ornitologico",
+     "ca": "Observatori ornitològic",
+     "eu": "Hegazti-behatokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1619939,
+     28.1854797
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "observatorio-2",
+    "category": "service",
+    "name": {
+     "es": "Observatorio ornitológico",
+     "en": "Birdwatching hide",
+     "de": "Vogelwarte",
+     "fr": "Observatoire ornithologique",
+     "it": "Osservatorio ornitologico",
+     "ca": "Observatori ornitològic",
+     "eu": "Hegazti-behatokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1620743,
+     28.1866418
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "observatorio-3",
+    "category": "service",
+    "name": {
+     "es": "Observatorio ornitológico",
+     "en": "Birdwatching hide",
+     "de": "Vogelwarte",
+     "fr": "Observatoire ornithologique",
+     "it": "Osservatorio ornitologico",
+     "ca": "Observatori ornitològic",
+     "eu": "Hegazti-behatokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1638046,
+     28.1855212
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "taxi",
+    "category": "service",
+    "name": {
+     "es": "Parada de taxi",
+     "en": "Taxi rank",
+     "de": "Taxistand",
+     "fr": "Station de taxis",
+     "it": "Fermata taxi",
+     "ca": "Parada de taxi",
+     "eu": "Taxi-geltokia"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1543139,
+     28.1882536
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "parking",
+    "category": "service",
+    "name": {
+     "es": "Parking",
+     "en": "Car park",
+     "de": "Parkplatz",
+     "fr": "Parking",
+     "it": "Parcheggio",
+     "ca": "Aparcament",
+     "eu": "Aparkalekua"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1554645,
+     28.1886109
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "parking-accesible",
+    "category": "service",
+    "name": {
+     "es": "Parking accesible",
+     "en": "Accessible parking",
+     "de": "Behindertenparkplatz",
+     "fr": "Parking PMR",
+     "it": "Parcheggio per disabili",
+     "ca": "Aparcament accessible",
+     "eu": "Aparkaleku irisgarria"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1544429,
+     28.1882716
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-1",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1538255,
+     28.1881199
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-2",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1574892,
+     28.1859434
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-3",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1580627,
+     28.1856957
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-4",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1565207,
+     28.1870101
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-5",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1588463,
+     28.1852442
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-6",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1604217,
+     28.1862727
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-7",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.161681,
+     28.1866233
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "aseo-8",
+    "category": "service",
+    "name": {
+     "es": "Aseos",
+     "en": "Toilets",
+     "de": "Toiletten",
+     "fr": "Toilettes",
+     "it": "Bagni",
+     "ca": "Lavabos",
+     "eu": "Komunak"
+    },
+    "minor": true
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1592503,
+     28.1883309
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-0",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 0: Leones Marinos",
+     "en": "Ecotour – stop 0: Leones Marinos",
+     "de": "Ecotour – Haltestelle 0: Leones Marinos",
+     "fr": "Ecotour – arrêt 0: Leones Marinos",
+     "it": "Ecotour – fermata 0: Leones Marinos",
+     "ca": "Ecotour – parada 0: Leones Marinos",
+     "eu": "Ecotour – geltokia 0: Leones Marinos"
+    },
+    "minor": true,
+    "number": "E0",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1576877,
+     28.1853447
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-1",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 1: Fauna Live",
+     "en": "Ecotour – stop 1: Fauna Live",
+     "de": "Ecotour – Haltestelle 1: Fauna Live",
+     "fr": "Ecotour – arrêt 1: Fauna Live",
+     "it": "Ecotour – fermata 1: Fauna Live",
+     "ca": "Ecotour – parada 1: Fauna Live",
+     "eu": "Ecotour – geltokia 1: Fauna Live"
+    },
+    "minor": true,
+    "number": "E1",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1587859,
+     28.1846603
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-2",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 2: Patio Majorero",
+     "en": "Ecotour – stop 2: Patio Majorero",
+     "de": "Ecotour – Haltestelle 2: Patio Majorero",
+     "fr": "Ecotour – arrêt 2: Patio Majorero",
+     "it": "Ecotour – fermata 2: Patio Majorero",
+     "ca": "Ecotour – parada 2: Patio Majorero",
+     "eu": "Ecotour – geltokia 2: Patio Majorero"
+    },
+    "minor": true,
+    "number": "E2",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1615562,
+     28.185892
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-3",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 3: Botánico",
+     "en": "Ecotour – stop 3: Botánico",
+     "de": "Ecotour – Haltestelle 3: Botánico",
+     "fr": "Ecotour – arrêt 3: Botánico",
+     "it": "Ecotour – fermata 3: Botánico",
+     "ca": "Ecotour – parada 3: Botánico",
+     "eu": "Ecotour – geltokia 3: Botánico"
+    },
+    "minor": true,
+    "number": "E3",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1637644,
+     28.1861129
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-4",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 4: Birds Live",
+     "en": "Ecotour – stop 4: Birds Live",
+     "de": "Ecotour – Haltestelle 4: Birds Live",
+     "fr": "Ecotour – arrêt 4: Birds Live",
+     "it": "Ecotour – fermata 4: Birds Live",
+     "ca": "Ecotour – parada 4: Birds Live",
+     "eu": "Ecotour – geltokia 4: Birds Live"
+    },
+    "minor": true,
+    "number": "E4",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1604045,
+     28.1874722
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "ecotour-5",
+    "category": "service",
+    "name": {
+     "es": "Ecotour – parada 5: Elefantes",
+     "en": "Ecotour – stop 5: Elefantes",
+     "de": "Ecotour – Haltestelle 5: Elefantes",
+     "fr": "Ecotour – arrêt 5: Elefantes",
+     "it": "Ecotour – fermata 5: Elefantes",
+     "ca": "Ecotour – parada 5: Elefantes",
+     "eu": "Ecotour – geltokia 5: Elefantes"
+    },
+    "minor": true,
+    "number": "E5",
+    "description": {
+     "es": "Tren gratuito que recorre el parque.",
+     "en": "Free train around the park.",
+     "de": "Kostenloser Zug durch den Park.",
+     "fr": "Train gratuit qui parcourt le parc.",
+     "it": "Trenino gratuito che percorre il parco.",
+     "ca": "Tren gratuït que recorre el parc.",
+     "eu": "Parkea zeharkatzen duen doako trena."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1597875,
+     28.1883767
     ]
    }
   }

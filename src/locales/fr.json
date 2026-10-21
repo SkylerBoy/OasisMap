@@ -38,5 +38,6 @@
   "language": "Langue",
   "noRoute": "Aucun chemin ne mène à ce point.",
   "satFallback": "Couche satellite indisponible ; la carte est utilisée.",
-  "simHint": "Touchez la carte pour simuler votre position."
+  "simHint": "Touchez la carte pour simuler votre position.",
+  "pdfMap": "Voir ou télécharger le plan du parc (PDF)"
 }

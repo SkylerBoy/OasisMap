@@ -132,6 +132,31 @@ input:focus-visible {
   width: auto;
 }
 
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 10px;
+  border: 1.5px solid rgb(255 255 255 / 0.55);
+  border-radius: var(--r-sm);
+  color: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.top-btn:active {
+  background: rgb(255 255 255 / 0.15);
+}
+
 .lang select {
   appearance: none;
   -webkit-appearance: none;
@@ -243,6 +268,20 @@ body.map-expanded {
   display: grid;
   place-items: center;
   transition: transform 0.15s;
+}
+
+.z-far .poi-marker {
+  width: 26px;
+  height: 26px;
+}
+
+.z-far .poi-icon {
+  font-size: 13px;
+}
+
+/* Secondary points (toilets, viewpoints…) only when zoomed in or selected. */
+.maplibregl-map:not(.z-near) .poi-marker.minor:not(.selected) {
+  visibility: hidden;
 }
 
 .poi-marker.cat-show { background: #c2410c; }

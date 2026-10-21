@@ -80,7 +80,6 @@ async function init() {
   buildChips();
   bindUi();
   applyI18n();
-  $('demo-banner').hidden = !data.config.demoData;
   renderList();
 
   if (captureMode) startCapture(pmap, tracker);
@@ -103,8 +102,7 @@ function canSimulate(): boolean {
 
 function onFix(fix: Fix) {
   state.fix = fix;
-  if (!fix.simulated && !isInsidePark(fix)) showStatus(t('outside'));
-  else hideStatus();
+  hideStatus();
   pmap.setUser(fix, currentHeading());
 
   if (!state.walkFrom || distance(state.walkFrom, fix.coord) > 5) {

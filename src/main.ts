@@ -222,7 +222,7 @@ function renderHeading() {
 
 function buildLanguageSelect() {
   const sel = $<HTMLSelectElement>('lang-select');
-  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.name}</option>`).join('');
+  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}" title="${l.name}">${l.code.toUpperCase()}</option>`).join('');
   sel.value = currentLang();
   sel.addEventListener('change', async () => {
     await setLang(sel.value);

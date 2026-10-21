@@ -1,15 +1,22 @@
+/* Layout: red brand header, cream "giraffe skin" page, pastel green for
+   anything you can press or that is highlighted. Rounded squares, no pills. */
 :root {
-  --brand: #8c1c2c;
+  --brand: #a71d2f; /* logo red */
   --brand-ink: #ffffff;
-  --green: #4f8a2b;
-  --bg: #f6f3ea;
+  --accent: #c4e7c3; /* pastel green */
+  --accent-strong: #a6d8a6;
+  --accent-ink: #1f4a26;
+  --bg: #fdfbf2; /* white with a hint of yellow */
+  --pattern: rgb(176 136 64 / 0.13); /* giraffe patch lines */
   --surface: #ffffff;
-  --ink: #1f2420;
-  --muted: #6b716a;
-  --line: #e4dfd2;
-  --chip: #ece7da;
-  --shadow: 0 6px 24px rgb(0 0 0 / 0.14);
-  --radius: 18px;
+  --ink: #23261f;
+  --muted: #6e6f62;
+  --line: #ece5d1;
+  --chip: #f4f0e2;
+  --shadow: 0 6px 22px rgb(60 48 20 / 0.12);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-t: env(safe-area-inset-top, 0px);
   color-scheme: light;
@@ -17,25 +24,33 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #151815;
-    --surface: #20241f;
-    --ink: #eef0ea;
-    --muted: #a4aa9f;
-    --line: #333830;
-    --chip: #2b302a;
-    --shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+    --accent: #3f6b45;
+    --accent-strong: #4f8256;
+    --accent-ink: #eaf7e8;
+    --bg: #171a15;
+    --pattern: rgb(222 192 120 / 0.07);
+    --surface: #22261f;
+    --ink: #eef0e8;
+    --muted: #a5aa9d;
+    --line: #343a30;
+    --chip: #2b3027;
+    --shadow: 0 6px 22px rgb(0 0 0 / 0.5);
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --bg: #151815;
-  --surface: #20241f;
-  --ink: #eef0ea;
-  --muted: #a4aa9f;
-  --line: #333830;
-  --chip: #2b302a;
-  --shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+  --accent: #3f6b45;
+  --accent-strong: #4f8256;
+  --accent-ink: #eaf7e8;
+  --bg: #171a15;
+  --pattern: rgb(222 192 120 / 0.07);
+  --surface: #22261f;
+  --ink: #eef0e8;
+  --muted: #a5aa9d;
+  --line: #343a30;
+  --chip: #2b3027;
+  --shadow: 0 6px 22px rgb(0 0 0 / 0.5);
   color-scheme: dark;
 }
 
@@ -53,14 +68,35 @@ body {
 }
 
 body {
+  /* own stacking context so the pattern (z-index -1) sits above body's background */
+  isolation: isolate;
   min-height: 100dvh;
   padding-bottom: var(--safe-b);
+}
+
+/* Giraffe patch outlines, fixed behind everything, tinted by --pattern. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--pattern);
+  -webkit-mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
+  mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
 }
 
 button {
   font: inherit;
   color: inherit;
   cursor: pointer;
+}
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--accent-strong);
+  outline-offset: 2px;
 }
 
 .sr-only {
@@ -87,29 +123,30 @@ button {
 }
 
 .brand {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
+  margin: 0;
+  line-height: 0;
 }
 
-.brand strong {
-  font-size: 1.15rem;
-  letter-spacing: 0.01em;
-}
-
-.brand span {
-  font-size: 0.8rem;
-  opacity: 0.85;
+.brand img {
+  height: 46px;
+  width: auto;
 }
 
 .lang select {
   appearance: none;
-  border: 1px solid rgb(255 255 255 / 0.5);
-  border-radius: 999px;
+  -webkit-appearance: none;
+  width: 44px;
+  height: 36px;
+  padding: 0;
+  border: 1.5px solid rgb(255 255 255 / 0.55);
+  border-radius: var(--r-sm);
   background: transparent;
   color: inherit;
-  padding: 6px 12px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-align-last: center;
 }
 
 .lang option {
@@ -119,9 +156,9 @@ button {
 .banner {
   margin: 10px 16px 0;
   padding: 8px 12px;
-  border-radius: 12px;
+  border-radius: var(--r-md);
   font-size: 0.85rem;
-  background: #fff3cd;
+  background: #fff1c7;
   color: #5c4500;
 }
 
@@ -137,10 +174,11 @@ button {
   margin: 12px 16px 0;
   height: 42vh;
   min-height: 260px;
-  border-radius: var(--radius);
+  border-radius: var(--r-lg);
   overflow: hidden;
+  border: 3px solid var(--surface);
   box-shadow: var(--shadow);
-  background: #dfe8cf;
+  background: #e3ecd2;
   transition: all 0.25s ease;
 }
 
@@ -155,6 +193,7 @@ body.map-expanded .map-card {
   z-index: 20;
   margin: 0;
   height: 100dvh;
+  border: 0;
   border-radius: 0;
 }
 
@@ -176,10 +215,14 @@ body.map-expanded {
   width: 44px;
   height: 44px;
   border: 0;
-  border-radius: 50%;
+  border-radius: var(--r-md);
   background: var(--surface);
   box-shadow: var(--shadow);
   font-size: 1.2rem;
+}
+
+.fab:active {
+  background: var(--accent);
 }
 
 /* --- markers ------------------------------------------------------------------- */
@@ -191,7 +234,7 @@ body.map-expanded {
   padding: 0;
   border: 2px solid #fff;
   border-radius: 50%;
-  background: var(--green);
+  background: #4f8a2b;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
   display: grid;
   place-items: center;
@@ -215,7 +258,7 @@ body.map-expanded {
   right: -9px;
   min-width: 18px;
   padding: 0 4px;
-  border-radius: 9px;
+  border-radius: 6px;
   background: var(--brand);
   color: #fff;
   font-size: 10px;
@@ -269,9 +312,9 @@ body.map-expanded {
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border-radius: var(--radius);
-  background: var(--brand);
-  color: #fff;
+  border-radius: var(--r-lg);
+  background: var(--accent);
+  color: var(--accent-ink);
   box-shadow: var(--shadow);
 }
 
@@ -282,8 +325,8 @@ body.map-expanded {
 .hud-arrow-wrap {
   width: 72px;
   height: 72px;
-  border-radius: 50%;
-  background: rgb(255 255 255 / 0.14);
+  border-radius: var(--r-md);
+  background: var(--surface);
   display: grid;
   place-items: center;
 }
@@ -291,12 +334,12 @@ body.map-expanded {
 .hud-arrow {
   width: 54px;
   height: 54px;
-  fill: #fff;
+  fill: var(--brand);
   transition: transform 0.25s ease-out;
 }
 
 .hud-arrow.no-compass {
-  fill: #ffd8a8;
+  fill: #d9822b;
 }
 
 .hud-instruction {
@@ -308,13 +351,13 @@ body.map-expanded {
 .hud-meta {
   margin-top: 4px;
   font-size: 0.82rem;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .hud-compass {
   margin-top: 6px;
-  border: 1px solid rgb(255 255 255 / 0.6);
-  border-radius: 999px;
+  border: 1.5px solid currentColor;
+  border-radius: var(--r-sm);
   background: transparent;
   padding: 4px 10px;
   font-size: 0.8rem;
@@ -323,14 +366,15 @@ body.map-expanded {
 .hud-stop {
   align-self: start;
   border: 0;
-  border-radius: 999px;
-  background: rgb(255 255 255 / 0.18);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
   padding: 8px 12px;
   font-weight: 600;
 }
 
 .nav-hud.arrived {
-  background: var(--green);
+  background: var(--accent-strong);
 }
 
 /* --- browse list -------------------------------------------------------------- */
@@ -342,8 +386,8 @@ body.map-expanded {
 .search {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
   background: var(--surface);
   color: var(--ink);
   font-size: 1rem;
@@ -360,23 +404,27 @@ body.map-expanded {
 
 .chip {
   flex: none;
-  border: 0;
-  border-radius: 999px;
-  background: var(--chip);
-  padding: 8px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  padding: 8px 12px;
   font-size: 0.9rem;
   white-space: nowrap;
 }
 
 .chip.active {
-  background: var(--brand);
-  color: #fff;
+  border-color: var(--accent-strong);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 600;
 }
 
 .poi-list {
   list-style: none;
   margin: 8px 0 0;
   padding: 0;
+  display: grid;
+  gap: 8px;
 }
 
 .poi-row {
@@ -384,18 +432,22 @@ body.map-expanded {
   align-items: center;
   gap: 12px;
   width: 100%;
-  padding: 10px 4px;
+  padding: 10px;
   border: 0;
-  border-bottom: 1px solid var(--line);
-  background: none;
+  border-radius: var(--r-md);
+  background: var(--surface);
   text-align: left;
+}
+
+.poi-row:active {
+  background: var(--accent);
 }
 
 .row-icon {
   flex: none;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   background: var(--chip);
   display: grid;
   place-items: center;
@@ -416,13 +468,14 @@ body.map-expanded {
 .row-sub {
   color: var(--muted);
   font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
 }
 
 .row-num {
   flex: none;
-  min-width: 28px;
-  padding: 2px 8px;
-  border-radius: 999px;
+  min-width: 30px;
+  padding: 3px 6px;
+  border-radius: 8px;
   background: var(--brand);
   color: #fff;
   font-size: 0.8rem;
@@ -481,8 +534,8 @@ body.map-expanded {
   flex: none;
   width: 52px;
   height: 52px;
-  border-radius: 16px;
-  background: var(--chip);
+  border-radius: var(--r-md);
+  background: var(--accent);
   display: grid;
   place-items: center;
   font-size: 1.7rem;
@@ -491,6 +544,7 @@ body.map-expanded {
 .sheet h2 {
   margin: 0;
   font-size: 1.25rem;
+  text-wrap: balance;
 }
 
 .sheet-sub {
@@ -521,7 +575,7 @@ body.map-expanded {
   flex: 1;
   padding: 14px;
   border: 0;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   background: var(--chip);
   font-weight: 600;
   font-size: 1rem;
@@ -529,8 +583,12 @@ body.map-expanded {
 
 .btn.primary {
   flex: 2;
-  background: var(--brand);
-  color: #fff;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn.primary:active {
+  background: var(--accent-strong);
 }
 
 /* --- toast -------------------------------------------------------------------- */
@@ -542,7 +600,7 @@ body.map-expanded {
   z-index: 50;
   max-width: calc(100% - 32px);
   padding: 10px 16px;
-  border-radius: 999px;
+  border-radius: var(--r-md);
   background: rgb(20 20 20 / 0.88);
   color: #fff;
   font-size: 0.9rem;
@@ -566,7 +624,7 @@ body.map-expanded {
   bottom: calc(10px + var(--safe-b));
   z-index: 40;
   padding: 10px;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   background: #ff7a00;
   color: #fff;
   box-shadow: var(--shadow);
@@ -588,7 +646,7 @@ body.map-expanded {
   flex: 1;
   padding: 10px 4px;
   border: 0;
-  border-radius: 10px;
+  border-radius: var(--r-sm);
   background: rgb(255 255 255 / 0.92);
   color: #7a3a00;
   font-weight: 600;
@@ -602,4 +660,10 @@ body.map-expanded {
 
 .maplibregl-ctrl-attrib {
   font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }

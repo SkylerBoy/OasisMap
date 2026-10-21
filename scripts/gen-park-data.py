@@ -196,11 +196,11 @@ POIS = [
 
     # Shows and experiences
     ('sea-lion-live', 'show', None, 583, 436, L('Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live'),
-     L('Exhibición de leones marinos.', 'Sea lion show.', 'Seelöwen-Show.', 'Spectacle des otaries.', 'Spettacolo dei leoni marini.', 'Exhibició de lleons marins.', 'Itsas lehoien erakustaldia.')),
+     L('Exhibición de leones marinos.', 'Sea lion educational exhibition.', 'Seelöwen-Vorführung.', 'Présentation des otaries.', 'Esibizione dei leoni marini.', 'Exhibició de lleons marins.', 'Itsas lehoien erakustaldia.')),
     ('fauna-live', 'show', None, 704, 304, L('Fauna Live', 'Fauna Live', 'Fauna Live', 'Fauna Live', 'Fauna Live', 'Fauna Live', 'Fauna Live'),
-     L('Exhibición de animales en directo.', 'Live animal show.', 'Live-Tiershow.', 'Spectacle d’animaux en direct.', 'Spettacolo di animali dal vivo.', 'Exhibició d’animals en directe.', 'Animalien zuzeneko erakustaldia.')),
+     L('Exhibición de animales en directo.', 'Live animal educational exhibition.', 'Tiervorführung live.', 'Présentation d’animaux en direct.', 'Esibizione di animali dal vivo.', 'Exhibició d’animals en directe.', 'Animalien zuzeneko erakustaldia.')),
     ('birds-live', 'show', None, 960, 525, L('Birds Live', 'Birds Live', 'Birds Live', 'Birds Live', 'Birds Live', 'Birds Live', 'Birds Live'),
-     L('Exhibición de vuelo de aves.', 'Bird flight show.', 'Greifvogel-Flugshow.', 'Spectacle d’oiseaux en vol.', 'Spettacolo di uccelli in volo.', 'Exhibició de vol d’aus.', 'Hegaztien hegaldi-erakustaldia.')),
+     L('Exhibición de vuelo de aves.', 'Bird flight exhibition.', 'Greifvogel-Flugvorführung.', 'Présentation d’oiseaux en vol.', 'Esibizione di uccelli in volo.', 'Exhibició de vol d’aus.', 'Hegaztien hegaldi-erakustaldia.')),
     ('camel-experience', 'experience', '1', 222, 654, L('Camel Experience', 'Camel Experience', 'Camel Experience', 'Camel Experience', 'Camel Experience', 'Camel Experience', 'Camel Experience'),
      L('Paseo en camello. Se realiza en la parte exterior del parque.', 'Camel ride. It takes place outside the park.', 'Kamelritt. Findet außerhalb des Parks statt.', 'Balade à dos de chameau, à l’extérieur du parc.', 'Giro in cammello, all’esterno del parco.', 'Passeig en camell, a l’exterior del parc.', 'Gamelu-ibilaldia, parketik kanpo.')),
     ('lemur-experience', 'experience', None, 40, 870, L('Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience'),
@@ -439,9 +439,9 @@ SCHEDULE = {
 for n in range(6):  # Ecotour: hourly from stop 0 at 12:00, 5 min between stops; the 16:00 run ends at stop 4
     SCHEDULE[f'ecotour-{n}'] = ' · '.join(f'{h}:{5 * n:02d}' for h in (range(12, 16) if n == 5 else range(12, 17)))
 
-_FREE_SHOW = L('Exhibición educativa gratuita de unos 30 minutos.', 'Free educational show, about 30 minutes.',
-               'Kostenlose Lernvorführung, ca. 30 Minuten.', 'Spectacle éducatif gratuit d’environ 30 minutes.',
-               'Spettacolo educativo gratuito di circa 30 minuti.', 'Exhibició educativa gratuïta d’uns 30 minuts.',
+_FREE_SHOW = L('Exhibición educativa gratuita de unos 30 minutos.', 'Free educational exhibition, about 30 minutes.',
+               'Kostenlose Lernvorführung, ca. 30 Minuten.', 'Présentation éducative gratuite d’environ 30 minutes.',
+               'Esibizione educativa gratuita di circa 30 minuti.', 'Exhibició educativa gratuïta d’uns 30 minuts.',
                'Doako hezkuntza-erakustaldia, 30 minutu inguru.')
 _EXPERIENCE = L('Cada 20 minutos aprox. Ticket en taquillas; horario sujeto a disponibilidad.',
                 'About every 20 minutes. Tickets at the ticket office; times subject to availability.',
@@ -478,7 +478,7 @@ MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parkin
 
 def write_missing_images(feats):
     """docs/imagenes-pendientes.md: checklist of points still without a photo."""
-    titles = {'animal': 'Animales', 'show': 'Shows', 'experience': 'Experiencias', 'food': 'Dónde comer',
+    titles = {'animal': 'Animales', 'show': 'Exhibiciones educativas', 'experience': 'Experiencias', 'food': 'Dónde comer',
               'botanic': 'Oasis Botanic', 'service': 'Servicios'}
     missing = [f['properties'] for f in feats if 'image' not in f['properties'] and not f['properties'].get('minor')]
     lines = ['# Imágenes pendientes', '',

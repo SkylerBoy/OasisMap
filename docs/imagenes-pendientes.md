@@ -54,7 +54,7 @@ mínimo 1200×675 px, JPG o WebP, guardada como `public/img/poi/<id>.jpg`. Los s
 - [ ] #48 Tamarino labiado — `tamarino-labiado.jpg`
 - [ ] #49 Saki, tamarino de Goeldi y tamarino emperador — `saki-goeldi-emperador.jpg`
 
-## Shows (3)
+## Exhibiciones educativas (3)
 
 - [ ] Sea Lion Live — `sea-lion-live.jpg`
 - [ ] Fauna Live — `fauna-live.jpg`

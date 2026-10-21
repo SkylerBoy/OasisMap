@@ -118,5 +118,9 @@
   "plan.yours": "Votre plan",
   "plan.next": "Ensuite : {t} · {name}",
   "plan.forDay": "{day} · {n} arrêts",
-  "plan.done": "Plan terminé. Merci de votre visite !"
+  "plan.done": "Plan terminé. Merci de votre visite !",
+  "plan.dragHint": "Maintenez un arrêt appuyé pour changer l’ordre",
+  "plan.no.session": "Ainsi, vous ratez toutes les séances de {name}",
+  "plan.no.closed": "Ainsi, {name} serait fermé",
+  "plan.no.end": "Ainsi, cela ne rentre pas avant votre départ"
 }

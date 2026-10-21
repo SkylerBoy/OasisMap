@@ -118,5 +118,9 @@
   "plan.yours": "Il tuo piano",
   "plan.next": "Prossimo: {t} · {name}",
   "plan.forDay": "{day} · {n} tappe",
-  "plan.done": "Piano completato. Grazie della visita!"
+  "plan.done": "Piano completato. Grazie della visita!",
+  "plan.dragHint": "Tieni premuta una tappa per cambiarne l’ordine",
+  "plan.no.session": "Così perdi tutte le sessioni di {name}",
+  "plan.no.closed": "Così {name} sarebbe già chiuso",
+  "plan.no.end": "Così non ci stai prima dell’uscita"
 }

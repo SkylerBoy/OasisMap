@@ -118,5 +118,9 @@
   "plan.yours": "Zure plana",
   "plan.next": "Hurrengoa: {t} · {name}",
   "plan.forDay": "{day} · {n} geldialdi",
-  "plan.done": "Plana osatuta. Eskerrik asko bisitagatik!"
+  "plan.done": "Plana osatuta. Eskerrik asko bisitagatik!",
+  "plan.dragHint": "Sakatu luze geldialdi bat ordena aldatzeko",
+  "plan.no.session": "Horrela ez zara {name}(r)en saio batera ere iritsiko",
+  "plan.no.closed": "Horrela {name} itxita egongo litzateke",
+  "plan.no.end": "Horrela ez duzu denborarik irteera-ordua baino lehen"
 }

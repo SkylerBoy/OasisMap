@@ -3,7 +3,7 @@ import { poiIcon } from './data';
 import type { LngLat } from './geo';
 import type { PathGraph, Snap } from './graph';
 import { currentLang, formatDistance, pick, t } from './i18n';
-import { planDay, type Plan, type PlanItem } from './planner';
+import { planDay, scheduleOrder, type Plan, type PlanItem } from './planner';
 import { poiIconSvg } from './poi-icons';
 import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
@@ -177,27 +177,65 @@ export function startPlanner(ctx: PlannerContext): () => void {
   }
 
   // --- plan -------------------------------------------------------------------------
-  function items(): PlanItem[] {
-    const day = weekdayOf(dayOffset);
-    const out: PlanItem[] = [];
-    for (const id of selected) {
-      const p = byId.get(id)!;
-      const cat = p.category as keyof typeof STAY;
-      // exhibitions, and weekly sessions (alligator feeding) on their day, have fixed times
-      const timed = p.times?.length && p.timesKind !== 'train' && (p.days ? p.days.includes(day) : cat === 'show');
-      if (timed) {
-        out.push({ id, kind: 'show', dur: STAY.show, sessions: p.times!.map(toMinutes), locs: [id] });
-      } else if (p.hours) {
-        out.push({ id, kind: 'window', dur: STAY[cat] ?? 20, window: [toMinutes(p.hours[0]), toMinutes(p.hours[1])], locs: [id] });
-      } else out.push({ id, kind: 'visit', dur: STAY[cat] ?? 10, locs: [id] });
-    }
-    if ($<HTMLInputElement>('plan-lunch').checked && restaurants.length) {
+  /** What a stop needs for planning on the chosen day (fixed sessions, opening hours or free). */
+  function itemFor(id: string): PlanItem {
+    if (id === 'lunch') {
       // lunch at whichever restaurant fits best; the window is lunch time within its hours
       const locs = restaurants.map((r) => r.id);
       const open = Math.max(LUNCH[0], ...restaurants.map((r) => toMinutes(r.hours![0])).filter((x) => x <= LUNCH[0]));
-      out.push({ id: 'lunch', kind: 'window', dur: LUNCH_MIN, window: [open, LUNCH[1]], locs });
+      return { id: 'lunch', kind: 'window', dur: LUNCH_MIN, window: [open, LUNCH[1]], locs };
     }
+    const day = weekdayOf(dayOffset);
+    const p = byId.get(id)!;
+    const cat = p.category as keyof typeof STAY;
+    // exhibitions, and weekly sessions (alligator feeding) on their day, have fixed times
+    const timed = p.times?.length && p.timesKind !== 'train' && (p.days ? p.days.includes(day) : cat === 'show');
+    if (timed) return { id, kind: 'show', dur: STAY.show, sessions: p.times!.map(toMinutes), locs: [id] };
+    if (p.hours) return { id, kind: 'window', dur: STAY[cat] ?? 20, window: [toMinutes(p.hours[0]), toMinutes(p.hours[1])], locs: [id] };
+    return { id, kind: 'visit', dur: STAY[cat] ?? 10, locs: [id] };
+  }
+
+  function items(): PlanItem[] {
+    const out = [...selected].map(itemFor);
+    if ($<HTMLInputElement>('plan-lunch').checked && restaurants.length) out.push(itemFor('lunch'));
     return out;
+  }
+
+  function keepPlan() {
+    if (!plan) return;
+    savedPlan = {
+      date: dateOf(dayOffset),
+      start: $('plan-start').dataset.value || OPEN,
+      end: $('plan-end').dataset.value || CLOSE,
+      steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, arrive: x.arrive, start: x.start, end: x.end })),
+      skipped: plan.skipped.map((x) => ({ id: x.id, kind: x.kind })),
+    };
+    persist();
+    updateCta();
+  }
+
+  /** The visitor dragged a stop: same stops in the new order, times worked out again. */
+  function reorder(from: number, to: number) {
+    if (!plan || from === to) return renderPlan();
+    const order = plan.steps.map((st) => ({ item: { ...itemFor(st.item.id), locs: [st.loc] }, loc: st.loc }));
+    const [moved] = order.splice(from, 1);
+    order.splice(to, 0, moved);
+    const r = scheduleOrder(order, {
+      walk: walkMin,
+      startLoc: hereSnap ? 'here' : 'entrada',
+      startTime: toMinutes($('plan-start').dataset.value || OPEN),
+      endTime: toMinutes($('plan-end').dataset.value || CLOSE),
+    });
+    if ('problem' in r) {
+      const it = order[r.problem.index];
+      const name = it.item.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(it.loc)!.name);
+      ctx.toast(t(`plan.no.${r.problem.reason}`, { name }));
+      navigator.vibrate?.(60);
+      return renderPlan();
+    }
+    plan = { ...plan, steps: r.steps, walkTotal: r.steps.reduce((a, x) => a + x.walk, 0) };
+    keepPlan();
+    renderPlan();
   }
 
   function makePlan() {
@@ -213,15 +251,7 @@ export function startPlanner(ctx: PlannerContext): () => void {
       startTime: start,
       endTime: end,
     });
-    savedPlan = {
-      date: dateOf(dayOffset),
-      start: $('plan-start').dataset.value || OPEN,
-      end: $('plan-end').dataset.value || CLOSE,
-      steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, arrive: x.arrive, start: x.start, end: x.end })),
-      skipped: plan.skipped.map((x) => ({ id: x.id, kind: x.kind })),
-    };
-    persist();
-    updateCta();
+    keepPlan();
     renderPlan();
     show('result');
   }
@@ -257,6 +287,7 @@ export function startPlanner(ctx: PlannerContext): () => void {
       }
       const li = document.createElement('li');
       li.className = `plan-step kind-${s.item.kind}`;
+      li.dataset.idx = String(steps.indexOf(s));
       const icon = p.art ? `<img src="${import.meta.env.BASE_URL}${p.art}" alt="">` : poiIconSvg(poiIcon(p), 22);
       li.innerHTML = `<button type="button"><span class="plan-time">${hhmm(s.start)}</span><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-text"><b></b><small></small></span></button>`;
       li.querySelector('b')!.textContent = s.item.id === 'lunch' ? t('plan.lunch', { name: pick(p.name) }) : pick(p.name);
@@ -265,6 +296,7 @@ export function startPlanner(ctx: PlannerContext): () => void {
           ? t('plan.showAt', { t: hhmm(s.start), a: hhmm(s.arrive) })
           : t('plan.stay', { n: s.end - s.start });
       li.querySelector('button')!.addEventListener('click', () => {
+        if (dragJustEnded) return;
         close();
         ctx.openPoi(p);
       });
@@ -369,6 +401,74 @@ export function startPlanner(ctx: PlannerContext): () => void {
     const v = await pickTime(t('plan.end'), $('plan-end').dataset.value ?? CLOSE, { min, max: CLOSE });
     if (v) setTime('plan-end', v);
   });
+
+  // --- reorder the plan: long press a stop, drag it, drop it --------------------------
+  let drag: { li: HTMLElement; from: number; y0: number; pointer: number } | null = null;
+  let pressTimer = 0;
+  let pressAt: { x: number; y: number; li: HTMLElement; pointer: number } | null = null;
+  let dragJustEnded = false;
+  const list = $('plan-steps');
+
+  list.addEventListener('pointerdown', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('.plan-step');
+    if (!li || drag) return;
+    pressAt = { x: e.clientX, y: e.clientY, li, pointer: e.pointerId };
+    clearTimeout(pressTimer);
+    pressTimer = window.setTimeout(() => {
+      if (!pressAt) return;
+      drag = { li, from: Number(li.dataset.idx), y0: pressAt.y, pointer: pressAt.pointer };
+      list.classList.add('reordering');
+      li.classList.add('lifted');
+      navigator.vibrate?.(30);
+    }, 380);
+  });
+
+  list.addEventListener('pointermove', (e) => {
+    if (pressAt && !drag && Math.hypot(e.clientX - pressAt.x, e.clientY - pressAt.y) > 8) {
+      clearTimeout(pressTimer); // it is a scroll, not a long press
+      pressAt = null;
+    }
+    if (!drag || e.pointerId !== drag.pointer) return;
+    const dy = e.clientY - drag.y0;
+    drag.li.style.transform = `translateY(${dy}px)`;
+    // swap with the neighbour once we pass its middle
+    const items = [...list.querySelectorAll<HTMLElement>('.plan-step')];
+    const i = items.indexOf(drag.li);
+    const r = drag.li.getBoundingClientRect();
+    const mid = r.top + r.height / 2;
+    const prev = items[i - 1];
+    const next = items[i + 1];
+    if (next && mid > next.getBoundingClientRect().top + next.offsetHeight / 2) {
+      next.after(drag.li);
+      drag.y0 += next.offsetHeight + 8;
+      drag.li.style.transform = `translateY(${e.clientY - drag.y0}px)`;
+    } else if (prev && mid < prev.getBoundingClientRect().top + prev.offsetHeight / 2) {
+      prev.before(drag.li);
+      drag.y0 -= prev.offsetHeight + 8;
+      drag.li.style.transform = `translateY(${e.clientY - drag.y0}px)`;
+    }
+  });
+
+  // while dragging, the finger moves the stop instead of scrolling
+  list.addEventListener('touchmove', (e) => drag && e.preventDefault(), { passive: false });
+  list.addEventListener('contextmenu', (e) => drag && e.preventDefault());
+
+  const drop = () => {
+    clearTimeout(pressTimer);
+    pressAt = null;
+    if (!drag) return;
+    const { li, from } = drag;
+    drag = null;
+    const to = [...list.querySelectorAll<HTMLElement>('.plan-step')].indexOf(li);
+    list.classList.remove('reordering');
+    li.classList.remove('lifted');
+    li.style.transform = '';
+    dragJustEnded = true;
+    setTimeout(() => (dragJustEnded = false), 50);
+    reorder(from, to);
+  };
+  list.addEventListener('pointerup', drop);
+  list.addEventListener('pointercancel', drop);
 
   restore();
   updateCta();

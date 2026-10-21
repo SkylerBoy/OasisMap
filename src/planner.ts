@@ -171,3 +171,41 @@ export function planDay(inp: PlanInput): Plan {
   const used = new Set(steps.map((s) => s.item));
   return { steps, skipped: inp.items.filter((i) => !used.has(i)), walkTotal: best?.walk ?? 0 };
 }
+
+export type OrderProblem = { index: number; reason: 'session' | 'closed' | 'end' };
+
+/**
+ * Times for stops in a given order (the visitor reordered the plan). Each
+ * exhibition takes the first session that can still be reached.
+ */
+export function scheduleOrder(
+  order: { item: PlanItem; loc: string }[],
+  inp: Omit<PlanInput, 'items'>,
+): { steps: PlanStep[] } | { problem: OrderProblem } {
+  const margin = inp.showMargin ?? 10;
+  let t = inp.startTime;
+  let at = inp.startLoc;
+  const steps: PlanStep[] = [];
+  for (let i = 0; i < order.length; i++) {
+    const { item, loc } = order[i];
+    const walk = inp.walk(at, loc);
+    let arrive = t + walk;
+    let start = arrive;
+    if (item.kind === 'show' && item.sessions?.length) {
+      const session = item.sessions.find((x) => arrive <= x - margin);
+      if (session === undefined) return { problem: { index: i, reason: 'session' } };
+      arrive = session - margin;
+      start = session;
+    } else if (item.window) {
+      start = Math.max(arrive, item.window[0]);
+      if (start + item.dur > item.window[1]) return { problem: { index: i, reason: 'closed' } };
+      arrive = start;
+    }
+    const end = start + item.dur;
+    if (end > inp.endTime) return { problem: { index: i, reason: 'end' } };
+    steps.push({ item, loc, walk, arrive, start, end });
+    t = end;
+    at = loc;
+  }
+  return { steps };
+}

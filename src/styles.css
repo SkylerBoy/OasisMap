@@ -1801,3 +1801,37 @@ input, select, textarea, button { font-family: inherit; }
   color: var(--muted);
   font-size: 0.9rem;
 }
+
+/* reordering the plan */
+.plan-hint {
+  margin: -4px 0 10px;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.plan-step {
+  margin-bottom: 8px;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.plan-steps.reordering .plan-walk,
+.plan-steps.reordering .plan-free {
+  display: none;
+}
+
+.plan-step.lifted {
+  position: relative;
+  z-index: 2;
+  transition: none;
+}
+
+.plan-step.lifted button {
+  box-shadow: 0 10px 24px rgb(0 0 0 / 0.25);
+  transform: scale(1.03);
+}
+
+.plan-steps.reordering .plan-step:not(.lifted) {
+  transition: transform 0.15s;
+}

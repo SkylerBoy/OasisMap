@@ -118,5 +118,9 @@
   "plan.yours": "Your plan",
   "plan.next": "Next: {t} · {name}",
   "plan.forDay": "{day} · {n} stops",
-  "plan.done": "Plan completed. Thanks for visiting!"
+  "plan.done": "Plan completed. Thanks for visiting!",
+  "plan.dragHint": "Press and hold a stop to change its order",
+  "plan.no.session": "That way you miss every session of {name}",
+  "plan.no.closed": "That way {name} would be closed",
+  "plan.no.end": "That way it does not fit before you leave"
 }

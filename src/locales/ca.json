@@ -118,5 +118,9 @@
   "plan.yours": "El teu pla",
   "plan.next": "Següent: {t} · {name}",
   "plan.forDay": "{day} · {n} parades",
-  "plan.done": "Pla completat. Gràcies per la visita!"
+  "plan.done": "Pla completat. Gràcies per la visita!",
+  "plan.dragHint": "Mantén premuda una parada per canviar-la d’ordre",
+  "plan.no.session": "Així no arribes a cap sessió de {name}",
+  "plan.no.closed": "Així {name} ja estaria tancat",
+  "plan.no.end": "Així no et dona temps abans de l’hora de sortida"
 }

@@ -52,3 +52,18 @@ describe('planDay', () => {
     expect(plan.steps.length).toBeGreaterThan(30);
   });
 });
+
+import { scheduleOrder } from './planner';
+
+describe('scheduleOrder', () => {
+  const show: PlanItem = { id: 'show', kind: 'show', dur: 30, sessions: [h(10), h(12)], locs: ['show'] };
+  it('moves an exhibition to a later session when it is dragged down', () => {
+    const many = ['a', 'b', 'c', 'c', 'b', 'a', 'b', 'c'].map((id) => ({ item: { ...visit(id), dur: 15 }, loc: id }));
+    const r = scheduleOrder([...many, { item: show, loc: 'show' }], { walk, startLoc: 'gate', startTime: h(9), endTime: h(17) });
+    expect('steps' in r && r.steps[r.steps.length - 1].start).toBe(h(12));
+  });
+  it('says which stop no longer fits', () => {
+    const r = scheduleOrder([{ item: visit('a'), loc: 'a' }, { item: show, loc: 'show' }], { walk, startLoc: 'gate', startTime: h(11, 55), endTime: h(17) });
+    expect('problem' in r && r.problem).toEqual({ index: 1, reason: 'session' });
+  });
+});

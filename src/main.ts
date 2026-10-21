@@ -7,6 +7,7 @@ import { Compass, LocationTracker, type Fix } from './location';
 import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
 import { startCapture } from './capture';
+import { ICONS } from './icons';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -141,7 +142,7 @@ async function startNavigation(poi: Poi) {
   if (!ok && Compass.needsPermission) $('hud-compass').hidden = false;
 
   state.navTo = poi;
-  state.follow = true;
+  setFollow(true);
   closeSheet();
   setExpanded(true);
   $('nav-hud').hidden = false;
@@ -330,7 +331,7 @@ function closeSheet() {
 function setExpanded(expanded: boolean) {
   state.expanded = expanded;
   document.body.classList.toggle('map-expanded', expanded);
-  $('btn-expand').textContent = expanded ? '⤡' : '⤢';
+  $('btn-expand').innerHTML = expanded ? ICONS.collapse : ICONS.expand;
   $('btn-expand').title = t(expanded ? 'map.collapse' : 'map.expand');
   // Wait for the CSS transition before resizing the WebGL canvas.
   setTimeout(() => pmap.resize(), 260);
@@ -348,10 +349,17 @@ function cycleLayer() {
   toast(t(l === 'osm' ? 'layer.map' : l === 'pnoa' ? 'layer.satellite' : 'layer.illustrated'));
 }
 
+function setFollow(follow: boolean) {
+  state.follow = follow;
+}
+
 function bindUi() {
+  $('btn-expand').innerHTML = ICONS.expand;
+  $('btn-locate').innerHTML = ICONS.locate;
+  $('btn-layer').innerHTML = ICONS.layers;
   $('btn-expand').addEventListener('click', () => setExpanded(!state.expanded));
   $('btn-locate').addEventListener('click', () => {
-    state.follow = true;
+    setFollow(true);
     if (state.fix) pmap.centerOn(state.fix.coord, 18);
     else toast(t('locating'));
   });
@@ -364,7 +372,7 @@ function bindUi() {
   $('hud-compass').addEventListener('click', async () => {
     $('hud-compass').hidden = await compass.start();
   });
-  pmap.map.on('dragstart', () => (state.follow = false));
+  pmap.map.on('dragstart', () => setFollow(false));
   $<HTMLInputElement>('search').addEventListener('input', (e) => {
     state.query = (e.target as HTMLInputElement).value;
     renderList();

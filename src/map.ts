@@ -125,11 +125,13 @@ export class ParkMap {
       minZoom: config.minZoom,
       maxZoom: config.maxZoom,
       maxBounds: config.bounds,
-      attributionControl: { compact: true },
+      attributionControl: false,
       dragRotate: false,
       pitchWithRotate: false,
     });
     this.map.touchZoomRotate.disableRotation();
+    // Bottom-left so it does not sit under the map buttons on the right.
+    this.map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-left');
     this.map.on('click', (e) => handlers.onMapClick([e.lngLat.lng, e.lngLat.lat]));
     this.map.on('error', (e: any) => {
       if (e.sourceId === 'pnoa' && !this.pnoaFailed) {

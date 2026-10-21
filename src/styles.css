@@ -1195,7 +1195,7 @@ input, select, textarea, button { font-family: inherit; }
 
 @keyframes sheet-peek {
   0%, 100% { max-height: var(--peek); }
-  45% { max-height: calc(var(--peek) + 96px); }
+  45% { max-height: calc(var(--peek) + 40px); }
   75% { max-height: calc(var(--peek) - 4px); }
 }
 

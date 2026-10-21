@@ -11,6 +11,7 @@ import { startDevTools } from './dev-tools';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 import { ecotourRun, parkMinutes, poiStatus, toMinutes, type Status } from './status';
+import { startPlanner } from './planner-ui';
 import { askPermission, dueReminders, nextSession, notify, reminderFor, toggleReminder } from './reminders';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -92,6 +93,23 @@ async function init() {
     renderList();
     renderSheet();
   }, 60_000);
+  startPlanner({
+    data,
+    graph,
+    snaps: poiSnaps,
+    here: () => {
+      if (!state.fix) return null;
+      const s = graph.snap(state.fix.coord);
+      return s.dist < 150 ? s : null; // only when you are in the park
+    },
+    openPoi: openSheet,
+    showRoute: (coords) => {
+      pmap.setRoute(coords.length ? coords : null);
+      setExpanded(true);
+      window.scrollTo({ top: 0 });
+    },
+    toast,
+  });
   window.setInterval(checkReminders, 20_000);
   checkReminders();
   // Opened from a reminder notification.

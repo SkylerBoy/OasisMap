@@ -62,6 +62,10 @@
     </section>
 
     <main id="browse" class="browse">
+      <button id="plan-open" class="plan-cta" type="button">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M16 2v4M8 2v4M3 10h18M8 14h2M14 14h2M8 18h2"/></svg>
+        <span><b data-i18n="plan.title">Planifica tu visita</b><small data-i18n="plan.cta">Elige qué quieres ver y te organizamos el día</small></span>
+      </button>
       <input id="search" class="search" type="search" autocomplete="off" data-i18n-placeholder="search" />
       <div id="chips" class="chips" role="tablist"></div>
       <ul id="poi-list" class="poi-list"></ul>
@@ -106,6 +110,35 @@
       </section>
     </section>
 
+    <section id="planner" class="planner" hidden aria-modal="true" role="dialog">
+      <header class="planner-head">
+        <h2 data-i18n="plan.title">Planifica tu visita</h2>
+        <button id="plan-close" class="planner-x" type="button" data-i18n-title="close">✕</button>
+      </header>
+      <div id="plan-body" class="planner-body">
+        <div id="plan-choose">
+          <div class="plan-times">
+            <label><span data-i18n="plan.start">Llegada</span><input id="plan-start" type="time" step="300"></label>
+            <label><span data-i18n="plan.end">Salida</span><input id="plan-end" type="time" step="300" value="18:00"></label>
+          </div>
+          <label class="plan-toggle"><input id="plan-lunch" type="checkbox" checked><span data-i18n="plan.withLunch">Incluir comida (45 min)</span></label>
+          <div id="plan-groups"></div>
+        </div>
+        <div id="plan-result" hidden>
+          <p id="plan-summary" class="plan-summary"></p>
+          <ol id="plan-steps" class="plan-steps"></ol>
+          <p id="plan-skipped" class="plan-skipped" hidden></p>
+        </div>
+      </div>
+      <footer class="planner-foot">
+        <button id="plan-make" class="btn primary" type="button"></button>
+        <div id="plan-foot-result" class="plan-foot-result" hidden>
+          <button id="plan-edit" class="btn" type="button" data-i18n="plan.edit">Cambiar</button>
+          <button id="plan-remind" class="btn" type="button" data-i18n="plan.remind">Avisarme</button>
+          <button id="plan-map" class="btn primary" type="button" data-i18n="plan.onMap">Ver en el mapa</button>
+        </div>
+      </footer>
+    </section>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script type="module" src="/src/main.ts"></script>

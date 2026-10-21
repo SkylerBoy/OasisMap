@@ -112,3 +112,10 @@ export async function notify(title: string, body: string, poiId: string): Promis
     return false;
   }
 }
+
+/** Reminder for a given session (used by the day planner). */
+export function setReminder(poiId: string, at: string): void {
+  list = list.filter((r) => r.poi !== poiId);
+  list.push({ poi: poiId, at, day: parkDate() });
+  save(list);
+}

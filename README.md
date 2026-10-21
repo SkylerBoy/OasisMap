@@ -153,6 +153,16 @@ muestra como *Abierto / Cierra en N min / Cerrado*, y una lista `11:15 · 15:40`
 línea discontinua del mapa oficial (`ECOTOUR_ROUTE`) y cada parada muestra a qué hora pasa
 el próximo tren por las siguientes.
 
+## Avisos y planificador
+
+- **Avísame**: en exhibiciones y paradas del Ecotour. Avisa cuando toca salir (tiempo a pie
+  + 10 min). Sin servidor de notificaciones push, el aviso solo llega si la web sigue abierta
+  (aunque sea en segundo plano); en iPhone, además, hay que instalarla en la pantalla de inicio.
+- **Planifica tu visita**: eliges animales, exhibiciones y experiencias, hora de llegada y
+  salida, y si quieres comer. `src/planner.ts` respeta las sesiones (llegando 10 min antes),
+  los horarios de las experiencias y la comida (12:30–14:45), y ordena el resto para andar lo
+  menos posible. Tiempos: animal 10 min, exhibición 30, experiencia 30 (con cola), comida 45.
+
 ## Nuestros animales
 
 Al deslizar hacia arriba la ficha de un animal se ven sus ejemplares (nombre, sexo, edad,

@@ -1377,3 +1377,263 @@ input, select, textarea, button { font-family: inherit; }
   margin-right: 4px;
   font-size: 0.8rem;
 }
+
+/* --- day planner -------------------------------------------------------------------- */
+
+.plan-cta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--brand);
+  color: #fff;
+  text-align: left;
+  box-shadow: var(--shadow);
+}
+
+.plan-cta b {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.15rem;
+}
+
+.plan-cta small {
+  opacity: 0.85;
+}
+
+.planner {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.planner[hidden] {
+  display: none;
+}
+
+.planner-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(12px + env(safe-area-inset-top)) 16px 12px;
+  background: var(--brand);
+  color: #fff;
+}
+
+.planner-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.4rem;
+}
+
+.planner-x {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.15);
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.planner-body {
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px 16px 24px;
+}
+
+.planner-foot {
+  padding: 10px 16px calc(12px + var(--safe-b));
+  background: var(--surface);
+  box-shadow: 0 -4px 16px rgb(0 0 0 / 0.08);
+}
+
+.planner-foot > .btn {
+  width: 100%;
+}
+
+.planner-foot .btn[hidden],
+.plan-foot-result[hidden],
+#plan-choose[hidden],
+#plan-result[hidden],
+.plan-skipped[hidden] {
+  display: none;
+}
+
+.plan-foot-result {
+  display: flex;
+  gap: 8px;
+}
+
+.plan-foot-result .btn {
+  flex: 1;
+  padding: 12px 8px;
+  font-size: 0.9rem;
+}
+
+.plan-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.plan-times label {
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.plan-times input {
+  padding: 10px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.plan-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 4px;
+}
+
+.plan-toggle input,
+.plan-choice input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--brand);
+  flex: none;
+}
+
+.plan-group header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 18px 0 6px;
+}
+
+.plan-group h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.plan-all {
+  border: 0;
+  background: none;
+  color: var(--brand);
+  font-size: 0.9rem;
+}
+
+.plan-group ul,
+.plan-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.plan-choice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+}
+
+.plan-choice small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-align: right;
+}
+
+.plan-icon {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--cat, var(--cat-animal)) 16%, var(--surface));
+  color: var(--cat, var(--cat-animal));
+  overflow: hidden;
+}
+
+.plan-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.plan-summary {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.plan-step button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+}
+
+.plan-step.kind-show button {
+  outline: 2px solid var(--brand);
+  outline-offset: -2px;
+}
+
+.plan-time {
+  flex: none;
+  width: 3.2em;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.plan-text {
+  display: grid;
+}
+
+.plan-text b {
+  font-weight: 400;
+}
+
+.plan-text small {
+  color: var(--muted);
+}
+
+.plan-walk {
+  padding: 4px 0 4px 3.9em;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.plan-skipped {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}

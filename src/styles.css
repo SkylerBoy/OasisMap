@@ -1487,20 +1487,27 @@ input, select, textarea, button { font-family: inherit; }
   gap: 10px;
 }
 
-.plan-times label {
+.plan-time-field {
   display: grid;
   gap: 4px;
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-.plan-times input {
-  padding: 10px;
+.plan-time-btn {
+  padding: 8px 12px;
   border: 1.5px solid var(--line);
   border-radius: var(--r-sm);
   background: var(--surface);
   color: var(--ink);
-  font-size: 1rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+
+.plan-time-btn:active {
+  border-color: var(--brand);
 }
 
 .plan-toggle {
@@ -1636,4 +1643,125 @@ input, select, textarea, button { font-family: inherit; }
   margin: 14px 0 0;
   color: var(--muted);
   font-size: 0.9rem;
+}
+
+/* --- time picker (park style) -------------------------------------------------------- */
+
+.tp {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+}
+
+.tp-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.35);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tp-sheet {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 20px calc(16px + var(--safe-b));
+  border-radius: 22px 22px 0 0;
+  background: var(--surface);
+  transform: translateY(100%);
+  transition: transform 0.22s ease;
+}
+
+.tp.open .tp-backdrop {
+  opacity: 1;
+}
+
+.tp.open .tp-sheet {
+  transform: none;
+}
+
+.tp-title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--brand);
+}
+
+.tp-wheels {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  height: 220px; /* 5 rows of 44px */
+}
+
+/* the band marks the chosen row */
+.tp-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 88px;
+  height: 44px;
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--brand) 10%, var(--surface));
+  pointer-events: none;
+}
+
+.tp-wheel {
+  position: relative;
+  z-index: 1; /* above the band */
+  width: 96px;
+  height: 220px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  overscroll-behavior: contain;
+  -webkit-mask: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+  mask: linear-gradient(transparent, #000 30%, #000 70%, transparent);
+}
+
+.tp-wheel::-webkit-scrollbar {
+  display: none;
+}
+
+.tp-pad {
+  height: 88px;
+}
+
+.tp-item {
+  height: 44px;
+  display: grid;
+  place-items: center;
+  scroll-snap-align: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+}
+
+.tp-item.on {
+  color: var(--brand);
+  font-size: 2rem;
+}
+
+.tp-colon {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--brand);
+}
+
+.tp-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.tp-actions .btn {
+  flex: 1;
 }

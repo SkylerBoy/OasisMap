@@ -109,5 +109,7 @@
   "plan.stay": "{n} Min.",
   "plan.lunch": "Mittagessen: {name}",
   "plan.lunchShort": "das Mittagessen",
-  "plan.skipped": "Passt nicht in deine Zeit: {list}."
+  "plan.skipped": "Passt nicht in deine Zeit: {list}.",
+  "cancel": "Abbrechen",
+  "done": "Fertig"
 }

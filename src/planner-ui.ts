@@ -7,6 +7,7 @@ import { planDay, type Plan, type PlanItem } from './planner';
 import { poiIconSvg } from './poi-icons';
 import { setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
+import { pickTime } from './time-picker';
 
 export interface PlannerContext {
   data: ParkData;
@@ -141,8 +142,8 @@ export function startPlanner(ctx: PlannerContext) {
     const here = ctx.here();
     hereSnap = here;
     trees.clear();
-    const start = toMinutes($<HTMLInputElement>('plan-start').value || '9:00');
-    const end = toMinutes($<HTMLInputElement>('plan-end').value || '18:00');
+    const start = toMinutes($('plan-start').dataset.value || '9:00');
+    const end = toMinutes($('plan-end').dataset.value || '18:00');
     plan = planDay({
       items: items(),
       walk: walkMin,
@@ -220,8 +221,7 @@ export function startPlanner(ctx: PlannerContext) {
   function open() {
     const now = parkMinutes();
     const start = now >= toMinutes('9:00') && now < toMinutes('16:30') ? Math.ceil(now / 5) * 5 : toMinutes('9:00');
-    $<HTMLInputElement>('plan-start').value = hhmm(start).padStart(5, '0');
-    if (!$<HTMLInputElement>('plan-end').value) $<HTMLInputElement>('plan-end').value = '18:00';
+    setTime('plan-start', hhmm(start));
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
     renderChoices();
     show(plan ? 'result' : 'choose');
@@ -232,6 +232,17 @@ export function startPlanner(ctx: PlannerContext) {
   function close() {
     $('planner').hidden = true;
     document.body.classList.remove('sheet-open');
+  }
+
+  function setTime(id: string, v: string) {
+    $(id).dataset.value = v;
+    $(id).textContent = v;
+  }
+  for (const [id, label] of [['plan-start', 'plan.start'], ['plan-end', 'plan.end']] as const) {
+    $(id).addEventListener('click', async () => {
+      const v = await pickTime(t(label), $(id).dataset.value ?? '9:00');
+      if (v) setTime(id, v);
+    });
   }
 
   $('plan-open').addEventListener('click', open);

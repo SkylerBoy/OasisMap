@@ -109,5 +109,7 @@
   "plan.stay": "{n} min",
   "plan.lunch": "Déjeuner : {name}",
   "plan.lunchShort": "le déjeuner",
-  "plan.skipped": "Ne rentre pas dans votre horaire : {list}."
+  "plan.skipped": "Ne rentre pas dans votre horaire : {list}.",
+  "cancel": "Annuler",
+  "done": "OK"
 }

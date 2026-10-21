@@ -316,9 +316,9 @@ ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'obs
 MONKEY_PATH = 1570352508  # path along the primates between areas 11 and 16
 CROC_BRIDGE_PATH = 50854121  # path with the crocodile bridge
 ON_OSM_WAY = {
-    'capuchino': MONKEY_PATH, 'crias-cocodrilo': MONKEY_PATH, 'talapoin': MONKEY_PATH,
+    'capuchino': MONKEY_PATH, 'talapoin': MONKEY_PATH,
     'tamarino-algodon-2': MONKEY_PATH, 'titi-plateado': MONKEY_PATH,
-    'fenec': CROC_BRIDGE_PATH,
+    'crias-cocodrilo': CROC_BRIDGE_PATH, 'fenec': CROC_BRIDGE_PATH,
 }
 
 

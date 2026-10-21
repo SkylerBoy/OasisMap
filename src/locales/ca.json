@@ -114,5 +114,9 @@
   "done": "Fet",
   "plan.today": "Avui",
   "plan.tomorrow": "Demà",
-  "plan.free": "☕ {t} · Temps lliure ({d})"
+  "plan.free": "☕ {t} · Temps lliure ({d})",
+  "plan.yours": "El teu pla",
+  "plan.next": "Següent: {t} · {name}",
+  "plan.forDay": "{day} · {n} parades",
+  "plan.done": "Pla completat. Gràcies per la visita!"
 }

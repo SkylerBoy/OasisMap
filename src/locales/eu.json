@@ -114,5 +114,9 @@
   "done": "Eginda",
   "plan.today": "Gaur",
   "plan.tomorrow": "Bihar",
-  "plan.free": "☕ {t} · Denbora librea ({d})"
+  "plan.free": "☕ {t} · Denbora librea ({d})",
+  "plan.yours": "Zure plana",
+  "plan.next": "Hurrengoa: {t} · {name}",
+  "plan.forDay": "{day} · {n} geldialdi",
+  "plan.done": "Plana osatuta. Eskerrik asko bisitagatik!"
 }

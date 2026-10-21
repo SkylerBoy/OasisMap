@@ -52,6 +52,7 @@ let data: ParkData;
 let graph: PathGraph;
 let poiSnaps: Map<string, Snap>;
 let pmap: ParkMap;
+let refreshPlanner: (() => void) | null = null;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
@@ -93,7 +94,7 @@ async function init() {
     renderList();
     renderSheet();
   }, 60_000);
-  startPlanner({
+  refreshPlanner = startPlanner({
     data,
     graph,
     snaps: poiSnaps,
@@ -759,6 +760,7 @@ function bindUi() {
 }
 
 function applyI18n() {
+  refreshPlanner?.();
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => (el.textContent = t(el.dataset.i18n!)));
   document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach((el) => (el.title = t(el.dataset.i18nTitle!)));
   document

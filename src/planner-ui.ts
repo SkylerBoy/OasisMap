@@ -5,7 +5,7 @@ import type { PathGraph, Snap } from './graph';
 import { currentLang, formatDistance, pick, t } from './i18n';
 import { planDay, type Plan, type PlanItem } from './planner';
 import { poiIconSvg } from './poi-icons';
-import { setReminder } from './reminders';
+import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
 import { pickTime } from './time-picker';
 
@@ -21,7 +21,7 @@ export interface PlannerContext {
 }
 
 const SELECTABLE = ['animal', 'show', 'experience', 'botanic'] as const;
-const STAY = { animal: 10, botanic: 10, show: 30, experience: 30 } as const; // experiences: 20 min + queue
+const STAY = { animal: 6, botanic: 10, show: 30, experience: 30 } as const; // experiences: 20 min + queue
 const LUNCH_MIN = 45;
 const LUNCH: [number, number] = [toMinutes('12:30'), toMinutes('14:45')];
 const KEY = 'oasis.plan';
@@ -32,13 +32,22 @@ const LAST_ARRIVAL = '16:30';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const hhmm = (m: number) => `${Math.floor(m / 60)}:${String(Math.round(m) % 60).padStart(2, '0')}`;
 
-export function startPlanner(ctx: PlannerContext) {
+/** Returns a function that refreshes the planner button (after a language change). */
+export function startPlanner(ctx: PlannerContext): () => void {
   const { data } = ctx;
   const byId = new Map(data.pois.map((p) => [p.id, p]));
   const choices = data.pois.filter((p) => (SELECTABLE as readonly string[]).includes(p.category) && !p.minor);
   const restaurants = data.pois.filter((p) => p.category === 'food' && p.hours && !p.id.startsWith('snack'));
 
-  let saved: { sel: string[]; lunch: boolean } = { sel: [], lunch: true };
+  /** A plan as kept on the phone, so it is there when the visitor comes back. */
+  interface SavedPlan {
+    date: string;
+    start: string;
+    end: string;
+    steps: { id: string; kind: PlanItem['kind']; dur: number; loc: string; walk: number; arrive: number; start: number; end: number }[];
+    skipped: { id: string; kind: PlanItem['kind'] }[];
+  }
+  let saved: { sel: string[]; lunch: boolean; plan?: SavedPlan } = { sel: [], lunch: true };
   try {
     saved = { ...saved, ...JSON.parse(localStorage.getItem(KEY) ?? '{}') };
   } catch {
@@ -50,13 +59,56 @@ export function startPlanner(ctx: PlannerContext) {
   let dayOffset = 0;
   const weekdayOf = (offset: number) => (parkWeekday() + offset) % 7;
 
+  const dateOf = (offset: number) => parkDate(new Date(Date.now() + offset * 86_400_000));
+  const daysFromToday = (date: string) => Math.round((Date.parse(date) - Date.parse(parkDate())) / 86_400_000);
+  let savedPlan: SavedPlan | undefined;
+
   const persist = () => {
     try {
-      localStorage.setItem(KEY, JSON.stringify({ sel: [...selected], lunch: $<HTMLInputElement>('plan-lunch').checked }));
+      localStorage.setItem(
+        KEY,
+        JSON.stringify({ sel: [...selected], lunch: $<HTMLInputElement>('plan-lunch').checked, plan: plan ? savedPlan : undefined }),
+      );
     } catch {
       /* private mode */
     }
   };
+
+  /** Bring back the saved plan, unless its day is over. */
+  function restore() {
+    const sp = saved.plan;
+    if (!sp || daysFromToday(sp.date) < 0 || sp.steps.some((x) => !byId.has(x.loc))) return;
+    savedPlan = sp;
+    dayOffset = daysFromToday(sp.date);
+    plan = {
+      steps: sp.steps.map((x) => ({ ...x, item: { id: x.id, kind: x.kind, dur: x.dur, locs: [x.loc] } })),
+      skipped: sp.skipped.map((x) => ({ id: x.id, kind: x.kind, dur: 0, locs: [] })),
+      walkTotal: sp.steps.reduce((a, x) => a + x.walk, 0),
+    };
+  }
+
+  /** The red button: "Plan your visit", or your plan and what comes next. */
+  function updateCta() {
+    const title = $('plan-open').querySelector('b')!;
+    const sub = $('plan-open').querySelector('small')!;
+    if (!plan || !savedPlan) {
+      title.textContent = t('plan.title');
+      sub.textContent = t('plan.cta');
+      return;
+    }
+    title.textContent = t('plan.yours');
+    const d = daysFromToday(savedPlan.date);
+    if (d > 0) {
+      const day = d === 1 ? t('plan.tomorrow') : new Intl.DateTimeFormat(currentLang(), { weekday: 'long', day: 'numeric' }).format(new Date(`${savedPlan.date}T12:00:00`));
+      sub.textContent = t('plan.forDay', { day, n: plan.steps.length });
+      return;
+    }
+    const now = parkMinutes();
+    const next = plan.steps.find((x) => x.end > now);
+    sub.textContent = next
+      ? t('plan.next', { t: hhmm(next.start), name: next.item.id === 'lunch' ? t('plan.lunch', { name: pick(byId.get(next.loc)!.name) }) : pick(byId.get(next.loc)!.name) })
+      : t('plan.done');
+  }
 
   // --- walking minutes between points (one shortest-path tree per origin, cached) ---
   const trees = new Map<string, { from: Snap; dist: Float64Array }>();
@@ -161,6 +213,15 @@ export function startPlanner(ctx: PlannerContext) {
       startTime: start,
       endTime: end,
     });
+    savedPlan = {
+      date: dateOf(dayOffset),
+      start: $('plan-start').dataset.value || OPEN,
+      end: $('plan-end').dataset.value || CLOSE,
+      steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, arrive: x.arrive, start: x.start, end: x.end })),
+      skipped: plan.skipped.map((x) => ({ id: x.id, kind: x.kind })),
+    };
+    persist();
+    updateCta();
     renderPlan();
     show('result');
   }
@@ -254,6 +315,8 @@ export function startPlanner(ctx: PlannerContext) {
       b.addEventListener('click', () => {
         dayOffset = k;
         plan = null;
+        persist();
+        updateCta();
         renderDays();
         defaultStart();
       });
@@ -273,9 +336,13 @@ export function startPlanner(ctx: PlannerContext) {
     // after closing time, plan for tomorrow
     if (!plan) dayOffset = parkMinutes() >= toMinutes(LAST_ARRIVAL) ? 1 : 0;
     renderDays();
-    defaultStart();
+    if (plan && savedPlan) {
+      setTime('plan-start', savedPlan.start);
+      setTime('plan-end', savedPlan.end);
+    } else defaultStart();
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
     renderChoices();
+    if (plan) renderPlan();
     show(plan ? 'result' : 'choose');
     $('planner').hidden = false;
     document.body.classList.add('sheet-open');
@@ -303,6 +370,10 @@ export function startPlanner(ctx: PlannerContext) {
     if (v) setTime('plan-end', v);
   });
 
+  restore();
+  updateCta();
+  window.setInterval(updateCta, 60_000);
+
   $('plan-open').addEventListener('click', open);
   $('plan-close').addEventListener('click', close);
   $('plan-make').addEventListener('click', makePlan);
@@ -317,4 +388,5 @@ export function startPlanner(ctx: PlannerContext) {
     for (const s of plan.steps) if (s.item.kind === 'show') setReminder(s.item.id, hhmm(s.start));
     ctx.toast(t('remind.added'));
   });
+  return updateCta;
 }

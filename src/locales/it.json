@@ -114,5 +114,9 @@
   "done": "Fatto",
   "plan.today": "Oggi",
   "plan.tomorrow": "Domani",
-  "plan.free": "☕ {t} · Tempo libero ({d})"
+  "plan.free": "☕ {t} · Tempo libero ({d})",
+  "plan.yours": "Il tuo piano",
+  "plan.next": "Prossimo: {t} · {name}",
+  "plan.forDay": "{day} · {n} tappe",
+  "plan.done": "Piano completato. Grazie della visita!"
 }

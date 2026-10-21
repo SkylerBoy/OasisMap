@@ -81,5 +81,14 @@
   "iucn.EN": "Endangered",
   "iucn.CR": "Critically endangered",
   "iucn.EW": "Extinct in the wild",
-  "iucn.DOM": "Domestic animal"
+  "iucn.DOM": "Domestic animal",
+  "remind.set": "Remind me for the {t} session",
+  "remind.on": "We’ll remind you for {t} · tap to remove",
+  "remind.added": "We’ll remind you in time to walk there",
+  "remind.inApp": "We’ll remind you while the site is open (notifications are off)",
+  "remind.removed": "Reminder removed",
+  "remind.title": "{name} at {t}",
+  "remind.body": "Starts in {n} min; you are {w} min away on foot.",
+  "remind.bodyTrain": "The train comes in {n} min; you are {w} min away on foot.",
+  "remind.setTrain": "Remind me of the {t} train"
 }

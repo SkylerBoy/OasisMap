@@ -81,5 +81,14 @@
   "iucn.EN": "In pericolo",
   "iucn.CR": "In pericolo critico",
   "iucn.EW": "Estinta in natura",
-  "iucn.DOM": "Animale domestico"
+  "iucn.DOM": "Animale domestico",
+  "remind.set": "Avvisami per la sessione delle {t}",
+  "remind.on": "Ti avviseremo per le {t} · tocca per togliere",
+  "remind.added": "Ti avviseremo in tempo per arrivare a piedi",
+  "remind.inApp": "Ti avviseremo finché il sito è aperto (notifiche disattivate)",
+  "remind.removed": "Promemoria rimosso",
+  "remind.title": "{name} alle {t}",
+  "remind.body": "Inizia tra {n} min; sei a {w} min a piedi.",
+  "remind.bodyTrain": "Il treno passa tra {n} min; sei a {w} min a piedi.",
+  "remind.setTrain": "Avvisami del treno delle {t}"
 }

@@ -81,5 +81,14 @@
   "iucn.EN": "Arriskuan",
   "iucn.CR": "Arrisku larrian",
   "iucn.EW": "Basatian desagertua",
-  "iucn.DOM": "Etxe-animalia"
+  "iucn.DOM": "Etxe-animalia",
+  "remind.set": "Abisatu {t}etako saiorako",
+  "remind.on": "{t}etarako abisatuko dizugu · ukitu kentzeko",
+  "remind.added": "Oinez iristeko denboraz abisatuko dizugu",
+  "remind.inApp": "Webgunea irekita duzun bitartean abisatuko dizugu (jakinarazpenak desaktibatuta)",
+  "remind.removed": "Abisua kenduta",
+  "remind.title": "{name} {t}etan",
+  "remind.body": "{n} min barru hasiko da; oinez {w} min-ra zaude.",
+  "remind.bodyTrain": "Trena {n} min barru pasatuko da; oinez {w} min-ra zaude.",
+  "remind.setTrain": "Abisatu {t}etako trenaz"
 }

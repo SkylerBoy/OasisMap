@@ -10,7 +10,8 @@ import { unlockDevMode } from './dev-pin';
 import { startDevTools } from './dev-tools';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
-import { ecotourRun, poiStatus, type Status } from './status';
+import { ecotourRun, parkMinutes, poiStatus, toMinutes, type Status } from './status';
+import { askPermission, dueReminders, nextSession, notify, reminderFor, toggleReminder } from './reminders';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -91,6 +92,16 @@ async function init() {
     renderList();
     renderSheet();
   }, 60_000);
+  window.setInterval(checkReminders, 20_000);
+  checkReminders();
+  // Opened from a reminder notification.
+  const fromLink = new URLSearchParams(location.search).get('poi');
+  const linked = fromLink && data.pois.find((p) => p.id === fromLink);
+  if (linked) openSheet(linked);
+  navigator.serviceWorker?.addEventListener('message', (e) => {
+    const p = e.data?.type === 'open-poi' && data.pois.find((x) => x.id === e.data.poi);
+    if (p) openSheet(p);
+  });
 
   if (captureMode) {
     captureMode = await unlockDevMode();
@@ -157,6 +168,60 @@ function walkText(poiId: string): string {
   if (d == null || !isFinite(d)) return '';
   const minutes = Math.max(1, Math.round(d / data.config.walkingSpeed / 60));
   return t('walk', { d: formatDistance(d), t: t('min', { n: minutes }) });
+}
+
+/** Walking time in minutes to a point (5 if we do not know where you are). */
+function walkMinutes(poiId: string): number {
+  const d = state.walk.get(poiId);
+  if (d == null || !isFinite(d)) return 5;
+  return Math.max(1, Math.round(d / data.config.walkingSpeed / 60));
+}
+
+// --- reminders -----------------------------------------------------------------
+
+function renderRemind(p: Poi) {
+  const btn = $('sheet-remind');
+  const r = reminderFor(p.id);
+  const next = r?.at ?? nextSession(p);
+  btn.hidden = !next;
+  if (!next) return;
+  btn.classList.toggle('on', !!r);
+  btn.setAttribute('aria-pressed', String(!!r));
+  const train = p.timesKind === 'train';
+  $('remind-text').textContent = t(r ? 'remind.on' : train ? 'remind.setTrain' : 'remind.set', { t: next });
+}
+
+async function onRemindClick() {
+  const p = state.selected;
+  if (!p) return;
+  const r = toggleReminder(p);
+  renderSheet();
+  renderList();
+  if (r) {
+    const allowed = await askPermission();
+    toast(t(allowed ? 'remind.added' : 'remind.inApp'));
+  } else toast(t('remind.removed'));
+}
+
+function checkReminders() {
+  const now = parkMinutes();
+  const due = dueReminders(walkMinutes, now);
+  if (due.length) {
+    renderList();
+    renderSheet();
+  }
+  for (const r of due) {
+    const p = data.pois.find((x) => x.id === r.poi);
+    if (!p) continue;
+    const n = Math.max(0, toMinutes(r.at) - now);
+    const title = t('remind.title', { name: pick(p.name), t: r.at });
+    const body = t(p.timesKind === 'train' ? 'remind.bodyTrain' : 'remind.body', { n, w: walkMinutes(p.id) });
+    // In the app: a toast you can tap. Outside: a system notification.
+    if (document.visibilityState === 'visible') {
+      toast(`${title} · ${body}`, () => openSheet(p), 8000);
+      navigator.vibrate?.([120, 80, 120]);
+    } else void notify(title, body, p.id);
+  }
 }
 
 // --- navigation --------------------------------------------------------------
@@ -341,6 +406,13 @@ function renderList() {
     sub.textContent = [t(`cat.${p.category}`), walkText(p.id)].filter(Boolean).join(' · ');
     const st = poiStatus(p);
     if (st) sub.prepend(statusBadge(st));
+    if (reminderFor(p.id)) {
+      const bell = document.createElement('span');
+      bell.className = 'row-bell';
+      bell.textContent = '🔔';
+      bell.title = t('remind.on', { t: reminderFor(p.id)!.at });
+      sub.prepend(bell);
+    }
     li.querySelector('button')!.addEventListener('click', () => openSheet(p));
     ul.appendChild(li);
   }
@@ -518,6 +590,7 @@ function renderSheet() {
     badge.textContent = st.text;
   }
   renderEcotourRun(p);
+  renderRemind(p);
   renderAnimals(p);
   $('sheet-times').textContent = [p.days?.map((d) => t(`days.${d}`)).join(', '), p.schedule].filter(Boolean).join(' ');
 }
@@ -570,6 +643,11 @@ function bindUi() {
   $('btn-layer').addEventListener('click', cycleLayer);
   $('btn-layer').hidden = !HAS_TILES && !pmap.hasOverlay;
   $('sheet-close').addEventListener('click', closeSheet);
+  $('sheet-remind').addEventListener('click', () => void onRemindClick());
+  $('toast').addEventListener('click', () => {
+    toastAction?.();
+    $('toast').classList.remove('show');
+  });
   $('sheet-backdrop').addEventListener('click', closeSheet);
   $('sheet-go').addEventListener('click', () => state.selected && startNavigation(state.selected));
   $('hud-stop').addEventListener('click', stopNavigation);
@@ -682,12 +760,17 @@ function hideStatus() {
 }
 
 let toastTimer = 0;
-function toast(msg: string) {
+let toastAction: (() => void) | null = null;
+
+/** Short message at the bottom; with an action it can be tapped. */
+function toast(msg: string, action?: () => void, ms = 2200) {
   const el = $('toast');
   el.textContent = msg;
   el.classList.add('show');
+  el.classList.toggle('actionable', !!action);
+  toastAction = action ?? null;
   clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => el.classList.remove('show'), 2200);
+  toastTimer = window.setTimeout(() => el.classList.remove('show'), ms);
 }
 
 function registerServiceWorker() {

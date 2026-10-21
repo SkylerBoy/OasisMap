@@ -81,5 +81,14 @@
   "iucn.EN": "En perill",
   "iucn.CR": "En perill crític",
   "iucn.EW": "Extinta en estat salvatge",
-  "iucn.DOM": "Animal domèstic"
+  "iucn.DOM": "Animal domèstic",
+  "remind.set": "Avisa’m per a la sessió de les {t}",
+  "remind.on": "T’avisarem per a les {t} · toca per treure-ho",
+  "remind.added": "T’avisarem amb temps per arribar-hi a peu",
+  "remind.inApp": "T’avisarem mentre tinguis la web oberta (notificacions desactivades)",
+  "remind.removed": "Avís tret",
+  "remind.title": "{name} a les {t}",
+  "remind.body": "Comença en {n} min; ets a {w} min a peu.",
+  "remind.bodyTrain": "El tren passa en {n} min; ets a {w} min a peu.",
+  "remind.setTrain": "Avisa’m del tren de les {t}"
 }

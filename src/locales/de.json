@@ -81,5 +81,14 @@
   "iucn.EN": "Stark gefährdet",
   "iucn.CR": "Vom Aussterben bedroht",
   "iucn.EW": "In der Natur ausgestorben",
-  "iucn.DOM": "Haustier"
+  "iucn.DOM": "Haustier",
+  "remind.set": "Erinnere mich an {t} Uhr",
+  "remind.on": "Wir erinnern dich an {t} Uhr · tippen zum Entfernen",
+  "remind.added": "Wir erinnern dich rechtzeitig, um hinzulaufen",
+  "remind.inApp": "Wir erinnern dich, solange die Seite offen ist (Benachrichtigungen aus)",
+  "remind.removed": "Erinnerung entfernt",
+  "remind.title": "{name} um {t}",
+  "remind.body": "Beginnt in {n} Min.; du bist {w} Min. zu Fuß entfernt.",
+  "remind.bodyTrain": "Der Zug kommt in {n} Min.; du bist {w} Min. zu Fuß entfernt.",
+  "remind.setTrain": "Erinnere mich an den Zug um {t}"
 }

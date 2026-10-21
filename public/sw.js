@@ -1,7 +1,7 @@
 // Offline support: app shell + park data are cached on first visit so the
 // map keeps working with poor coverage inside the park. Map tiles are cached
 // as they are viewed (capped).
-const VERSION = 'v2';
+const VERSION = 'v3';
 const APP = `oasis-app-${VERSION}`;
 const TILES = `oasis-tiles-${VERSION}`;
 const MAX_TILES = 1500;
@@ -56,5 +56,21 @@ self.addEventListener('fetch', (e) => {
         return res;
       })
       .catch(() => caches.match(e.request).then((r) => r || caches.match('./index.html'))),
+  );
+});
+
+// Reminder notifications: open (or focus) the app on that point.
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const poi = e.notification.data?.poi;
+  e.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((list) => {
+      const client = list[0];
+      if (client) {
+        client.postMessage({ type: 'open-poi', poi });
+        return client.focus();
+      }
+      return self.clients.openWindow(`./?poi=${encodeURIComponent(poi ?? '')}`);
+    }),
   );
 });

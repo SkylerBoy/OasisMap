@@ -1339,3 +1339,41 @@ input, select, textarea, button { font-family: inherit; }
   margin: 10px 0 0;
   line-height: 1.5;
 }
+
+.toast.show.actionable {
+  pointer-events: auto;
+  cursor: pointer;
+  background: var(--brand);
+}
+
+/* --- "remind me" ------------------------------------------------------------------ */
+
+.remind-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 8px 0 0;
+  padding: 10px 12px;
+  border: 1.5px dashed var(--brand);
+  border-radius: var(--r-md);
+  background: none;
+  color: var(--brand);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.remind-btn[hidden] {
+  display: none;
+}
+
+.remind-btn.on {
+  border-style: solid;
+  background: var(--brand);
+  color: #fff;
+}
+
+.row-bell {
+  margin-right: 4px;
+  font-size: 0.8rem;
+}

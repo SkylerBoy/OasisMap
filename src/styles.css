@@ -604,7 +604,7 @@ body.map-expanded {
 }
 
 .row-name {
-  font-weight: 600;
+  font-weight: 400; /* Public has a single weight; 600 was faux-bolded */
 }
 
 .row-sub {

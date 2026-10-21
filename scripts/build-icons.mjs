@@ -24,7 +24,7 @@ const ICONS = {
   gift: 'f:wrapped-gift', camera: 'f:camera', apple: 'f:red-apple', hospital: 'f:hospital',
   firstaid: 'f:adhesive-bandage', defib: 'f:high-voltage', viewpoint: 'g:binoculars', toilet: 'f:toilet',
   taxi: 'f:taxi', car: 'f:automobile', wheelchair: 'f:manual-wheelchair', train: 'f:locomotive',
-  show: 'f:performing-arts', paw: 'f:paw-prints', splash: 'f:playground-slide',
+  show: 'f:graduation-cap', paw: 'f:paw-prints', splash: 'f:playground-slide',
 };
 
 const out = {};

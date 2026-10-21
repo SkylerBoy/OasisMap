@@ -40,5 +40,19 @@
   "satFallback": "Couche satellite indisponible ; la carte est utilisée.",
   "simHint": "Touchez la carte pour simuler votre position.",
   "pdfMap": "Voir ou télécharger le plan du parc (PDF)",
-  "schedule": "Horaires"
+  "schedule": "Horaires",
+  "status.open": "Ouvert",
+  "status.closed": "Fermé",
+  "status.opensIn": "Ouvre dans {n} min",
+  "status.opensAt": "Ouvre à {t}",
+  "status.closesIn": "Ferme dans {n} min",
+  "status.live": "En cours",
+  "status.startsIn": "Dans {n} min",
+  "status.startsAt": "À {t}",
+  "status.noMore": "Plus rien aujourd’hui",
+  "status.trainHere": "Train à l’arrêt",
+  "status.trainIn": "Train dans {n} min",
+  "status.trainAt": "Train à {t}",
+  "status.noMoreTrains": "Plus de trains aujourd’hui",
+  "eco.next": "Prochain train"
 }

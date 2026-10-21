@@ -40,5 +40,19 @@
   "satFallback": "Livello satellite non disponibile; si usa la mappa.",
   "simHint": "Tocca la mappa per simulare la tua posizione.",
   "pdfMap": "Vedi o scarica la mappa del parco (PDF)",
-  "schedule": "Orari"
+  "schedule": "Orari",
+  "status.open": "Aperto",
+  "status.closed": "Chiuso",
+  "status.opensIn": "Apre tra {n} min",
+  "status.opensAt": "Apre alle {t}",
+  "status.closesIn": "Chiude tra {n} min",
+  "status.live": "In corso",
+  "status.startsIn": "Tra {n} min",
+  "status.startsAt": "Alle {t}",
+  "status.noMore": "Oggi non ce ne sono più",
+  "status.trainHere": "Treno alla fermata",
+  "status.trainIn": "Treno tra {n} min",
+  "status.trainAt": "Treno alle {t}",
+  "status.noMoreTrains": "Oggi non ci sono più treni",
+  "eco.next": "Prossimo treno"
 }

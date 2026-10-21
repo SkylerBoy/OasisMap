@@ -40,5 +40,19 @@
   "satFallback": "La capa de satèl·lit no està disponible; s'utilitza el mapa.",
   "simHint": "Toca el mapa per simular la teva posició.",
   "pdfMap": "Veure o descarregar el mapa del parc (PDF)",
-  "schedule": "Horari"
+  "schedule": "Horari",
+  "status.open": "Obert",
+  "status.closed": "Tancat",
+  "status.opensIn": "Obre en {n} min",
+  "status.opensAt": "Obre a les {t}",
+  "status.closesIn": "Tanca en {n} min",
+  "status.live": "Ara mateix",
+  "status.startsIn": "En {n} min",
+  "status.startsAt": "A les {t}",
+  "status.noMore": "Avui no n’hi ha més",
+  "status.trainHere": "Tren a la parada",
+  "status.trainIn": "Tren en {n} min",
+  "status.trainAt": "Tren a les {t}",
+  "status.noMoreTrains": "Avui no hi ha més trens",
+  "eco.next": "Proper tren"
 }

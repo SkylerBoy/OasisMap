@@ -29,6 +29,11 @@ export interface Poi {
   description?: Localized;
   /** Free text, e.g. "11:30 · 15:00". */
   schedule?: string;
+  /** Opening hours (park time), e.g. ["9:00", "17:30"]. */
+  hours?: [string, string];
+  /** Start times (park time): exhibitions or Ecotour departures from this stop. */
+  times?: string[];
+  timesKind?: 'show' | 'train';
   /** Photo path under public/, e.g. img/poi/flamencos.jpg (placeholder when missing). */
   image?: string;
   /** Drawing cut from the printed map, used as the map marker. */
@@ -62,6 +67,8 @@ export interface ParkData {
   config: ParkConfig;
   pois: Poi[];
   paths: LngLat[][];
+  /** Ecotour train route, stop 0 to 5 (empty if not available). */
+  ecotour: LngLat[];
 }
 
 const base = import.meta.env.BASE_URL;
@@ -78,11 +85,13 @@ interface FeatureCollection {
 }
 
 export async function loadPark(): Promise<ParkData> {
-  const [config, poiFc, pathFc] = await Promise.all([
+  const [config, poiFc, pathFc, ecoFc] = await Promise.all([
     getJson<ParkConfig>('config.json'),
     getJson<FeatureCollection>('pois.geojson'),
     getJson<FeatureCollection>('paths.geojson'),
+    getJson<FeatureCollection>('ecotour.geojson').catch(() => ({ features: [] }) as FeatureCollection),
   ]);
+  const ecotour: LngLat[] = ecoFc.features.find((f) => f.geometry?.type === 'LineString')?.geometry.coordinates ?? [];
 
   const pois: Poi[] = poiFc.features
     .filter((f) => f.geometry?.type === 'Point')
@@ -93,5 +102,5 @@ export async function loadPark(): Promise<ParkData> {
     if (f.geometry?.type === 'LineString') paths.push(f.geometry.coordinates);
     else if (f.geometry?.type === 'MultiLineString') paths.push(...f.geometry.coordinates);
   }
-  return { config, pois, paths };
+  return { config, pois, paths, ecotour };
 }

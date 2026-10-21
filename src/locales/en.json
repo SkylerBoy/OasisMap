@@ -40,5 +40,19 @@
   "satFallback": "Satellite layer unavailable; using the map.",
   "simHint": "Tap the map to simulate your position.",
   "pdfMap": "View or download the park map (PDF)",
-  "schedule": "Times"
+  "schedule": "Times",
+  "status.open": "Open",
+  "status.closed": "Closed",
+  "status.opensIn": "Opens in {n} min",
+  "status.opensAt": "Opens at {t}",
+  "status.closesIn": "Closes in {n} min",
+  "status.live": "On now",
+  "status.startsIn": "In {n} min",
+  "status.startsAt": "At {t}",
+  "status.noMore": "No more today",
+  "status.trainHere": "Train at the stop",
+  "status.trainIn": "Train in {n} min",
+  "status.trainAt": "Train at {t}",
+  "status.noMoreTrains": "No more trains today",
+  "eco.next": "Next train"
 }

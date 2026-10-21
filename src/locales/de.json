@@ -40,5 +40,19 @@
   "satFallback": "Satellitenebene nicht verfügbar; Karte wird verwendet.",
   "simHint": "Tippen Sie auf die Karte, um Ihre Position zu simulieren.",
   "pdfMap": "Parkplan ansehen oder herunterladen (PDF)",
-  "schedule": "Zeiten"
+  "schedule": "Zeiten",
+  "status.open": "Geöffnet",
+  "status.closed": "Geschlossen",
+  "status.opensIn": "Öffnet in {n} Min.",
+  "status.opensAt": "Öffnet um {t}",
+  "status.closesIn": "Schließt in {n} Min.",
+  "status.live": "Läuft gerade",
+  "status.startsIn": "In {n} Min.",
+  "status.startsAt": "Um {t}",
+  "status.noMore": "Heute nicht mehr",
+  "status.trainHere": "Zug an der Haltestelle",
+  "status.trainIn": "Zug in {n} Min.",
+  "status.trainAt": "Zug um {t}",
+  "status.noMoreTrains": "Heute keine Züge mehr",
+  "eco.next": "Nächster Zug"
 }

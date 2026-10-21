@@ -261,6 +261,28 @@ ECOTOUR = [  # stop number, x, y, name of the stop as on the map
     ('0', 587, 393, 'Leones Marinos'), ('1', 705, 278, 'Fauna Live'), ('2', 1067, 394, 'Patio Majorero'),
     ('3', 1339, 382, 'Botánico'), ('4', 962, 633, 'Birds Live'), ('5', 907, 769, 'Elefantes'),
 ]
+ECOTOUR_ROUTE = [  # dashed "Recorrido Ecotour" line of the printed map (map pixels), stop 0 -> 5
+    (590, 384), (603, 370), (617, 356), (632, 343), (647, 330), (663, 318), (679, 305), (694, 293),
+    (708, 281), (717, 271), (727, 259), (737, 245), (747, 231), (758, 216), (767, 202), (776, 189),
+    (784, 179), (787, 174), (790, 170), (793, 166), (796, 162), (799, 158), (803, 153), (808, 148),
+    (814, 142), (817, 139), (821, 135), (826, 131), (832, 126), (839, 121), (847, 116), (855, 112),
+    (865, 110), (877, 108), (889, 108), (901, 109), (912, 112), (923, 115), (932, 119), (940, 124),
+    (947, 128), (951, 131), (955, 134), (959, 137), (963, 140), (967, 143), (971, 146), (974, 150),
+    (978, 154), (984, 162), (988, 168), (992, 172), (995, 177), (998, 182), (1001, 188), (1006, 198),
+    (1012, 212), (1014, 219), (1016, 228), (1018, 236), (1019, 245), (1020, 254), (1020, 263), (1020, 270),
+    (1021, 277), (1021, 285), (1021, 295), (1022, 305), (1023, 316), (1025, 326), (1026, 336), (1028, 345),
+    (1030, 354), (1032, 360), (1034, 366), (1037, 371), (1039, 375), (1042, 378), (1045, 381), (1048, 384),
+    (1051, 386), (1068, 384), (1067, 374), (1066, 361), (1066, 346), (1067, 331), (1069, 316), (1073, 302),
+    (1079, 291), (1087, 284), (1093, 284), (1103, 285), (1118, 286), (1136, 286), (1156, 285), (1177, 281),
+    (1197, 275), (1216, 264), (1222, 261), (1228, 262), (1234, 265), (1240, 270), (1246, 275), (1251, 281),
+    (1256, 286), (1259, 290), (1272, 300), (1286, 308), (1300, 316), (1313, 323), (1325, 330), (1335, 337),
+    (1343, 345), (1347, 353), (1348, 364), (1344, 377), (1337, 392), (1327, 409), (1313, 426), (1297, 444),
+    (1279, 463), (1259, 482), (1241, 497), (1224, 512), (1208, 525), (1192, 537), (1178, 548), (1165, 557),
+    (1155, 564), (1147, 570), (1132, 579), (1120, 586), (1110, 592), (1101, 596), (1092, 597), (1085, 597),
+    (1077, 595), (1068, 590), (1055, 586), (1039, 589), (1021, 596), (1002, 606), (986, 617), (972, 627),
+    (962, 634), (959, 637), (958, 640), (957, 646), (956, 652), (955, 659), (954, 669), (952, 682),
+    (951, 693), (949, 703), (946, 713), (942, 722), (938, 730), (932, 739), (924, 748),
+]
 ECO_NAME = L('Ecotour – parada', 'Ecotour – stop', 'Ecotour – Haltestelle', 'Ecotour – arrêt', 'Ecotour – fermata', 'Ecotour – parada', 'Ecotour – geltokia')
 for n, x, y, stop in ECOTOUR:
     POIS.append((f'ecotour-{n}', 'service', f'E{n}', x, y, {k: f'{v} {n}: {stop}' for k, v in ECO_NAME.items()},
@@ -554,6 +576,7 @@ def main():
             props['description'] = desc
         if pid in SCHEDULE:
             props['schedule'] = SCHEDULE[pid]
+            props.update(parse_schedule(pid, SCHEDULE[pid]))
         image = next((f'img/poi/{pid}.{ext}' for ext in ('webp', 'jpg', 'jpeg', 'png')
                       if os.path.exists(f'{IMAGE_DIR}/{pid}.{ext}')), None)
         if image:
@@ -578,6 +601,8 @@ def main():
              for p in PATHS]
     write_missing_images(feats)
 
+    write_ecotour(feats)
+
     # Paths traced from the printed map; scripts/osm-to-paths.py merges them with OSM.
     with open('data/map-paths.geojson', 'w') as f:
         json.dump({'type': 'FeatureCollection', 'features': lines}, f, indent=1)
@@ -595,6 +620,35 @@ def main():
     lon = [c[0] for c in xs]
     lat = [c[1] for c in xs]
     print(f'{len(feats)} POIs, {len(lines)} paths, bbox {min(lon):.5f},{min(lat):.5f} {max(lon):.5f},{max(lat):.5f}')
+
+
+def parse_schedule(pid, text):
+    """'9:00 – 17:30' -> opening hours; '11:15 · 15:40' -> start times, for the live status badges."""
+    if '–' in text:
+        a, b = (x.strip() for x in text.split('–'))
+        return {'hours': [a, b]}
+    kind = 'train' if pid.startswith('ecotour-') else 'show'
+    return {'times': [x.strip() for x in text.split('·')], 'timesKind': kind}
+
+
+def write_ecotour(feats):
+    """Ecotour route as a line that passes through the stops where they ended up."""
+    pts = [px(x, y) for x, y in ECOTOUR_ROUTE]
+    stops = {ft['properties']['id']: ft['geometry']['coordinates'] for ft in feats
+             if ft['properties']['id'].startswith('ecotour-')}
+    for n in range(6):
+        s = stops.get(f'ecotour-{n}')
+        if not s:
+            continue
+        k = min(range(len(pts)), key=lambda i: (pts[i][0] - s[0]) ** 2 + (pts[i][1] - s[1]) ** 2)
+        dx, dy = s[0] - pts[k][0], s[1] - pts[k][1]
+        for i in range(max(0, k - 6), min(len(pts), k + 7)):  # pull the line onto the stop, fading out
+            w = 1 - abs(i - k) / 7
+            pts[i] = [pts[i][0] + dx * w, pts[i][1] + dy * w]
+    pts = [[round(x, 7), round(y, 7)] for x, y in pts]
+    with open('public/data/ecotour.geojson', 'w') as f:
+        json.dump({'type': 'FeatureCollection', 'features': [
+            {'type': 'Feature', 'properties': {}, 'geometry': {'type': 'LineString', 'coordinates': pts}}]}, f)
 
 
 if __name__ == '__main__':

@@ -40,5 +40,19 @@
   "satFallback": "Satelite geruza ez dago erabilgarri; mapa erabiltzen da.",
   "simHint": "Ukitu mapa zure posizioa simulatzeko.",
   "pdfMap": "Ikusi edo deskargatu parkearen mapa (PDF)",
-  "schedule": "Ordutegia"
+  "schedule": "Ordutegia",
+  "status.open": "Irekita",
+  "status.closed": "Itxita",
+  "status.opensIn": "{n} min barru irekiko da",
+  "status.opensAt": "{t}etan irekiko da",
+  "status.closesIn": "{n} min barru itxiko da",
+  "status.live": "Orain",
+  "status.startsIn": "{n} min barru",
+  "status.startsAt": "{t}etan",
+  "status.noMore": "Gaur ez dago gehiago",
+  "status.trainHere": "Trena geltokian",
+  "status.trainIn": "Trena {n} min barru",
+  "status.trainAt": "Trena {t}etan",
+  "status.noMoreTrains": "Gaur ez dago tren gehiago",
+  "eco.next": "Hurrengo trena"
 }

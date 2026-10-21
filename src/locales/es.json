@@ -40,5 +40,19 @@
   "satFallback": "La capa satélite no está disponible; se usa el mapa.",
   "simHint": "Toca el mapa para simular tu posición.",
   "pdfMap": "Ver o descargar el mapa del parque (PDF)",
-  "schedule": "Horario"
+  "schedule": "Horario",
+  "status.open": "Abierto",
+  "status.closed": "Cerrado",
+  "status.opensIn": "Abre en {n} min",
+  "status.opensAt": "Abre a las {t}",
+  "status.closesIn": "Cierra en {n} min",
+  "status.live": "En curso",
+  "status.startsIn": "En {n} min",
+  "status.startsAt": "A las {t}",
+  "status.noMore": "Hoy no hay más",
+  "status.trainHere": "Tren en la parada",
+  "status.trainIn": "Tren en {n} min",
+  "status.trainAt": "Tren a las {t}",
+  "status.noMoreTrains": "Hoy no hay más trenes",
+  "eco.next": "Próximo tren"
 }

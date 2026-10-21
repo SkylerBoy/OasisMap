@@ -46,6 +46,15 @@ function style(data: ParkData): StyleSpecification {
           features: paths.map((c) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: c } })),
         },
       },
+      ecotour: {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: data.ecotour.length
+            ? [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: data.ecotour } }]
+            : [],
+        },
+      },
       route: { type: 'geojson', data: EMPTY },
       accuracy: { type: 'geojson', data: EMPTY },
     },
@@ -66,6 +75,25 @@ function style(data: ParkData): StyleSpecification {
         source: 'paths',
         layout: { 'line-cap': 'round', 'line-join': 'round' },
         paint: { 'line-color': '#d9c49a', 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 1.5, 19, 8] },
+      },
+      // Ecotour train route: dashed teal like on the printed map.
+      {
+        id: 'ecotour-casing',
+        type: 'line',
+        source: 'ecotour',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#ffffff', 'line-opacity': 0.7, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 4, 19, 10] },
+      },
+      {
+        id: 'ecotour',
+        type: 'line',
+        source: 'ecotour',
+        layout: { 'line-join': 'round' },
+        paint: {
+          'line-color': '#00454f',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2, 19, 5],
+          'line-dasharray': [1.4, 1.6],
+        },
       },
       { id: 'accuracy', type: 'fill', source: 'accuracy', paint: { 'fill-color': '#2f80ed', 'fill-opacity': 0.15 } },
       {
@@ -233,6 +261,8 @@ export class ParkMap {
     paint('paths-casing', 'line-color', dark ? '#11150f' : '#ffffff');
     paint('paths-casing', 'line-opacity', dark ? 0.55 : 0.8);
     paint('paths', 'line-color', dark ? '#8f7f5c' : '#d9c49a');
+    paint('ecotour-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+    paint('ecotour', 'line-color', dark ? '#4fb3bf' : '#00454f');
     paint('route-casing', 'line-color', dark ? '#11150f' : '#ffffff');
     paint('route', 'line-color', dark ? '#e0485c' : '#a3162b');
   }

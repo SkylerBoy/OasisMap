@@ -1419,6 +1419,11 @@
      "eu": "Itsas lehoien erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "11:15 · 15:40",
+    "times": [
+     "11:15",
+     "15:40"
+    ],
+    "timesKind": "show",
     "art": "img/map-art/sea-lion-live.svg",
     "artSize": [
      44.4,
@@ -1458,6 +1463,12 @@
      "eu": "Animalien zuzeneko erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "12:20 · 13:15 · 15:15",
+    "times": [
+     "12:20",
+     "13:15",
+     "15:15"
+    ],
+    "timesKind": "show",
     "art": "img/map-art/fauna-live.svg",
     "artSize": [
      41.6,
@@ -1497,6 +1508,12 @@
      "eu": "Hegaztien hegaldi-erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "13:40 · 14:30 · 15:30",
+    "times": [
+     "13:40",
+     "14:30",
+     "15:30"
+    ],
+    "timesKind": "show",
     "art": "img/map-art/birds-live.svg",
     "artSize": [
      26.6,
@@ -1537,6 +1554,10 @@
      "eu": "Gamelu-ibilaldia, parketik kanpo. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
     },
     "schedule": "9:30 – 16:30",
+    "hours": [
+     "9:30",
+     "16:30"
+    ],
     "art": "img/map-art/camel-experience.svg",
     "artSize": [
      37.2,
@@ -1576,6 +1597,10 @@
      "eu": "Lemurrekin topaketa. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
     },
     "schedule": "9:45 – 16:15",
+    "hours": [
+     "9:45",
+     "16:15"
+    ],
     "art": "img/map-art/lemur-experience.svg",
     "artSize": [
      32.5,
@@ -1653,7 +1678,11 @@
      "ca": "Cuina fins a les 16:30.",
      "eu": "Sukaldea 16:30 arte."
     },
-    "schedule": "9:00 – 17:30"
+    "schedule": "9:00 – 17:30",
+    "hours": [
+     "9:00",
+     "17:30"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -1679,7 +1708,11 @@
     },
     "icon": "restaurant",
     "number": "B",
-    "schedule": "11:45 – 16:00"
+    "schedule": "11:45 – 16:00",
+    "hours": [
+     "11:45",
+     "16:00"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -1739,7 +1772,11 @@
     },
     "icon": "snack",
     "number": "D",
-    "schedule": "9:30 – 16:00"
+    "schedule": "9:30 – 16:00",
+    "hours": [
+     "9:30",
+     "16:00"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -1765,7 +1802,11 @@
     },
     "icon": "snack",
     "number": "E",
-    "schedule": "12:00 – 15:30"
+    "schedule": "12:00 – 15:30",
+    "hours": [
+     "12:00",
+     "15:30"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -1791,7 +1832,11 @@
     },
     "icon": "snack",
     "number": "F",
-    "schedule": "11:30 – 16:30"
+    "schedule": "11:30 – 16:30",
+    "hours": [
+     "11:30",
+     "16:30"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -2073,7 +2118,11 @@
      "ca": "El parc obre de 9:00 a 18:00.",
      "eu": "Parkea 9:00etatik 18:00etara dago irekita."
     },
-    "schedule": "9:00 – 18:00"
+    "schedule": "9:00 – 18:00",
+    "hours": [
+     "9:00",
+     "18:00"
+    ]
    },
    "geometry": {
     "type": "Point",
@@ -2753,7 +2802,15 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:00 · 13:00 · 14:00 · 15:00 · 16:00"
+    "schedule": "12:00 · 13:00 · 14:00 · 15:00 · 16:00",
+    "times": [
+     "12:00",
+     "13:00",
+     "14:00",
+     "15:00",
+     "16:00"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",
@@ -2789,7 +2846,15 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:05 · 13:05 · 14:05 · 15:05 · 16:05"
+    "schedule": "12:05 · 13:05 · 14:05 · 15:05 · 16:05",
+    "times": [
+     "12:05",
+     "13:05",
+     "14:05",
+     "15:05",
+     "16:05"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",
@@ -2825,7 +2890,15 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:10 · 13:10 · 14:10 · 15:10 · 16:10"
+    "schedule": "12:10 · 13:10 · 14:10 · 15:10 · 16:10",
+    "times": [
+     "12:10",
+     "13:10",
+     "14:10",
+     "15:10",
+     "16:10"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",
@@ -2861,7 +2934,15 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:15 · 13:15 · 14:15 · 15:15 · 16:15"
+    "schedule": "12:15 · 13:15 · 14:15 · 15:15 · 16:15",
+    "times": [
+     "12:15",
+     "13:15",
+     "14:15",
+     "15:15",
+     "16:15"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",
@@ -2897,7 +2978,15 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:20 · 13:20 · 14:20 · 15:20 · 16:20"
+    "schedule": "12:20 · 13:20 · 14:20 · 15:20 · 16:20",
+    "times": [
+     "12:20",
+     "13:20",
+     "14:20",
+     "15:20",
+     "16:20"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",
@@ -2933,7 +3022,14 @@
      "ca": "Tren gratuït que recorre el parc.",
      "eu": "Parkea zeharkatzen duen doako trena."
     },
-    "schedule": "12:25 · 13:25 · 14:25 · 15:25"
+    "schedule": "12:25 · 13:25 · 14:25 · 15:25",
+    "times": [
+     "12:25",
+     "13:25",
+     "14:25",
+     "15:25"
+    ],
+    "timesKind": "train"
    },
    "geometry": {
     "type": "Point",

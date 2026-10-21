@@ -1036,3 +1036,108 @@ body.map-expanded {
 }
 
 input, select, textarea, button { font-family: inherit; }
+
+/* --- live status badges (open / closing soon / starts in…) ---------------------- */
+
+.status-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  margin-right: 6px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  vertical-align: 1px;
+  background: var(--chip);
+  color: var(--ink);
+}
+
+.status-badge[hidden] {
+  display: none;
+}
+
+.tone-open { background: #d6efd4; color: #1d5a26; }
+.tone-soon { background: #fde7b8; color: #7a4a00; }
+.tone-closed { background: #ececec; color: #5e5e5e; }
+.tone-live { background: var(--brand); color: #fff; }
+.tone-later { background: #e6eef8; color: #2b4a6f; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .tone-open { background: #24452a; color: #bfe8c0; }
+  :root:not([data-theme='light']) .tone-soon { background: #4d3a12; color: #ffd98a; }
+  :root:not([data-theme='light']) .tone-closed { background: #34372f; color: #b9bcb2; }
+  :root:not([data-theme='light']) .tone-later { background: #23324a; color: #c4d6f2; }
+}
+
+:root[data-theme='dark'] .tone-open { background: #24452a; color: #bfe8c0; }
+:root[data-theme='dark'] .tone-soon { background: #4d3a12; color: #ffd98a; }
+:root[data-theme='dark'] .tone-closed { background: #34372f; color: #b9bcb2; }
+:root[data-theme='dark'] .tone-later { background: #23324a; color: #c4d6f2; }
+
+.sheet-schedule .sched-text {
+  flex: 1;
+}
+
+.sheet-schedule .status-badge {
+  margin: 0;
+}
+
+/* --- Ecotour: next train at each stop ------------------------------------------ */
+
+.eco-run {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--chip);
+  font-variant-numeric: tabular-nums;
+}
+
+.eco-run[hidden] {
+  display: none;
+}
+
+.eco-run ol {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.eco-run li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eco-run li.past {
+  opacity: 0.45;
+}
+
+.eco-run li.here {
+  font-weight: 700;
+}
+
+.eco-n {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #00454f;
+  color: #fff;
+  font-size: 0.75rem;
+}
+
+.eco-name {
+  flex: 1;
+}
+
+.eco-at {
+  color: var(--muted);
+}
+
+.eco-run li.here .eco-at {
+  color: var(--ink);
+}

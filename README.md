@@ -145,6 +145,14 @@ Los iconos de los puntos salen de [Fluent Emoji High Contrast](https://github.co
 [game-icons.net](https://game-icons.net) (CC BY 3.0). Se generan en `src/poi-icons.ts` con
 `node scripts/build-icons.mjs`; el icono de cada punto se asigna en `scripts/gen-park-data.py`.
 
+## Horarios y Ecotour
+
+Los horarios están en `SCHEDULE` (`scripts/gen-park-data.py`). Un horario `9:00 – 17:30` se
+muestra como *Abierto / Cierra en N min / Cerrado*, y una lista `11:15 · 15:40` como
+*En N min / En curso / A las…* (hora de Canarias). El recorrido del Ecotour se dibuja con la
+línea discontinua del mapa oficial (`ECOTOUR_ROUTE`) y cada parada muestra a qué hora pasa
+el próximo tren por las siguientes.
+
 ## Dibujos del mapa
 
 Los animales del mapa usan los dibujos del mapa oficial (PDF), recortados como SVG en

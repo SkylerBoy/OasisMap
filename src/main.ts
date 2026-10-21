@@ -10,6 +10,7 @@ import { unlockDevMode } from './dev-pin';
 import { startDevTools } from './dev-tools';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
+import { ecotourRun, poiStatus, type Status } from './status';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -85,6 +86,11 @@ async function init() {
   bindUi();
   applyI18n();
   renderList();
+  // Opening badges and "starts in N min" change with the clock.
+  window.setInterval(() => {
+    renderList();
+    renderSheet();
+  }, 60_000);
 
   if (captureMode) {
     captureMode = await unlockDevMode();
@@ -331,9 +337,41 @@ function renderList() {
         ${p.number ? `<span class="row-num">${p.number}</span>` : ''}
       </button>`;
     li.querySelector('.row-name')!.textContent = pick(p.name);
-    li.querySelector('.row-sub')!.textContent = [t(`cat.${p.category}`), walkText(p.id)].filter(Boolean).join(' · ');
+    const sub = li.querySelector('.row-sub')!;
+    sub.textContent = [t(`cat.${p.category}`), walkText(p.id)].filter(Boolean).join(' · ');
+    const st = poiStatus(p);
+    if (st) sub.prepend(statusBadge(st));
     li.querySelector('button')!.addEventListener('click', () => openSheet(p));
     ul.appendChild(li);
+  }
+}
+
+function statusBadge(st: Status): HTMLElement {
+  const b = document.createElement('span');
+  b.className = `status-badge tone-${st.tone}`;
+  b.textContent = st.text;
+  return b;
+}
+
+/** Ecotour stop: when the next train reaches this and the following stops. */
+function renderEcotourRun(p: Poi) {
+  const box = $('sheet-ecotour');
+  const m = /^ecotour-(\d)$/.exec(p.id);
+  const run = m ? ecotourRun(data.pois, Number(m[1])) : [];
+  box.hidden = run.length === 0;
+  if (!run.length) return;
+  const here = Number(m![1]);
+  $('eco-stops').innerHTML = '';
+  for (const r of run) {
+    const n = Number(r.stop.id.slice(-1));
+    const li = document.createElement('li');
+    li.className = r.min < -1 ? 'past' : n === here ? 'here' : ''; // dim only stops the train has left
+    const name = pick(r.stop.name).replace(/^.*?:\s*/, '');
+    li.innerHTML = `<span class="eco-n">${n}</span><span class="eco-name"></span><span class="eco-at"></span>`;
+    li.querySelector('.eco-name')!.textContent = name;
+    li.querySelector('.eco-at')!.textContent =
+      r.min > 0 ? `${r.at} · ${t('min', { n: r.min })}` : r.min > -2 ? t('status.trainHere') : r.at;
+    $('eco-stops').appendChild(li);
   }
 }
 
@@ -360,6 +398,14 @@ function renderSheet() {
   $('sheet-sub').textContent = [t(`cat.${p.category}`), walkText(p.id)].filter(Boolean).join(' · ');
   $('sheet-desc').textContent = pick(p.description);
   $('sheet-schedule').hidden = !p.schedule;
+  const st = poiStatus(p);
+  const badge = $('sheet-status');
+  badge.hidden = !st;
+  if (st) {
+    badge.className = `status-badge tone-${st.tone}`;
+    badge.textContent = st.text;
+  }
+  renderEcotourRun(p);
   $('sheet-times').textContent = p.schedule ?? '';
 }
 

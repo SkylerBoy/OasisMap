@@ -1187,10 +1187,10 @@ input, select, textarea, button { font-family: inherit; }
   transition: none;
 }
 
-/* When it opens, the closed sheet grows a little twice, letting the animals section peek in.
+/* When it opens, the closed sheet grows a little once, letting the animals section peek in.
    It stays on the bottom edge: only its height changes. */
 .sheet.open.has-more.hint-bounce:not(.expanded):not(.dragging) {
-  animation: sheet-peek 0.8s cubic-bezier(0.3, 0.7, 0.3, 1) 0.35s 2;
+  animation: sheet-peek 0.8s cubic-bezier(0.3, 0.7, 0.3, 1) 0.35s 1;
 }
 
 @keyframes sheet-peek {

@@ -16,7 +16,9 @@ export const LANGUAGES: { code: string; name: string }[] = [
 ];
 
 type Dict = Record<string, string>;
-const loaders = import.meta.glob<Dict>('./locales/*.json', { import: 'default' });
+// All languages are bundled with the app (a few KB each). Loading them on demand broke
+// language switching on pages opened before a new deploy: the old chunk was gone.
+const bundled = import.meta.glob<Dict>('./locales/*.json', { import: 'default', eager: true });
 const FALLBACK = ['en', 'es'];
 const STORAGE_KEY = 'oasismap.lang';
 
@@ -25,8 +27,8 @@ const dicts: Record<string, Dict> = {};
 
 async function loadDict(code: string): Promise<void> {
   if (dicts[code]) return;
-  const loader = loaders[`./locales/${code}.json`];
-  if (loader) dicts[code] = await loader();
+  const dict = bundled[`./locales/${code}.json`];
+  if (dict) dicts[code] = dict;
 }
 
 export function currentLang(): string {

@@ -4,16 +4,16 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "titi-geoffroy",
+    "id": "titi-plateado",
     "category": "animal",
     "name": {
-     "es": "Tití de Geoffroy",
-     "en": "Geoffroy's marmoset",
-     "de": "Geoffroy-Seidenäffchen",
-     "fr": "Ouistiti de Geoffroy",
-     "it": "Uistitì di Geoffroy",
-     "ca": "Titi de Geoffroy",
-     "eu": "Geoffroy titia"
+     "es": "Tití plateado",
+     "en": "Silvery marmoset",
+     "de": "Silberäffchen",
+     "fr": "Ouistiti argenté",
+     "it": "Uistitì argentato",
+     "ca": "Titi platejat",
+     "eu": "Titi zilarkara"
     },
     "icon": "monkey",
     "number": "1"
@@ -29,7 +29,7 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "tamarino-algodon-1",
+    "id": "tamarino-algodon",
     "category": "animal",
     "name": {
      "es": "Tamarino cabeza de algodón",
@@ -54,18 +54,43 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "avefrias-saki",
+    "id": "tortuga-espolones",
     "category": "animal",
     "name": {
-     "es": "Avefrías y saki",
-     "en": "Lapwings and saki",
-     "de": "Kiebitze und Saki",
-     "fr": "Vanneaux et saki",
-     "it": "Pavoncelle e saki",
-     "ca": "Fredelugues i saki",
-     "eu": "Hegabakarrak eta sakia"
+     "es": "Tortuga de espolones africana",
+     "en": "African spurred tortoise",
+     "de": "Spornschildkröte",
+     "fr": "Tortue sillonnée",
+     "it": "Testuggine sulcata",
+     "ca": "Tortuga d’esperons africana",
+     "eu": "Afrikako dortoka ezproiduna"
     },
-    "icon": "bird",
+    "icon": "turtle",
+    "number": "3"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1556559,
+     28.1880812
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "tucan",
+    "category": "animal",
+    "name": {
+     "es": "Tucán de pico acanalado",
+     "en": "Channel-billed toucan",
+     "de": "Dottertukan",
+     "fr": "Toucan ariel",
+     "it": "Tucano beccoscanalato",
+     "ca": "Tucà de bec acanalat",
+     "eu": "Tukan moko-ildaskatua"
+    },
+    "icon": "parrot",
     "number": "4"
    },
    "geometry": {
@@ -129,18 +154,18 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "macaca-cangrejera",
+    "id": "serval",
     "category": "animal",
     "name": {
-     "es": "Macaca cangrejera",
-     "en": "Crab-eating macaque",
-     "de": "Javaneraffe",
-     "fr": "Macaque crabier",
-     "it": "Macaco cinomolgo",
-     "ca": "Macaco menjacrancs",
-     "eu": "Karramarro-jale makakoa"
+     "es": "Serval",
+     "en": "Serval",
+     "de": "Serval",
+     "fr": "Serval",
+     "it": "Servalo",
+     "ca": "Serval",
+     "eu": "Serbala"
     },
-    "icon": "monkey",
+    "icon": "leopard",
     "number": "7"
    },
    "geometry": {
@@ -173,31 +198,6 @@
     "coordinates": [
      -14.1559456,
      28.1872207
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "mono-patas",
-    "category": "animal",
-    "name": {
-     "es": "Mono patas",
-     "en": "Patas monkey",
-     "de": "Husarenaffe",
-     "fr": "Singe rouge",
-     "it": "Scimmia patas",
-     "ca": "Mona patas",
-     "eu": "Patas tximinoa"
-    },
-    "icon": "monkey",
-    "number": "9"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1563418,
-     28.1870118
     ]
    }
   },
@@ -357,13 +357,13 @@
     "id": "talapoin",
     "category": "animal",
     "name": {
-     "es": "Talapoin",
-     "en": "Talapoin monkey",
-     "de": "Zwergmeerkatze",
-     "fr": "Talapoin",
-     "it": "Talapoino",
-     "ca": "Talapoin",
-     "eu": "Talapoina"
+     "es": "Talapoin y avefrías",
+     "en": "Talapoin and lapwings",
+     "de": "Zwergmeerkatze und Kiebitze",
+     "fr": "Talapoin et vanneaux",
+     "it": "Talapoino e pavoncelle",
+     "ca": "Talapoin i fredelugues",
+     "eu": "Talapoina eta hegabakarrak"
     },
     "icon": "monkey",
     "number": "16"
@@ -404,6 +404,31 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "canguro-pelicano",
+    "category": "animal",
+    "name": {
+     "es": "Canguro rojo y pelícano australiano",
+     "en": "Red kangaroo and Australian pelican",
+     "de": "Rotes Riesenkänguru und Brillenpelikan",
+     "fr": "Kangourou roux et pélican australien",
+     "it": "Canguro rosso e pellicano australiano",
+     "ca": "Cangur vermell i pelicà australià",
+     "eu": "Kanguru gorria eta pelikano australiarra"
+    },
+    "icon": "kangaroo",
+    "number": "18"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1591159,
+     28.1857063
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "camello-ovejas",
     "category": "animal",
     "name": {
@@ -429,7 +454,7 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "hipopotamo-1",
+    "id": "hipopotamo",
     "category": "animal",
     "name": {
      "es": "Hipopótamo",
@@ -448,6 +473,31 @@
     "coordinates": [
      -14.1598923,
      28.1859165
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "capibara",
+    "category": "animal",
+    "name": {
+     "es": "Capibara",
+     "en": "Capybara",
+     "de": "Wasserschwein",
+     "fr": "Capybara",
+     "it": "Capibara",
+     "ca": "Capibara",
+     "eu": "Kapibara"
+    },
+    "icon": "capybara",
+    "number": "21"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1597474,
+     28.1860031
     ]
    }
   },
@@ -523,31 +573,6 @@
     "coordinates": [
      -14.1608329,
      28.185391
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "hipopotamo-2",
-    "category": "animal",
-    "name": {
-     "es": "Hipopótamo",
-     "en": "Hippopotamus",
-     "de": "Flusspferd",
-     "fr": "Hippopotame",
-     "it": "Ippopotamo",
-     "ca": "Hipopòtam",
-     "eu": "Hipopotamoa"
-    },
-    "icon": "hippo",
-    "number": "25"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.160964,
-     28.1855691
     ]
    }
   },
@@ -657,13 +682,13 @@
     "id": "jirafas",
     "category": "animal",
     "name": {
-     "es": "Jirafa, gacela de Cuvier, gran eland y cobo de Lechwe",
-     "en": "Giraffe, Cuvier's gazelle, giant eland and lechwe",
-     "de": "Giraffe, Cuvier-Gazelle, Riesenelenantilope und Litschi-Moorantilope",
-     "fr": "Girafe, gazelle de Cuvier, éland de Derby et cobe lechwe",
-     "it": "Giraffa, gazzella di Cuvier, eland gigante e lechwe",
-     "ca": "Girafa, gasela de Cuvier, gran elan i cob de Lechwe",
-     "eu": "Jirafa, Cuvierren gazela, eland handia eta lechwea"
+     "es": "Jirafa, gacela de Cuvier, eland común y cobo de Lechwe",
+     "en": "Giraffe, Cuvier's gazelle, common eland and lechwe",
+     "de": "Giraffe, Cuvier-Gazelle, Elenantilope und Litschi-Moorantilope",
+     "fr": "Girafe, gazelle de Cuvier, éland du Cap et cobe lechwe",
+     "it": "Giraffa, gazzella di Cuvier, eland comune e lechwe",
+     "ca": "Girafa, gasela de Cuvier, elan comú i cob de Lechwe",
+     "eu": "Jirafa, Cuvierren gazela, eland arrunta eta lechwea"
     },
     "icon": "giraffe",
     "number": "30"
@@ -729,18 +754,18 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "tortuga-estrellada",
+    "id": "varano",
     "category": "animal",
     "name": {
-     "es": "Tortuga estrellada de Madagascar",
-     "en": "Radiated tortoise",
-     "de": "Strahlenschildkröte",
-     "fr": "Tortue radiée",
-     "it": "Testuggine raggiata",
-     "ca": "Tortuga estrellada de Madagascar",
-     "eu": "Madagaskarko dortoka izarduna"
+     "es": "Varano de agua de cabeza amarilla",
+     "en": "Yellow-headed water monitor",
+     "de": "Gelbkopfwaran",
+     "fr": "Varan à tête jaune",
+     "it": "Varano acquatico testagialla",
+     "ca": "Varà d’aigua de cap groc",
+     "eu": "Buru-hori ur-baranoa"
     },
-    "icon": "turtle",
+    "icon": "lizard",
     "number": "33"
    },
    "geometry": {
@@ -779,18 +804,18 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "tortuga-aldabra",
+    "id": "iguana-verde",
     "category": "animal",
     "name": {
-     "es": "Tortuga gigante de Aldabra",
-     "en": "Aldabra giant tortoise",
-     "de": "Aldabra-Riesenschildkröte",
-     "fr": "Tortue géante d'Aldabra",
-     "it": "Testuggine gigante di Aldabra",
-     "ca": "Tortuga gegant d'Aldabra",
-     "eu": "Aldabrako dortoka erraldoia"
+     "es": "Iguana verde",
+     "en": "Green iguana",
+     "de": "Grüner Leguan",
+     "fr": "Iguane vert",
+     "it": "Iguana verde",
+     "ca": "Iguana verda",
+     "eu": "Iguana berdea"
     },
-    "icon": "turtle",
+    "icon": "lizard",
     "number": "35"
    },
    "geometry": {
@@ -804,7 +829,7 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "aligator-1",
+    "id": "aligator",
     "category": "animal",
     "name": {
      "es": "Aligátor americano",
@@ -854,18 +879,18 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "aligator-2",
+    "id": "tortuga-aldabra",
     "category": "animal",
     "name": {
-     "es": "Aligátor americano",
-     "en": "American alligator",
-     "de": "Mississippi-Alligator",
-     "fr": "Alligator d’Amérique",
-     "it": "Alligatore americano",
-     "ca": "Al·ligàtor americà",
-     "eu": "Aligator amerikarra"
+     "es": "Tortuga gigante de Aldabra",
+     "en": "Aldabra giant tortoise",
+     "de": "Aldabra-Riesenschildkröte",
+     "fr": "Tortue géante d'Aldabra",
+     "it": "Testuggine gigante di Aldabra",
+     "ca": "Tortuga gegant d'Aldabra",
+     "eu": "Aldabrako dortoka erraldoia"
     },
-    "icon": "crocodile",
+    "icon": "turtle",
     "number": "38"
    },
    "geometry": {
@@ -879,16 +904,16 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "lagartos-tortugas",
+    "id": "lagartos",
     "category": "animal",
     "name": {
-     "es": "Lagartos y tortugas",
-     "en": "Lizards and tortoises",
-     "de": "Echsen und Schildkröten",
-     "fr": "Lézards et tortues",
-     "it": "Lucertole e tartarughe",
-     "ca": "Llangardaixos i tortugues",
-     "eu": "Muskerrak eta dortokak"
+     "es": "Lagartos",
+     "en": "Lizards",
+     "de": "Echsen",
+     "fr": "Lézards",
+     "it": "Lucertole",
+     "ca": "Llangardaixos",
+     "eu": "Muskerrak"
     },
     "icon": "lizard",
     "number": "39"
@@ -954,25 +979,50 @@
   {
    "type": "Feature",
    "properties": {
-    "id": "grullas-tortugas",
+    "id": "grullas-tortuga-emu",
     "category": "animal",
     "name": {
-     "es": "Grullas, tortuga de espolones africana y tortuga leopardo",
-     "en": "Cranes, African spurred tortoise and leopard tortoise",
-     "de": "Kraniche, Spornschildkröte und Pantherschildkröte",
-     "fr": "Grues, tortue sillonnée et tortue léopard",
-     "it": "Gru, testuggine sulcata e testuggine leopardo",
-     "ca": "Grues, tortuga d’esperons africana i tortuga lleopard",
-     "eu": "Kurriloak, Afrikako dortoka ezproiduna eta dortoka leopardoa"
+     "es": "Grullas, tortuga de espolones africana y emú",
+     "en": "Cranes, African spurred tortoise and emu",
+     "de": "Kraniche, Spornschildkröte und Emu",
+     "fr": "Grues, tortue sillonnée et émeu",
+     "it": "Gru, testuggine sulcata ed emù",
+     "ca": "Grues, tortuga d’esperons africana i emú",
+     "eu": "Kurriloak, Afrikako dortoka ezproiduna eta emua"
     },
     "icon": "crane",
-    "number": "43"
+    "number": "42"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
      -14.1599445,
      28.1854028
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "emu-ualabi-cisne",
+    "category": "animal",
+    "name": {
+     "es": "Emú, ualabí de Bennet, cisne negro y aves",
+     "en": "Emu, Bennett's wallaby, black swan and birds",
+     "de": "Emu, Bennett-Wallaby, Trauerschwan und Vögel",
+     "fr": "Émeu, wallaby de Bennett, cygne noir et oiseaux",
+     "it": "Emù, wallaby di Bennett, cigno nero e uccelli",
+     "ca": "Emú, ualabi de Bennett, cigne negre i aus",
+     "eu": "Emua, Bennetten ualabia, beltxarga beltza eta hegaztiak"
+    },
+    "icon": "kangaroo",
+    "number": "43"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1596448,
+     28.1852023
     ]
    }
   },
@@ -992,31 +1042,6 @@
     },
     "icon": "monkey",
     "number": "44"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1596448,
-     28.1852023
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "emu-ualabi",
-    "category": "animal",
-    "name": {
-     "es": "Emú, ualabí de Bennet y varias aves",
-     "en": "Emu, Bennett's wallaby and other birds",
-     "de": "Emu, Bennett-Wallaby und verschiedene Vögel",
-     "fr": "Émeu, wallaby de Bennett et divers oiseaux",
-     "it": "Emù, wallaby di Bennett e altri uccelli",
-     "ca": "Emú, ualabi de Bennett i diverses aus",
-     "eu": "Emua, Bennetten ualabia eta beste hegazti batzuk"
-    },
-    "icon": "kangaroo",
-    "number": "45"
    },
    "geometry": {
     "type": "Point",
@@ -1041,13 +1066,63 @@
      "eu": "Armadiloa"
     },
     "icon": "armadillo",
-    "number": "46"
+    "number": "45"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
      -14.1589759,
      28.1857385
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "titi-pincel",
+    "category": "animal",
+    "name": {
+     "es": "Tití pincel blanco",
+     "en": "Common marmoset",
+     "de": "Weißbüscheläffchen",
+     "fr": "Ouistiti à pinceaux blancs",
+     "it": "Uistitì dai pennacchi bianchi",
+     "ca": "Titi de pinzell blanc",
+     "eu": "Titi arrunta"
+    },
+    "icon": "monkey",
+    "number": "46"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1587279,
+     28.1859166
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "titi-geoffroy",
+    "category": "animal",
+    "name": {
+     "es": "Tití de Geoffroy",
+     "en": "Geoffroy's marmoset",
+     "de": "Geoffroy-Seidenäffchen",
+     "fr": "Ouistiti de Geoffroy",
+     "it": "Uistitì di Geoffroy",
+     "ca": "Titi de Geoffroy",
+     "eu": "Geoffroy titia"
+    },
+    "icon": "monkey",
+    "number": "47"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1577926,
+     28.1862697
     ]
    }
   },
@@ -1066,63 +1141,47 @@
      "eu": "Ezpain-zuri tamarinoa"
     },
     "icon": "monkey",
-    "number": "47"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1587279,
-     28.1859166
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "tamarino-algodon-2",
-    "category": "animal",
-    "name": {
-     "es": "Tamarino cabeza de algodón",
-     "en": "Cotton-top tamarin",
-     "de": "Lisztäffchen",
-     "fr": "Tamarin pinché",
-     "it": "Tamarino edipo",
-     "ca": "Tamarí cap de cotó",
-     "eu": "Kotoi-buru tamarinoa"
-    },
-    "icon": "monkey",
     "number": "48"
-   },
-   "geometry": {
-    "type": "Point",
-    "coordinates": [
-     -14.1577926,
-     28.1862697
-    ]
-   }
-  },
-  {
-   "type": "Feature",
-   "properties": {
-    "id": "titi-plateado",
-    "category": "animal",
-    "name": {
-     "es": "Tití plateado",
-     "en": "Silvery marmoset",
-     "de": "Silberäffchen",
-     "fr": "Ouistiti argenté",
-     "it": "Uistitì argentato",
-     "ca": "Titi platejat",
-     "eu": "Titi zilarkara"
-    },
-    "icon": "monkey",
-    "number": "49"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
      -14.1576627,
      28.18633
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "saki-goeldi-emperador",
+    "category": "animal",
+    "name": {
+     "es": "Saki, tamarino de Goeldi y tamarino emperador",
+     "en": "Saki, Goeldi's monkey and emperor tamarin",
+     "de": "Saki, Springtamarin und Kaiserschnurrbarttamarin",
+     "fr": "Saki, tamarin de Goeldi et tamarin empereur",
+     "it": "Saki, tamarino di Goeldi e tamarino imperatore",
+     "ca": "Saki, tamarí de Goeldi i tamarí emperador",
+     "eu": "Sakia, Goeldiren tamarinoa eta tamarino enperadorea"
+    },
+    "icon": "monkey",
+    "number": "49",
+    "description": {
+     "es": "Próximamente.",
+     "en": "Coming soon.",
+     "de": "Demnächst.",
+     "fr": "Bientôt.",
+     "it": "Prossimamente.",
+     "ca": "Properament.",
+     "eu": "Laster."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1590355,
+     28.1856957
     ]
    }
   },
@@ -1295,6 +1354,39 @@
   {
    "type": "Feature",
    "properties": {
+    "id": "sabana-splash",
+    "category": "experience",
+    "name": {
+     "es": "Sabana Splash",
+     "en": "Sabana Splash",
+     "de": "Sabana Splash",
+     "fr": "Sabana Splash",
+     "it": "Sabana Splash",
+     "ca": "Sabana Splash",
+     "eu": "Sabana Splash"
+    },
+    "icon": "splash",
+    "description": {
+     "es": "Nueva zona de juegos de agua.",
+     "en": "New water play area.",
+     "de": "Neuer Wasserspielplatz.",
+     "fr": "Nouvelle aire de jeux aquatiques.",
+     "it": "Nuova area giochi d’acqua.",
+     "ca": "Nova zona de jocs d’aigua.",
+     "eu": "Ur-jolasen gune berria."
+    }
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1600905,
+     28.1850321
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
     "id": "malvarrisco",
     "category": "food",
     "name": {
@@ -1391,7 +1483,7 @@
      "eu": "Itsas Lehoien snack-barra"
     },
     "icon": "snack",
-    "number": "A"
+    "number": "D"
    },
    "geometry": {
     "type": "Point",
@@ -1416,13 +1508,38 @@
      "eu": "Fauna snack-barra"
     },
     "icon": "snack",
-    "number": "B"
+    "number": "E"
    },
    "geometry": {
     "type": "Point",
     "coordinates": [
      -14.1625598,
      28.1830326
+    ]
+   }
+  },
+  {
+   "type": "Feature",
+   "properties": {
+    "id": "snack-sabana",
+    "category": "food",
+    "name": {
+     "es": "Sabana Snack Bar",
+     "en": "Sabana Snack Bar",
+     "de": "Snackbar Sabana",
+     "fr": "Snack-bar Sabana",
+     "it": "Snack bar Sabana",
+     "ca": "Snack bar Sabana",
+     "eu": "Sabana snack-barra"
+    },
+    "icon": "snack",
+    "number": "F"
+   },
+   "geometry": {
+    "type": "Point",
+    "coordinates": [
+     -14.1599535,
+     28.1849529
     ]
    }
   },

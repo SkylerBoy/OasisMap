@@ -239,11 +239,24 @@ function renderHeading() {
 
 // --- UI ----------------------------------------------------------------------
 
+/** Official park map PDFs exist in es, en and de; ca and eu fall back to Spanish, the rest to English. */
+const MAP_PDF = (lang: string) => {
+  const l = ['es', 'en', 'de'].includes(lang) ? lang : ['ca', 'eu'].includes(lang) ? 'es' : 'en';
+  return `https://wildapp.oasiswildlifefuerteventura.com/img/mapas/assets/mapa_${l}.pdf`;
+};
+
+function updatePdfLink() {
+  $<HTMLAnchorElement>('pdf-link').href = MAP_PDF(currentLang());
+}
+
 function buildLanguageSelect() {
   const sel = $<HTMLSelectElement>('lang-select');
   sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.name}</option>`).join('');
   sel.value = currentLang();
-  const code = () => ($('lang-code').textContent = currentLang().toUpperCase());
+  const code = () => {
+    $('lang-code').textContent = currentLang().toUpperCase();
+    updatePdfLink();
+  };
   code();
   sel.addEventListener('change', async () => {
     await setLang(sel.value);

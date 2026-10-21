@@ -17,14 +17,14 @@ const ICONS = {
   hippo: 'f:hippopotamus', ibis: 'g:ibis', antelope: 'f:deer', llama: 'f:llama', turtle: 'f:turtle', zebra: 'f:zebra',
   cattle: 'f:ox', giraffe: 'f:giraffe', elephant: 'f:elephant', snake: 'f:snake', lizard: 'f:lizard', owl: 'f:owl',
   kangaroo: 'f:kangaroo', armadillo: 'g:armadillo', seal: 'f:seal', parrot: 'f:parrot', eagle: 'f:eagle',
-  sheep: 'f:ewe',
+  sheep: 'f:ewe', leopard: 'f:leopard', capybara: 'f:beaver',
   // food, botanic, services
   restaurant: 'f:fork-and-knife-with-plate', snack: 'f:cup-with-straw', cactus: 'f:cactus', herb: 'f:herb',
   palm: 'f:palm-tree', tree: 'f:deciduous-tree', ticket: 'f:admission-tickets', info: 'f:information',
   gift: 'f:wrapped-gift', camera: 'f:camera', apple: 'f:red-apple', hospital: 'f:hospital',
   firstaid: 'f:adhesive-bandage', defib: 'f:high-voltage', viewpoint: 'g:binoculars', toilet: 'f:toilet',
   taxi: 'f:taxi', car: 'f:automobile', wheelchair: 'f:manual-wheelchair', train: 'f:locomotive',
-  show: 'f:performing-arts', paw: 'f:paw-prints',
+  show: 'f:performing-arts', paw: 'f:paw-prints', splash: 'f:playground-slide',
 };
 
 const out = {};

@@ -18,22 +18,3 @@ jobs:
             done
           done
 
-  legend:
-    # Saves the legend of the Spanish map as a small image (data/osm/../map-legend-es.png)
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-      - run: |
-          sudo apt-get install -y -qq poppler-utils imagemagick >/dev/null
-          curl -sSf -A "OasisMap/1.0" -o /tmp/mapa_es.pdf https://wildapp.oasiswildlifefuerteventura.com/img/mapas/assets/mapa_es.pdf
-          pdftoppm -r 150 -png /tmp/mapa_es.pdf /tmp/map
-          f=$(ls /tmp/map*.png | head -1)
-          mkdir -p data/map
-          # bottom legend strip and top-left legend
-          convert "$f" -gravity South -crop 100%x16%+0+0 +repage -resize 2400x data/map/legend-es-bottom.png
-          convert "$f" -crop 30%x36%+0+0 +repage data/map/legend-es-top.png
-          git config user.name "github-actions[bot]"
-          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git add data/map && git commit -m "Spanish map legend images" && git push

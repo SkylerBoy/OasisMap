@@ -5,3 +5,4 @@ dist
 public/overlay/*
 !public/overlay/README.md
 dist-artifact
+__pycache__/

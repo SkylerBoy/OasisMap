@@ -1,6 +1,6 @@
 """
 Generates public/data/pois.geojson and data/map-paths.geojson from the official park map
-(oasiswildlifefuerteventura.com/mapa_es.pdf, October 2026).
+(wildapp.oasiswildlifefuerteventura.com/img/mapas/assets/mapa_es.pdf, Oct 2026).
 
 Positions are read off the map image (pixels of a 1372 x 1195 render) and
 projected onto real coordinates (see "projection" below), so the layout
@@ -143,52 +143,55 @@ def L(*names):
 # --- points of interest -------------------------------------------------------------
 # (id, category, map number or None, x, y, name, description or None)
 POIS = [
-    # Animals (numbers as on the map; 3, 18, 21 and 42 are "en obras")
-    ('titi-geoffroy', 'animal', '1', 126, 799, L('Tití de Geoffroy', "Geoffroy's marmoset", 'Geoffroy-Seidenäffchen', 'Ouistiti de Geoffroy', 'Uistitì di Geoffroy', 'Titi de Geoffroy', 'Geoffroy titia'), None),
-    ('tamarino-algodon-1', 'animal', '2', 124, 825, L('Tamarino cabeza de algodón', 'Cotton-top tamarin', 'Lisztäffchen', 'Tamarin pinché', 'Tamarino edipo', 'Tamarí cap de cotó', 'Kotoi-buru tamarinoa'), None),
-    ('avefrias-saki', 'animal', '4', 107, 865, L('Avefrías y saki', 'Lapwings and saki', 'Kiebitze und Saki', 'Vanneaux et saki', 'Pavoncelle e saki', 'Fredelugues i saki', 'Hegabakarrak eta sakia'), None),
+    # Animals: numbers and names from the official map (wildapp mapa_es.pdf, Oct 2026).
+    # 9 and 25 are "en obras". Positions are the enclosures' places on the drawing.
+    ('titi-plateado', 'animal', '1', 126, 799, L('Tití plateado', 'Silvery marmoset', 'Silberäffchen', 'Ouistiti argenté', 'Uistitì argentato', 'Titi platejat', 'Titi zilarkara'), None),
+    ('tamarino-algodon', 'animal', '2', 124, 825, L('Tamarino cabeza de algodón', 'Cotton-top tamarin', 'Lisztäffchen', 'Tamarin pinché', 'Tamarino edipo', 'Tamarí cap de cotó', 'Kotoi-buru tamarinoa'), None),
+    ('tortuga-espolones', 'animal', '3', 111, 842, L('Tortuga de espolones africana', 'African spurred tortoise', 'Spornschildkröte', 'Tortue sillonnée', 'Testuggine sulcata', 'Tortuga d’esperons africana', 'Afrikako dortoka ezproiduna'), None),
+    ('tucan', 'animal', '4', 107, 865, L('Tucán de pico acanalado', 'Channel-billed toucan', 'Dottertukan', 'Toucan ariel', 'Tucano beccoscanalato', 'Tucà de bec acanalat', 'Tukan moko-ildaskatua'), None),
     ('tunel-lemures', 'animal', '5', 80, 867, L('Túnel de lémures', 'Lemur tunnel', 'Lemurentunnel', 'Tunnel des lémuriens', 'Tunnel dei lemuri', 'Túnel de lèmurs', 'Lemurren tunela'), None),
     ('grulla-damisela', 'animal', '6', 33, 854, L('Grulla damisela', 'Demoiselle crane', 'Jungfernkranich', 'Grue demoiselle', 'Damigella di Numidia', 'Grua damisel·la', 'Kurrilo dama'), None),
-    ('macaca-cangrejera', 'animal', '7', 75, 820, L('Macaca cangrejera', 'Crab-eating macaque', 'Javaneraffe', 'Macaque crabier', 'Macaco cinomolgo', 'Macaco menjacrancs', 'Karramarro-jale makakoa'), None),
+    ('serval', 'animal', '7', 75, 820, L('Serval', 'Serval', 'Serval', 'Serval', 'Servalo', 'Serval', 'Serbala'), None),
     ('mono-arana', 'animal', '8', 145, 788, L('Mono araña', 'Spider monkey', 'Klammeraffe', 'Singe-araignée', 'Scimmia ragno', 'Mona aranya', 'Armiarma-tximinoa'), None),
-    ('mono-patas', 'animal', '9', 176, 769, L('Mono patas', 'Patas monkey', 'Husarenaffe', 'Singe rouge', 'Scimmia patas', 'Mona patas', 'Patas tximinoa'), None),
     ('flamencos', 'animal', '10', 218, 776, L('Flamencos', 'Flamingos', 'Flamingos', 'Flamants', 'Fenicotteri', 'Flamencs', 'Flamenkoak'), None),
     ('titi-pigmeo', 'animal', '11', 240, 725, L('Tití pigmeo', 'Pygmy marmoset', 'Zwergseidenäffchen', 'Ouistiti pygmée', 'Uistitì pigmeo', 'Titi pigmeu', 'Titi pigmeoa'), None),
     ('puercoespin', 'animal', '12', 262, 703, L('Puercoespín', 'Porcupine', 'Stachelschwein', 'Porc-épic', 'Istrice', 'Porc espí', 'Triku-ugaraxoa'), None),
     ('capuchino', 'animal', '13', 279, 702, L('Capuchino', 'Capuchin monkey', 'Kapuzineraffe', 'Capucin', 'Cebo cappuccino', 'Caputxí', 'Kaputxino tximinoa'), None),
     ('crias-cocodrilo', 'animal', '14', 307, 701, L('Crías de cocodrilo', 'Baby crocodiles', 'Krokodil-Nachwuchs', 'Bébés crocodiles', 'Cuccioli di coccodrillo', 'Cries de cocodril', 'Krokodilo kumeak'), None),
     ('fenec', 'animal', '15', 335, 679, L('Fénec', 'Fennec fox', 'Fennek', 'Fennec', 'Fennec', 'Fennec', 'Fenekoa'), None),
-    ('talapoin', 'animal', '16', 358, 656, L('Talapoin', 'Talapoin monkey', 'Zwergmeerkatze', 'Talapoin', 'Talapoino', 'Talapoin', 'Talapoina'), None),
+    ('talapoin', 'animal', '16', 358, 656, L('Talapoin y avefrías', 'Talapoin and lapwings', 'Zwergmeerkatze und Kiebitze', 'Talapoin et vanneaux', 'Talapoino e pavoncelle', 'Talapoin i fredelugues', 'Talapoina eta hegabakarrak'), None),
     ('nutria', 'animal', '17', 388, 651, L('Nutria asiática de uñas cortas', 'Asian small-clawed otter', 'Zwergotter', 'Loutre cendrée', 'Lontra dalle piccole unghie', 'Llúdriga asiàtica d’ungles curtes', 'Azazkal laburreko igaraba'), None),
+    ('canguro-pelicano', 'animal', '18', 455, 611, L('Canguro rojo y pelícano australiano', 'Red kangaroo and Australian pelican', 'Rotes Riesenkänguru und Brillenpelikan', 'Kangourou roux et pélican australien', 'Canguro rosso e pellicano australiano', 'Cangur vermell i pelicà australià', 'Kanguru gorria eta pelikano australiarra'), None),
     ('camello-ovejas', 'animal', '19', 506, 599, L('Camello bactriano y ovejas', 'Bactrian camel and sheep', 'Trampeltier und Schafe', 'Chameau de Bactriane et moutons', 'Cammello della Battriana e pecore', 'Camell bactrià i ovelles', 'Baktriako gamelua eta ardiak'), None),
-    ('hipopotamo-1', 'animal', '20', 568, 623, L('Hipopótamo', 'Hippopotamus', 'Flusspferd', 'Hippopotame', 'Ippopotamo', 'Hipopòtam', 'Hipopotamoa'), None),
+    ('hipopotamo', 'animal', '20', 568, 623, L('Hipopótamo', 'Hippopotamus', 'Flusspferd', 'Hippopotame', 'Ippopotamo', 'Hipopòtam', 'Hipopotamoa'), None),
+    ('capibara', 'animal', '21', 549, 648, L('Capibara', 'Capybara', 'Wasserschwein', 'Capybara', 'Capibara', 'Capibara', 'Kapibara'), None),
     ('aves-zancudas', 'animal', '22', 535, 640, L('Tántalo, marabú, jabirú e ibis sagrado', 'Stork, marabou, saddle-billed stork and sacred ibis', 'Nimmersatt, Marabu, Sattelstorch und Heiliger Ibis', 'Tantale, marabout, jabiru et ibis sacré', 'Tantalo, marabù, jabiru e ibis sacro', 'Tàntal, marabú, jabirú i ibis sagrat', 'Tantaloa, marabua, jabirua eta ibis sakratua'), None),
     ('niala-calao-grulla', 'animal', '23', 577, 569, L('Niala, cálao y grulla coronada', 'Nyala, hornbill and crowned crane', 'Nyala, Hornrabe und Kronenkranich', 'Nyala, calao et grue couronnée', 'Nyala, bucero e gru coronata', 'Niala, calau i grua coronada', 'Niala, kalaoa eta kurrilo koroaduna'), None),
     ('llamas-guanacos', 'animal', '24', 663, 534, L('Llamas y guanacos', 'Llamas and guanacos', 'Lamas und Guanakos', 'Lamas et guanacos', 'Lama e guanachi', 'Llames i guanacs', 'Lamak eta guanakoak'), None),
-    ('hipopotamo-2', 'animal', '25', 689, 560, L('Hipopótamo', 'Hippopotamus', 'Flusspferd', 'Hippopotame', 'Ippopotamo', 'Hipopòtam', 'Hipopotamoa'), None),
     ('tortuga-florida', 'animal', '26', 657, 587, L('Tortuga de Florida', 'Florida turtle', 'Florida-Schmuckschildkröte', 'Tortue de Floride', 'Tartaruga della Florida', 'Tortuga de Florida', 'Floridako dortoka'), None),
     ('sabana', 'animal', '27', 744, 619, L('Sabana africana', 'African savannah', 'Afrikanische Savanne', 'Savane africaine', 'Savana africana', 'Sabana africana', 'Afrikako sabana'), None),
     ('watusi', 'animal', '28', 784, 650, L('Watusi', 'Watusi cattle', 'Watussirind', 'Watusi', 'Watusi', 'Watusi', 'Watusi behiak'), None),
     ('dromedarios', 'animal', '29', 809, 700, L('Reserva de dromedarios', 'Dromedary reserve', 'Dromedar-Reservat', 'Réserve de dromadaires', 'Riserva dei dromedari', 'Reserva de dromedaris', 'Dromedarioen erreserba'), None),
-    ('jirafas', 'animal', '30', 766, 729, L('Jirafa, gacela de Cuvier, gran eland y cobo de Lechwe', "Giraffe, Cuvier's gazelle, giant eland and lechwe", 'Giraffe, Cuvier-Gazelle, Riesenelenantilope und Litschi-Moorantilope', 'Girafe, gazelle de Cuvier, éland de Derby et cobe lechwe', 'Giraffa, gazzella di Cuvier, eland gigante e lechwe', 'Girafa, gasela de Cuvier, gran elan i cob de Lechwe', 'Jirafa, Cuvierren gazela, eland handia eta lechwea'), None),
+    ('jirafas', 'animal', '30', 766, 729, L('Jirafa, gacela de Cuvier, eland común y cobo de Lechwe', "Giraffe, Cuvier's gazelle, common eland and lechwe", 'Giraffe, Cuvier-Gazelle, Elenantilope und Litschi-Moorantilope', 'Girafe, gazelle de Cuvier, éland du Cap et cobe lechwe', 'Giraffa, gazzella di Cuvier, eland comune e lechwe', 'Girafa, gasela de Cuvier, elan comú i cob de Lechwe', 'Jirafa, Cuvierren gazela, eland arrunta eta lechwea'), None),
     ('elefantes', 'animal', '31', 819, 780, L('Elefante, facóquero y órice gacela', 'Elephant, warthog and gemsbok', 'Elefant, Warzenschwein und Spießbock', 'Éléphant, phacochère et oryx gazelle', 'Elefante, facocero e orice gazzella', 'Elefant, facoquer i òrix gasela', 'Elefantea, fakokeroa eta orix gazela'), None),
     ('cueva-reptiles', 'animal', '32', 651, 499, L('Cueva de reptiles', 'Reptile cave', 'Reptilienhöhle', 'Grotte des reptiles', 'Grotta dei rettili', 'Cova de rèptils', 'Narrastien kobazuloa'), None),
-    ('tortuga-estrellada', 'animal', '33', 745, 360, L('Tortuga estrellada de Madagascar', 'Radiated tortoise', 'Strahlenschildkröte', 'Tortue radiée', 'Testuggine raggiata', 'Tortuga estrellada de Madagascar', 'Madagaskarko dortoka izarduna'), None),
+    ('varano', 'animal', '33', 745, 360, L('Varano de agua de cabeza amarilla', 'Yellow-headed water monitor', 'Gelbkopfwaran', 'Varan à tête jaune', 'Varano acquatico testagialla', 'Varà d’aigua de cap groc', 'Buru-hori ur-baranoa'), None),
     ('iguanas-tortugas', 'animal', '34', 765, 365, L('Iguanas y tortugas', 'Iguanas and tortoises', 'Leguane und Schildkröten', 'Iguanes et tortues', 'Iguane e tartarughe', 'Iguanes i tortugues', 'Iguanak eta dortokak'), None),
-    ('tortuga-aldabra', 'animal', '35', 780, 362, L('Tortuga gigante de Aldabra', 'Aldabra giant tortoise', 'Aldabra-Riesenschildkröte', "Tortue géante d'Aldabra", 'Testuggine gigante di Aldabra', "Tortuga gegant d'Aldabra", 'Aldabrako dortoka erraldoia'), None),
-    ('aligator-1', 'animal', '36', 796, 354, L('Aligátor americano', 'American alligator', 'Mississippi-Alligator', 'Alligator d’Amérique', 'Alligatore americano', 'Al·ligàtor americà', 'Aligator amerikarra'), None),
+    ('iguana-verde', 'animal', '35', 780, 362, L('Iguana verde', 'Green iguana', 'Grüner Leguan', 'Iguane vert', 'Iguana verde', 'Iguana verda', 'Iguana berdea'), None),
+    ('aligator', 'animal', '36', 796, 354, L('Aligátor americano', 'American alligator', 'Mississippi-Alligator', 'Alligator d’Amérique', 'Alligatore americano', 'Al·ligàtor americà', 'Aligator amerikarra'), None),
     ('iguana-rinoceronte', 'animal', '37', 811, 344, L('Iguana rinoceronte', 'Rhinoceros iguana', 'Nashornleguan', 'Iguane rhinocéros', 'Iguana rinoceronte', 'Iguana rinoceront', 'Iguana errinozeroa'), None),
-    ('aligator-2', 'animal', '38', 825, 335, L('Aligátor americano', 'American alligator', 'Mississippi-Alligator', 'Alligator d’Amérique', 'Alligatore americano', 'Al·ligàtor americà', 'Aligator amerikarra'), None),
-    ('lagartos-tortugas', 'animal', '39', 722, 321, L('Lagartos y tortugas', 'Lizards and tortoises', 'Echsen und Schildkröten', 'Lézards et tortues', 'Lucertole e tartarughe', 'Llangardaixos i tortugues', 'Muskerrak eta dortokak'), None),
+    ('tortuga-aldabra', 'animal', '38', 825, 335, L('Tortuga gigante de Aldabra', 'Aldabra giant tortoise', 'Aldabra-Riesenschildkröte', "Tortue géante d'Aldabra", 'Testuggine gigante di Aldabra', "Tortuga gegant d'Aldabra", 'Aldabrako dortoka erraldoia'), None),
+    ('lagartos', 'animal', '39', 722, 321, L('Lagartos', 'Lizards', 'Echsen', 'Lézards', 'Lucertole', 'Llangardaixos', 'Muskerrak'), None),
     ('cocodrilo-nilo', 'animal', '40', 739, 299, L('Cocodrilo del Nilo', 'Nile crocodile', 'Nilkrokodil', 'Crocodile du Nil', 'Coccodrillo del Nilo', 'Cocodril del Nil', 'Niloko krokodiloa'), None),
     ('autillo', 'animal', '41', 893, 504, L('Autillo chóliba', 'Tropical screech owl', 'Choliba-Kreischeule', 'Petit-duc choliba', 'Assiolo choliba', 'Xot xoliba', 'Txoliba hontza'), None),
-    ('grullas-tortugas', 'animal', '43', 553, 540, L('Grullas, tortuga de espolones africana y tortuga leopardo', 'Cranes, African spurred tortoise and leopard tortoise', 'Kraniche, Spornschildkröte und Pantherschildkröte', 'Grues, tortue sillonnée et tortue léopard', 'Gru, testuggine sulcata e testuggine leopardo', 'Grues, tortuga d’esperons africana i tortuga lleopard', 'Kurriloak, Afrikako dortoka ezproiduna eta dortoka leopardoa'), None),
-    ('macaco-bonnet', 'animal', '44', 502, 529, L('Macaco de Bonnet', 'Bonnet macaque', 'Indischer Hutaffe', 'Macaque bonnet chinois', 'Macaco del Bonnet', 'Macaco de Bonnet', 'Bonnet makakoa'), None),
-    ('emu-ualabi', 'animal', '45', 487, 545, L('Emú, ualabí de Bennet y varias aves', "Emu, Bennett's wallaby and other birds", 'Emu, Bennett-Wallaby und verschiedene Vögel', 'Émeu, wallaby de Bennett et divers oiseaux', 'Emù, wallaby di Bennett e altri uccelli', 'Emú, ualabi de Bennett i diverses aus', 'Emua, Bennetten ualabia eta beste hegazti batzuk'), None),
-    ('armadillo', 'animal', '46', 421, 598, L('Armadillo', 'Armadillo', 'Gürteltier', 'Tatou', 'Armadillo', 'Armadillo', 'Armadiloa'), None),
-    ('tamarino-labiado', 'animal', '47', 396, 618, L('Tamarino labiado', 'Moustached tamarin', 'Lippentamarin', 'Tamarin à moustaches', 'Tamarino labiato', 'Tamarí de llavis blancs', 'Ezpain-zuri tamarinoa'), None),
-    ('tamarino-algodon-2', 'animal', '48', 303, 655, L('Tamarino cabeza de algodón', 'Cotton-top tamarin', 'Lisztäffchen', 'Tamarin pinché', 'Tamarino edipo', 'Tamarí cap de cotó', 'Kotoi-buru tamarinoa'), None),
-    ('titi-plateado', 'animal', '49', 291, 663, L('Tití plateado', 'Silvery marmoset', 'Silberäffchen', 'Ouistiti argenté', 'Uistitì argentato', 'Titi platejat', 'Titi zilarkara'), None),
+    ('grullas-tortuga-emu', 'animal', '42', 553, 540, L('Grullas, tortuga de espolones africana y emú', 'Cranes, African spurred tortoise and emu', 'Kraniche, Spornschildkröte und Emu', 'Grues, tortue sillonnée et émeu', 'Gru, testuggine sulcata ed emù', 'Grues, tortuga d’esperons africana i emú', 'Kurriloak, Afrikako dortoka ezproiduna eta emua'), None),
+    ('emu-ualabi-cisne', 'animal', '43', 502, 529, L('Emú, ualabí de Bennet, cisne negro y aves', "Emu, Bennett's wallaby, black swan and birds", 'Emu, Bennett-Wallaby, Trauerschwan und Vögel', 'Émeu, wallaby de Bennett, cygne noir et oiseaux', 'Emù, wallaby di Bennett, cigno nero e uccelli', 'Emú, ualabi de Bennett, cigne negre i aus', 'Emua, Bennetten ualabia, beltxarga beltza eta hegaztiak'), None),
+    ('macaco-bonnet', 'animal', '44', 487, 545, L('Macaco de Bonnet', 'Bonnet macaque', 'Indischer Hutaffe', 'Macaque bonnet chinois', 'Macaco del Bonnet', 'Macaco de Bonnet', 'Bonnet makakoa'), None),
+    ('armadillo', 'animal', '45', 421, 598, L('Armadillo', 'Armadillo', 'Gürteltier', 'Tatou', 'Armadillo', 'Armadillo', 'Armadiloa'), None),
+    ('titi-pincel', 'animal', '46', 396, 618, L('Tití pincel blanco', 'Common marmoset', 'Weißbüscheläffchen', 'Ouistiti à pinceaux blancs', 'Uistitì dai pennacchi bianchi', 'Titi de pinzell blanc', 'Titi arrunta'), None),
+    ('titi-geoffroy', 'animal', '47', 303, 655, L('Tití de Geoffroy', "Geoffroy's marmoset", 'Geoffroy-Seidenäffchen', 'Ouistiti de Geoffroy', 'Uistitì di Geoffroy', 'Titi de Geoffroy', 'Geoffroy titia'), None),
+    ('tamarino-labiado', 'animal', '48', 291, 663, L('Tamarino labiado', 'Moustached tamarin', 'Lippentamarin', 'Tamarin à moustaches', 'Tamarino labiato', 'Tamarí de llavis blancs', 'Ezpain-zuri tamarinoa'), None),
+    ('saki-goeldi-emperador', 'animal', '49', 440, 605, L('Saki, tamarino de Goeldi y tamarino emperador', "Saki, Goeldi's monkey and emperor tamarin", 'Saki, Springtamarin und Kaiserschnurrbarttamarin', 'Saki, tamarin de Goeldi et tamarin empereur', 'Saki, tamarino di Goeldi e tamarino imperatore', 'Saki, tamarí de Goeldi i tamarí emperador', 'Sakia, Goeldiren tamarinoa eta tamarino enperadorea'), L('Próximamente.', 'Coming soon.', 'Demnächst.', 'Bientôt.', 'Prossimamente.', 'Properament.', 'Laster.')),
 
     # Shows and experiences
     ('sea-lion-live', 'show', None, 583, 436, L('Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live', 'Sea Lion Live'),
@@ -202,13 +205,17 @@ POIS = [
     ('lemur-experience', 'experience', None, 40, 870, L('Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience', 'Lemur Experience'),
      L('Encuentro con lémures.', 'Lemur encounter.', 'Begegnung mit Lemuren.', 'Rencontre avec les lémuriens.', 'Incontro con i lemuri.', 'Trobada amb lèmurs.', 'Lemurrekin topaketa.')),
 
+    ('sabana-splash', 'experience', None, 555, 483, L('Sabana Splash', 'Sabana Splash', 'Sabana Splash', 'Sabana Splash', 'Sabana Splash', 'Sabana Splash', 'Sabana Splash'),
+     L('Nueva zona de juegos de agua.', 'New water play area.', 'Neuer Wasserspielplatz.', 'Nouvelle aire de jeux aquatiques.', 'Nuova area giochi d’acqua.', 'Nova zona de jocs d’aigua.', 'Ur-jolasen gune berria.')),
+
     # Food
     ('malvarrisco', 'food', 'A', 153, 832, L('Restaurante Malvarrisco', 'Malvarrisco Restaurant', 'Restaurant Malvarrisco', 'Restaurant Malvarrisco', 'Ristorante Malvarrisco', 'Restaurant Malvarrisco', 'Malvarrisco jatetxea'), None),
     ('oasis-market', 'food', 'B', 617, 499, L('Oasis Market Restaurante', 'Oasis Market Restaurant', 'Restaurant Oasis Market', 'Restaurant Oasis Market', 'Ristorante Oasis Market', 'Restaurant Oasis Market', 'Oasis Market jatetxea'), None),
     ('patio-majorero', 'food', 'C', 1087, 522, L('Patio Majorero Restaurante', 'Patio Majorero Restaurant', 'Restaurant Patio Majorero', 'Restaurant Patio Majorero', 'Ristorante Patio Majorero', 'Restaurant Patio Majorero', 'Patio Majorero jatetxea'),
      L('Fuera de servicio.', 'Out of service.', 'Außer Betrieb.', 'Hors service.', 'Fuori servizio.', 'Fora de servei.', 'Ez dabil.')),
-    ('snack-leones', 'food', 'A', 637, 543, L('Snack Bar Leones Marinos', 'Sea Lions Snack Bar', 'Snackbar Seelöwen', 'Snack-bar des Otaries', 'Snack bar Leoni Marini', 'Snack bar Lleons Marins', 'Itsas Lehoien snack-barra'), None),
-    ('snack-fauna', 'food', 'B', 737, 333, L('Snack Bar Fauna', 'Fauna Snack Bar', 'Snackbar Fauna', 'Snack-bar Fauna', 'Snack bar Fauna', 'Snack bar Fauna', 'Fauna snack-barra'), None),
+    ('snack-leones', 'food', 'D', 637, 543, L('Snack Bar Leones Marinos', 'Sea Lions Snack Bar', 'Snackbar Seelöwen', 'Snack-bar des Otaries', 'Snack bar Leoni Marini', 'Snack bar Lleons Marins', 'Itsas Lehoien snack-barra'), None),
+    ('snack-fauna', 'food', 'E', 737, 333, L('Snack Bar Fauna', 'Fauna Snack Bar', 'Snackbar Fauna', 'Snack-bar Fauna', 'Snack bar Fauna', 'Snack bar Fauna', 'Fauna snack-barra'), None),
+    ('snack-sabana', 'food', 'F', 534, 476, L('Sabana Snack Bar', 'Sabana Snack Bar', 'Snackbar Sabana', 'Snack-bar Sabana', 'Snack bar Sabana', 'Snack bar Sabana', 'Sabana snack-barra'), None),
 
     # Botanic garden (Oasis Botanic)
     ('botanic-cactus', 'botanic', '1', 862, 262, L('Cactus', 'Cacti', 'Kakteen', 'Cactus', 'Cactus', 'Cactus', 'Kaktusak'), None),
@@ -288,17 +295,19 @@ PATHS = [
 
 # Icon per point (names from scripts/build-icons.mjs). Ids not listed use their category icon.
 ICON = {
-    'titi-geoffroy': 'monkey', 'tamarino-algodon-1': 'monkey', 'avefrias-saki': 'bird', 'tunel-lemures': 'monkey',
-    'grulla-damisela': 'crane', 'macaca-cangrejera': 'monkey', 'mono-arana': 'monkey', 'mono-patas': 'monkey',
+    'titi-plateado': 'monkey', 'tamarino-algodon': 'monkey', 'tortuga-espolones': 'turtle', 'tucan': 'parrot',
+    'tunel-lemures': 'monkey', 'grulla-damisela': 'crane', 'serval': 'leopard', 'mono-arana': 'monkey',
     'flamencos': 'flamingo', 'titi-pigmeo': 'monkey', 'puercoespin': 'porcupine', 'capuchino': 'monkey',
-    'crias-cocodrilo': 'crocodile', 'fenec': 'fox', 'talapoin': 'monkey', 'nutria': 'otter', 'camello-ovejas': 'camel',
-    'hipopotamo-1': 'hippo', 'aves-zancudas': 'ibis', 'niala-calao-grulla': 'antelope', 'llamas-guanacos': 'llama',
-    'hipopotamo-2': 'hippo', 'tortuga-florida': 'turtle', 'sabana': 'zebra', 'watusi': 'cattle', 'dromedarios': 'dromedary',
-    'jirafas': 'giraffe', 'elefantes': 'elephant', 'cueva-reptiles': 'snake', 'tortuga-estrellada': 'turtle',
-    'iguanas-tortugas': 'lizard', 'tortuga-aldabra': 'turtle', 'aligator-1': 'crocodile', 'iguana-rinoceronte': 'lizard',
-    'aligator-2': 'crocodile', 'lagartos-tortugas': 'lizard', 'cocodrilo-nilo': 'crocodile', 'autillo': 'owl',
-    'grullas-tortugas': 'crane', 'macaco-bonnet': 'monkey', 'emu-ualabi': 'kangaroo', 'armadillo': 'armadillo',
-    'tamarino-labiado': 'monkey', 'tamarino-algodon-2': 'monkey', 'titi-plateado': 'monkey',
+    'crias-cocodrilo': 'crocodile', 'fenec': 'fox', 'talapoin': 'monkey', 'nutria': 'otter',
+    'canguro-pelicano': 'kangaroo', 'camello-ovejas': 'camel', 'hipopotamo': 'hippo', 'capibara': 'capybara',
+    'aves-zancudas': 'ibis', 'niala-calao-grulla': 'antelope', 'llamas-guanacos': 'llama', 'tortuga-florida': 'turtle',
+    'sabana': 'zebra', 'watusi': 'cattle', 'dromedarios': 'dromedary', 'jirafas': 'giraffe', 'elefantes': 'elephant',
+    'cueva-reptiles': 'snake', 'varano': 'lizard', 'iguanas-tortugas': 'lizard', 'iguana-verde': 'lizard',
+    'aligator': 'crocodile', 'iguana-rinoceronte': 'lizard', 'tortuga-aldabra': 'turtle', 'lagartos': 'lizard',
+    'cocodrilo-nilo': 'crocodile', 'autillo': 'owl', 'grullas-tortuga-emu': 'crane', 'emu-ualabi-cisne': 'kangaroo',
+    'macaco-bonnet': 'monkey', 'armadillo': 'armadillo', 'titi-pincel': 'monkey', 'titi-geoffroy': 'monkey',
+    'tamarino-labiado': 'monkey', 'saki-goeldi-emperador': 'monkey',
+    'sabana-splash': 'splash', 'snack-sabana': 'snack',
     'sea-lion-live': 'seal', 'fauna-live': 'parrot', 'birds-live': 'eagle', 'camel-experience': 'dromedary',
     'lemur-experience': 'monkey',
     'malvarrisco': 'restaurant', 'oasis-market': 'restaurant', 'patio-majorero': 'restaurant',
@@ -337,7 +346,7 @@ MONKEY_PATH = 1570352508  # path along the primates between areas 11 and 16
 CROC_BRIDGE_PATH = 50854121  # path with the crocodile bridge
 ON_OSM_WAY = {
     'capuchino': MONKEY_PATH, 'talapoin': MONKEY_PATH,
-    'tamarino-algodon-2': MONKEY_PATH, 'titi-plateado': MONKEY_PATH,
+    'titi-geoffroy': MONKEY_PATH, 'tamarino-labiado': MONKEY_PATH,
     'crias-cocodrilo': CROC_BRIDGE_PATH, 'fenec': CROC_BRIDGE_PATH,
 }
 

@@ -78,6 +78,7 @@ export function startDevTools(
   let recording: LngLat[] | null = null;
   let sampling: Fix[] | null = null;
   let flash = '';
+  let accuracy: number | null = null;
   let flashTimer = 0;
 
   // --- UI -------------------------------------------------------------------
@@ -93,7 +94,6 @@ export function startDevTools(
       <button type="button" data-act="exit">Salir del modo dev</button>
     </div>
     <nav class="dev-bar" aria-label="Herramientas de desarrollo">
-      <span class="dev-badge">DEV<small id="dev-acc">—</small></span>
       <button type="button" class="dev-tool" data-tool="move">${ICON.move}<span>Mover</span></button>
       <button type="button" class="dev-tool" data-tool="point">${ICON.point}<span>Punto</span></button>
       <button type="button" class="dev-tool" data-tool="track">${ICON.track}<span>Camino</span></button>
@@ -118,9 +118,10 @@ export function startDevTools(
     const recorded = capture.points.length + capture.tracks.filter((t) => t.length >= 2).length;
     $('[data-act="export"]').textContent = `Exportar ajustes (${moved + recorded})`;
 
+    const gps = accuracy == null ? 'sin GPS' : `GPS ±${accuracy} m`;
     let text = flash;
-    if (!text && sampling) text = 'Quieto 10 segundos: midiendo la posición…';
-    else if (!text && recording) text = `Grabando camino · ${recording.length} puntos`;
+    if (!text && sampling) text = `Quieto 10 segundos: midiendo la posición · ${gps}`;
+    else if (!text && recording) text = `Grabando camino · ${recording.length} puntos · ${gps}`;
     else if (!text && tool === 'move') text = `Arrastra un punto para moverlo · ${plural(moved, 'movido', 'movidos')}`;
     status.hidden = !text;
     status.textContent = text;
@@ -181,7 +182,8 @@ export function startDevTools(
   else map.once('load', setupLayers);
 
   tracker.addListener((f: Fix) => {
-    $('#dev-acc').textContent = `±${Math.round(f.accuracy)} m`;
+    accuracy = Math.round(f.accuracy);
+    if (sampling || recording) render();
     sampling?.push(f);
     if (recording && f.accuracy <= TRACK_MAX_ACCURACY_M) {
       const last = recording[recording.length - 1];

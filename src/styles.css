@@ -58,12 +58,18 @@
     --chip: #2b3027;
     --shadow: 0 6px 22px rgb(0 0 0 / 0.5);
     --icon-invert: 1;
+    --map-bg: #1b2019;
+    --info-bg: #1d2c42;
+    --info-ink: #cfe0ff;
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
   --icon-invert: 1;
+  --map-bg: #1b2019;
+  --info-bg: #1d2c42;
+  --info-ink: #cfe0ff;
   --accent: #3f6b45;
   --accent-strong: #4f8256;
   --accent-ink: #eaf7e8;
@@ -228,8 +234,8 @@ input:focus-visible {
 }
 
 .banner.info {
-  background: #e3efff;
-  color: #123d73;
+  background: var(--info-bg, #e3efff);
+  color: var(--info-ink, #123d73);
 }
 
 /* --- map card ----------------------------------------------------------------- */
@@ -243,7 +249,7 @@ input:focus-visible {
   overflow: hidden;
   border: 3px solid var(--surface);
   box-shadow: var(--shadow);
-  background: #e3ecd2;
+  background: var(--map-bg, #e8efd9); /* same as the map background, so no light seam at the edge */
   transition: all 0.25s ease;
 }
 

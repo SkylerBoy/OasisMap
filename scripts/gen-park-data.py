@@ -439,10 +439,9 @@ SCHEDULE = {
 for n in range(6):  # Ecotour: hourly from stop 0 at 12:00, 5 min between stops; the 16:00 run ends at stop 4
     SCHEDULE[f'ecotour-{n}'] = ' · '.join(f'{h}:{5 * n:02d}' for h in (range(12, 16) if n == 5 else range(12, 17)))
 
-_FREE_SHOW = L('Exhibición educativa gratuita de unos 30 minutos.', 'Free educational exhibition, about 30 minutes.',
-               'Kostenlose Lernvorführung, ca. 30 Minuten.', 'Présentation éducative gratuite d’environ 30 minutes.',
-               'Esibizione educativa gratuita di circa 30 minuti.', 'Exhibició educativa gratuïta d’uns 30 minuts.',
-               'Doako hezkuntza-erakustaldia, 30 minutu inguru.')
+_FREE_SHOW = L('Gratuita, de unos 30 minutos.', 'Free, about 30 minutes.', 'Kostenlos, ca. 30 Minuten.',
+               'Gratuite, environ 30 minutes.', 'Gratuita, circa 30 minuti.', 'Gratuïta, d’uns 30 minuts.',
+               'Doan, 30 minutu inguru.')
 _EXPERIENCE = L('Cada 20 minutos aprox. Ticket en taquillas; horario sujeto a disponibilidad.',
                 'About every 20 minutes. Tickets at the ticket office; times subject to availability.',
                 'Etwa alle 20 Minuten. Tickets an der Kasse; Zeiten je nach Verfügbarkeit.',

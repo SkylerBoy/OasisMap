@@ -667,8 +667,9 @@ body.map-expanded {
   position: absolute;
   right: 6%;
   top: 50%;
+  z-index: 1;
   transform: translateY(-58%);
-  opacity: 0.28;
+  opacity: 0.45;
   line-height: 0;
 }
 
@@ -749,19 +750,24 @@ body.map-expanded {
   padding: 14px;
   border: 0;
   border-radius: var(--r-md);
-  background: var(--chip);
+  background: color-mix(in srgb, var(--brand) 10%, var(--surface, #fff));
+  color: var(--brand);
   font-weight: 600;
   font-size: 1rem;
 }
 
+.btn:active {
+  background: color-mix(in srgb, var(--brand) 18%, var(--surface, #fff));
+}
+
 .btn.primary {
   flex: 2;
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--brand);
+  color: var(--brand-ink);
 }
 
 .btn.primary:active {
-  background: var(--accent-strong);
+  background: color-mix(in srgb, var(--brand) 82%, #000);
 }
 
 /* --- toast -------------------------------------------------------------------- */

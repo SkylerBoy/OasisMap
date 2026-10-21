@@ -1210,13 +1210,13 @@
     },
     "icon": "seal",
     "description": {
-     "es": "Exhibición de leones marinos. Exhibición educativa gratuita de unos 30 minutos.",
-     "en": "Sea lion educational exhibition. Free educational exhibition, about 30 minutes.",
-     "de": "Seelöwen-Vorführung. Kostenlose Lernvorführung, ca. 30 Minuten.",
-     "fr": "Présentation des otaries. Présentation éducative gratuite d’environ 30 minutes.",
-     "it": "Esibizione dei leoni marini. Esibizione educativa gratuita di circa 30 minuti.",
-     "ca": "Exhibició de lleons marins. Exhibició educativa gratuïta d’uns 30 minuts.",
-     "eu": "Itsas lehoien erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+     "es": "Exhibición de leones marinos. Gratuita, de unos 30 minutos.",
+     "en": "Sea lion educational exhibition. Free, about 30 minutes.",
+     "de": "Seelöwen-Vorführung. Kostenlos, ca. 30 Minuten.",
+     "fr": "Présentation des otaries. Gratuite, environ 30 minutes.",
+     "it": "Esibizione dei leoni marini. Gratuita, circa 30 minuti.",
+     "ca": "Exhibició de lleons marins. Gratuïta, d’uns 30 minuts.",
+     "eu": "Itsas lehoien erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "11:15 · 15:40"
    },
@@ -1244,13 +1244,13 @@
     },
     "icon": "parrot",
     "description": {
-     "es": "Exhibición de animales en directo. Exhibición educativa gratuita de unos 30 minutos.",
-     "en": "Live animal educational exhibition. Free educational exhibition, about 30 minutes.",
-     "de": "Tiervorführung live. Kostenlose Lernvorführung, ca. 30 Minuten.",
-     "fr": "Présentation d’animaux en direct. Présentation éducative gratuite d’environ 30 minutes.",
-     "it": "Esibizione di animali dal vivo. Esibizione educativa gratuita di circa 30 minuti.",
-     "ca": "Exhibició d’animals en directe. Exhibició educativa gratuïta d’uns 30 minuts.",
-     "eu": "Animalien zuzeneko erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+     "es": "Exhibición de animales en directo. Gratuita, de unos 30 minutos.",
+     "en": "Live animal educational exhibition. Free, about 30 minutes.",
+     "de": "Tiervorführung live. Kostenlos, ca. 30 Minuten.",
+     "fr": "Présentation d’animaux en direct. Gratuite, environ 30 minutes.",
+     "it": "Esibizione di animali dal vivo. Gratuita, circa 30 minuti.",
+     "ca": "Exhibició d’animals en directe. Gratuïta, d’uns 30 minuts.",
+     "eu": "Animalien zuzeneko erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "12:20 · 13:15 · 15:15"
    },
@@ -1278,13 +1278,13 @@
     },
     "icon": "eagle",
     "description": {
-     "es": "Exhibición de vuelo de aves. Exhibición educativa gratuita de unos 30 minutos.",
-     "en": "Bird flight exhibition. Free educational exhibition, about 30 minutes.",
-     "de": "Greifvogel-Flugvorführung. Kostenlose Lernvorführung, ca. 30 Minuten.",
-     "fr": "Présentation d’oiseaux en vol. Présentation éducative gratuite d’environ 30 minutes.",
-     "it": "Esibizione di uccelli in volo. Esibizione educativa gratuita di circa 30 minuti.",
-     "ca": "Exhibició de vol d’aus. Exhibició educativa gratuïta d’uns 30 minuts.",
-     "eu": "Hegaztien hegaldi-erakustaldia. Doako hezkuntza-erakustaldia, 30 minutu inguru."
+     "es": "Exhibición de vuelo de aves. Gratuita, de unos 30 minutos.",
+     "en": "Bird flight exhibition. Free, about 30 minutes.",
+     "de": "Greifvogel-Flugvorführung. Kostenlos, ca. 30 Minuten.",
+     "fr": "Présentation d’oiseaux en vol. Gratuite, environ 30 minutes.",
+     "it": "Esibizione di uccelli in volo. Gratuita, circa 30 minuti.",
+     "ca": "Exhibició de vol d’aus. Gratuïta, d’uns 30 minuts.",
+     "eu": "Hegaztien hegaldi-erakustaldia. Doan, 30 minutu inguru."
     },
     "schedule": "13:40 · 14:30 · 15:30"
    },

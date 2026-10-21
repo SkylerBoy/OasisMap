@@ -1,0 +1,19 @@
+name: Check park map PDFs
+
+# Lists which languages of the official park map PDF exist, so the app's
+# PDF button can link to them. Run from the Actions tab.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for lang in es en de fr it ca eu nl pt ru pl sv; do
+            for base in https://wildapp.oasiswildlifefuerteventura.com/img/mapas/assets https://oasiswildlifefuerteventura.com; do
+              code=$(curl -s -o /dev/null -w "%{http_code} %{content_type}" -I -A "OasisMap/1.0" "$base/mapa_$lang.pdf")
+              echo "$lang $base -> $code"
+            done
+          done

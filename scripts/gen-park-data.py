@@ -316,6 +316,7 @@ ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'obs
 # unlike KNOWN, they do not move anything around them.
 FIXED = {
     'puercoespin': (-14.1572344, 28.186585),  # inside its enclosure building
+    'nutria': (-14.1585944, 28.1861766),  # north (upper) side of its path
 }
 
 # Points that sit on a specific OSM path (confirmed on site): moved onto it.

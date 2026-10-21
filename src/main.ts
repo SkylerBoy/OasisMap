@@ -493,6 +493,7 @@ function openSheet(poi: Poi) {
   pmap.centerOn(poi.coord);
   $('sheet').classList.add('open');
   $('sheet').setAttribute('aria-hidden', 'false');
+  document.body.classList.add('sheet-open');
   $('sheet-backdrop').hidden = false;
 }
 
@@ -526,6 +527,7 @@ function closeSheet() {
   state.selected = null;
   $('sheet').classList.remove('open');
   $('sheet').setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('sheet-open');
   $('sheet-backdrop').hidden = true;
   if (!state.navTo) pmap.highlight(null);
 }

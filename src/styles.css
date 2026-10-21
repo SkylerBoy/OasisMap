@@ -665,6 +665,16 @@ body.map-expanded {
 .sheet {
   max-height: 90dvh;
   overflow-y: auto;
+  overscroll-behavior: contain; /* reaching the end does not scroll the page behind */
+}
+
+/* while a sheet is open the page behind stays still */
+body.sheet-open {
+  overflow: hidden;
+}
+
+.sheet-backdrop {
+  touch-action: none;
 }
 
 .sheet.open {

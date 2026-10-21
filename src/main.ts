@@ -406,7 +406,7 @@ function renderSheet() {
     badge.textContent = st.text;
   }
   renderEcotourRun(p);
-  $('sheet-times').textContent = p.schedule ?? '';
+  $('sheet-times').textContent = [p.days?.map((d) => t(`days.${d}`)).join(', '), p.schedule].filter(Boolean).join(' ');
 }
 
 function closeSheet() {

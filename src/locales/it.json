@@ -54,5 +54,20 @@
   "status.trainIn": "Treno tra {n} min",
   "status.trainAt": "Treno alle {t}",
   "status.noMoreTrains": "Oggi non ci sono più treni",
-  "eco.next": "Prossimo treno"
+  "eco.next": "Prossimo treno",
+  "day.0": "domenica",
+  "days.0": "La domenica",
+  "day.1": "lunedì",
+  "days.1": "Il lunedì",
+  "day.2": "martedì",
+  "days.2": "Il martedì",
+  "day.3": "mercoledì",
+  "days.3": "Il mercoledì",
+  "day.4": "giovedì",
+  "days.4": "Il giovedì",
+  "day.5": "venerdì",
+  "days.5": "Il venerdì",
+  "day.6": "sabato",
+  "days.6": "Il sabato",
+  "status.onDay": "{d} alle {t}"
 }

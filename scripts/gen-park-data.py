@@ -459,6 +459,8 @@ SCHEDULE = {
     'malvarrisco': '9:00 – 17:30', 'oasis-market': '11:45 – 16:00',
     'snack-leones': '9:30 – 16:00', 'snack-fauna': '12:00 – 15:30', 'snack-sabana': '11:30 – 16:30',
 }
+SCHEDULE['aligator'] = '14:45'  # Zookeeper time
+SCHEDULE_DAYS = {'aligator': [6]}  # only on these weekdays (0 = Sunday … 6 = Saturday)
 for n in range(6):  # Ecotour: hourly from stop 0 at 12:00, 5 min between stops; the 16:00 run ends at stop 4
     SCHEDULE[f'ecotour-{n}'] = ' · '.join(f'{h}:{5 * n:02d}' for h in (range(12, 16) if n == 5 else range(12, 17)))
 
@@ -577,6 +579,8 @@ def main():
         if pid in SCHEDULE:
             props['schedule'] = SCHEDULE[pid]
             props.update(parse_schedule(pid, SCHEDULE[pid]))
+            if pid in SCHEDULE_DAYS:
+                props['days'] = SCHEDULE_DAYS[pid]
         image = next((f'img/poi/{pid}.{ext}' for ext in ('webp', 'jpg', 'jpeg', 'png')
                       if os.path.exists(f'{IMAGE_DIR}/{pid}.{ext}')), None)
         if image:

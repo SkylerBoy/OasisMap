@@ -41,6 +41,15 @@ describe('exhibitions', () => {
   });
 });
 
+describe('weekly sessions', () => {
+  const feeding = { ...show, id: 'a', times: ['14:45'], days: [6] } as Poi;
+  it('only counts down on Saturdays', () => {
+    expect(poiStatus(feeding, m('14:30'), 6)?.tone).toBe('soon');
+    expect(poiStatus(feeding, m('14:50'), 6)?.tone).toBe('live');
+    expect(poiStatus(feeding, m('14:30'), 3)?.tone).toBe('later');
+  });
+});
+
 describe('ecotour', () => {
   it('lists the run that reaches the stop next', () => {
     const run = ecotourRun(stops, 2, m('13:03'));

@@ -34,6 +34,8 @@ export interface Poi {
   /** Start times (park time): exhibitions or Ecotour departures from this stop. */
   times?: string[];
   timesKind?: 'show' | 'train';
+  /** Only on these weekdays (0 = Sunday … 6 = Saturday); every day if missing. */
+  days?: number[];
   /** Photo path under public/, e.g. img/poi/flamencos.jpg (placeholder when missing). */
   image?: string;
   /** Drawing cut from the printed map, used as the map marker. */

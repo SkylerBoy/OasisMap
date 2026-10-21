@@ -996,6 +996,14 @@
      "ca": "Zookeeper time: alimentació del cocodril els dissabtes a les 14:45 (gratuït).",
      "eu": "Zookeeper time: krokodiloari janaria larunbatetan 14:45ean (doan)."
     },
+    "schedule": "14:45",
+    "times": [
+     "14:45"
+    ],
+    "timesKind": "show",
+    "days": [
+     6
+    ],
     "art": "img/map-art/aligator.svg",
     "artSize": [
      52.2,

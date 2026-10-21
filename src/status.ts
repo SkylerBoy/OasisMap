@@ -16,6 +16,14 @@ const CLOSING_SOON = 30;
 
 const clock = new Intl.DateTimeFormat('en-GB', { timeZone: PARK_TZ, hour: '2-digit', minute: '2-digit', hourCycle: 'h23' });
 
+const weekday = new Intl.DateTimeFormat('en-US', { timeZone: PARK_TZ, weekday: 'short' });
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+/** Day of the week in the park, 0 = Sunday. */
+export function parkWeekday(now = new Date()): number {
+  return WEEKDAYS.indexOf(weekday.format(now));
+}
+
 /** Minutes since midnight in the park (Canary Islands time), whatever the phone's time zone. */
 export function parkMinutes(now = new Date()): number {
   const [h, m] = clock.format(now).split(':').map(Number);
@@ -27,7 +35,13 @@ export function toMinutes(hhmm: string): number {
   return h * 60 + m;
 }
 
-export function poiStatus(p: Poi, now = parkMinutes()): Status | null {
+export function poiStatus(p: Poi, now = parkMinutes(), today = parkWeekday()): Status | null {
+  if (p.days && !p.days.includes(today)) {
+    const next = [...p.days].sort((a, b) => ((a - today + 7) % 7) - ((b - today + 7) % 7))[0];
+    const at = p.times?.[0] ?? p.hours?.[0] ?? '';
+    const text = t('status.onDay', { d: t(`day.${next}`), t: at });
+    return { tone: 'later', text: text.charAt(0).toUpperCase() + text.slice(1) };
+  }
   if (p.hours) {
     const [open, close] = p.hours.map(toMinutes);
     if (now < open) {

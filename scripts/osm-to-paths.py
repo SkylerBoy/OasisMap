@@ -70,9 +70,26 @@ def zoo_rings(elements):
     return [r for r in rings if len(r) >= 3]
 
 
+def with_geometry(els):
+    """OSM API JSON lists ways by node ids: attach coordinates like Overpass 'out geom'."""
+    nodes = {e['id']: e for e in els if e['type'] == 'node' and 'lat' in e}
+    ways = {}
+    for e in els:
+        if e['type'] == 'way' and 'geometry' not in e and 'nodes' in e:
+            e['geometry'] = [{'lon': nodes[n]['lon'], 'lat': nodes[n]['lat']} for n in e['nodes'] if n in nodes]
+        if e['type'] == 'way':
+            ways[e['id']] = e
+    for e in els:
+        if e['type'] == 'relation':
+            for m in e.get('members', []):
+                if m.get('type') == 'way' and 'geometry' not in m and m.get('ref') in ways:
+                    m['geometry'] = ways[m['ref']].get('geometry', [])
+    return els
+
+
 def main():
     data = json.load(open(OSM))
-    els = data['elements']
+    els = with_geometry(data['elements'])
     rings = zoo_rings(els)
     in_zoo = (lambda q: any(inside(q, r) for r in rings)) if rings else (lambda q: True)
     print(f'zoo outline: {len(rings)} ring(s)' if rings else 'no zoo outline in OSM: using the whole area')

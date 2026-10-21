@@ -1,7 +1,6 @@
 name: Fetch OpenStreetMap data
 
-# Downloads paths, amenities and water around the zoo from OpenStreetMap
-# (Overpass API) into data/osm/oasis.json and commits it to the branch it
+# Downloads everything OpenStreetMap has around the zoo (main API, map call) into data/osm/oasis.json and commits it to the branch it
 # runs on. The app's paths are then rebuilt from it with
 # scripts/osm-to-paths.py. Run it from the Actions tab.
 
@@ -17,28 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Query Overpass
+      - name: Download from the OpenStreetMap API
         run: |
-          # south, west, north, east around the park
-          BBOX="28.1760,-14.1760,28.1920,-14.1500"
-          QUERY="[out:json][timeout:90];
-          (
-            way[\"highway\"](${BBOX});
-            nwr[\"tourism\"](${BBOX});
-            nwr[\"amenity\"](${BBOX});
-            nwr[\"leisure\"](${BBOX});
-            nwr[\"natural\"=\"water\"](${BBOX});
-            nwr[\"barrier\"=\"gate\"](${BBOX});
-          );
-          out geom tags;"
+          # left, bottom, right, top around the park (small area: allowed by the API)
+          BBOX="-14.1760,28.1760,-14.1500,28.1920"
           mkdir -p data/osm
-          for url in https://overpass-api.de/api/interpreter https://overpass.private.coffee/api/interpreter https://overpass.kumi.systems/api/interpreter; do
-            if curl -sSf --retry 1 --max-time 150 -A "OasisMap/1.0 (+https://github.com/SkylerBoy/OasisMap)" -H "Accept: application/json" --data-urlencode "data=${QUERY}" "$url" -o data/osm/oasis.json; then
-              echo "Downloaded from $url"; break
-            fi
-          done
-          test -s data/osm/oasis.json
-          jq '{elements: (.elements | length), ways: ([.elements[] | select(.type=="way")] | length), timestamp: .osm3s.timestamp_osm_base}' data/osm/oasis.json
+          curl -sSf --retry 3 --retry-delay 10 --max-time 180 \
+            -A "OasisMap/1.0 (+https://github.com/SkylerBoy/OasisMap)" \
+            "https://api.openstreetmap.org/api/0.6/map.json?bbox=${BBOX}" -o data/osm/oasis.json
+          jq '{elements: (.elements | length), ways: ([.elements[] | select(.type=="way")] | length), timestamp: .timestamp}' data/osm/oasis.json
 
       - name: Commit
         run: |

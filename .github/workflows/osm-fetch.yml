@@ -32,8 +32,8 @@ jobs:
           );
           out geom tags;"
           mkdir -p data/osm
-          for url in https://overpass-api.de/api/interpreter https://overpass.kumi.systems/api/interpreter; do
-            if curl -sSf --retry 2 --max-time 120 --data-urlencode "data=${QUERY}" "$url" -o data/osm/oasis.json; then
+          for url in https://overpass-api.de/api/interpreter https://overpass.private.coffee/api/interpreter https://overpass.kumi.systems/api/interpreter; do
+            if curl -sSf --retry 1 --max-time 150 -A "OasisMap/1.0 (+https://github.com/SkylerBoy/OasisMap)" -H "Accept: application/json" --data-urlencode "data=${QUERY}" "$url" -o data/osm/oasis.json; then
               echo "Downloaded from $url"; break
             fi
           done

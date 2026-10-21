@@ -1364,7 +1364,8 @@
      "ca": "Passeig en camell, a l’exterior del parc. Cada 20 minuts aprox. Tiquet a les taquilles; horari subjecte a disponibilitat.",
      "eu": "Gamelu-ibilaldia, parketik kanpo. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
     },
-    "schedule": "9:30 – 16:30"
+    "schedule": "9:30 – 16:30",
+    "art": "img/map-art/camel-experience.svg"
    },
    "geometry": {
     "type": "Point",
@@ -1398,7 +1399,8 @@
      "ca": "Trobada amb lèmurs. Cada 20 minuts aprox. Tiquet a les taquilles; horari subjecte a disponibilitat.",
      "eu": "Lemurrekin topaketa. 20 minuturo gutxi gorabehera. Txartela txarteldegian; ordutegia eskuragarritasunaren arabera."
     },
-    "schedule": "9:45 – 16:15"
+    "schedule": "9:45 – 16:15",
+    "art": "img/map-art/lemur-experience.svg"
    },
    "geometry": {
     "type": "Point",

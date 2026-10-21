@@ -35,7 +35,7 @@ ART = {
     'titi-geoffroy': (376, 802), 'saki-goeldi-emperador': (541, 733),
     # exhibitions and experiences
     'sea-lion-live': (704, 542), 'birds-live': (1145, 595), 'fauna-live': (864, 363),
-    'sabana-splash': (700, 616),
+    'sabana-splash': (700, 616), 'camel-experience': (266, 784), 'lemur-experience': (75, 1044),
 }
 
 

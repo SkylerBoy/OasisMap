@@ -319,7 +319,11 @@ function renderList() {
     const li = document.createElement('li');
     li.innerHTML = `
       <button type="button" class="poi-row">
-        <span class="row-icon cat-${p.category}">${poiIconSvg(poiIcon(p), 24)}</span>
+        ${
+          p.art
+            ? `<span class="row-icon art cat-${p.category}"><img src="${import.meta.env.BASE_URL}${p.art}" alt="" loading="lazy"></span>`
+            : `<span class="row-icon cat-${p.category}">${poiIconSvg(poiIcon(p), 24)}</span>`
+        }
         <span class="row-main">
           <span class="row-name"></span>
           <span class="row-sub"></span>

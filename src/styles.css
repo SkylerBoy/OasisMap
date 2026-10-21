@@ -585,6 +585,18 @@ body.map-expanded {
   place-items: center;
 }
 
+.row-icon.art {
+  overflow: hidden;
+  background: color-mix(in srgb, var(--cat, var(--cat-animal)) 16%, var(--surface));
+}
+
+.row-icon.art img {
+  display: block;
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
 .row-main {
   flex: 1;
   min-width: 0;

@@ -346,6 +346,90 @@ function renderList() {
   }
 }
 
+/** Show or hide the "meet our animals" part of the sheet. */
+function setSheetExpanded(on: boolean) {
+  const sheet = $('sheet');
+  sheet.classList.toggle('expanded', on);
+  $('sheet-more').hidden = !on;
+  $('more-hint').hidden = on || !state.selected || !data.animals[state.selected.id];
+  if (on) requestAnimationFrame(() => $('sheet-more').scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  else sheet.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+const SEX = { m: '♂', f: '♀' } as const;
+const IUCN_SCALE = ['LC', 'NT', 'VU', 'EN', 'CR'] as const;
+
+function yearsText(n: number): string {
+  return n < 1 ? t('more.baby') : n === 1 ? t('more.year1') : t('more.years', { n });
+}
+
+/** Species status and one card per animal, picked with the name tabs. */
+function renderAnimals(p: Poi) {
+  const info = data.animals[p.id];
+  const hint = $('more-hint');
+  hint.hidden = !info || $('sheet').classList.contains('expanded');
+  if (!info) {
+    $('sheet-more').hidden = true;
+    return;
+  }
+  const names = info.individuals.map((a) => a.name);
+  const list = new Intl.ListFormat(currentLang(), { type: 'conjunction' }).format(names);
+  $('more-hint-text').textContent = t('more.hint', { names: list });
+
+  const iucn = $('iucn');
+  iucn.innerHTML = '';
+  const label = document.createElement('div');
+  label.className = 'iucn-label';
+  label.innerHTML = `<span>${t('more.status')}</span> <b></b>`;
+  label.querySelector('b')!.textContent = [pick(info.species), t(`iucn.${info.iucn}`)].filter(Boolean).join(' · ');
+  iucn.appendChild(label);
+  if (info.iucn !== 'DOM') {
+    const scale = document.createElement('div');
+    scale.className = 'iucn-scale';
+    for (const c of IUCN_SCALE) {
+      const s = document.createElement('span');
+      s.className = `iucn-${c}${c === info.iucn ? ' on' : ''}`;
+      s.textContent = c;
+      s.title = t(`iucn.${c}`);
+      scale.appendChild(s);
+    }
+    iucn.appendChild(scale);
+  }
+
+  const tabs = $('ind-tabs');
+  tabs.innerHTML = '';
+  tabs.hidden = info.individuals.length < 2;
+  const year = new Date().getFullYear();
+  const show = (i: number) => {
+    animalIdx = i;
+    tabs.querySelectorAll('button').forEach((b, k) => b.setAttribute('aria-selected', String(k === i)));
+    const a = info.individuals[i];
+    const card = $('ind-card');
+    card.innerHTML = `
+      <h4><span class="ind-name"></span> <span class="sex sex-${a.sex}" title="${t(`sex.${a.sex}`)}">${SEX[a.sex]}</span></h4>
+      <dl>
+        <div><dt>${t('more.age')}</dt><dd>${yearsText(year - a.born)}</dd></div>
+        <div><dt>${t('more.with')}</dt><dd>${t('more.since', { y: a.arrived, n: yearsText(year - a.arrived) })}</dd></div>
+        <div><dt>${t('more.origin')}</dt><dd class="ind-origin"></dd></div>
+      </dl>
+      <p class="ind-story"></p>`;
+    card.querySelector('.ind-name')!.textContent = a.name;
+    card.querySelector('.ind-origin')!.textContent = pick(a.origin);
+    card.querySelector('.ind-story')!.textContent = pick(a.story);
+  };
+  info.individuals.forEach((a, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.role = 'tab';
+    b.className = 'ind-tab';
+    b.innerHTML = `<span></span> <span class="sex sex-${a.sex}">${SEX[a.sex]}</span>`;
+    b.querySelector('span')!.textContent = a.name;
+    b.addEventListener('click', () => show(i));
+    tabs.appendChild(b);
+  });
+  show(Math.min(animalIdx, info.individuals.length - 1));
+}
+
 function statusBadge(st: Status): HTMLElement {
   const b = document.createElement('span');
   b.className = `status-badge tone-${st.tone}`;
@@ -375,9 +459,21 @@ function renderEcotourRun(p: Poi) {
   }
 }
 
+let animalIdx = 0; // animal picked in the sheet, kept across the once-a-minute refresh
+
 function openSheet(poi: Poi) {
   state.selected = poi;
+  animalIdx = 0;
+  const sheet = $('sheet');
+  sheet.classList.remove('expanded', 'hint-bounce');
+  $('sheet-more').hidden = true;
+  sheet.scrollTop = 0;
   renderSheet();
+  // A little bounce says there is more to see when swiping up.
+  if (data.animals[poi.id]) {
+    void sheet.offsetWidth;
+    sheet.classList.add('hint-bounce');
+  }
   pmap.highlight(poi.id);
   pmap.centerOn(poi.coord);
   $('sheet').classList.add('open');
@@ -406,6 +502,7 @@ function renderSheet() {
     badge.textContent = st.text;
   }
   renderEcotourRun(p);
+  renderAnimals(p);
   $('sheet-times').textContent = [p.days?.map((d) => t(`days.${d}`)).join(', '), p.schedule].filter(Boolean).join(' ');
 }
 
@@ -467,13 +564,30 @@ function bindUi() {
     state.query = (e.target as HTMLInputElement).value;
     renderList();
   });
-  // Swipe the sheet down to close it.
+  // Swipe up: meet the animals. Swipe down: back, or close the sheet.
+  const sheet = $('sheet');
   let startY: number | null = null;
-  $('sheet').addEventListener('touchstart', (e) => (startY = e.touches[0].clientY), { passive: true });
-  $('sheet').addEventListener('touchend', (e) => {
-    if (startY != null && e.changedTouches[0].clientY - startY > 60) closeSheet();
+  let startScroll = 0;
+  sheet.addEventListener(
+    'touchstart',
+    (e) => {
+      startY = e.touches[0].clientY;
+      startScroll = sheet.scrollTop;
+    },
+    { passive: true },
+  );
+  sheet.addEventListener('touchend', (e) => {
+    if (startY == null) return;
+    const dy = e.changedTouches[0].clientY - startY;
     startY = null;
+    const expanded = sheet.classList.contains('expanded');
+    if (dy < -40 && !expanded && !$('more-hint').hidden) setSheetExpanded(true);
+    else if (dy > 60 && startScroll <= 0) {
+      if (expanded) setSheetExpanded(false);
+      else closeSheet();
+    }
   });
+  $('more-hint').addEventListener('click', () => setSheetExpanded(true));
 }
 
 function applyI18n() {

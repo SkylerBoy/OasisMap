@@ -90,6 +90,16 @@
         <button id="sheet-go" class="btn primary" type="button" data-i18n="go">Ir</button>
         <button id="sheet-close" class="btn" type="button" data-i18n="close">Cerrar</button>
       </div>
+      <button id="more-hint" class="more-hint" type="button" hidden>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 13l6-6 6 6"/><path d="M6 19l6-6 6 6" opacity="0.5"/></svg>
+        <span id="more-hint-text"></span>
+      </button>
+      <section id="sheet-more" class="sheet-more" hidden>
+        <h3 data-i18n="more.title">Nuestros animales</h3>
+        <div id="iucn" class="iucn"></div>
+        <div id="ind-tabs" class="ind-tabs" role="tablist"></div>
+        <article id="ind-card" class="ind-card"></article>
+      </section>
     </section>
 
     <div id="toast" class="toast" role="status" aria-live="polite"></div>

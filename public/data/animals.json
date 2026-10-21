@@ -1,0 +1,703 @@
+{
+ "jirafas": {
+  "iucn": "VU",
+  "species": {
+   "es": "Jirafa",
+   "en": "Giraffe"
+  },
+  "individuals": [
+   {
+    "name": "Kito",
+    "sex": "m",
+    "born": 2012,
+    "arrived": 2015,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "El más alto del grupo: casi 5 metros. Le encantan las hojas de acacia y siempre es el primero en acercarse a la plataforma.",
+     "en": "The tallest of the group, almost 5 metres. He loves acacia leaves and is always first at the platform."
+    }
+   },
+   {
+    "name": "Nala",
+    "sex": "f",
+    "born": 2016,
+    "arrived": 2016,
+    "origin": {
+     "es": "Nacida en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "Nació en el parque una mañana de primavera. Es curiosa y tranquila, y suele vigilar a las más jóvenes.",
+     "en": "Born here one spring morning. Curious and calm, she keeps an eye on the youngest ones."
+    }
+   },
+   {
+    "name": "Zuri",
+    "sex": "f",
+    "born": 2021,
+    "arrived": 2021,
+    "origin": {
+     "es": "Nacida en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "Hija de Nala. Juguetona y rápida: le gusta correr por la sabana al atardecer.",
+     "en": "Nala’s daughter. Playful and fast, she likes to run across the savannah at dusk."
+    }
+   }
+  ]
+ },
+ "elefantes": {
+  "iucn": "EN",
+  "species": {
+   "es": "Elefante africano",
+   "en": "African elephant"
+  },
+  "individuals": [
+   {
+    "name": "Kibo",
+    "sex": "f",
+    "born": 1998,
+    "arrived": 2009,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "La matriarca. Llegó en 2009 y guía al grupo hasta la charca cada mañana.",
+     "en": "The matriarch. She arrived in 2009 and leads the group to the pool every morning."
+    }
+   },
+   {
+    "name": "Tembo",
+    "sex": "f",
+    "born": 2004,
+    "arrived": 2009,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Llegó junto a Kibo y son inseparables. Le encanta bañarse con barro para protegerse del sol.",
+     "en": "Arrived with Kibo and they are inseparable. She loves mud baths to protect herself from the sun."
+    }
+   }
+  ]
+ },
+ "hipopotamo": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Hugo",
+    "sex": "m",
+    "born": 2005,
+    "arrived": 2011,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Pasa casi todo el día en el agua y sale a pastar al caer la tarde. Puede pesar más de 1.500 kg.",
+     "en": "He spends most of the day in the water and comes out to graze in the evening. He weighs over 1,500 kg."
+    }
+   }
+  ]
+ },
+ "dromedarios": {
+  "iucn": "DOM",
+  "individuals": [
+   {
+    "name": "Simba",
+    "sex": "m",
+    "born": 2010,
+    "arrived": 2010,
+    "origin": {
+     "es": "Nacido en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "Uno de los primeros dromedarios nacidos en el parque. Muy paciente con los visitantes.",
+     "en": "One of the first dromedaries born in the park. Very patient with visitors."
+    }
+   },
+   {
+    "name": "Luna",
+    "sex": "f",
+    "born": 2014,
+    "arrived": 2014,
+    "origin": {
+     "es": "Nacida en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "Tranquila y cariñosa. Majorera de pura raza, como los camellos tradicionales de Fuerteventura.",
+     "en": "Calm and affectionate. A pure Majorero camel, like the traditional camels of Fuerteventura."
+    }
+   }
+  ]
+ },
+ "camello-ovejas": {
+  "iucn": "DOM",
+  "species": {
+   "es": "Camello bactriano",
+   "en": "Bactrian camel"
+  },
+  "individuals": [
+   {
+    "name": "Gobi",
+    "sex": "m",
+    "born": 2013,
+    "arrived": 2017,
+    "origin": {
+     "es": "Granja de Europa central",
+     "en": "Farm in central Europe"
+    },
+    "story": {
+     "es": "Camello bactriano, con dos jorobas. En invierno su pelo se vuelve muy espeso.",
+     "en": "A Bactrian camel with two humps. In winter his coat grows very thick."
+    }
+   }
+  ]
+ },
+ "watusi": {
+  "iucn": "DOM",
+  "individuals": [
+   {
+    "name": "Baraka",
+    "sex": "m",
+    "born": 2011,
+    "arrived": 2014,
+    "origin": {
+     "es": "Reserva privada",
+     "en": "Private reserve"
+    },
+    "story": {
+     "es": "Sus cuernos miden más de 1,5 metros de punta a punta y le ayudan a refrescarse.",
+     "en": "His horns are over 1.5 metres from tip to tip and help him cool down."
+    }
+   }
+  ]
+ },
+ "sabana": {
+  "iucn": "NT",
+  "species": {
+   "es": "Cebra de Grant",
+   "en": "Grant’s zebra"
+  },
+  "individuals": [
+   {
+    "name": "Rayas",
+    "sex": "f",
+    "born": 2015,
+    "arrived": 2018,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Cebra de Grant. No hay dos cebras con las mismas rayas: así la reconocen sus cuidadores.",
+     "en": "A Grant’s zebra. No two zebras have the same stripes; that is how her keepers tell her apart."
+    }
+   }
+  ]
+ },
+ "llamas-guanacos": {
+  "iucn": "DOM",
+  "species": {
+   "es": "Llama",
+   "en": "Llama"
+  },
+  "individuals": [
+   {
+    "name": "Pancho",
+    "sex": "m",
+    "born": 2016,
+    "arrived": 2016,
+    "origin": {
+     "es": "Nacido en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "El más sociable del grupo. Cuando algo no le gusta, avisa con las orejas hacia atrás.",
+     "en": "The most sociable of the group. When he dislikes something he warns you with his ears back."
+    }
+   }
+  ]
+ },
+ "tunel-lemures": {
+  "iucn": "EN",
+  "individuals": [
+   {
+    "name": "Mango",
+    "sex": "m",
+    "born": 2014,
+    "arrived": 2016,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Lémur de cola anillada. Por las mañanas toma el sol con los brazos abiertos.",
+     "en": "A ring-tailed lemur. In the mornings he sunbathes with his arms wide open."
+    }
+   },
+   {
+    "name": "Kira",
+    "sex": "f",
+    "born": 2017,
+    "arrived": 2017,
+    "origin": {
+     "es": "Nacida en Oasis Wildlife",
+     "en": "Born at Oasis Wildlife"
+    },
+    "story": {
+     "es": "La líder del grupo: en los lémures mandan las hembras.",
+     "en": "The leader of the group: in lemurs, the females are in charge."
+    }
+   }
+  ]
+ },
+ "flamencos": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Rosa",
+    "sex": "f",
+    "born": 2008,
+    "arrived": 2010,
+    "origin": {
+     "es": "Centro de rescate",
+     "en": "Rescue centre"
+    },
+    "story": {
+     "es": "Su color rosa viene de su alimentación, rica en carotenos.",
+     "en": "Her pink colour comes from her food, rich in carotenoids."
+    }
+   }
+  ]
+ },
+ "fenec": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Dune",
+    "sex": "m",
+    "born": 2019,
+    "arrived": 2020,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "El zorro más pequeño del mundo. Sus enormes orejas le sirven para oír presas bajo la arena y para refrescarse.",
+     "en": "The world’s smallest fox. His huge ears help him hear prey under the sand and keep cool."
+    }
+   },
+   {
+    "name": "Sahra",
+    "sex": "f",
+    "born": 2020,
+    "arrived": 2021,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Más activa al atardecer. Excava madrigueras en cuanto tiene ocasión.",
+     "en": "Most active at dusk. She digs burrows whenever she can."
+    }
+   }
+  ]
+ },
+ "nutria": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Pip",
+    "sex": "m",
+    "born": 2018,
+    "arrived": 2019,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Nutria de uñas cortas. Usa las manos con mucha destreza para buscar comida entre las piedras.",
+     "en": "An Asian small-clawed otter. He uses his hands skilfully to find food among the stones."
+    }
+   },
+   {
+    "name": "Lola",
+    "sex": "f",
+    "born": 2019,
+    "arrived": 2019,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Muy charlatana: las nutrias se comunican con más de diez sonidos distintos.",
+     "en": "Very chatty: otters communicate with more than ten different sounds."
+    }
+   }
+  ]
+ },
+ "puercoespin": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Pincho",
+    "sex": "m",
+    "born": 2017,
+    "arrived": 2018,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Tiene unas 30.000 púas. Cuando se asusta, las eriza y hace ruido con la cola.",
+     "en": "He has about 30,000 quills. When scared he raises them and rattles his tail."
+    }
+   }
+  ]
+ },
+ "capibara": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Coco",
+    "sex": "m",
+    "born": 2018,
+    "arrived": 2019,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "El roedor más grande del mundo. Puede quedarse varios minutos bajo el agua.",
+     "en": "The world’s largest rodent. He can stay under water for several minutes."
+    }
+   },
+   {
+    "name": "Maya",
+    "sex": "f",
+    "born": 2019,
+    "arrived": 2020,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Tranquila y sociable; a menudo comparte charca con las aves.",
+     "en": "Calm and sociable; she often shares the pond with the birds."
+    }
+   }
+  ]
+ },
+ "canguro-pelicano": {
+  "iucn": "LC",
+  "species": {
+   "es": "Canguro rojo",
+   "en": "Red kangaroo"
+  },
+  "individuals": [
+   {
+    "name": "Skippy",
+    "sex": "m",
+    "born": 2016,
+    "arrived": 2018,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Canguro rojo. Puede saltar más de 8 metros de un solo brinco.",
+     "en": "A red kangaroo. He can jump more than 8 metres in a single bound."
+    }
+   }
+  ]
+ },
+ "aligator": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Ramón",
+    "sex": "m",
+    "born": 1995,
+    "arrived": 2007,
+    "origin": {
+     "es": "Decomiso (tráfico ilegal)",
+     "en": "Seized (illegal trade)"
+    },
+    "story": {
+     "es": "Llegó tras ser rescatado del comercio ilegal. Los sábados a las 14:45 puedes verle comer.",
+     "en": "He came to us after being rescued from illegal trade. You can watch him eat on Saturdays at 14:45."
+    }
+   }
+  ]
+ },
+ "cocodrilo-nilo": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Sobek",
+    "sex": "m",
+    "born": 2000,
+    "arrived": 2008,
+    "origin": {
+     "es": "Granja de cocodrilos (traslado)",
+     "en": "Crocodile farm (transfer)"
+    },
+    "story": {
+     "es": "Mide más de 4 metros. Puede pasar meses sin comer.",
+     "en": "Over 4 metres long. He can go months without eating."
+    }
+   }
+  ]
+ },
+ "tortuga-aldabra": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Abuela",
+    "sex": "f",
+    "born": 1950,
+    "arrived": 2005,
+    "origin": {
+     "es": "Colección privada",
+     "en": "Private collection"
+    },
+    "story": {
+     "es": "Una de las tortugas gigantes más grandes del mundo. Puede vivir más de 100 años.",
+     "en": "One of the largest giant tortoises in the world. She can live over 100 years."
+    }
+   }
+  ]
+ },
+ "tortuga-espolones": {
+  "iucn": "EN",
+  "individuals": [
+   {
+    "name": "Tango",
+    "sex": "m",
+    "born": 2003,
+    "arrived": 2012,
+    "origin": {
+     "es": "Decomiso (tráfico ilegal)",
+     "en": "Seized (illegal trade)"
+    },
+    "story": {
+     "es": "La tortuga continental más grande de África. Le encanta tomar el sol en la arena.",
+     "en": "Africa’s largest mainland tortoise. He loves basking on the sand."
+    }
+   }
+  ]
+ },
+ "iguana-rinoceronte": {
+  "iucn": "EN",
+  "individuals": [
+   {
+    "name": "Rino",
+    "sex": "m",
+    "born": 2010,
+    "arrived": 2015,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Debe su nombre a los pequeños cuernos del hocico. Su especie solo vive en La Española.",
+     "en": "Named after the small horns on his snout. His species lives only on Hispaniola."
+    }
+   }
+  ]
+ },
+ "titi-pigmeo": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Pulga",
+    "sex": "f",
+    "born": 2019,
+    "arrived": 2020,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "El mono más pequeño del mundo: pesa apenas 120 gramos.",
+     "en": "The world’s smallest monkey: she weighs only 120 grams."
+    }
+   }
+  ]
+ },
+ "tamarino-algodon": {
+  "iucn": "CR",
+  "individuals": [
+   {
+    "name": "Einstein",
+    "sex": "m",
+    "born": 2015,
+    "arrived": 2017,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Su cresta blanca le da el nombre. Su especie está en peligro crítico en Colombia.",
+     "en": "His white crest gives the species its name. It is critically endangered in Colombia."
+    }
+   },
+   {
+    "name": "Nube",
+    "sex": "f",
+    "born": 2016,
+    "arrived": 2017,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Pareja de Einstein. Juntos han criado dos camadas de gemelos.",
+     "en": "Einstein’s partner. Together they have raised two sets of twins."
+    }
+   }
+  ]
+ },
+ "mono-arana": {
+  "iucn": "EN",
+  "individuals": [
+   {
+    "name": "Chispa",
+    "sex": "f",
+    "born": 2009,
+    "arrived": 2013,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Usa la cola como un quinto brazo para colgarse de las cuerdas.",
+     "en": "She uses her tail like a fifth arm to hang from the ropes."
+    }
+   }
+  ]
+ },
+ "capuchino": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Tito",
+    "sex": "m",
+    "born": 2012,
+    "arrived": 2016,
+    "origin": {
+     "es": "Centro de rescate",
+     "en": "Rescue centre"
+    },
+    "story": {
+     "es": "Muy listo: usa piedras para abrir frutos secos.",
+     "en": "Very clever: he uses stones to crack nuts."
+    }
+   }
+  ]
+ },
+ "macaco-bonnet": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Raja",
+    "sex": "m",
+    "born": 2011,
+    "arrived": 2014,
+    "origin": {
+     "es": "Centro de rescate",
+     "en": "Rescue centre"
+    },
+    "story": {
+     "es": "Su \"gorro\" de pelo en la cabeza da nombre a la especie.",
+     "en": "The \"bonnet\" of hair on his head gives the species its name."
+    }
+   }
+  ]
+ },
+ "tucan": {
+  "iucn": "VU",
+  "individuals": [
+   {
+    "name": "Pico",
+    "sex": "m",
+    "born": 2017,
+    "arrived": 2019,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Su pico parece pesado, pero es hueco y muy ligero.",
+     "en": "His bill looks heavy, but it is hollow and very light."
+    }
+   }
+  ]
+ },
+ "serval": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Sasha",
+    "sex": "f",
+    "born": 2016,
+    "arrived": 2018,
+    "origin": {
+     "es": "Zoo europeo (traslado)",
+     "en": "European zoo (transfer)"
+    },
+    "story": {
+     "es": "Tiene las patas más largas de los felinos en proporción a su cuerpo y salta hasta 3 metros.",
+     "en": "She has the longest legs of any cat for her size and can leap 3 metres."
+    }
+   }
+  ]
+ },
+ "autillo": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Ulises",
+    "sex": "m",
+    "born": 2018,
+    "arrived": 2019,
+    "origin": {
+     "es": "Centro de rescate",
+     "en": "Rescue centre"
+    },
+    "story": {
+     "es": "Caza de noche y puede girar la cabeza casi del todo.",
+     "en": "He hunts at night and can turn his head almost all the way round."
+    }
+   }
+  ]
+ },
+ "armadillo": {
+  "iucn": "LC",
+  "individuals": [
+   {
+    "name": "Tanque",
+    "sex": "m",
+    "born": 2019,
+    "arrived": 2020,
+    "origin": {
+     "es": "Programa europeo de cría (EEP)",
+     "en": "European breeding programme (EEP)"
+    },
+    "story": {
+     "es": "Su caparazón está hecho de placas de hueso cubiertas de piel.",
+     "en": "His shell is made of bony plates covered with skin."
+    }
+   }
+  ]
+ }
+}

@@ -65,12 +65,35 @@ export interface ParkConfig {
   walkingSpeed: number;
 }
 
+/** IUCN Red List category of the species; DOM = domestic animal. */
+export type Iucn = 'LC' | 'NT' | 'VU' | 'EN' | 'CR' | 'EW' | 'DOM';
+
+export interface Individual {
+  name: string;
+  sex: 'm' | 'f';
+  /** Year of birth. */
+  born: number;
+  /** Year it arrived at the park. */
+  arrived: number;
+  origin: Localized;
+  story: Localized;
+}
+
+export interface SpeciesInfo {
+  iucn: Iucn;
+  /** Which species, when the point has several (the status is this one's). */
+  species?: Localized;
+  individuals: Individual[];
+}
+
 export interface ParkData {
   config: ParkConfig;
   pois: Poi[];
   paths: LngLat[][];
   /** Ecotour train route, stop 0 to 5 (empty if not available). */
   ecotour: LngLat[];
+  /** Animals living at each point, by point id. */
+  animals: Record<string, SpeciesInfo>;
 }
 
 const base = import.meta.env.BASE_URL;
@@ -87,11 +110,12 @@ interface FeatureCollection {
 }
 
 export async function loadPark(): Promise<ParkData> {
-  const [config, poiFc, pathFc, ecoFc] = await Promise.all([
+  const [config, poiFc, pathFc, ecoFc, animals] = await Promise.all([
     getJson<ParkConfig>('config.json'),
     getJson<FeatureCollection>('pois.geojson'),
     getJson<FeatureCollection>('paths.geojson'),
     getJson<FeatureCollection>('ecotour.geojson').catch(() => ({ features: [] }) as FeatureCollection),
+    getJson<Record<string, SpeciesInfo>>('animals.json').catch(() => ({})),
   ]);
   const ecotour: LngLat[] = ecoFc.features.find((f) => f.geometry?.type === 'LineString')?.geometry.coordinates ?? [];
 
@@ -104,5 +128,5 @@ export async function loadPark(): Promise<ParkData> {
     if (f.geometry?.type === 'LineString') paths.push(f.geometry.coordinates);
     else if (f.geometry?.type === 'MultiLineString') paths.push(...f.geometry.coordinates);
   }
-  return { config, pois, paths, ecotour };
+  return { config, pois, paths, ecotour, animals };
 }

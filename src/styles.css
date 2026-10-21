@@ -1141,3 +1141,176 @@ input, select, textarea, button { font-family: inherit; }
 .eco-run li.here .eco-at {
   color: var(--ink);
 }
+
+/* --- meet our animals (swipe the sheet up) -------------------------------------- */
+
+.more-hint {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  margin: 14px 0 0;
+  padding: 4px 0 0;
+  border: 0;
+  background: none;
+  color: var(--brand);
+  font-size: 0.85rem;
+}
+
+.more-hint[hidden],
+.sheet-more[hidden],
+.ind-tabs[hidden] {
+  display: none;
+}
+
+.more-hint svg {
+  animation: hint-arrows 1.4s ease-in-out infinite;
+}
+
+@keyframes hint-arrows {
+  0%, 100% { transform: translateY(2px); opacity: 0.7; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* the sheet itself nudges up twice when it opens */
+.sheet.open.hint-bounce {
+  animation: sheet-bounce 0.7s ease 0.35s 2;
+}
+
+@keyframes sheet-bounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-22px); }
+  70% { transform: translateY(4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .more-hint svg,
+  .sheet.open.hint-bounce {
+    animation: none;
+  }
+}
+
+.sheet-more {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 8px;
+}
+
+.sheet-more h3 {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.35rem;
+}
+
+.iucn-label {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.iucn-label b {
+  color: var(--ink);
+  font-weight: 400;
+}
+
+.iucn-scale {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin: 6px 0 14px;
+}
+
+.iucn-scale span {
+  padding: 4px 0;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  opacity: 0.28;
+  color: #fff;
+}
+
+.iucn-scale span.on {
+  opacity: 1;
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* official Red List colours */
+.iucn-LC { background: #60c659; }
+.iucn-NT { background: #cce226; color: #1d2a00 !important; }
+.iucn-VU { background: #f9e814; color: #3a3500 !important; }
+.iucn-EN { background: #fc7f3f; }
+.iucn-CR { background: #d81e05; }
+
+.ind-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  margin: 4px 0 12px;
+  padding-bottom: 2px;
+}
+
+.ind-tab {
+  flex: none;
+  padding: 8px 14px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.ind-tab[aria-selected='true'] {
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, var(--surface));
+}
+
+.ind-card {
+  padding: 14px;
+  border-radius: var(--r-md);
+  background: var(--chip);
+}
+
+.ind-card h4 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.6rem;
+}
+
+.sex {
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.sex-m { color: #2f80ed; }
+.sex-f { color: #e0529c; }
+
+.ind-card dl {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.ind-card dl div {
+  display: flex;
+  gap: 8px;
+}
+
+.ind-card dt {
+  flex: none;
+  min-width: 7.5em;
+  color: var(--muted);
+}
+
+.ind-card dd {
+  margin: 0;
+}
+
+.ind-story {
+  margin: 10px 0 0;
+  line-height: 1.5;
+}

@@ -153,6 +153,13 @@ muestra como *Abierto / Cierra en N min / Cerrado*, y una lista `11:15 · 15:40`
 línea discontinua del mapa oficial (`ECOTOUR_ROUTE`) y cada parada muestra a qué hora pasa
 el próximo tren por las siguientes.
 
+## Nuestros animales
+
+Al deslizar hacia arriba la ficha de un animal se ven sus ejemplares (nombre, sexo, edad,
+desde cuándo están en el parque, origen e historia) y el estado de conservación UICN de la
+especie. Los datos están en `scripts/gen-animals.py` → `public/data/animals.json`.
+**Ahora mismo son de ejemplo (inventados).**
+
 ## Dibujos del mapa
 
 Los animales del mapa usan los dibujos del mapa oficial (PDF), recortados como SVG en

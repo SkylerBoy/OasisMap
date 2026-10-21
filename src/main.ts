@@ -633,6 +633,32 @@ function bindUi() {
   };
   sheet.addEventListener('touchend', endDrag);
   sheet.addEventListener('touchcancel', endDrag);
+
+  // Swiping down on the dimmed area above the sheet closes it too (the sheet follows the finger).
+  const backdrop = $('sheet-backdrop');
+  let bdY: number | null = null;
+  backdrop.addEventListener('touchstart', (e) => (bdY = e.touches[0].clientY), { passive: true });
+  backdrop.addEventListener(
+    'touchmove',
+    (e) => {
+      if (bdY == null) return;
+      e.preventDefault();
+      const dy = Math.max(0, e.touches[0].clientY - bdY);
+      sheet.classList.add('dragging');
+      sheet.style.transform = `translateY(${dy}px)`;
+    },
+    { passive: false },
+  );
+  const endBackdrop = (e: TouchEvent) => {
+    if (bdY == null) return;
+    const dy = e.changedTouches[0].clientY - bdY;
+    bdY = null;
+    sheet.classList.remove('dragging');
+    sheet.style.transform = '';
+    if (dy > 50) closeSheet();
+  };
+  backdrop.addEventListener('touchend', endBackdrop);
+  backdrop.addEventListener('touchcancel', endBackdrop);
   $('more-hint').addEventListener('click', () => setSheetExpanded(!$('sheet').classList.contains('expanded')));
 }
 

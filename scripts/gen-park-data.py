@@ -183,6 +183,32 @@ PATHS = [
 ]
 
 
+# Icon per point (names from scripts/build-icons.mjs). Ids not listed use their category icon.
+ICON = {
+    'titi-geoffroy': 'monkey', 'tamarino-algodon-1': 'monkey', 'avefrias-saki': 'bird', 'tunel-lemures': 'monkey',
+    'grulla-damisela': 'crane', 'macaca-cangrejera': 'monkey', 'mono-arana': 'monkey', 'mono-patas': 'monkey',
+    'flamencos': 'flamingo', 'titi-pigmeo': 'monkey', 'puercoespin': 'porcupine', 'capuchino': 'monkey',
+    'crias-cocodrilo': 'crocodile', 'fenec': 'fox', 'talapoin': 'monkey', 'nutria': 'otter', 'camello-ovejas': 'camel',
+    'hipopotamo-1': 'hippo', 'aves-zancudas': 'ibis', 'niala-calao-grulla': 'antelope', 'llamas-guanacos': 'llama',
+    'hipopotamo-2': 'hippo', 'tortuga-florida': 'turtle', 'sabana': 'zebra', 'watusi': 'cattle', 'dromedarios': 'dromedary',
+    'jirafas': 'giraffe', 'elefantes': 'elephant', 'cueva-reptiles': 'snake', 'tortuga-estrellada': 'turtle',
+    'iguanas-tortugas': 'lizard', 'tortuga-aldabra': 'turtle', 'aligator-1': 'crocodile', 'iguana-rinoceronte': 'lizard',
+    'aligator-2': 'crocodile', 'lagartos-tortugas': 'lizard', 'cocodrilo-nilo': 'crocodile', 'autillo': 'owl',
+    'grullas-tortugas': 'crane', 'macaco-bonnet': 'monkey', 'emu-ualabi': 'kangaroo', 'armadillo': 'armadillo',
+    'tamarino-labiado': 'monkey', 'tamarino-algodon-2': 'monkey', 'titi-plateado': 'monkey',
+    'sea-lion-live': 'seal', 'fauna-live': 'parrot', 'birds-live': 'eagle', 'camel-experience': 'dromedary',
+    'lemur-experience': 'monkey',
+    'malvarrisco': 'restaurant', 'oasis-market': 'restaurant', 'patio-majorero': 'restaurant',
+    'snack-leones': 'snack', 'snack-fauna': 'snack',
+    'botanic-cactus': 'cactus', 'botanic-madagascar': 'palm', 'botanic-halofilas': 'herb', 'botanic-cardonal': 'cactus',
+    'botanic-termofilo': 'tree', 'botanic-laurisilva': 'tree', 'botanic-palmeral': 'palm', 'botanic-socotra': 'tree',
+    'palmetum': 'palm', 'reserva-autoctonas': 'herb',
+    'entrada': 'ticket', 'info-entrada': 'info', 'info-centro': 'info', 'souvenir': 'gift', 'photoasis': 'camera',
+    'casa-comida': 'apple', 'clinica': 'hospital', 'enfermeria': 'firstaid', 'taxi': 'taxi', 'parking': 'car',
+    'parking-accesible': 'wheelchair',
+}
+ICON_PREFIX = {'aseo': 'toilet', 'desfib': 'defib', 'mirador': 'viewpoint', 'observatorio': 'bird', 'ecotour': 'train'}
+
 # Secondary services: drawn on the map only when zoomed in (always in the list).
 MINOR = {'aseo', 'desfib', 'mirador', 'observatorio', 'ecotour', 'taxi', 'parking', 'photoasis'}
 
@@ -191,6 +217,9 @@ def main():
     feats = []
     for pid, cat, num, x, y, name, desc in POIS:
         props = {'id': pid, 'category': cat, 'name': name}
+        icon = ICON.get(pid) or ICON_PREFIX.get(pid.split('-')[0])
+        if icon:
+            props['icon'] = icon
         if pid.split('-')[0] in MINOR:
             props['minor'] = True
         if num:

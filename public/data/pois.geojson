@@ -15,6 +15,7 @@
      "ca": "Titi de Geoffroy",
      "eu": "Geoffroy titia"
     },
+    "icon": "monkey",
     "number": "1"
    },
    "geometry": {
@@ -39,6 +40,7 @@
      "ca": "Tamarí cap de cotó",
      "eu": "Kotoi-buru tamarinoa"
     },
+    "icon": "monkey",
     "number": "2"
    },
    "geometry": {
@@ -63,6 +65,7 @@
      "ca": "Fredelugues i saki",
      "eu": "Hegabakarrak eta sakia"
     },
+    "icon": "bird",
     "number": "4"
    },
    "geometry": {
@@ -87,6 +90,7 @@
      "ca": "Túnel de lèmurs",
      "eu": "Lemurren tunela"
     },
+    "icon": "monkey",
     "number": "5"
    },
    "geometry": {
@@ -111,6 +115,7 @@
      "ca": "Grua damisel·la",
      "eu": "Kurrilo dama"
     },
+    "icon": "crane",
     "number": "6"
    },
    "geometry": {
@@ -135,6 +140,7 @@
      "ca": "Macaco menjacrancs",
      "eu": "Karramarro-jale makakoa"
     },
+    "icon": "monkey",
     "number": "7"
    },
    "geometry": {
@@ -159,6 +165,7 @@
      "ca": "Mona aranya",
      "eu": "Armiarma-tximinoa"
     },
+    "icon": "monkey",
     "number": "8"
    },
    "geometry": {
@@ -183,6 +190,7 @@
      "ca": "Mona patas",
      "eu": "Patas tximinoa"
     },
+    "icon": "monkey",
     "number": "9"
    },
    "geometry": {
@@ -207,6 +215,7 @@
      "ca": "Flamencs",
      "eu": "Flamenkoak"
     },
+    "icon": "flamingo",
     "number": "10"
    },
    "geometry": {
@@ -231,6 +240,7 @@
      "ca": "Titi pigmeu",
      "eu": "Titi pigmeoa"
     },
+    "icon": "monkey",
     "number": "11"
    },
    "geometry": {
@@ -255,6 +265,7 @@
      "ca": "Porc espí",
      "eu": "Triku-ugaraxoa"
     },
+    "icon": "porcupine",
     "number": "12"
    },
    "geometry": {
@@ -279,6 +290,7 @@
      "ca": "Caputxí",
      "eu": "Kaputxino tximinoa"
     },
+    "icon": "monkey",
     "number": "13"
    },
    "geometry": {
@@ -303,6 +315,7 @@
      "ca": "Cries de cocodril",
      "eu": "Krokodilo kumeak"
     },
+    "icon": "crocodile",
     "number": "14"
    },
    "geometry": {
@@ -327,6 +340,7 @@
      "ca": "Fennec",
      "eu": "Fenekoa"
     },
+    "icon": "fox",
     "number": "15"
    },
    "geometry": {
@@ -351,6 +365,7 @@
      "ca": "Talapoin",
      "eu": "Talapoina"
     },
+    "icon": "monkey",
     "number": "16"
    },
    "geometry": {
@@ -375,6 +390,7 @@
      "ca": "Llúdriga asiàtica d’ungles curtes",
      "eu": "Azazkal laburreko igaraba"
     },
+    "icon": "otter",
     "number": "17"
    },
    "geometry": {
@@ -399,6 +415,7 @@
      "ca": "Camell bactrià i ovelles",
      "eu": "Baktriako gamelua eta ardiak"
     },
+    "icon": "camel",
     "number": "19"
    },
    "geometry": {
@@ -423,6 +440,7 @@
      "ca": "Hipopòtam",
      "eu": "Hipopotamoa"
     },
+    "icon": "hippo",
     "number": "20"
    },
    "geometry": {
@@ -447,6 +465,7 @@
      "ca": "Tàntal, marabú, jabirú i ibis sagrat",
      "eu": "Tantaloa, marabua, jabirua eta ibis sakratua"
     },
+    "icon": "ibis",
     "number": "22"
    },
    "geometry": {
@@ -471,6 +490,7 @@
      "ca": "Niala, calau i grua coronada",
      "eu": "Niala, kalaoa eta kurrilo koroaduna"
     },
+    "icon": "antelope",
     "number": "23"
    },
    "geometry": {
@@ -495,6 +515,7 @@
      "ca": "Llames i guanacs",
      "eu": "Lamak eta guanakoak"
     },
+    "icon": "llama",
     "number": "24"
    },
    "geometry": {
@@ -519,6 +540,7 @@
      "ca": "Hipopòtam",
      "eu": "Hipopotamoa"
     },
+    "icon": "hippo",
     "number": "25"
    },
    "geometry": {
@@ -543,6 +565,7 @@
      "ca": "Tortuga de Florida",
      "eu": "Floridako dortoka"
     },
+    "icon": "turtle",
     "number": "26"
    },
    "geometry": {
@@ -567,6 +590,7 @@
      "ca": "Sabana africana",
      "eu": "Afrikako sabana"
     },
+    "icon": "zebra",
     "number": "27"
    },
    "geometry": {
@@ -591,6 +615,7 @@
      "ca": "Watusi",
      "eu": "Watusi behiak"
     },
+    "icon": "cattle",
     "number": "28"
    },
    "geometry": {
@@ -615,6 +640,7 @@
      "ca": "Reserva de dromedaris",
      "eu": "Dromedarioen erreserba"
     },
+    "icon": "dromedary",
     "number": "29"
    },
    "geometry": {
@@ -639,6 +665,7 @@
      "ca": "Girafa, gasela de Cuvier, gran elan i cob de Lechwe",
      "eu": "Jirafa, Cuvierren gazela, eland handia eta lechwea"
     },
+    "icon": "giraffe",
     "number": "30"
    },
    "geometry": {
@@ -663,6 +690,7 @@
      "ca": "Elefant, facoquer i òrix gasela",
      "eu": "Elefantea, fakokeroa eta orix gazela"
     },
+    "icon": "elephant",
     "number": "31"
    },
    "geometry": {
@@ -687,6 +715,7 @@
      "ca": "Cova de rèptils",
      "eu": "Narrastien kobazuloa"
     },
+    "icon": "snake",
     "number": "32"
    },
    "geometry": {
@@ -711,6 +740,7 @@
      "ca": "Tortuga estrellada de Madagascar",
      "eu": "Madagaskarko dortoka izarduna"
     },
+    "icon": "turtle",
     "number": "33"
    },
    "geometry": {
@@ -735,6 +765,7 @@
      "ca": "Iguanes i tortugues",
      "eu": "Iguanak eta dortokak"
     },
+    "icon": "lizard",
     "number": "34"
    },
    "geometry": {
@@ -759,6 +790,7 @@
      "ca": "Tortuga gegant d'Aldabra",
      "eu": "Aldabrako dortoka erraldoia"
     },
+    "icon": "turtle",
     "number": "35"
    },
    "geometry": {
@@ -783,6 +815,7 @@
      "ca": "Al·ligàtor americà",
      "eu": "Aligator amerikarra"
     },
+    "icon": "crocodile",
     "number": "36"
    },
    "geometry": {
@@ -807,6 +840,7 @@
      "ca": "Iguana rinoceront",
      "eu": "Iguana errinozeroa"
     },
+    "icon": "lizard",
     "number": "37"
    },
    "geometry": {
@@ -831,6 +865,7 @@
      "ca": "Al·ligàtor americà",
      "eu": "Aligator amerikarra"
     },
+    "icon": "crocodile",
     "number": "38"
    },
    "geometry": {
@@ -855,6 +890,7 @@
      "ca": "Llangardaixos i tortugues",
      "eu": "Muskerrak eta dortokak"
     },
+    "icon": "lizard",
     "number": "39"
    },
    "geometry": {
@@ -879,6 +915,7 @@
      "ca": "Cocodril del Nil",
      "eu": "Niloko krokodiloa"
     },
+    "icon": "crocodile",
     "number": "40"
    },
    "geometry": {
@@ -903,6 +940,7 @@
      "ca": "Xot xoliba",
      "eu": "Txoliba hontza"
     },
+    "icon": "owl",
     "number": "41"
    },
    "geometry": {
@@ -927,6 +965,7 @@
      "ca": "Grues, tortuga d’esperons africana i tortuga lleopard",
      "eu": "Kurriloak, Afrikako dortoka ezproiduna eta dortoka leopardoa"
     },
+    "icon": "crane",
     "number": "43"
    },
    "geometry": {
@@ -951,6 +990,7 @@
      "ca": "Macaco de Bonnet",
      "eu": "Bonnet makakoa"
     },
+    "icon": "monkey",
     "number": "44"
    },
    "geometry": {
@@ -975,6 +1015,7 @@
      "ca": "Emú, ualabi de Bennett i diverses aus",
      "eu": "Emua, Bennetten ualabia eta beste hegazti batzuk"
     },
+    "icon": "kangaroo",
     "number": "45"
    },
    "geometry": {
@@ -999,6 +1040,7 @@
      "ca": "Armadillo",
      "eu": "Armadiloa"
     },
+    "icon": "armadillo",
     "number": "46"
    },
    "geometry": {
@@ -1023,6 +1065,7 @@
      "ca": "Tamarí de llavis blancs",
      "eu": "Ezpain-zuri tamarinoa"
     },
+    "icon": "monkey",
     "number": "47"
    },
    "geometry": {
@@ -1047,6 +1090,7 @@
      "ca": "Tamarí cap de cotó",
      "eu": "Kotoi-buru tamarinoa"
     },
+    "icon": "monkey",
     "number": "48"
    },
    "geometry": {
@@ -1071,6 +1115,7 @@
      "ca": "Titi platejat",
      "eu": "Titi zilarkara"
     },
+    "icon": "monkey",
     "number": "49"
    },
    "geometry": {
@@ -1095,6 +1140,7 @@
      "ca": "Sea Lion Live",
      "eu": "Sea Lion Live"
     },
+    "icon": "seal",
     "description": {
      "es": "Exhibición de leones marinos.",
      "en": "Sea lion show.",
@@ -1127,6 +1173,7 @@
      "ca": "Fauna Live",
      "eu": "Fauna Live"
     },
+    "icon": "parrot",
     "description": {
      "es": "Exhibición de animales en directo.",
      "en": "Live animal show.",
@@ -1159,6 +1206,7 @@
      "ca": "Birds Live",
      "eu": "Birds Live"
     },
+    "icon": "eagle",
     "description": {
      "es": "Exhibición de vuelo de aves.",
      "en": "Bird flight show.",
@@ -1191,6 +1239,7 @@
      "ca": "Camel Experience",
      "eu": "Camel Experience"
     },
+    "icon": "dromedary",
     "number": "1",
     "description": {
      "es": "Paseo en camello. Se realiza en la parte exterior del parque.",
@@ -1224,6 +1273,7 @@
      "ca": "Lemur Experience",
      "eu": "Lemur Experience"
     },
+    "icon": "monkey",
     "description": {
      "es": "Encuentro con lémures.",
      "en": "Lemur encounter.",
@@ -1256,6 +1306,7 @@
      "ca": "Restaurant Malvarrisco",
      "eu": "Malvarrisco jatetxea"
     },
+    "icon": "restaurant",
     "number": "A"
    },
    "geometry": {
@@ -1280,6 +1331,7 @@
      "ca": "Restaurant Oasis Market",
      "eu": "Oasis Market jatetxea"
     },
+    "icon": "restaurant",
     "number": "B"
    },
    "geometry": {
@@ -1304,6 +1356,7 @@
      "ca": "Restaurant Patio Majorero",
      "eu": "Patio Majorero jatetxea"
     },
+    "icon": "restaurant",
     "number": "C",
     "description": {
      "es": "Fuera de servicio.",
@@ -1337,6 +1390,7 @@
      "ca": "Snack bar Lleons Marins",
      "eu": "Itsas Lehoien snack-barra"
     },
+    "icon": "snack",
     "number": "A"
    },
    "geometry": {
@@ -1361,6 +1415,7 @@
      "ca": "Snack bar Fauna",
      "eu": "Fauna snack-barra"
     },
+    "icon": "snack",
     "number": "B"
    },
    "geometry": {
@@ -1385,6 +1440,7 @@
      "ca": "Cactus",
      "eu": "Kaktusak"
     },
+    "icon": "cactus",
     "number": "1"
    },
    "geometry": {
@@ -1409,6 +1465,7 @@
      "ca": "Plantes de Madagascar",
      "eu": "Madagaskarko landareak"
     },
+    "icon": "palm",
     "number": "2"
    },
    "geometry": {
@@ -1433,6 +1490,7 @@
      "ca": "Comunitat d’halòfiles costaneres",
      "eu": "Kostaldeko halofiloen komunitatea"
     },
+    "icon": "herb",
     "number": "3"
    },
    "geometry": {
@@ -1457,6 +1515,7 @@
      "ca": "Comunitat cardonal-tabaibal",
      "eu": "Cardonal-tabaibal komunitatea"
     },
+    "icon": "cactus",
     "number": "4"
    },
    "geometry": {
@@ -1481,6 +1540,7 @@
      "ca": "Comunitat de bosc termòfil",
      "eu": "Baso termofiloaren komunitatea"
     },
+    "icon": "tree",
     "number": "5"
    },
    "geometry": {
@@ -1505,6 +1565,7 @@
      "ca": "Comunitat de laurisilva",
      "eu": "Laurisilva komunitatea"
     },
+    "icon": "tree",
     "number": "6"
    },
    "geometry": {
@@ -1529,6 +1590,7 @@
      "ca": "Comunitat de palmerar",
      "eu": "Palmondoen komunitatea"
     },
+    "icon": "palm",
     "number": "7"
    },
    "geometry": {
@@ -1553,6 +1615,7 @@
      "ca": "Plantes de Socotra",
      "eu": "Sokotrako landareak"
     },
+    "icon": "tree",
     "number": "8"
    },
    "geometry": {
@@ -1576,7 +1639,8 @@
      "it": "Palmetum",
      "ca": "Palmetum",
      "eu": "Palmetuma"
-    }
+    },
+    "icon": "palm"
    },
    "geometry": {
     "type": "Point",
@@ -1599,7 +1663,8 @@
      "it": "Riserva di piante autoctone",
      "ca": "Reserva de plantes autòctones",
      "eu": "Bertako landareen erreserba"
-    }
+    },
+    "icon": "herb"
    },
    "geometry": {
     "type": "Point",
@@ -1622,7 +1687,8 @@
      "it": "Ingresso / Uscita e biglietteria",
      "ca": "Entrada / Sortida i taquilles",
      "eu": "Sarrera / Irteera eta txarteldegia"
-    }
+    },
+    "icon": "ticket"
    },
    "geometry": {
     "type": "Point",
@@ -1645,7 +1711,8 @@
      "it": "Ufficio informazioni",
      "ca": "Oficina d'informació",
      "eu": "Informazio bulegoa"
-    }
+    },
+    "icon": "info"
    },
    "geometry": {
     "type": "Point",
@@ -1668,7 +1735,8 @@
      "it": "Punto informazioni",
      "ca": "Punt d'informació",
      "eu": "Informazio-gunea"
-    }
+    },
+    "icon": "info"
    },
    "geometry": {
     "type": "Point",
@@ -1691,7 +1759,8 @@
      "it": "Negozio di souvenir",
      "ca": "Botiga de records",
      "eu": "Oroigarri-denda"
-    }
+    },
+    "icon": "gift"
    },
    "geometry": {
     "type": "Point",
@@ -1715,6 +1784,7 @@
      "ca": "Photoasis",
      "eu": "Photoasis"
     },
+    "icon": "camera",
     "minor": true
    },
    "geometry": {
@@ -1738,7 +1808,8 @@
      "it": "Cucina degli animali e laboratorio di arricchimento",
      "ca": "Casa de menjar d'animals i taller d'enriquiment",
      "eu": "Animalien janari-etxea eta aberastze-tailerra"
-    }
+    },
+    "icon": "apple"
    },
    "geometry": {
     "type": "Point",
@@ -1761,7 +1832,8 @@
      "it": "Ospedale veterinario",
      "ca": "Hospital clínica veterinària",
      "eu": "Albaitaritza-ospitalea"
-    }
+    },
+    "icon": "hospital"
    },
    "geometry": {
     "type": "Point",
@@ -1784,7 +1856,8 @@
      "it": "Infermeria e defibrillatore",
      "ca": "Infermeria i desfibril·lador",
      "eu": "Erizaintza eta desfibriladorea"
-    }
+    },
+    "icon": "firstaid"
    },
    "geometry": {
     "type": "Point",
@@ -1808,6 +1881,7 @@
      "ca": "Desfibril·lador",
      "eu": "Desfibriladorea"
     },
+    "icon": "defib",
     "minor": true
    },
    "geometry": {
@@ -1832,6 +1906,7 @@
      "ca": "Desfibril·lador",
      "eu": "Desfibriladorea"
     },
+    "icon": "defib",
     "minor": true
    },
    "geometry": {
@@ -1856,6 +1931,7 @@
      "ca": "Mirador panoràmic",
      "eu": "Begiratokia"
     },
+    "icon": "viewpoint",
     "minor": true
    },
    "geometry": {
@@ -1880,6 +1956,7 @@
      "ca": "Mirador panoràmic",
      "eu": "Begiratokia"
     },
+    "icon": "viewpoint",
     "minor": true
    },
    "geometry": {
@@ -1904,6 +1981,7 @@
      "ca": "Mirador panoràmic",
      "eu": "Begiratokia"
     },
+    "icon": "viewpoint",
     "minor": true
    },
    "geometry": {
@@ -1928,6 +2006,7 @@
      "ca": "Observatori ornitològic",
      "eu": "Hegazti-behatokia"
     },
+    "icon": "bird",
     "minor": true
    },
    "geometry": {
@@ -1952,6 +2031,7 @@
      "ca": "Observatori ornitològic",
      "eu": "Hegazti-behatokia"
     },
+    "icon": "bird",
     "minor": true
    },
    "geometry": {
@@ -1976,6 +2056,7 @@
      "ca": "Observatori ornitològic",
      "eu": "Hegazti-behatokia"
     },
+    "icon": "bird",
     "minor": true
    },
    "geometry": {
@@ -2000,6 +2081,7 @@
      "ca": "Parada de taxi",
      "eu": "Taxi-geltokia"
     },
+    "icon": "taxi",
     "minor": true
    },
    "geometry": {
@@ -2024,6 +2106,7 @@
      "ca": "Aparcament",
      "eu": "Aparkalekua"
     },
+    "icon": "car",
     "minor": true
    },
    "geometry": {
@@ -2048,6 +2131,7 @@
      "ca": "Aparcament accessible",
      "eu": "Aparkaleku irisgarria"
     },
+    "icon": "wheelchair",
     "minor": true
    },
    "geometry": {
@@ -2072,6 +2156,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2096,6 +2181,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2120,6 +2206,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2144,6 +2231,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2168,6 +2256,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2192,6 +2281,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2216,6 +2306,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2240,6 +2331,7 @@
      "ca": "Lavabos",
      "eu": "Komunak"
     },
+    "icon": "toilet",
     "minor": true
    },
    "geometry": {
@@ -2264,6 +2356,7 @@
      "ca": "Ecotour – parada 0: Leones Marinos",
      "eu": "Ecotour – geltokia 0: Leones Marinos"
     },
+    "icon": "train",
     "minor": true,
     "number": "E0",
     "description": {
@@ -2298,6 +2391,7 @@
      "ca": "Ecotour – parada 1: Fauna Live",
      "eu": "Ecotour – geltokia 1: Fauna Live"
     },
+    "icon": "train",
     "minor": true,
     "number": "E1",
     "description": {
@@ -2332,6 +2426,7 @@
      "ca": "Ecotour – parada 2: Patio Majorero",
      "eu": "Ecotour – geltokia 2: Patio Majorero"
     },
+    "icon": "train",
     "minor": true,
     "number": "E2",
     "description": {
@@ -2366,6 +2461,7 @@
      "ca": "Ecotour – parada 3: Botánico",
      "eu": "Ecotour – geltokia 3: Botánico"
     },
+    "icon": "train",
     "minor": true,
     "number": "E3",
     "description": {
@@ -2400,6 +2496,7 @@
      "ca": "Ecotour – parada 4: Birds Live",
      "eu": "Ecotour – geltokia 4: Birds Live"
     },
+    "icon": "train",
     "minor": true,
     "number": "E4",
     "description": {
@@ -2434,6 +2531,7 @@
      "ca": "Ecotour – parada 5: Elefantes",
      "eu": "Ecotour – geltokia 5: Elefantes"
     },
+    "icon": "train",
     "minor": true,
     "number": "E5",
     "description": {

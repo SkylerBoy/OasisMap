@@ -1,5 +1,5 @@
 import './styles.css';
-import { CATEGORIES, CATEGORY_ICON, loadPark, type Category, type ParkData, type Poi } from './data';
+import { CATEGORIES, CATEGORY_ICON, loadPark, poiIcon, type Category, type ParkData, type Poi } from './data';
 import { distance, type LngLat } from './geo';
 import { PathGraph, type Snap } from './graph';
 import { LANGUAGES, currentLang, detectLang, formatDistance, pick, setLang, t } from './i18n';
@@ -8,6 +8,7 @@ import { HAS_TILES, ParkMap } from './map';
 import { guide, type Guidance } from './nav';
 import { startCapture } from './capture';
 import { ICONS } from './icons';
+import { poiIconSvg } from './poi-icons';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 
@@ -241,7 +242,8 @@ function buildChips() {
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'chip' + (state.category === c ? ' active' : '');
-    b.textContent = c === 'all' ? t('all') : `${CATEGORY_ICON[c]} ${t(`cat.${c}`)}`;
+    b.innerHTML = c === 'all' ? '' : poiIconSvg(CATEGORY_ICON[c], 18);
+    b.append(c === 'all' ? t('all') : t(`cat.${c}`));
     b.addEventListener('click', () => {
       state.category = c;
       buildChips();
@@ -282,7 +284,7 @@ function renderList() {
     const li = document.createElement('li');
     li.innerHTML = `
       <button type="button" class="poi-row">
-        <span class="row-icon cat-${p.category}">${CATEGORY_ICON[p.category]}</span>
+        <span class="row-icon cat-${p.category}">${poiIconSvg(poiIcon(p), 24)}</span>
         <span class="row-main">
           <span class="row-name"></span>
           <span class="row-sub"></span>
@@ -309,7 +311,8 @@ function openSheet(poi: Poi) {
 function renderSheet() {
   const p = state.selected;
   if (!p) return;
-  $('sheet-icon').textContent = CATEGORY_ICON[p.category];
+  $('sheet-icon').innerHTML = poiIconSvg(poiIcon(p), 30);
+  $('sheet-icon').className = `sheet-icon cat-${p.category}`;
   $('sheet-title').textContent = pick(p.name);
   $('sheet-sub').textContent = [p.number ? `#${p.number}` : '', t(`cat.${p.category}`), walkText(p.id)]
     .filter(Boolean)

@@ -6,14 +6,19 @@ export type Localized = Record<string, string | undefined>;
 export const CATEGORIES = ['animal', 'show', 'food', 'experience', 'botanic', 'service'] as const;
 export type Category = (typeof CATEGORIES)[number];
 
+/** Icon names from src/poi-icons.ts, used for chips and points without their own. */
 export const CATEGORY_ICON: Record<Category, string> = {
-  animal: '🦒',
-  show: '🎭',
-  food: '🍽️',
-  experience: '🐪',
-  botanic: '🌵',
-  service: 'ℹ️',
+  animal: 'paw',
+  show: 'show',
+  food: 'restaurant',
+  experience: 'camel',
+  botanic: 'cactus',
+  service: 'info',
 };
+
+export function poiIcon(poi: Poi): string {
+  return poi.icon ?? CATEGORY_ICON[poi.category];
+}
 
 export interface Poi {
   id: string;
@@ -24,6 +29,8 @@ export interface Poi {
   description?: Localized;
   /** Free text, e.g. "11:30 · 15:00". */
   schedule?: string;
+  /** Icon name from src/poi-icons.ts. */
+  icon?: string;
   /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */
   minor?: boolean;
   coord: LngLat;

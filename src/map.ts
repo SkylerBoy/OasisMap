@@ -1,6 +1,7 @@
 import maplibregl, { type GeoJSONSource, type StyleSpecification } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { CATEGORY_ICON, type ParkData, type Poi } from './data';
+import { poiIcon, type ParkData, type Poi } from './data';
+import { poiIconSvg } from './poi-icons';
 import { circlePolygon, type LngLat } from './geo';
 import { pick } from './i18n';
 import type { Fix } from './location';
@@ -131,7 +132,17 @@ export class ParkMap {
     });
     this.map.touchZoomRotate.disableRotation();
     // Bottom-left so it does not sit under the map buttons on the right.
-    this.map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-left');
+    this.map.addControl(
+      new maplibregl.AttributionControl({
+        compact: true,
+        customAttribution: 'Iconos: Fluent Emoji (MIT) · <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a> (CC BY 3.0)',
+      }),
+      'bottom-left',
+    );
+    // Start collapsed (just the ⓘ button); MapLibre opens it on wide maps.
+    this.map.once('load', () =>
+      container.querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show'),
+    );
     this.map.on('click', (e) => handlers.onMapClick([e.lngLat.lng, e.lngLat.lat]));
     this.map.on('error', (e: any) => {
       if (e.sourceId === 'pnoa' && !this.pnoaFailed) {
@@ -145,7 +156,7 @@ export class ParkMap {
       const el = document.createElement('button');
       el.className = `poi-marker cat-${poi.category}${poi.minor ? ' minor' : ''}`;
       el.type = 'button';
-      el.innerHTML = `<span class="poi-icon">${CATEGORY_ICON[poi.category] ?? '📍'}</span>${
+      el.innerHTML = `<span class="poi-icon">${poiIconSvg(poiIcon(poi), 20)}</span>${
         poi.number ? `<span class="poi-num">${poi.number}</span>` : ''
       }`;
       el.addEventListener('click', (ev) => {

@@ -24,3 +24,13 @@ describe('park data', () => {
     }
   });
 });
+
+import { POI_ICONS } from './poi-icons';
+
+describe('park icons', () => {
+  it('every point uses an icon that exists', () => {
+    for (const p of pois as { properties: { id: string; icon?: string } }[]) {
+      expect(p.properties.icon && POI_ICONS[p.properties.icon], p.properties.id).toBeTruthy();
+    }
+  });
+});

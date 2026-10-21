@@ -14,6 +14,13 @@
   --line: #ece5d1;
   --chip: #f4f0e2;
   --shadow: 0 6px 22px rgb(60 48 20 / 0.12);
+  /* category colours (markers, list and sheet icons) */
+  --cat-animal: #4f8a2b;
+  --cat-show: #c2410c;
+  --cat-food: #b45309;
+  --cat-service: #2563eb;
+  --cat-experience: #7c3aed;
+  --cat-botanic: #15803d;
   --r-sm: 10px;
   --r-md: 14px;
   --r-lg: 20px;
@@ -263,7 +270,6 @@ body.map-expanded {
   padding: 0;
   border: 2px solid #fff;
   border-radius: 50%;
-  background: #4f8a2b;
   box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
   display: grid;
   place-items: center;
@@ -275,24 +281,31 @@ body.map-expanded {
   height: 26px;
 }
 
-.z-far .poi-icon {
-  font-size: 13px;
-}
-
 /* Secondary points (toilets, viewpoints…) only when zoomed in or selected. */
 .maplibregl-map:not(.z-near) .poi-marker.minor:not(.selected) {
   visibility: hidden;
 }
 
-.poi-marker.cat-show { background: #c2410c; }
-.poi-marker.cat-food { background: #b45309; }
-.poi-marker.cat-service { background: #2563eb; }
-.poi-marker.cat-experience { background: #7c3aed; }
-.poi-marker.cat-botanic { background: #15803d; }
+.cat-animal { --cat: var(--cat-animal); }
+.cat-show { --cat: var(--cat-show); }
+.cat-food { --cat: var(--cat-food); }
+.cat-service { --cat: var(--cat-service); }
+.cat-experience { --cat: var(--cat-experience); }
+.cat-botanic { --cat: var(--cat-botanic); }
+
+.poi-marker {
+  background: var(--cat, var(--cat-animal));
+  color: #fff;
+}
 
 .poi-icon {
-  font-size: 17px;
-  line-height: 1;
+  display: grid;
+  line-height: 0;
+}
+
+.z-far .poi-icon svg {
+  width: 15px;
+  height: 15px;
 }
 
 .poi-num {
@@ -451,6 +464,9 @@ body.map-expanded {
   border: 1.5px solid var(--line);
   border-radius: var(--r-sm);
   background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 12px;
   font-size: 0.9rem;
   white-space: nowrap;
@@ -492,10 +508,10 @@ body.map-expanded {
   width: 40px;
   height: 40px;
   border-radius: var(--r-sm);
-  background: var(--chip);
+  background: var(--cat, var(--chip));
+  color: #fff;
   display: grid;
   place-items: center;
-  font-size: 1.3rem;
 }
 
 .row-main {
@@ -579,10 +595,10 @@ body.map-expanded {
   width: 52px;
   height: 52px;
   border-radius: var(--r-md);
-  background: var(--accent);
+  background: var(--cat, var(--accent));
+  color: #fff;
   display: grid;
   place-items: center;
-  font-size: 1.7rem;
 }
 
 .sheet h2 {

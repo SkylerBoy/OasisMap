@@ -115,6 +115,13 @@ public/
   sw.js        caché offline
 ```
 
+## Iconos
+
+Los iconos de los puntos salen de [Fluent Emoji High Contrast](https://github.com/microsoft/fluentui-emoji)
+(© Microsoft, MIT) y, para grulla, ibis, puercoespín, armadillo y prismáticos, de
+[game-icons.net](https://game-icons.net) (CC BY 3.0). Se generan en `src/poi-icons.ts` con
+`node scripts/build-icons.mjs`; el icono de cada punto se asigna en `scripts/gen-park-data.py`.
+
 ## Próximos pasos
 
 - Datos reales del parque.

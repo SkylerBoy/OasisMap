@@ -2,7 +2,7 @@
 -- Run once in Supabase → SQL Editor (after schema.sql).
 
 create table if not exists public.shared_plans (
-  code text primary key check (code ~ '^[A-HJ-NP-Z2-9]{6}$'),
+  code text primary key check (length(code) = 6 and code !~ '[^A-HJ-NP-Z2-9]'),
   plan text not null check (length(plan) < 1000),
   expires date not null check (expires <= current_date + 10),
   created_at timestamptz not null default now()

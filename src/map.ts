@@ -434,6 +434,7 @@ export class ParkMap {
     if (points.length === 0) return;
     const b = new maplibregl.LngLatBounds(points[0], points[0]);
     for (const p of points) b.extend(p);
+    this.map.resize(); // the box may have just changed size (expanded map)
     this.map.fitBounds(b, { padding, maxZoom: 18.5, duration: 600 });
   }
 

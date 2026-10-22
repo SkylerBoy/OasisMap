@@ -134,9 +134,18 @@ async function init() {
     showPlan: (stops, coords, focus) => {
       pmap.setPlan(stops, coords);
       if (focus && coords?.length) {
+        const was = state.expanded;
         setExpanded(true);
         window.scrollTo({ top: 0 });
-        pmap.fitTo(coords, { top: 80, bottom: 120, left: 40, right: 70 });
+        // fit once the map has its new (expanded) size, or the plan ends up off-centre
+        setTimeout(() => {
+          // keep the plan clear of the navigation panel and the plan bar
+          const hud = $('nav-hud');
+          const bar = $('plan-bar');
+          const top = hud.hidden ? 80 : hud.getBoundingClientRect().bottom + 24;
+          const bottom = bar.hidden ? 120 : window.innerHeight - bar.getBoundingClientRect().top + 24;
+          pmap.fitTo(coords, { top, bottom, left: 40, right: 70 });
+        }, was ? 0 : 300);
       }
     },
     navigate: (p) => void startNavigation(p),

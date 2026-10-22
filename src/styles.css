@@ -909,7 +909,10 @@ body.sheet-open {
   left: 50%;
   bottom: calc(24px + var(--safe-b));
   z-index: 50;
+  /* left: 50% would otherwise cap the width at half the screen and wrap short messages */
+  width: max-content;
   max-width: calc(100% - 32px);
+  text-wrap: balance;
   padding: 10px 16px;
   border-radius: var(--r-md);
   background: rgb(20 20 20 / 0.88);

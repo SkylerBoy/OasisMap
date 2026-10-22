@@ -890,6 +890,13 @@ let toastAction: (() => void) | null = null;
 function toast(msg: string, action?: () => void, ms = 2200) {
   const el = $('toast');
   el.textContent = msg;
+  // above whatever bar is at the bottom (planner buttons, plan bar), not on top of it
+  let lift = 0;
+  for (const bar of document.querySelectorAll<HTMLElement>('.planner:not([hidden]) .planner-foot, #plan-bar:not([hidden])')) {
+    const r = bar.getBoundingClientRect();
+    if (r.height) lift = Math.max(lift, window.innerHeight - r.top);
+  }
+  el.style.bottom = lift ? `${lift + 12}px` : '';
   el.classList.add('show');
   el.classList.toggle('actionable', !!action);
   toastAction = action ?? null;

@@ -915,9 +915,10 @@ body.sheet-open {
   text-wrap: balance;
   padding: 10px 16px;
   border-radius: var(--r-md);
-  background: rgb(20 20 20 / 0.88);
+  background: rgb(20 20 20 / 0.92);
   color: #fff;
   font-size: 0.9rem;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 0.25);
   opacity: 0;
   pointer-events: none;
   transform: translate(-50%, 10px);
@@ -2840,3 +2841,9 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   color: var(--muted);
   font-size: 0.85rem;
 }
+
+/* dark mode: a light toast, so it stands out from the dark page */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .toast { background: #f4f0e2; color: #23261f; box-shadow: 0 6px 20px rgb(0 0 0 / 0.5); }
+}
+:root[data-theme='dark'] .toast { background: #f4f0e2; color: #23261f; box-shadow: 0 6px 20px rgb(0 0 0 / 0.5); }

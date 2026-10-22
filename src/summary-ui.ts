@@ -281,7 +281,7 @@ export function startSummary(ctx: SummaryContext) {
 
     // the map of the visit
     const hasPhotos = photos.length > 0;
-    const mapBox = { x: M, y: 545, w: W - 2 * M, h: hasPhotos ? 420 : 760, r: 40 };
+    const mapBox = { x: M, y: 585, w: W - 2 * M, h: hasPhotos ? 400 : 620, r: 40 };
     card(mapBox.x, mapBox.y, mapBox.w, mapBox.h, mapBox.r);
     await drawVisitMap(
       g,
@@ -290,10 +290,44 @@ export function startSummary(ctx: SummaryContext) {
     );
     let y = mapBox.y + mapBox.h;
 
+    // a strip with the drawings of the animals you saw
+    const arts = s.animals.filter((x) => x.poi.art).sort((a, b) => b.min - a.min);
+    if (arts.length) {
+      const sh = hasPhotos ? 130 : 160;
+      const sy = y + 22;
+      card(M, sy, W - 2 * M, sh, 32);
+      const cell = sh - 30;
+      const fit = Math.floor((W - 2 * M - 30) / (cell + 14));
+      const more = arts.length > fit ? arts.length - (fit - 1) : 0;
+      const shown = arts.slice(0, more ? fit - 1 : fit);
+      const imgs = await Promise.all(shown.map((x) => loadImage(`${import.meta.env.BASE_URL}${x.poi.art}`)));
+      const slots = shown.length + (more ? 1 : 0);
+      const step = (W - 2 * M - 30) / Math.max(slots, Math.min(fit, 4));
+      const x0 = M + 15 + (W - 2 * M - 30 - step * slots) / 2;
+      imgs.forEach((img, i) => {
+        if (!img) return;
+        const k = Math.min((step - 14) / img.width, cell / img.height);
+        const cx = x0 + step * (i + 0.5);
+        g.drawImage(img, cx - (img.width * k) / 2, sy + 15 + (cell - img.height * k) / 2, img.width * k, img.height * k);
+      });
+      if (more) {
+        const cx = x0 + step * (slots - 0.5);
+        g.fillStyle = '#f4ece0';
+        g.beginPath();
+        g.arc(cx, sy + sh / 2, Math.min(44, cell / 2.4), 0, 2 * Math.PI);
+        g.fill();
+        g.fillStyle = red;
+        g.textAlign = 'center';
+        g.font = '36px Cinqcent'; // Public draws "+" like a dot
+        g.fillText(`+${more}`, cx, sy + sh / 2 + 13);
+      }
+      y = sy + sh;
+    }
+
     // your photos, pinned under the map
     if (hasPhotos) {
       const n = photos.length;
-      const size = n === 1 ? [400, 270] : n === 2 ? [360, 255] : [262, 215];
+      const size = n === 1 ? [380, 250] : n === 2 ? [340, 235] : [262, 200];
       const tilt = [-4, 3.5, -2.5];
       const top = y + 36;
       photos.forEach(({ img }, i) => {
@@ -355,10 +389,28 @@ export function startSummary(ctx: SummaryContext) {
       const fx = W - M - favW;
       const fh = 2 * ch + gap;
       card(fx, y, favW, fh, 28);
+      // long names go on two lines, and the drawing gets a bit smaller to make room
+      const favName = pick(s.fav.poi.name);
+      g.font = '38px Cinqcent';
+      let lines = [favName];
+      if (g.measureText(favName).width > favW - 30) {
+        g.font = '30px Cinqcent';
+        const words = favName.split(' ');
+        let best = 1;
+        let bestW = Infinity;
+        for (let i = 1; i < words.length; i++) {
+          const w = Math.max(g.measureText(words.slice(0, i).join(' ')).width, g.measureText(words.slice(i).join(' ')).width);
+          if (w < bestW) [best, bestW] = [i, w];
+        }
+        lines = words.length > 1 ? [words.slice(0, best).join(' '), words.slice(best).join(' ')] : [favName];
+      }
+      const two = lines.length > 1;
+      const artH = two ? 92 : 118;
+      const pillY = two ? 120 : 146;
       const art = s.fav.poi.art ? await loadImage(`${import.meta.env.BASE_URL}${s.fav.poi.art}`) : null;
       if (art) {
-        const k = Math.min(200 / art.width, 118 / art.height);
-        g.drawImage(art, fx + favW / 2 - (art.width * k) / 2, y + 18 + (118 - art.height * k) / 2, art.width * k, art.height * k);
+        const k = Math.min(200 / art.width, artH / art.height);
+        g.drawImage(art, fx + favW / 2 - (art.width * k) / 2, y + 18 + (artH - art.height * k) / 2, art.width * k, art.height * k);
       }
       // a red label, like a rosette
       const label = t('sum.favLabel').toUpperCase();
@@ -366,14 +418,14 @@ export function startSummary(ctx: SummaryContext) {
       const lw2 = g.measureText(label).width + 32;
       g.fillStyle = red;
       g.beginPath();
-      g.roundRect(fx + favW / 2 - lw2 / 2, y + 146, lw2, 34, 17);
+      g.roundRect(fx + favW / 2 - lw2 / 2, y + pillY, lw2, 34, 17);
       g.fill();
       g.fillStyle = '#fff';
       g.textAlign = 'center';
-      g.fillText(label, fx + favW / 2, y + 170);
+      g.fillText(label, fx + favW / 2, y + pillY + 24);
       g.fillStyle = '#2a2a24';
-      g.font = '38px Cinqcent';
-      g.fillText(pick(s.fav.poi.name), fx + favW / 2, y + 218, favW - 30);
+      g.font = two ? '30px Cinqcent' : '38px Cinqcent';
+      lines.forEach((line, i) => g.fillText(line, fx + favW / 2, y + (two ? 190 + i * 30 : 218), favW - 30));
       g.fillStyle = muted;
       g.font = '24px Public';
       g.fillText(`${Math.round(s.fav.min)} min`, fx + favW / 2, y + 248);
@@ -383,10 +435,10 @@ export function startSummary(ctx: SummaryContext) {
     g.textAlign = 'left';
     g.fillStyle = muted;
     g.font = '26px Public';
-    g.fillText(t('sum.imageInvite'), M, 1690);
+    g.fillText(t('sum.imageInvite'), M, 1790);
     g.fillStyle = red;
     g.font = '700 30px Public';
-    g.fillText(t('sum.imageUrl'), M, 1730);
+    g.fillText(t('sum.imageUrl'), M, 1830);
     return new Promise((resolve) => c.toBlob(resolve, 'image/png'));
   }
 

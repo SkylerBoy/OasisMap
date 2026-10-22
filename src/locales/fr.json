@@ -183,5 +183,6 @@
   "plan.importAsk": "On vous a partagé un plan de {n} arrêts ({day}). L’utiliser ? Il remplace votre plan.",
   "plan.importNo": "Pas maintenant",
   "plan.importYes": "Utiliser ce plan",
-  "plan.imported": "Plan chargé. Les horaires ont été recalculés."
+  "plan.imported": "Plan chargé. Les horaires ont été recalculés.",
+  "plan.linkGone": "Ce plan partagé n’est plus disponible ou il n’y a pas de connexion."
 }

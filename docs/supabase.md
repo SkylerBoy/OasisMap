@@ -29,3 +29,10 @@ visitas y **leer las medias**, no ver ni borrar los datos.
   tanto, el tiempo por defecto (`STAY` en `src/planner-ui.ts`).
 
 Para ver los datos: *Table Editor → visits* o la vista `poi_times`.
+
+## Enlaces cortos de planes compartidos
+
+Para que al compartir un plan el enlace sea corto (`…/OasisMap/?plan=K7XQ2M`), ejecuta también
+[`supabase/shared-plans.sql`](../supabase/shared-plans.sql). Cada plan compartido se guarda hasta el
+día siguiente al del plan y se borra solo. Solo se puede leer sabiendo su código. Si al compartir
+no hay conexión, la web envía el enlace largo (`?p=…`), que funciona sin internet.

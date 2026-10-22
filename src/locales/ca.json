@@ -183,5 +183,6 @@
   "plan.importAsk": "T’han compartit un pla de {n} parades ({day}). El fas servir? Substitueix el teu pla actual.",
   "plan.importNo": "Ara no",
   "plan.importYes": "Fer servir aquest pla",
-  "plan.imported": "Pla carregat. Les hores s’han recalculat."
+  "plan.imported": "Pla carregat. Les hores s’han recalculat.",
+  "plan.linkGone": "Aquest pla compartit ja no està disponible o no hi ha connexió."
 }

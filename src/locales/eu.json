@@ -183,5 +183,6 @@
   "plan.importAsk": "Plan bat partekatu dizute: {n} geldialdi, {day}. Erabiliko duzu? (Zure plana ordezkatzen du)",
   "plan.importNo": "Orain ez",
   "plan.importYes": "Erabili plan hau",
-  "plan.imported": "Plana kargatuta. Orduak berriro kalkulatu dira."
+  "plan.imported": "Plana kargatuta. Orduak berriro kalkulatu dira.",
+  "plan.linkGone": "Partekatutako plan hori ez dago eskuragarri edo ez dago konexiorik."
 }

@@ -183,5 +183,6 @@
   "plan.importAsk": "Ti hanno condiviso un piano di {n} tappe ({day}). Lo usi? Sostituisce il tuo piano.",
   "plan.importNo": "Non ora",
   "plan.importYes": "Usa questo piano",
-  "plan.imported": "Piano caricato. Gli orari sono stati ricalcolati."
+  "plan.imported": "Piano caricato. Gli orari sono stati ricalcolati.",
+  "plan.linkGone": "Quel piano condiviso non è più disponibile o non c’è connessione."
 }

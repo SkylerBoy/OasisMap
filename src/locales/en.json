@@ -183,5 +183,6 @@
   "plan.importAsk": "Someone shared a plan with you: {n} stops for {day}. Use it? (It replaces your current plan)",
   "plan.importNo": "Not now",
   "plan.importYes": "Use this plan",
-  "plan.imported": "Plan loaded. Times have been worked out again."
+  "plan.imported": "Plan loaded. Times have been worked out again.",
+  "plan.linkGone": "That shared plan is no longer available, or there is no connection."
 }

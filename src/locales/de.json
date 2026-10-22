@@ -183,5 +183,6 @@
   "plan.importAsk": "Jemand hat einen Plan geteilt: {n} Stopps für {day}. Übernehmen? (Ersetzt deinen Plan)",
   "plan.importNo": "Jetzt nicht",
   "plan.importYes": "Diesen Plan nutzen",
-  "plan.imported": "Plan geladen. Die Zeiten wurden neu berechnet."
+  "plan.imported": "Plan geladen. Die Zeiten wurden neu berechnet.",
+  "plan.linkGone": "Dieser geteilte Plan ist nicht mehr verfügbar oder es gibt keine Verbindung."
 }

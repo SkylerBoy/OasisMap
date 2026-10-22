@@ -10,6 +10,7 @@ import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
 import { pickOption, pickTime } from './time-picker';
 import { decodePlan, encodePlan } from './plan-link';
+import { loadPlan, SHORT_CODE, storePlan } from './plan-share';
 
 export interface PlannerContext {
   data: ParkData;
@@ -638,6 +639,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       : '';
     $('plan-remind').hidden = dayOffset !== 0 || !steps.some((s) => s.item.kind === 'show');
     $('plan-go').hidden = dayOffset !== 0 || !steps.length;
+    if (!$('planner').hidden) prepareShortLink(); // likely to be shared: get the short link ready
     $('plan-go').textContent = t(guide.following ? 'plan.goOn' : 'plan.go');
   }
 
@@ -1047,9 +1049,9 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     dec: (s: string) => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/'))))),
   };
 
-  /** Short link (?p=…): each stop is its 2-character code. */
-  function shareLink(): string {
-    const p = encodePlan(
+  /** The plan packed for links: each stop is its 2-character code. */
+  function packed(): string {
+    return encodePlan(
       {
         date: savedPlan?.date ?? dateOf(dayOffset),
         start: toMinutes(savedPlan?.start ?? OPEN),
@@ -1063,10 +1065,37 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       },
       (id) => byId.get(id)?.code ?? '',
     );
+  }
+
+  const baseUrl = () => {
     const url = new URL(location.href);
     url.search = '';
     url.hash = '';
-    return `${url.toString()}?p=${p}`;
+    return url.toString();
+  };
+
+  /** Short link ready for the current plan (made in the background so sharing is instant). */
+  let short: { packed: string; url: string } | null = null;
+  let shortening: Promise<void> | null = null;
+
+  function prepareShortLink() {
+    if (!plan?.steps.length) return;
+    const p = packed();
+    if (short?.packed === p) return;
+    const expires = dateOf(Math.max(0, daysFromToday(savedPlan?.date ?? dateOf(0))) + 1);
+    shortening = storePlan(data.config.stats, p, expires).then((code) => {
+      if (code && packed() === p) short = { packed: p, url: `${baseUrl()}?plan=${code}` };
+    });
+  }
+
+  /** Short ?plan=CODE link if it could be stored, else the long one that works offline. */
+  async function shareLink(): Promise<string> {
+    const p = packed();
+    if (short?.packed !== p) {
+      prepareShortLink();
+      await Promise.race([shortening, new Promise((r) => setTimeout(r, 2500))]);
+    }
+    return short?.packed === p ? short.url : `${baseUrl()}?p=${p}`;
   }
 
   function shareText(): string {
@@ -1084,7 +1113,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
 
   async function sharePlan() {
     if (!plan?.steps.length) return;
-    const url = shareLink();
+    const url = await shareLink();
     const text = shareText();
     // The phone's share sheet (WhatsApp, Telegram, mail…) if there is one, else WhatsApp directly.
     if (navigator.share) {
@@ -1099,14 +1128,20 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   }
 
   /** Opened from a shared link: offer to use that plan. */
-  function offerShared() {
+  async function offerShared() {
     const q = new URLSearchParams(location.search);
     let sp: SharedPlan | null = null;
+    let packedPlan = q.get('p');
+    const shortCode = q.get('plan');
+    if (shortCode && SHORT_CODE.test(shortCode)) {
+      packedPlan = await loadPlan(data.config.stats, shortCode);
+      if (!packedPlan) ctx.toast(t('plan.linkGone'), undefined, 5000);
+    }
     try {
-      if (q.get('p')) {
-        // short link
+      if (packedPlan) {
+        // packed plan (from ?p= or fetched for ?plan=CODE)
         const byCode = new Map(data.pois.filter((p) => p.code).map((p) => [p.code!, p.id]));
-        const d = decodePlan(q.get('p')!, byCode);
+        const d = decodePlan(packedPlan, byCode);
         if (d)
           sp = {
             v: 1,
@@ -1119,7 +1154,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
             b: [d.every, d.length],
             x: d.stops.map((x) => [x.id, x.loc] as [string, string]),
           };
-      } else if (q.get('plan')) {
+      } else if (q.get('plan') && !SHORT_CODE.test(q.get('plan')!)) {
         // first, longer links
         const v1 = b64.dec(q.get('plan')!) as SharedPlan;
         if (v1.v === 1 && Array.isArray(v1.x)) sp = v1;
@@ -1174,7 +1209,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   $('plan-share').addEventListener('click', () => void sharePlan());
 
   restore();
-  offerShared();
+  void offerShared();
   updateCta();
   refreshMap();
   renderBar();

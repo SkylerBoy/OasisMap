@@ -281,7 +281,18 @@ export function startSummary(ctx: SummaryContext) {
 
     // the map of the visit
     const hasPhotos = photos.length > 0;
-    const mapBox = { x: M, y: 585, w: W - 2 * M, h: hasPhotos ? 400 : 620, r: 40 };
+    // same gap between every block; the map takes the height left, so the page is
+    // filled down to the link at the bottom
+    const GAP = 44;
+    const STATS_END = 1716;
+    const hasStrip = s.animals.some((x) => x.poi.art);
+    const stripH = hasPhotos ? 130 : 160;
+    const photoSize = [[360, 230], [340, 220], [262, 200]][Math.min(photos.length, 3) - 1] ?? [0, 0];
+    const photosH = hasPhotos ? 16 + photoSize[1] + 30 : 0; // pins above, frame and tilt below
+    const mapTop = 585;
+    const mapH =
+      STATS_END - mapTop - (2 * 122 + 14) - GAP - (hasStrip ? stripH + GAP : 0) - (hasPhotos ? photosH + GAP : 0);
+    const mapBox = { x: M, y: mapTop, w: W - 2 * M, h: mapH, r: 40 };
     card(mapBox.x, mapBox.y, mapBox.w, mapBox.h, mapBox.r);
     await drawVisitMap(
       g,
@@ -293,8 +304,8 @@ export function startSummary(ctx: SummaryContext) {
     // a strip with the drawings of the animals you saw
     const arts = s.animals.filter((x) => x.poi.art).sort((a, b) => b.min - a.min);
     if (arts.length) {
-      const sh = hasPhotos ? 130 : 160;
-      const sy = y + 22;
+      const sh = stripH;
+      const sy = y + GAP;
       card(M, sy, W - 2 * M, sh, 32);
       const cell = sh - 30;
       const fit = Math.floor((W - 2 * M - 30) / (cell + 14));
@@ -327,13 +338,13 @@ export function startSummary(ctx: SummaryContext) {
     // your photos, pinned under the map
     if (hasPhotos) {
       const n = photos.length;
-      const size = n === 1 ? [380, 250] : n === 2 ? [340, 235] : [262, 200];
+      const size = photoSize;
       const tilt = [-4, 3.5, -2.5];
-      const top = y + 36;
+      const top = y + GAP + 16;
       photos.forEach(({ img }, i) => {
         const [pw, ph] = size;
         const cx = n === 1 ? W / 2 : M + ((W - 2 * M) / n) * (i + 0.5);
-        const cy = top + ph / 2 + 12 + (i % 2) * 8;
+        const cy = top + ph / 2 + 12 + (i % 2) * 6;
         g.save();
         g.translate(cx, cy);
         g.rotate((tilt[(i + (n === 1 ? 1 : 0)) % 3] * Math.PI) / 180);
@@ -357,11 +368,11 @@ export function startSummary(ctx: SummaryContext) {
         noShadow();
         g.restore();
       });
-      y = top + size[1] + 40;
+      y = top + size[1] + 30;
     }
 
     // the numbers, and your favourite animal beside them
-    y += 26;
+    y += GAP;
     const cards: [string, string][] = [
       [String(s.animals.length), t('sum.animalsShort')],
       [formatDistance(s.km * 1000), t('sum.walked')],

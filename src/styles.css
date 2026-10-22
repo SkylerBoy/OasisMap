@@ -2469,3 +2469,12 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   :root:not([data-theme='light']) .tp-item.on,
   :root:not([data-theme='light']) .tp-colon { color: #ff9aa6; }
 }
+
+.plan-walk.plan-ride {
+  color: #00454f;
+  font-weight: 700;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .plan-walk.plan-ride { color: #4fb3bf; }
+}

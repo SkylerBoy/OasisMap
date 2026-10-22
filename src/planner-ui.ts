@@ -3,7 +3,8 @@ import { poiIcon } from './data';
 import { distance, type LngLat } from './geo';
 import type { PathGraph, Snap } from './graph';
 import { currentLang, formatDistance, pick, t } from './i18n';
-import { insertBest, planDay, scheduleOrder, type Plan, type PlanItem } from './planner';
+import { ecotourTravel, type TrainStop } from './ecotour-travel';
+import { insertBest, planDay, scheduleOrder, type Plan, type PlanItem, type Ride, type Travel } from './planner';
 import { poiIconSvg } from './poi-icons';
 import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
@@ -61,7 +62,18 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     date: string;
     start: string;
     end: string;
-    steps: { id: string; kind: PlanItem['kind']; dur: number; loc: string; walk: number; arrive: number; start: number; end: number }[];
+    steps: {
+      id: string;
+      kind: PlanItem['kind'];
+      dur: number;
+      loc: string;
+      walk: number;
+      trip?: number;
+      ride?: Ride;
+      arrive: number;
+      start: number;
+      end: number;
+    }[];
     skipped: { id: string; kind: PlanItem['kind'] }[];
     /** Shown on the map. */
     onMap?: boolean;
@@ -82,6 +94,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     plan?: SavedPlan;
     pace?: number;
     breaks?: { every: number; dur: number };
+    train?: boolean;
     prefs?: Record<string, Prefs>;
   } = { sel: [], lunch: true };
   try {
@@ -95,6 +108,17 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   let breaks = saved.breaks ?? { every: 120, dur: 15 };
   const prefs: Record<string, Prefs> = saved.prefs ?? {};
   const restSpots = data.pois.filter((p) => p.category === 'food' && p.hours);
+  /** Use the Ecotour train when it saves walking. */
+  let useTrain = saved.train ?? true;
+  const trainStops: TrainStop[] = data.pois
+    .filter((p) => /^ecotour-\d$/.test(p.id) && p.times?.length)
+    .map((p) => ({ id: p.id, n: Number(p.id.slice(-1)), times: p.times!.map(toMinutes) }));
+  /** Door-to-door travel for the planner (a fresh one each time: "here" moves). */
+  const travelFn = (): Travel | undefined =>
+    useTrain && trainStops.length
+      ? // relaxed visitors accept a longer way round to ride instead of walk
+        ecotourTravel(walkMin, trainStops, { extra: pace >= 120 ? 15 : pace <= 85 ? 3 : 8 })
+      : undefined;
   let plan: Plan | null = null;
   /** Days from today (0 = today) and the weekday of the chosen day. */
   let dayOffset = 0;
@@ -117,6 +141,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
           pace,
           breaks,
           prefs,
+          train: useTrain,
         }),
       );
     } catch {
@@ -372,7 +397,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       date: dateOf(dayOffset),
       start: $('plan-start').dataset.value || OPEN,
       end: $('plan-end').dataset.value || CLOSE,
-      steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, arrive: x.arrive, start: x.start, end: x.end })),
+      steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, trip: x.trip, ride: x.ride, arrive: x.arrive, start: x.start, end: x.end })),
       skipped: plan.skipped.map((x) => ({ id: x.id, kind: x.kind })),
       onMap: guide.onMap,
       following: guide.following,
@@ -387,6 +412,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   /** Times for a plan in the visitor's own order. */
   const orderInput = () => ({
     walk: walkMin,
+    travel: travelFn(),
     startLoc: hereSnap ? 'here' : 'entrada',
     startTime: toMinutes($('plan-start').dataset.value || OPEN),
     endTime: toMinutes($('plan-end').dataset.value || CLOSE),
@@ -488,6 +514,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     order.splice(to, 0, moved);
     const r = scheduleOrder(order, {
       walk: walkMin,
+      travel: travelFn(),
       startLoc: hereSnap ? 'here' : 'entrada',
       startTime: toMinutes($('plan-start').dataset.value || OPEN),
       endTime: toMinutes($('plan-end').dataset.value || CLOSE),
@@ -504,19 +531,43 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     renderPlan();
   }
 
+  /** A break only after some 45 min of visiting since the start or the last break or lunch. */
+  function dropIdleBreaks(p: Plan): Plan {
+    let busy = 0;
+    const keep = p.steps.filter((st) => {
+      const isRest = st.item.id.startsWith('rest-') || st.item.id === 'lunch';
+      if (!isRest) {
+        busy += st.end - st.start + st.walk;
+        return true;
+      }
+      const ok = st.item.id === 'lunch' || busy >= 45;
+      if (ok) busy = 0;
+      return ok;
+    });
+    if (keep.length === p.steps.length) return p;
+    const r = scheduleOrder(
+      keep.map((st) => ({ item: st.item, loc: st.loc })),
+      { ...orderInput(), startLoc: hereSnap ? 'here' : 'entrada' },
+    );
+    return 'steps' in r ? { ...p, steps: r.steps } : p;
+  }
+
   function makePlan() {
     const here = ctx.here();
     hereSnap = here;
     trees.clear();
     const start = toMinutes($('plan-start').dataset.value || '9:00');
     const end = toMinutes($('plan-end').dataset.value || '18:00');
-    plan = planDay({
-      items: items(),
-      walk: walkMin,
-      startLoc: here ? 'here' : 'entrada',
-      startTime: start,
-      endTime: end,
-    });
+    plan = dropIdleBreaks(
+      planDay({
+        items: items(),
+        walk: walkMin,
+        travel: travelFn(),
+        startLoc: here ? 'here' : 'entrada',
+        startTime: start,
+        endTime: end,
+      }),
+    );
     guide = { onMap: guide.onMap, following: false, done: new Set() };
     keepPlan();
     renderPlan();
@@ -530,7 +581,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const steps = plan.steps;
     const metres = steps.reduce((a, s) => a + s.walk, 0) * 60 * data.config.walkingSpeed;
     $('plan-summary').textContent = steps.length
-      ? t('plan.summary', { n: steps.length, d: formatDistance(metres), t: hhmm(steps[steps.length - 1].end) })
+      ? t(steps.length === 1 ? 'plan.summary1' : 'plan.summary', { n: steps.length, d: formatDistance(metres), t: hhmm(steps[steps.length - 1].end) })
       : t('plan.empty');
     const ol = $('plan-steps');
     ol.innerHTML = '';
@@ -538,7 +589,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     for (const s of steps) {
       const p = byId.get(s.loc)!;
       // a long gap before leaving for this stop: free time
-      const gap = s.arrive - s.walk - free;
+      const gap = s.arrive - (s.trip ?? s.walk) - free;
       if (gap >= 20) {
         const g = document.createElement('li');
         g.className = 'plan-free';
@@ -546,7 +597,12 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
         ol.appendChild(g);
       }
       free = s.end;
-      if (s.walk > 0) {
+      if (s.ride) {
+        const w = document.createElement('li');
+        w.className = 'plan-walk plan-ride';
+        w.textContent = t('plan.ride', { w: s.walk, dep: hhmm(s.ride.dep), from: s.ride.from, to: s.ride.to, arr: hhmm(s.ride.arr) });
+        ol.appendChild(w);
+      } else if (s.walk > 0) {
         const w = document.createElement('li');
         w.className = 'plan-walk';
         w.textContent = t('plan.walk', { n: s.walk });
@@ -580,15 +636,37 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     $('plan-go').textContent = t(guide.following ? 'plan.goOn' : 'plan.go');
   }
 
+  /** The part of the Ecotour track between two stops. */
+  function trackBetween(a: number, b: number): LngLat[] {
+    const track = data.ecotour;
+    const near = (n: number) => {
+      const c = byId.get(`ecotour-${n}`)!.coord;
+      let k = 0;
+      track.forEach((p, i) => distance(p, c) < distance(track[k], c) && (k = i));
+      return k;
+    };
+    if (!track.length) return [];
+    const [i, j] = [near(a), near(b)];
+    return track.slice(Math.min(i, j), Math.max(i, j) + 1);
+  }
+
   function routeCoords(): LngLat[] {
     if (!plan) return [];
     const coords: LngLat[] = [];
     let from: Snap | null = hereSnap ?? ctx.snaps.get('entrada') ?? null;
-    for (const s of plan.steps) {
-      const to = ctx.snaps.get(s.loc)!;
+    const walkTo = (to: Snap) => {
       const r = from ? ctx.graph.route(from, to) : null;
       if (r) coords.push(...r.coords);
       from = to;
+    };
+    for (const s of plan.steps) {
+      if (s.ride) {
+        // walk to the stop, the train's own track, then walk on from where you get off
+        walkTo(ctx.snaps.get(`ecotour-${s.ride.from}`)!);
+        coords.push(...trackBetween(s.ride.from, s.ride.to));
+        from = ctx.snaps.get(`ecotour-${s.ride.to}`)!;
+      }
+      walkTo(ctx.snaps.get(s.loc)!);
     }
     return coords;
   }
@@ -838,13 +916,16 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       return;
     }
     const late = lateBy(s);
-    const leave = s.arrive - s.walk;
+    const leave = s.arrive - (s.trip ?? s.walk);
+    const onTrain = s.ride && parkMinutes() <= s.ride.dep;
     $('pb-status').textContent =
       late >= LATE
         ? t('pb.late', { n: late })
-        : parkMinutes() < leave - 1
-          ? t('pb.leaveAt', { t: hhmm(leave), w: s.walk })
-          : t('pb.onTime', { n: idx + 1, total: plan!.steps.length });
+        : onTrain
+          ? t('pb.train', { t: hhmm(s.ride!.dep), n: s.ride!.from, to: s.ride!.to })
+          : parkMinutes() < leave - 1
+            ? t('pb.leaveAt', { t: hhmm(leave), w: s.walk })
+            : t('pb.onTime', { n: idx + 1, total: plan!.steps.length });
     $('pb-replan').hidden = late < LATE;
     bar.classList.toggle('late', late >= LATE);
   }
@@ -875,6 +956,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const r = planDay({
       items: left.map((s) => itemFor(s.item.id)),
       walk: walkMin,
+      travel: travelFn(),
       startLoc: here ? 'here' : done.length ? done[done.length - 1].loc : 'entrada',
       startTime: now,
       endTime: toMinutes(savedPlan?.end ?? CLOSE),
@@ -940,7 +1022,10 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   $('pb-open').addEventListener('click', open);
   $('pb-go').addEventListener('click', () => {
     const n = nextStep();
-    if (n) ctx.navigate(byId.get(n.loc)!);
+    if (!n) return;
+    // taking the train: first to the stop where you get on
+    const stop = n.ride && parkMinutes() <= n.ride.dep ? byId.get(`ecotour-${n.ride.from}`) : undefined;
+    ctx.navigate(stop ?? byId.get(n.loc)!);
   });
   $('pb-done').addEventListener('click', () => {
     const n = nextStep();
@@ -950,6 +1035,11 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   $('pb-x').addEventListener('click', () => {
     guide.following = false;
     keepPlan();
+  });
+  $<HTMLInputElement>('plan-train').checked = useTrain;
+  $('plan-train').addEventListener('change', () => {
+    useTrain = $<HTMLInputElement>('plan-train').checked;
+    persist();
   });
   $('plan-pace').addEventListener('input', (e) => setPace(Number((e.target as HTMLInputElement).value)));
   document.querySelectorAll<HTMLElement>('.plan-pace-presets button').forEach((b) =>

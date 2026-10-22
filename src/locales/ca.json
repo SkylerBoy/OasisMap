@@ -170,5 +170,9 @@
   "plan.breakDur.15": "Un refresc",
   "plan.breakDur.20": "Berenar",
   "plan.breakDur.30": "Sense presses",
-  "plan.breakCount1": "≈ 1 descans a la visita"
+  "plan.breakCount1": "≈ 1 descans a la visita",
+  "plan.useTrain": "Fer servir l’Ecotour per caminar menys",
+  "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · parada {from} → {to} ({arr})",
+  "pb.train": "Agafa l’Ecotour a les {t} a la parada {n} (baixa a la {to})",
+  "plan.summary1": "1 parada · {d} a peu · acabes a les {t}"
 }

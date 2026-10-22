@@ -168,6 +168,10 @@ el próximo tren por las siguientes.
   menos posible. El plan se guarda en el móvil y el botón muestra la siguiente parada.
   Mantén pulsada una parada para moverla; deslízala a la izquierda para quitarla. En "Añadir
   paradas" se recupera lo que no cabía o se añade cualquier otra (va donde menos rodeo añade).
+- **Ecotour como transporte** (opción "Usar el Ecotour para caminar menos"): entre dos paradas
+  propone el tren si ahorra al menos 5 min de caminar y no tarda mucho más (3 / 8 / 15 min extra
+  con ritmo rápido / normal / tranquilo). En este parque el tren es más lento que andar: sirve
+  para descansar las piernas. Respeta sus horarios (0 → 5, 5 min entre paradas).
 - **Plan en el mapa**: recorrido y número de parada en cada punto (los demás puntos no muestran
   número mientras tanto). La etiqueta de arriba lo abre o lo quita.
 - **Empezar la visita**: barra abajo con la siguiente parada (Ir, ✓ hecho). Al llegar (a 20 m o

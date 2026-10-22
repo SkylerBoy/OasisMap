@@ -170,5 +170,9 @@
   "plan.breakDur.15": "Freskagarri bat",
   "plan.breakDur.20": "Askaria",
   "plan.breakDur.30": "Presarik gabe",
-  "plan.breakCount1": "≈ atseden 1 bisitan"
+  "plan.breakCount1": "≈ atseden 1 bisitan",
+  "plan.useTrain": "Erabili Ecotour-a gutxiago ibiltzeko",
+  "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · {from}. geltokia → {to}. ({arr})",
+  "pb.train": "Hartu Ecotour-a {t}etan {n}. geltokian ({to}.ean jaitsi)",
+  "plan.summary1": "Geldialdi 1 · {d} oinez · {t}etan amaituko duzu"
 }

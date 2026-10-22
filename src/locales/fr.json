@@ -170,5 +170,9 @@
   "plan.breakDur.15": "Une boisson",
   "plan.breakDur.20": "Un goûter",
   "plan.breakDur.30": "Sans se presser",
-  "plan.breakCount1": "≈ 1 pause pendant la visite"
+  "plan.breakCount1": "≈ 1 pause pendant la visite",
+  "plan.useTrain": "Prendre l’Ecotour pour moins marcher",
+  "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · arrêt {from} → {to} ({arr})",
+  "pb.train": "Prenez l’Ecotour à {t} à l’arrêt {n} (descendez au {to})",
+  "plan.summary1": "1 arrêt · {d} à pied · fin à {t}"
 }

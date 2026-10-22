@@ -31,6 +31,10 @@ export interface PlanStep {
   loc: string;
   /** Minutes walking from the previous stop. */
   walk: number;
+  /** Minutes door to door from the previous stop (walk, or walk + wait + train). */
+  trip?: number;
+  /** Part of the way on the Ecotour train. */
+  ride?: Ride;
   arrive: number;
   start: number;
   end: number;
@@ -42,6 +46,18 @@ export interface Plan {
   walkTotal: number;
 }
 
+export interface Ride {
+  /** Stop numbers, get on and off. */
+  from: number;
+  to: number;
+  /** Departure from `from` and arrival at `to` (minutes since midnight). */
+  dep: number;
+  arr: number;
+}
+
+/** How to get from a to b leaving at time t: minutes in all, minutes walked, and the train if used. */
+export type Travel = (a: string, b: string, t: number) => { minutes: number; walk: number; ride?: Ride };
+
 export interface PlanInput {
   items: PlanItem[];
   /** Walking minutes between two point ids. */
@@ -51,6 +67,14 @@ export interface PlanInput {
   endTime: number;
   /** Be there this many minutes before an exhibition starts. */
   showMargin?: number;
+  /** Door-to-door travel, e.g. using the Ecotour; walking only if missing. */
+  travel?: Travel;
+}
+
+function trip(inp: Omit<PlanInput, 'items'>, a: string, b: string, t: number) {
+  if (inp.travel) return inp.travel(a, b, t);
+  const w = inp.walk(a, b);
+  return { minutes: w, walk: w, ride: undefined };
 }
 
 interface Slot {
@@ -65,22 +89,23 @@ function simulate(seq: Slot[], inp: PlanInput, margin: number): PlanStep[] | nul
   let at = inp.startLoc;
   const steps: PlanStep[] = [];
   for (const s of seq) {
-    const walk = inp.walk(at, s.loc);
-    if (!isFinite(walk)) return null;
-    let arrive = t + walk;
+    const tr = trip(inp, at, s.loc, t);
+    if (!isFinite(tr.minutes)) return null;
+    const walk = tr.walk;
+    let arrive = t + tr.minutes;
     let start = arrive;
     if (s.session !== undefined) {
       if (arrive > s.session - margin) return null;
-      arrive = s.session - margin; // no need to wait there longer than the margin
+      if (!tr.ride) arrive = s.session - margin; // no need to wait there longer than the margin
       start = s.session;
     } else if (s.item.window) {
       start = Math.max(arrive, s.item.window[0]);
       if (start + s.item.dur > s.item.window[1]) return null;
-      arrive = start; // leave so as to arrive when it opens
+      if (!tr.ride) arrive = start; // leave so as to arrive when it opens
     }
     const end = start + s.item.dur;
     if (end > inp.endTime) return null;
-    steps.push({ item: s.item, loc: s.loc, walk, arrive, start, end });
+    steps.push({ item: s.item, loc: s.loc, walk, trip: tr.minutes, ride: tr.ride, arrive, start, end });
     t = end;
     at = s.loc;
   }
@@ -206,22 +231,23 @@ export function scheduleOrder(
   const steps: PlanStep[] = [];
   for (let i = 0; i < order.length; i++) {
     const { item, loc } = order[i];
-    const walk = inp.walk(at, loc);
-    let arrive = t + walk;
+    const tr = trip(inp, at, loc, t);
+    const walk = tr.walk;
+    let arrive = t + tr.minutes;
     let start = arrive;
     if (item.kind === 'show' && item.sessions?.length) {
       const session = item.sessions.find((x) => arrive <= x - margin);
       if (session === undefined) return { problem: { index: i, reason: 'session' } };
-      arrive = session - margin;
+      if (!tr.ride) arrive = session - margin;
       start = session;
     } else if (item.window) {
       start = Math.max(arrive, item.window[0]);
       if (start + item.dur > item.window[1]) return { problem: { index: i, reason: 'closed' } };
-      arrive = start;
+      if (!tr.ride) arrive = start;
     }
     const end = start + item.dur;
     if (end > inp.endTime) return { problem: { index: i, reason: 'end' } };
-    steps.push({ item, loc, walk, arrive, start, end });
+    steps.push({ item, loc, walk, trip: tr.minutes, ride: tr.ride, arrive, start, end });
     t = end;
     at = loc;
   }

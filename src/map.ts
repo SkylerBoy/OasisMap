@@ -454,6 +454,8 @@ export interface MapSnapshot {
   zoom: number;
   /** Positions (CSS px of the snapshot) of the points asked for, by id. */
   at: Map<string, [number, number]>;
+  /** Positions of `marks`, in the same order. */
+  marks: [number, number][];
 }
 
 /**
@@ -463,14 +465,26 @@ export interface MapSnapshot {
  */
 export async function mapSnapshot(
   data: ParkData,
-  o: { width: number; height: number; pixelRatio: number; base: BaseLayer; dark?: boolean; track: LngLat[]; points: Poi[] },
+  o: {
+    width: number;
+    height: number;
+    pixelRatio: number;
+    base: BaseLayer;
+    dark?: boolean;
+    track: LngLat[];
+    points: Poi[];
+    /** Frame these places (default: the whole park). */
+    fit?: LngLat[];
+    /** Other places to locate on the picture. */
+    marks?: LngLat[];
+  },
 ): Promise<MapSnapshot | null> {
   const el = document.createElement('div');
   el.style.cssText = `position:fixed;left:-20000px;top:0;width:${o.width}px;height:${o.height}px;pointer-events:none;`;
   document.body.appendChild(el);
   let m: maplibregl.Map | null = null;
   try {
-    const all: LngLat[] = [...data.paths.flat(), ...o.points.map((p) => p.coord)];
+    const all: LngLat[] = o.fit?.length ? o.fit : [...data.paths.flat(), ...o.points.map((p) => p.coord)];
     const lons = all.map((c) => c[0]);
     const lats = all.map((c) => c[1]);
     m = new maplibregl.Map({
@@ -480,7 +494,7 @@ export async function mapSnapshot(
         [Math.min(...lons), Math.min(...lats)],
         [Math.max(...lons), Math.max(...lats)],
       ],
-      fitBoundsOptions: { padding: Math.round(Math.min(o.width, o.height) * 0.05) },
+      fitBoundsOptions: { padding: Math.round(Math.min(o.width, o.height) * (o.fit ? 0.12 : 0.05)), maxZoom: 18 },
       interactive: false,
       attributionControl: false,
       pixelRatio: o.pixelRatio,
@@ -528,7 +542,11 @@ export async function mapSnapshot(
       const q = map.project(p.coord);
       at.set(p.id, [q.x, q.y]);
     }
-    return { canvas, zoom: map.getZoom(), at };
+    const marks = (o.marks ?? []).map((c): [number, number] => {
+      const q = map.project(c);
+      return [q.x, q.y];
+    });
+    return { canvas, zoom: map.getZoom(), at, marks };
   } catch {
     return null;
   } finally {

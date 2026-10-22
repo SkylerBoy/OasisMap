@@ -47,7 +47,6 @@ export interface VisitMapOptions {
   pixelRatio?: number;
 }
 
-const artScale = (zoom: number) => Math.min(1.4, Math.max(0.6, 0.85 * 2 ** ((zoom - 17) * 0.6)));
 
 const images = new Map<string, Promise<HTMLImageElement | null>>();
 
@@ -107,8 +106,10 @@ export async function drawVisitMap(
 ) {
   const animals = drawn(o.data);
   if (o.base) {
-    // a picture of the map as the app shows it, with the drawings on top
+    // a picture of the park map framed on where you walked; the animals are left
+    // out (with many of them the map gets crowded), just the start and the end
     const density = o.density ?? 1;
+    const walked = o.track.length > 1;
     const snap = await mapSnapshot(o.data, {
       width: Math.round(box.w / density),
       height: Math.round(box.h / density),
@@ -117,32 +118,30 @@ export async function drawVisitMap(
       dark: o.dark,
       track: o.track,
       points: animals,
+      fit: walked ? o.track : undefined,
+      marks: walked ? [o.track[0], o.track[o.track.length - 1]] : [],
     });
     if (snap) {
-      const imgs = await Promise.all(animals.map((p) => loadImage(`${import.meta.env.BASE_URL}${p.art}`)));
-      const k = artScale(snap.zoom) * 1.3 * density;
       g.save();
       g.beginPath();
       g.roundRect(box.x, box.y, box.w, box.h, box.r);
       g.clip();
       g.drawImage(snap.canvas, box.x, box.y, box.w, box.h);
-      const order = animals.map((p, i) => ({ p, img: imgs[i], on: o.seen.has(p.id) })).sort((a, b) => +a.on - +b.on);
-      for (const { p, img, on } of order) {
-        const pos = snap.at.get(p.id);
-        if (!img || !pos) continue;
-        const [aw, ah] = p.artSize ?? [img.width / 4, img.height / 4];
-        const f = on ? 1.15 : 1;
-        const [dw, dh] = [aw * k * f, ah * k * f];
-        const [cx, cy] = [box.x + pos[0] * density, box.y + pos[1] * density];
-        g.globalAlpha = on ? 1 : 0.5;
-        if (on) {
-          g.shadowColor = 'rgba(40,30,10,0.35)';
-          g.shadowBlur = 8 * density;
-          g.shadowOffsetY = 2 * density;
-        }
-        g.drawImage(img, cx - dw / 2, cy - dh / 2, dw, dh);
+      snap.marks.forEach(([x, y], i) => {
+        const [cx, cy] = [box.x + x * density, box.y + y * density];
+        const r = 7 * density;
+        g.shadowColor = 'rgba(0,0,0,0.3)';
+        g.shadowBlur = 4 * density;
+        g.fillStyle = '#fff';
+        g.beginPath();
+        g.arc(cx, cy, r + 3 * density, 0, 2 * Math.PI);
+        g.fill();
         g.shadowColor = 'transparent';
-      }
+        g.fillStyle = i === 0 ? '#4f8a2b' : o.colors.route; // green start, red end
+        g.beginPath();
+        g.arc(cx, cy, r, 0, 2 * Math.PI);
+        g.fill();
+      });
       g.restore();
       return;
     }

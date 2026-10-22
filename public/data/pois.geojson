@@ -21,7 +21,8 @@
     "artSize": [
      30.3,
      28.5
-    ]
+    ],
+    "code": "00"
    },
    "geometry": {
     "type": "Point",
@@ -51,7 +52,8 @@
     "artSize": [
      24.2,
      38.1
-    ]
+    ],
+    "code": "01"
    },
    "geometry": {
     "type": "Point",
@@ -76,7 +78,8 @@
      "eu": "Afrikako dortoka ezproiduna"
     },
     "icon": "turtle",
-    "number": "3"
+    "number": "3",
+    "code": "02"
    },
    "geometry": {
     "type": "Point",
@@ -106,7 +109,8 @@
     "artSize": [
      25.8,
      24.5
-    ]
+    ],
+    "code": "03"
    },
    "geometry": {
     "type": "Point",
@@ -136,7 +140,8 @@
     "artSize": [
      32.5,
      38.0
-    ]
+    ],
+    "code": "04"
    },
    "geometry": {
     "type": "Point",
@@ -166,7 +171,8 @@
     "artSize": [
      18.3,
      35.1
-    ]
+    ],
+    "code": "05"
    },
    "geometry": {
     "type": "Point",
@@ -196,7 +202,8 @@
     "artSize": [
      29.5,
      24.5
-    ]
+    ],
+    "code": "06"
    },
    "geometry": {
     "type": "Point",
@@ -226,7 +233,8 @@
     "artSize": [
      46.8,
      31.9
-    ]
+    ],
+    "code": "07"
    },
    "geometry": {
     "type": "Point",
@@ -256,7 +264,8 @@
     "artSize": [
      24.0,
      36.2
-    ]
+    ],
+    "code": "08"
    },
    "geometry": {
     "type": "Point",
@@ -286,7 +295,8 @@
     "artSize": [
      25.5,
      23.1
-    ]
+    ],
+    "code": "09"
    },
    "geometry": {
     "type": "Point",
@@ -316,7 +326,8 @@
     "artSize": [
      34.7,
      24.3
-    ]
+    ],
+    "code": "0a"
    },
    "geometry": {
     "type": "Point",
@@ -346,7 +357,8 @@
     "artSize": [
      32.8,
      23.3
-    ]
+    ],
+    "code": "0b"
    },
    "geometry": {
     "type": "Point",
@@ -376,7 +388,8 @@
     "artSize": [
      51.6,
      18.3
-    ]
+    ],
+    "code": "0c"
    },
    "geometry": {
     "type": "Point",
@@ -406,7 +419,8 @@
     "artSize": [
      27.3,
      25.0
-    ]
+    ],
+    "code": "0d"
    },
    "geometry": {
     "type": "Point",
@@ -436,7 +450,8 @@
     "artSize": [
      34.5,
      27.3
-    ]
+    ],
+    "code": "0e"
    },
    "geometry": {
     "type": "Point",
@@ -466,7 +481,8 @@
     "artSize": [
      28.6,
      18.9
-    ]
+    ],
+    "code": "0f"
    },
    "geometry": {
     "type": "Point",
@@ -496,7 +512,8 @@
     "artSize": [
      34.2,
      29.8
-    ]
+    ],
+    "code": "0g"
    },
    "geometry": {
     "type": "Point",
@@ -526,7 +543,8 @@
     "artSize": [
      37.7,
      31.1
-    ]
+    ],
+    "code": "0h"
    },
    "geometry": {
     "type": "Point",
@@ -556,7 +574,8 @@
     "artSize": [
      42.0,
      26.1
-    ]
+    ],
+    "code": "0i"
    },
    "geometry": {
     "type": "Point",
@@ -586,7 +605,8 @@
     "artSize": [
      24.0,
      23.1
-    ]
+    ],
+    "code": "0j"
    },
    "geometry": {
     "type": "Point",
@@ -616,7 +636,8 @@
     "artSize": [
      24.0,
      38.3
-    ]
+    ],
+    "code": "0k"
    },
    "geometry": {
     "type": "Point",
@@ -646,7 +667,8 @@
     "artSize": [
      31.4,
      34.9
-    ]
+    ],
+    "code": "0l"
    },
    "geometry": {
     "type": "Point",
@@ -676,7 +698,8 @@
     "artSize": [
      31.6,
      38.5
-    ]
+    ],
+    "code": "0m"
    },
    "geometry": {
     "type": "Point",
@@ -701,7 +724,8 @@
      "eu": "Floridako dortoka"
     },
     "icon": "turtle",
-    "number": "26"
+    "number": "26",
+    "code": "0n"
    },
    "geometry": {
     "type": "Point",
@@ -731,7 +755,8 @@
     "artSize": [
      32.2,
      26.7
-    ]
+    ],
+    "code": "0o"
    },
    "geometry": {
     "type": "Point",
@@ -761,7 +786,8 @@
     "artSize": [
      46.2,
      40.4
-    ]
+    ],
+    "code": "0p"
    },
    "geometry": {
     "type": "Point",
@@ -791,7 +817,8 @@
     "artSize": [
      37.5,
      32.6
-    ]
+    ],
+    "code": "0q"
    },
    "geometry": {
     "type": "Point",
@@ -821,7 +848,8 @@
     "artSize": [
      40.9,
      52.0
-    ]
+    ],
+    "code": "0r"
    },
    "geometry": {
     "type": "Point",
@@ -851,7 +879,8 @@
     "artSize": [
      47.3,
      40.2
-    ]
+    ],
+    "code": "0s"
    },
    "geometry": {
     "type": "Point",
@@ -881,7 +910,8 @@
     "artSize": [
      45.8,
      27.6
-    ]
+    ],
+    "code": "0t"
    },
    "geometry": {
     "type": "Point",
@@ -906,7 +936,8 @@
      "eu": "Buru-hori ur-baranoa"
     },
     "icon": "lizard",
-    "number": "33"
+    "number": "33",
+    "code": "0u"
    },
    "geometry": {
     "type": "Point",
@@ -936,7 +967,8 @@
     "artSize": [
      34.7,
      22.3
-    ]
+    ],
+    "code": "0v"
    },
    "geometry": {
     "type": "Point",
@@ -961,7 +993,8 @@
      "eu": "Iguana berdea"
     },
     "icon": "lizard",
-    "number": "35"
+    "number": "35",
+    "code": "0w"
    },
    "geometry": {
     "type": "Point",
@@ -1008,7 +1041,8 @@
     "artSize": [
      52.2,
      17.0
-    ]
+    ],
+    "code": "0x"
    },
    "geometry": {
     "type": "Point",
@@ -1033,7 +1067,8 @@
      "eu": "Iguana errinozeroa"
     },
     "icon": "lizard",
-    "number": "37"
+    "number": "37",
+    "code": "0y"
    },
    "geometry": {
     "type": "Point",
@@ -1058,7 +1093,8 @@
      "eu": "Aldabrako dortoka erraldoia"
     },
     "icon": "turtle",
-    "number": "38"
+    "number": "38",
+    "code": "0z"
    },
    "geometry": {
     "type": "Point",
@@ -1088,7 +1124,8 @@
     "artSize": [
      31.4,
      18.5
-    ]
+    ],
+    "code": "10"
    },
    "geometry": {
     "type": "Point",
@@ -1118,7 +1155,8 @@
     "artSize": [
      42.8,
      13.4
-    ]
+    ],
+    "code": "11"
    },
    "geometry": {
     "type": "Point",
@@ -1148,7 +1186,8 @@
     "artSize": [
      21.6,
      37.5
-    ]
+    ],
+    "code": "12"
    },
    "geometry": {
     "type": "Point",
@@ -1178,7 +1217,8 @@
     "artSize": [
      25.5,
      16.7
-    ]
+    ],
+    "code": "13"
    },
    "geometry": {
     "type": "Point",
@@ -1208,7 +1248,8 @@
     "artSize": [
      41.7,
      17.5
-    ]
+    ],
+    "code": "14"
    },
    "geometry": {
     "type": "Point",
@@ -1238,7 +1279,8 @@
     "artSize": [
      32.1,
      38.0
-    ]
+    ],
+    "code": "15"
    },
    "geometry": {
     "type": "Point",
@@ -1268,7 +1310,8 @@
     "artSize": [
      31.6,
      15.8
-    ]
+    ],
+    "code": "16"
    },
    "geometry": {
     "type": "Point",
@@ -1298,7 +1341,8 @@
     "artSize": [
      30.0,
      25.6
-    ]
+    ],
+    "code": "17"
    },
    "geometry": {
     "type": "Point",
@@ -1328,7 +1372,8 @@
     "artSize": [
      30.2,
      25.5
-    ]
+    ],
+    "code": "18"
    },
    "geometry": {
     "type": "Point",
@@ -1353,7 +1398,8 @@
      "eu": "Ezpain-zuri tamarinoa"
     },
     "icon": "monkey",
-    "number": "48"
+    "number": "48",
+    "code": "19"
    },
    "geometry": {
     "type": "Point",
@@ -1392,7 +1438,8 @@
     "artSize": [
      17.1,
      24.6
-    ]
+    ],
+    "code": "1a"
    },
    "geometry": {
     "type": "Point",
@@ -1436,7 +1483,8 @@
     "artSize": [
      44.4,
      26.5
-    ]
+    ],
+    "code": "1b"
    },
    "geometry": {
     "type": "Point",
@@ -1481,7 +1529,8 @@
     "artSize": [
      41.6,
      30.4
-    ]
+    ],
+    "code": "1c"
    },
    "geometry": {
     "type": "Point",
@@ -1526,7 +1575,8 @@
     "artSize": [
      26.6,
      41.1
-    ]
+    ],
+    "code": "1d"
    },
    "geometry": {
     "type": "Point",
@@ -1570,7 +1620,8 @@
     "artSize": [
      37.2,
      32.8
-    ]
+    ],
+    "code": "1e"
    },
    "geometry": {
     "type": "Point",
@@ -1613,7 +1664,8 @@
     "artSize": [
      32.5,
      38.0
-    ]
+    ],
+    "code": "1f"
    },
    "geometry": {
     "type": "Point",
@@ -1651,7 +1703,8 @@
     "artSize": [
      35.6,
      24.5
-    ]
+    ],
+    "code": "1g"
    },
    "geometry": {
     "type": "Point",
@@ -1690,7 +1743,8 @@
     "hours": [
      "9:00",
      "17:30"
-    ]
+    ],
+    "code": "1h"
    },
    "geometry": {
     "type": "Point",
@@ -1720,7 +1774,8 @@
     "hours": [
      "11:45",
      "16:00"
-    ]
+    ],
+    "code": "1i"
    },
    "geometry": {
     "type": "Point",
@@ -1754,7 +1809,8 @@
      "it": "Fuori servizio.",
      "ca": "Fora de servei.",
      "eu": "Ez dabil."
-    }
+    },
+    "code": "1j"
    },
    "geometry": {
     "type": "Point",
@@ -1784,7 +1840,8 @@
     "hours": [
      "9:30",
      "16:00"
-    ]
+    ],
+    "code": "1k"
    },
    "geometry": {
     "type": "Point",
@@ -1814,7 +1871,8 @@
     "hours": [
      "12:00",
      "15:30"
-    ]
+    ],
+    "code": "1l"
    },
    "geometry": {
     "type": "Point",
@@ -1844,7 +1902,8 @@
     "hours": [
      "11:30",
      "16:30"
-    ]
+    ],
+    "code": "1m"
    },
    "geometry": {
     "type": "Point",
@@ -1869,7 +1928,8 @@
      "eu": "Kaktusak"
     },
     "icon": "cactus",
-    "number": "1"
+    "number": "1",
+    "code": "1n"
    },
    "geometry": {
     "type": "Point",
@@ -1894,7 +1954,8 @@
      "eu": "Madagaskarko landareak"
     },
     "icon": "palm",
-    "number": "2"
+    "number": "2",
+    "code": "1o"
    },
    "geometry": {
     "type": "Point",
@@ -1919,7 +1980,8 @@
      "eu": "Kostaldeko halofiloen komunitatea"
     },
     "icon": "herb",
-    "number": "3"
+    "number": "3",
+    "code": "1p"
    },
    "geometry": {
     "type": "Point",
@@ -1944,7 +2006,8 @@
      "eu": "Cardonal-tabaibal komunitatea"
     },
     "icon": "cactus",
-    "number": "4"
+    "number": "4",
+    "code": "1q"
    },
    "geometry": {
     "type": "Point",
@@ -1969,7 +2032,8 @@
      "eu": "Baso termofiloaren komunitatea"
     },
     "icon": "tree",
-    "number": "5"
+    "number": "5",
+    "code": "1r"
    },
    "geometry": {
     "type": "Point",
@@ -1994,7 +2058,8 @@
      "eu": "Laurisilva komunitatea"
     },
     "icon": "tree",
-    "number": "6"
+    "number": "6",
+    "code": "1s"
    },
    "geometry": {
     "type": "Point",
@@ -2019,7 +2084,8 @@
      "eu": "Palmondoen komunitatea"
     },
     "icon": "palm",
-    "number": "7"
+    "number": "7",
+    "code": "1t"
    },
    "geometry": {
     "type": "Point",
@@ -2044,7 +2110,8 @@
      "eu": "Sokotrako landareak"
     },
     "icon": "tree",
-    "number": "8"
+    "number": "8",
+    "code": "1u"
    },
    "geometry": {
     "type": "Point",
@@ -2068,7 +2135,8 @@
      "ca": "Palmetum",
      "eu": "Palmetuma"
     },
-    "icon": "palm"
+    "icon": "palm",
+    "code": "1v"
    },
    "geometry": {
     "type": "Point",
@@ -2092,7 +2160,8 @@
      "ca": "Reserva de plantes autòctones",
      "eu": "Bertako landareen erreserba"
     },
-    "icon": "herb"
+    "icon": "herb",
+    "code": "1w"
    },
    "geometry": {
     "type": "Point",
@@ -2130,7 +2199,8 @@
     "hours": [
      "9:00",
      "18:00"
-    ]
+    ],
+    "code": "1x"
    },
    "geometry": {
     "type": "Point",
@@ -2154,7 +2224,8 @@
      "ca": "Oficina d'informació",
      "eu": "Informazio bulegoa"
     },
-    "icon": "info"
+    "icon": "info",
+    "code": "1y"
    },
    "geometry": {
     "type": "Point",
@@ -2178,7 +2249,8 @@
      "ca": "Punt d'informació",
      "eu": "Informazio-gunea"
     },
-    "icon": "info"
+    "icon": "info",
+    "code": "1z"
    },
    "geometry": {
     "type": "Point",
@@ -2202,7 +2274,8 @@
      "ca": "Botiga de records",
      "eu": "Oroigarri-denda"
     },
-    "icon": "gift"
+    "icon": "gift",
+    "code": "20"
    },
    "geometry": {
     "type": "Point",
@@ -2227,7 +2300,8 @@
      "eu": "Photoasis"
     },
     "icon": "camera",
-    "minor": true
+    "minor": true,
+    "code": "21"
    },
    "geometry": {
     "type": "Point",
@@ -2251,7 +2325,8 @@
      "ca": "Casa de menjar d'animals i taller d'enriquiment",
      "eu": "Animalien janari-etxea eta aberastze-tailerra"
     },
-    "icon": "apple"
+    "icon": "apple",
+    "code": "22"
    },
    "geometry": {
     "type": "Point",
@@ -2275,7 +2350,8 @@
      "ca": "Hospital clínica veterinària",
      "eu": "Albaitaritza-ospitalea"
     },
-    "icon": "hospital"
+    "icon": "hospital",
+    "code": "23"
    },
    "geometry": {
     "type": "Point",
@@ -2299,7 +2375,8 @@
      "ca": "Infermeria i desfibril·lador",
      "eu": "Erizaintza eta desfibriladorea"
     },
-    "icon": "firstaid"
+    "icon": "firstaid",
+    "code": "24"
    },
    "geometry": {
     "type": "Point",
@@ -2324,7 +2401,8 @@
      "eu": "Desfibriladorea"
     },
     "icon": "defib",
-    "minor": true
+    "minor": true,
+    "code": "25"
    },
    "geometry": {
     "type": "Point",
@@ -2349,7 +2427,8 @@
      "eu": "Desfibriladorea"
     },
     "icon": "defib",
-    "minor": true
+    "minor": true,
+    "code": "26"
    },
    "geometry": {
     "type": "Point",
@@ -2374,7 +2453,8 @@
      "eu": "Begiratokia"
     },
     "icon": "viewpoint",
-    "minor": true
+    "minor": true,
+    "code": "27"
    },
    "geometry": {
     "type": "Point",
@@ -2399,7 +2479,8 @@
      "eu": "Begiratokia"
     },
     "icon": "viewpoint",
-    "minor": true
+    "minor": true,
+    "code": "28"
    },
    "geometry": {
     "type": "Point",
@@ -2424,7 +2505,8 @@
      "eu": "Begiratokia"
     },
     "icon": "viewpoint",
-    "minor": true
+    "minor": true,
+    "code": "29"
    },
    "geometry": {
     "type": "Point",
@@ -2449,7 +2531,8 @@
      "eu": "Hegazti-behatokia"
     },
     "icon": "bird",
-    "minor": true
+    "minor": true,
+    "code": "2a"
    },
    "geometry": {
     "type": "Point",
@@ -2474,7 +2557,8 @@
      "eu": "Hegazti-behatokia"
     },
     "icon": "bird",
-    "minor": true
+    "minor": true,
+    "code": "2b"
    },
    "geometry": {
     "type": "Point",
@@ -2499,7 +2583,8 @@
      "eu": "Hegazti-behatokia"
     },
     "icon": "bird",
-    "minor": true
+    "minor": true,
+    "code": "2c"
    },
    "geometry": {
     "type": "Point",
@@ -2524,7 +2609,8 @@
      "eu": "Taxi-geltokia"
     },
     "icon": "taxi",
-    "minor": true
+    "minor": true,
+    "code": "2d"
    },
    "geometry": {
     "type": "Point",
@@ -2549,7 +2635,8 @@
      "eu": "Aparkalekua"
     },
     "icon": "car",
-    "minor": true
+    "minor": true,
+    "code": "2e"
    },
    "geometry": {
     "type": "Point",
@@ -2574,7 +2661,8 @@
      "eu": "Aparkaleku irisgarria"
     },
     "icon": "wheelchair",
-    "minor": true
+    "minor": true,
+    "code": "2f"
    },
    "geometry": {
     "type": "Point",
@@ -2599,7 +2687,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2g"
    },
    "geometry": {
     "type": "Point",
@@ -2624,7 +2713,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2h"
    },
    "geometry": {
     "type": "Point",
@@ -2649,7 +2739,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2i"
    },
    "geometry": {
     "type": "Point",
@@ -2674,7 +2765,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2j"
    },
    "geometry": {
     "type": "Point",
@@ -2699,7 +2791,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2k"
    },
    "geometry": {
     "type": "Point",
@@ -2724,7 +2817,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2l"
    },
    "geometry": {
     "type": "Point",
@@ -2749,7 +2843,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2m"
    },
    "geometry": {
     "type": "Point",
@@ -2774,7 +2869,8 @@
      "eu": "Komunak"
     },
     "icon": "toilet",
-    "minor": true
+    "minor": true,
+    "code": "2n"
    },
    "geometry": {
     "type": "Point",
@@ -2818,7 +2914,8 @@
      "15:00",
      "16:00"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2o"
    },
    "geometry": {
     "type": "Point",
@@ -2862,7 +2959,8 @@
      "15:05",
      "16:05"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2p"
    },
    "geometry": {
     "type": "Point",
@@ -2906,7 +3004,8 @@
      "15:10",
      "16:10"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2q"
    },
    "geometry": {
     "type": "Point",
@@ -2950,7 +3049,8 @@
      "15:15",
      "16:15"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2r"
    },
    "geometry": {
     "type": "Point",
@@ -2994,7 +3094,8 @@
      "15:20",
      "16:20"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2s"
    },
    "geometry": {
     "type": "Point",
@@ -3037,7 +3138,8 @@
      "14:25",
      "15:25"
     ],
-    "timesKind": "train"
+    "timesKind": "train",
+    "code": "2t"
    },
    "geometry": {
     "type": "Point",

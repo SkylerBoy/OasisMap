@@ -173,7 +173,8 @@ el próximo tren por las siguientes.
   con ritmo rápido / normal / tranquilo). En este parque el tren es más lento que andar: sirve
   para descansar las piernas. Respeta sus horarios (0 → 5, 5 min entre paradas).
 - **Compartir**: botón verde en el plan. Abre la hoja de compartir del móvil (WhatsApp, Telegram…)
-  o WhatsApp directamente con las paradas y un enlace `?plan=…` que lleva el día, las horas, los
+  o WhatsApp directamente con las paradas y un enlace corto `?p=…` (2 caracteres por parada, códigos
+  fijos en `data/link-codes.json`) que lleva el día, las horas, los
   ajustes y el orden. Quien lo abre puede usarlo; las horas se recalculan en su móvil.
 - **Plan en el mapa**: recorrido y número de parada en cada punto (los demás puntos no muestran
   número mientras tanto). La etiqueta de arriba lo abre o lo quita.

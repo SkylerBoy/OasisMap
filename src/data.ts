@@ -42,6 +42,8 @@ export interface Poi {
   art?: string;
   /** Drawing size on the printed map (pt), so drawings keep their relative size. */
   artSize?: [number, number];
+  /** Fixed 2-character code for shared plan links. */
+  code?: string;
   /** Icon name from src/poi-icons.ts. */
   icon?: string;
   /** Secondary point (toilets, viewpoints…): only drawn when zoomed in. */

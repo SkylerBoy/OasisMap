@@ -560,6 +560,7 @@ def main():
         for (pid, _), r in zip(KNOWN, res):
             print(f'  {pid}: {abs(r):.0f} m local correction')
     feats = []
+    codes = link_codes([p[0] for p in POIS])
     keep_inside = _zoo_clamp()
     onto_way = _onto_way()
     for pid, cat, num, x, y, name, desc in POIS:
@@ -589,6 +590,7 @@ def main():
             props['art'] = f'img/map-art/{pid}.svg'
             vb = re.search(r'viewBox="0 0 ([\d.]+) ([\d.]+)"', open(f'public/img/map-art/{pid}.svg').read())
             props['artSize'] = [float(vb[1]), float(vb[2])]  # size on the printed map (pt), keeps drawings in proportion
+        props['code'] = codes[pid]  # short code for shared plan links
         coord = px(x, y)
         if pid not in OUTSIDE_ZOO:
             coord = keep_inside(pid, coord)
@@ -633,6 +635,25 @@ def parse_schedule(pid, text):
         return {'hours': [a, b]}
     kind = 'train' if pid.startswith('ecotour-') else 'show'
     return {'times': [x.strip() for x in text.split('·')], 'timesKind': kind}
+
+
+def link_codes(ids):
+    """Two-character code per point for shared plan links. Stored in data/link-codes.json:
+    a point keeps its code for ever (old links keep working); new points get a free one."""
+    path = 'data/link-codes.json'
+    try:
+        codes = json.load(open(path))
+    except FileNotFoundError:
+        codes = {}
+    alphabet = '0123456789abcdefghijklmnopqrstuvwxyz'
+    used = set(codes.values())
+    free = (a + b for a in alphabet for b in alphabet if a + b not in used)
+    for pid in ids:
+        if pid not in codes:
+            codes[pid] = next(free)
+    with open(path, 'w') as f:
+        json.dump(codes, f, indent=1, sort_keys=True)
+    return codes
 
 
 def write_ecotour(feats):

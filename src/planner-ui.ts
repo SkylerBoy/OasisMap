@@ -9,6 +9,7 @@ import { poiIconSvg } from './poi-icons';
 import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
 import { pickOption, pickTime } from './time-picker';
+import { decodePlan, encodePlan } from './plan-link';
 
 export interface PlannerContext {
   data: ParkData;
@@ -1046,23 +1047,26 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     dec: (s: string) => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/'))))),
   };
 
+  /** Short link (?p=…): each stop is its 2-character code. */
   function shareLink(): string {
-    const sp: SharedPlan = {
-      v: 1,
-      d: savedPlan?.date ?? dateOf(dayOffset),
-      s: savedPlan?.start ?? OPEN,
-      e: savedPlan?.end ?? CLOSE,
-      p: pace,
-      t: useTrain ? 1 : 0,
-      l: $<HTMLInputElement>('plan-lunch').checked ? 1 : 0,
-      b: [breaks.every, breaks.dur],
-      x: plan!.steps.map((st) => (st.loc === st.item.id ? st.item.id : [st.item.id, st.loc])),
-    };
+    const p = encodePlan(
+      {
+        date: savedPlan?.date ?? dateOf(dayOffset),
+        start: toMinutes(savedPlan?.start ?? OPEN),
+        end: toMinutes(savedPlan?.end ?? CLOSE),
+        pace,
+        train: useTrain,
+        lunch: $<HTMLInputElement>('plan-lunch').checked,
+        every: breaks.every,
+        length: breaks.dur,
+        stops: plan!.steps.map((st) => ({ id: st.item.id, loc: st.loc })),
+      },
+      (id) => byId.get(id)?.code ?? '',
+    );
     const url = new URL(location.href);
     url.search = '';
     url.hash = '';
-    url.searchParams.set('plan', b64.enc(sp));
-    return url.toString();
+    return `${url.toString()}?p=${p}`;
   }
 
   function shareText(): string {
@@ -1096,19 +1100,40 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
 
   /** Opened from a shared link: offer to use that plan. */
   function offerShared() {
-    const raw = new URLSearchParams(location.search).get('plan');
-    if (!raw) return;
-    let sp: SharedPlan;
+    const q = new URLSearchParams(location.search);
+    let sp: SharedPlan | null = null;
     try {
-      sp = b64.dec(raw);
-      if (sp.v !== 1 || !Array.isArray(sp.x)) return;
+      if (q.get('p')) {
+        // short link
+        const byCode = new Map(data.pois.filter((p) => p.code).map((p) => [p.code!, p.id]));
+        const d = decodePlan(q.get('p')!, byCode);
+        if (d)
+          sp = {
+            v: 1,
+            d: d.date,
+            s: hhmm(d.start),
+            e: hhmm(d.end),
+            p: d.pace,
+            t: d.train ? 1 : 0,
+            l: d.lunch ? 1 : 0,
+            b: [d.every, d.length],
+            x: d.stops.map((x) => [x.id, x.loc] as [string, string]),
+          };
+      } else if (q.get('plan')) {
+        // first, longer links
+        const v1 = b64.dec(q.get('plan')!) as SharedPlan;
+        if (v1.v === 1 && Array.isArray(v1.x)) sp = v1;
+      }
     } catch {
-      return;
+      sp = null;
     }
+    if (!q.get('p') && !q.get('plan')) return;
     // the link is used once; a reload should not ask again
     const clean = new URL(location.href);
+    clean.searchParams.delete('p');
     clean.searchParams.delete('plan');
     history.replaceState(null, '', clean);
+    if (!sp) return;
     const stops = sp.x.map((x) => (Array.isArray(x) ? { id: x[0], loc: x[1] } : { id: x, loc: x }));
     const usable = stops.filter((x) => byId.has(x.loc) && (x.id === 'lunch' || x.id.startsWith('rest-') || byId.has(x.id)));
     if (!usable.length) return;

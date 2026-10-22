@@ -157,6 +157,8 @@ export class VisitTimes {
   }
 
   private headers(): Record<string, string> {
-    return { apikey: this.cfg!.key, Authorization: `Bearer ${this.cfg!.key}` };
+    const key = this.cfg!.key;
+    // new "sb_publishable_…" keys go only in apikey; old JWT "anon" keys also as Bearer
+    return key.startsWith('sb_') ? { apikey: key } : { apikey: key, Authorization: `Bearer ${key}` };
   }
 }

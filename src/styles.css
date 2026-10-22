@@ -1671,6 +1671,7 @@ input, select, textarea, button { font-family: inherit; }
 }
 
 .plan-summary {
+  white-space: pre-line; /* stops and distance, then the end time below */
   margin: 0 0 12px;
   padding: 10px 12px;
   border-radius: var(--r-md);

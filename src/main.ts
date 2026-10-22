@@ -339,17 +339,37 @@ function updatePdfLink() {
   $<HTMLAnchorElement>('pdf-link').href = MAP_PDF(currentLang());
 }
 
+/** Language menu under the "ES" button, in the park's style. */
 function buildLanguageSelect() {
-  const sel = $<HTMLSelectElement>('lang-select');
-  sel.innerHTML = LANGUAGES.map((l) => `<option value="${l.code}">${l.name}</option>`).join('');
-  sel.value = currentLang();
+  const btn = $('lang-btn');
+  const menu = $('lang-menu');
   const code = () => {
     $('lang-code').textContent = currentLang().toUpperCase();
     updatePdfLink();
   };
-  code();
-  sel.addEventListener('change', async () => {
-    await setLang(sel.value);
+  const render = () => {
+    menu.innerHTML = '';
+    for (const l of LANGUAGES) {
+      const li = document.createElement('li');
+      const on = l.code === currentLang();
+      li.innerHTML = `<button type="button" role="option" aria-selected="${on}"><span class="lang-name"></span><span class="lang-short">${l.code.toUpperCase()}</span></button>`;
+      li.querySelector('.lang-name')!.textContent = l.name;
+      li.querySelector('button')!.addEventListener('click', () => void choose(l.code));
+      menu.appendChild(li);
+    }
+  };
+  const toggle = (open: boolean) => {
+    menu.hidden = !open;
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) {
+      render();
+      menu.querySelector<HTMLElement>('[aria-selected="true"]')?.focus();
+    }
+  };
+  const choose = async (c: string) => {
+    toggle(false);
+    if (c === currentLang()) return;
+    await setLang(c);
     code();
     applyI18n();
     buildChips();
@@ -357,6 +377,20 @@ function buildLanguageSelect() {
     pmap.relabel();
     if (state.selected) renderSheet();
     if (state.navTo) updateNavigation();
+  };
+  code();
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggle(menu.hidden);
+  });
+  document.addEventListener('click', (e) => {
+    if (!menu.hidden && !menu.contains(e.target as Node)) toggle(false);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) {
+      toggle(false);
+      btn.focus();
+    }
   });
 }
 

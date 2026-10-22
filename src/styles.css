@@ -189,11 +189,8 @@ input:focus-visible {
 
 .lang {
   position: relative;
-  display: block;
 }
 
-/* Visible label shows the code ("ES"); the real select sits invisibly on top,
-   so its native list always shows the full names ("Español"). */
 .lang-code {
   display: grid;
   place-items: center;
@@ -201,27 +198,101 @@ input:focus-visible {
   height: 36px;
   border: 1.5px solid rgb(255 255 255 / 0.55);
   border-radius: var(--r-sm);
+  background: none;
+  color: inherit;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-}
-
-.lang select {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
   cursor: pointer;
 }
 
-.lang:focus-within .lang-code {
-  outline: 3px solid var(--accent-strong);
-  outline-offset: 2px;
+.lang-code[aria-expanded='true'] {
+  background: rgb(255 255 255 / 0.18);
 }
 
-.lang option {
-  color: #000;
+/* drop-down under the button, right-aligned with it */
+.lang-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 70;
+  min-width: 200px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.28);
+  transform-origin: top right;
+  animation: lang-pop 0.14s ease-out;
+}
+
+.lang-menu[hidden] {
+  display: none;
+}
+
+/* small arrow pointing at the button */
+.lang-menu::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  right: 16px;
+  width: 12px;
+  height: 12px;
+  background: var(--surface);
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+@keyframes lang-pop {
+  from { opacity: 0; transform: scale(0.95) translateY(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.lang-menu button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--ink);
+  font-size: 1rem;
+  text-align: left;
+}
+
+.lang-menu button:active,
+.lang-menu button:focus-visible {
+  background: var(--chip);
+  outline: none;
+}
+
+.lang-menu button[aria-selected='true'] {
+  background: color-mix(in srgb, var(--brand) 12%, var(--surface));
+  color: var(--brand);
+}
+
+.lang-name {
+  flex: 1;
+}
+
+.lang-short {
+  min-width: 28px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--chip);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.lang-menu button[aria-selected='true'] .lang-short {
+  background: var(--brand);
+  color: #fff;
 }
 
 .banner {
@@ -1835,3 +1906,9 @@ input, select, textarea, button { font-family: inherit; }
 .plan-steps.reordering .plan-step:not(.lifted) {
   transition: transform 0.15s;
 }
+
+/* selected language: lighter red on dark backgrounds */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .lang-menu button[aria-selected='true'] { color: #ff9aa6; }
+}
+:root[data-theme='dark'] .lang-menu button[aria-selected='true'] { color: #ff9aa6; }

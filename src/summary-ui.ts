@@ -4,7 +4,7 @@ import { poiIcon } from './data';
 import { currentLang, formatDistance, pick, t } from './i18n';
 import { poiIconSvg } from './poi-icons';
 import type { VisitLog } from './visit-log';
-import { drawVisitMap, loadImage, visitMapAspect } from './visit-map';
+import { DARK_MAP, drawVisitMap, LIGHT_MAP, loadImage, type MapColors, visitMapAspect } from './visit-map';
 
 /** End-of-visit summary: what you saw, how far you walked… and an image to share. */
 export interface SummaryContext {
@@ -73,18 +73,21 @@ export function startSummary(ctx: SummaryContext) {
       ul.appendChild(li);
     }
     $('sum-empty').hidden = s.seen.length > 0;
+    renderPhotos();
     void renderMap();
   }
 
-  const mapOptions = (ground: string, path: string, art: number) => ({
+  const mapOptions = (colors: MapColors, art: number) => ({
     data: ctx.data,
     seen: new Set(Object.keys(ctx.log.visit.seen)),
     track: ctx.log.visit.track ?? [],
-    ground,
-    path,
-    route: '#a71d2f',
+    colors,
     art,
   });
+  const isDark = () => {
+    const forced = document.documentElement.dataset.theme;
+    return forced ? forced === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+  };
 
   /** The map of the visit at the top of the summary. */
   async function renderMap() {
@@ -92,17 +95,66 @@ export function startSummary(ctx: SummaryContext) {
     const w = c.clientWidth;
     if (!w) return;
     const art = Math.max(34, w * 0.11);
-    const h = Math.round(Math.min(w * 0.9, (w - art) * visitMapAspect(ctx.data) + art * 0.8));
+    const h = Math.round(Math.min(w * 0.9, (w - art * 1.16) * visitMapAspect(ctx.data) + art * 1.16));
     const dpr = Math.min(3, window.devicePixelRatio || 1);
     c.width = Math.round(w * dpr);
     c.height = Math.round(h * dpr);
     c.style.height = `${h}px`;
     const g = c.getContext('2d')!;
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const css = getComputedStyle(document.documentElement);
-    const v = (name: string) => css.getPropertyValue(name).trim();
-    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 14 }, mapOptions(v('--chip'), v('--surface'), art));
+    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 14 }, mapOptions(isDark() ? DARK_MAP : LIGHT_MAP, art));
   }
+
+  // --- your photos for the picture (optional, kept only while the app is open) ----
+  const MAX_PHOTOS = 3;
+  const photos: { url: string; img: HTMLImageElement }[] = [];
+  const PLUS = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
+  const CROSS = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>';
+
+  function renderPhotos() {
+    const box = $('sum-photo-list');
+    box.innerHTML = '';
+    photos.forEach((p, i) => {
+      const el = document.createElement('div');
+      el.className = 'sum-photo';
+      el.innerHTML = `<img alt=""><button type="button" class="sum-photo-x">${CROSS}</button>`;
+      el.querySelector('img')!.src = p.url;
+      el.querySelector('button')!.title = t('sum.removePhoto');
+      el.querySelector('button')!.addEventListener('click', () => {
+        URL.revokeObjectURL(p.url);
+        photos.splice(i, 1);
+        renderPhotos();
+      });
+      box.appendChild(el);
+    });
+    if (photos.length < MAX_PHOTOS) {
+      const add = document.createElement('button');
+      add.type = 'button';
+      add.className = 'sum-photo sum-photo-add';
+      add.innerHTML = `${PLUS}<small></small>`;
+      add.querySelector('small')!.textContent = t('sum.addPhoto');
+      add.addEventListener('click', () => $<HTMLInputElement>('sum-photo-input').click());
+      box.appendChild(add);
+    }
+  }
+
+  $<HTMLInputElement>('sum-photo-input').addEventListener('change', async (e) => {
+    const input = e.target as HTMLInputElement;
+    const files = [...(input.files ?? [])].slice(0, MAX_PHOTOS - photos.length);
+    input.value = '';
+    for (const f of files) {
+      const url = URL.createObjectURL(f);
+      const img = await new Promise<HTMLImageElement | null>((resolve) => {
+        const im = new Image();
+        im.onload = () => resolve(im);
+        im.onerror = () => resolve(null);
+        im.src = url;
+      });
+      if (img) photos.push({ url, img });
+      else URL.revokeObjectURL(url);
+    }
+    renderPhotos();
+  });
 
   function open() {
     $('summary').hidden = false;
@@ -132,86 +184,137 @@ export function startSummary(ctx: SummaryContext) {
     await Promise.all([document.fonts.load('60px Cinqcent'), document.fonts.load('30px Public')]).catch(() => undefined);
     const W = 1080;
     const H = 1920;
+    const BOTTOM = 1680; // below this, Instagram's reply bar
     const c = document.createElement('canvas');
     c.width = W;
     c.height = H;
     const g = c.getContext('2d')!;
     const red = '#a71d2f';
-    const cream = '#fbf6ec';
     const center = (text: string, y: number, font: string, color: string) => {
       g.font = font;
       g.fillStyle = color;
       g.textAlign = 'center';
       g.fillText(text, W / 2, y, W - 120);
     };
+    const shadow = (blur: number, dy: number, alpha = 0.18) => {
+      g.shadowColor = `rgba(60,48,20,${alpha})`;
+      g.shadowBlur = blur;
+      g.shadowOffsetY = dy;
+    };
+    const noShadow = () => {
+      g.shadowColor = 'transparent';
+      g.shadowBlur = 0;
+      g.shadowOffsetY = 0;
+    };
 
-    g.fillStyle = cream;
+    g.fillStyle = '#fbf6ec';
     g.fillRect(0, 0, W, H);
 
     // red header with a wavy bottom edge
-    const waveY = 650;
-    const amp = 22;
-    const waves = 3.5;
+    const waveY = 610;
     g.fillStyle = red;
     g.beginPath();
     g.moveTo(0, 0);
     g.lineTo(W, 0);
-    for (let x = W; x >= 0; x -= 6) g.lineTo(x, waveY + amp * Math.sin((x / W) * waves * 2 * Math.PI));
+    for (let x = W; x >= 0; x -= 6) g.lineTo(x, waveY + 22 * Math.sin((x / W) * 3.5 * 2 * Math.PI));
     g.closePath();
     g.fill();
 
     const logo = await loadImage(logoUrl);
-    if (logo) g.drawImage(logo, W / 2 - 160, 250, 320, (320 * logo.height) / logo.width);
-    center(t('sum.imageTitle'), 525, '76px Cinqcent', '#fff');
-    center(dateText(), 585, '34px Public', 'rgba(255,255,255,0.85)');
+    if (logo) g.drawImage(logo, W / 2 - 140, 240, 280, (280 * logo.height) / logo.width);
+    center(t('sum.imageTitle'), 495, '72px Cinqcent', '#fff');
+    center(dateText(), 552, '32px Public', 'rgba(255,255,255,0.85)');
 
-    // the map of the visit, on a card over the wave
-    const art = 110;
-    const mapH = Math.round(Math.min(620, (W - 168 - art) * visitMapAspect(ctx.data) + art * 0.8));
-    const card = { x: 70, y: 720, w: W - 140, h: mapH + 28, r: 40 };
-    g.save();
-    g.shadowColor = 'rgba(60,48,20,0.18)';
-    g.shadowBlur = 30;
-    g.shadowOffsetY = 8;
+    // the map of the visit, on a white card
+    const hasPhotos = photos.length > 0;
+    const art = 104;
+    const maxMap = hasPhotos ? 440 : 600;
+    const mapH = Math.round(Math.min(maxMap, (W - 168 - art * 1.16) * visitMapAspect(ctx.data) + art * 1.16));
+    const card = { x: 70, y: 660, w: W - 140, h: mapH + 28, r: 40 };
+    shadow(30, 8);
     g.fillStyle = '#fff';
     g.beginPath();
     g.roundRect(card.x, card.y, card.w, card.h, card.r);
     g.fill();
-    g.restore();
+    noShadow();
     await drawVisitMap(
       g,
       { x: card.x + 14, y: card.y + 14, w: card.w - 28, h: card.h - 28, r: card.r - 12 },
-      mapOptions('#f4f0e2', '#ffffff', art),
+      mapOptions(LIGHT_MAP, art),
     );
+    let y = card.y + card.h;
 
-    // the four numbers
+    // your photos, pinned under the map
+    if (hasPhotos) {
+      const n = photos.length;
+      const size = n === 1 ? [470, 330] : n === 2 ? [400, 290] : [262, 220];
+      const tilt = [-4, 3.5, -2.5];
+      const top = y + 34;
+      photos.forEach(({ img }, i) => {
+        const [pw, ph] = size;
+        const cx = n === 1 ? W / 2 : 70 + ((W - 140) / n) * (i + 0.5);
+        const cy = top + ph / 2 + 14 + (i % 2) * 10;
+        g.save();
+        g.translate(cx, cy);
+        g.rotate((tilt[(i + (n === 1 ? 1 : 0)) % 3] * Math.PI) / 180);
+        shadow(18, 6, 0.25);
+        g.fillStyle = '#fff';
+        g.fillRect(-pw / 2 - 12, -ph / 2 - 12, pw + 24, ph + 24);
+        noShadow();
+        // fill the frame, cropping the photo
+        const k = Math.max(pw / img.naturalWidth, ph / img.naturalHeight);
+        const sw = pw / k;
+        const sh = ph / k;
+        g.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, -pw / 2, -ph / 2, pw, ph);
+        // the pin
+        const py = -ph / 2 - 4;
+        shadow(6, 4, 0.35);
+        const grad = g.createRadialGradient(-5, py - 5, 2, 0, py, 16);
+        grad.addColorStop(0, '#ff7686');
+        grad.addColorStop(1, red);
+        g.fillStyle = grad;
+        g.beginPath();
+        g.arc(0, py, 15, 0, 2 * Math.PI);
+        g.fill();
+        noShadow();
+        g.restore();
+      });
+      y = top + size[1] + 50;
+    }
+
+    // the numbers: a row of four with photos, two by two without
     const cards: [string, string][] = [
       [String(s.animals.length), t('sum.animalsShort')],
       [formatDistance(s.km * 1000), t('sum.walked')],
       [duration(s.minutes), t('sum.time')],
       [String(s.shows.length), t('sum.shows')],
     ];
+    const cols = hasPhotos ? 4 : 2;
+    const gap = hasPhotos ? 14 : 20;
+    const cw = (W - 140 - gap * (cols - 1)) / cols;
+    const ch = hasPhotos ? 112 : 122;
+    y += 26;
     cards.forEach(([value, label], i) => {
-      const x = 70 + (i % 2) * 480;
-      const y = card.y + card.h + 26 + Math.floor(i / 2) * 136;
+      const x = 70 + (i % cols) * (cw + gap);
+      const cy = y + Math.floor(i / cols) * (ch + 14);
       g.fillStyle = '#fff';
       g.beginPath();
-      g.roundRect(x, y, 460, 122, 30);
+      g.roundRect(x, cy, cw, ch, 28);
       g.fill();
       g.textAlign = 'center';
       g.fillStyle = red;
-      g.font = `${value.length > 7 ? 56 : 70}px Cinqcent`;
-      g.fillText(value, x + 230, y + 70, 420);
+      g.font = `${hasPhotos ? (value.length > 6 ? 38 : 50) : value.length > 7 ? 56 : 70}px Cinqcent`;
+      g.fillText(value, x + cw / 2, cy + (hasPhotos ? 60 : 70), cw - 24);
       g.fillStyle = '#6b6b60';
-      g.font = '28px Public';
-      g.fillText(label, x + 230, y + 106, 420);
+      g.font = `${hasPhotos ? 22 : 28}px Public`;
+      g.fillText(label, x + cw / 2, cy + (hasPhotos ? 94 : 106), cw - 20);
     });
-    let y = card.y + card.h + 26 + 258;
+    y += Math.ceil(4 / cols) * (ch + 14);
 
-    // a row of the drawings you saw, if there is room above the bottom bar
+    // without photos: a row of the drawings you saw, if there is room
     const arts = s.animals.filter((x) => x.poi.art).sort((a, b) => b.min - a.min);
-    const room = 1690 - 74 - (s.fav ? 54 : 0) - y;
-    if (arts.length && room >= 90) {
+    const room = BOTTOM - 74 - (s.fav ? 54 : 0) - y;
+    if (!hasPhotos && arts.length && room >= 90) {
       const size = Math.min(130, room - 20);
       const n = Math.min(arts.length, Math.floor((W - 140) / (size + 20)));
       const imgs = await Promise.all(arts.slice(0, n).map((x) => loadImage(`${import.meta.env.BASE_URL}${x.poi.art}`)));
@@ -224,7 +327,7 @@ export function startSummary(ctx: SummaryContext) {
       });
       y += size + 20;
     }
-    y += 20;
+    y += 10;
     if (s.fav) {
       center(t('sum.fav', { name: pick(s.fav.poi.name), n: Math.round(s.fav.min) }), y + 30, '32px Public', '#2a2a24');
       y += 54;

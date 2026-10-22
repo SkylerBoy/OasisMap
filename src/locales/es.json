@@ -220,5 +220,10 @@
   "sum.saved": "Imagen guardada en tu móvil.",
   "sum.leaving": "¿Te vas ya? Mira el resumen de tu visita: lo que has visto, lo que has caminado…",
   "plan.doneSummary": "¡Plan completado! Toca para ver el resumen de tu visita.",
-  "sum.see": "Ver resumen"
+  "sum.see": "Ver resumen",
+  "sum.photos": "Tus fotos",
+  "sum.optional": "(opcional)",
+  "sum.photosHint": "Hasta 3. Saldrán clavadas en la imagen para compartir; no se suben a ningún sitio.",
+  "sum.addPhoto": "Añadir",
+  "sum.removePhoto": "Quitar foto"
 }

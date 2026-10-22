@@ -220,5 +220,10 @@
   "sum.saved": "Bild auf dem Handy gespeichert.",
   "sum.leaving": "Gehst du schon? Sieh dir deine Zusammenfassung an: was du gesehen hast, wie weit du gelaufen bist…",
   "plan.doneSummary": "Plan erledigt! Tippe für die Zusammenfassung deines Besuchs.",
-  "sum.see": "Zusammenfassung"
+  "sum.see": "Zusammenfassung",
+  "sum.photos": "Deine Fotos",
+  "sum.optional": "(optional)",
+  "sum.photosHint": "Bis zu 3. Sie werden auf das Bild zum Teilen gepinnt und nirgendwo hochgeladen.",
+  "sum.addPhoto": "Hinzufügen",
+  "sum.removePhoto": "Foto entfernen"
 }

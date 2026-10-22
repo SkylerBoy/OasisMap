@@ -220,5 +220,10 @@
   "sum.saved": "Imatge desada al mòbil.",
   "sum.leaving": "Ja te’n vas? Mira el resum de la visita: el que has vist, el que has caminat…",
   "plan.doneSummary": "Pla completat! Toca per veure el resum de la visita.",
-  "sum.see": "Veure resum"
+  "sum.see": "Veure resum",
+  "sum.photos": "Les teves fotos",
+  "sum.optional": "(opcional)",
+  "sum.photosHint": "Fins a 3. Sortiran clavades a la imatge per compartir; no es pugen enlloc.",
+  "sum.addPhoto": "Afegir",
+  "sum.removePhoto": "Treure foto"
 }

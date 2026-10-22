@@ -220,5 +220,10 @@
   "sum.saved": "Picture saved on your phone.",
   "sum.leaving": "Leaving already? See your visit summary: what you saw, how far you walked…",
   "plan.doneSummary": "Plan completed! Tap to see your visit summary.",
-  "sum.see": "See summary"
+  "sum.see": "See summary",
+  "sum.photos": "Your photos",
+  "sum.optional": "(optional)",
+  "sum.photosHint": "Up to 3. They'll be pinned on the picture to share; they aren't uploaded anywhere.",
+  "sum.addPhoto": "Add",
+  "sum.removePhoto": "Remove photo"
 }

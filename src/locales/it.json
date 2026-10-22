@@ -220,5 +220,10 @@
   "sum.saved": "Immagine salvata sul telefono.",
   "sum.leaving": "Te ne vai già? Guarda il riepilogo della visita: cosa hai visto, quanto hai camminato…",
   "plan.doneSummary": "Piano completato! Tocca per vedere il riepilogo della visita.",
-  "sum.see": "Vedi riepilogo"
+  "sum.see": "Vedi riepilogo",
+  "sum.photos": "Le tue foto",
+  "sum.optional": "(facoltativo)",
+  "sum.photosHint": "Fino a 3. Saranno appuntate sull'immagine da condividere; non vengono caricate da nessuna parte.",
+  "sum.addPhoto": "Aggiungi",
+  "sum.removePhoto": "Rimuovi foto"
 }

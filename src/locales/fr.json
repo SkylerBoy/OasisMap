@@ -220,5 +220,10 @@
   "sum.saved": "Image enregistrée sur votre téléphone.",
   "sum.leaving": "Vous partez déjà ? Voyez le résumé de votre visite : ce que vous avez vu, la distance parcourue…",
   "plan.doneSummary": "Plan terminé ! Touchez pour voir le résumé de votre visite.",
-  "sum.see": "Voir le résumé"
+  "sum.see": "Voir le résumé",
+  "sum.photos": "Tes photos",
+  "sum.optional": "(facultatif)",
+  "sum.photosHint": "Jusqu'à 3. Elles seront épinglées sur l'image à partager ; elles ne sont envoyées nulle part.",
+  "sum.addPhoto": "Ajouter",
+  "sum.removePhoto": "Retirer la photo"
 }

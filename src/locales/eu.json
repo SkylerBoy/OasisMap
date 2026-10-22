@@ -220,5 +220,10 @@
   "sum.saved": "Irudia mugikorrean gordeta.",
   "sum.leaving": "Joan zara? Ikusi bisitaren laburpena: ikusi duzuna, ibili duzuna…",
   "plan.doneSummary": "Plana osatuta! Ukitu bisitaren laburpena ikusteko.",
-  "sum.see": "Ikusi laburpena"
+  "sum.see": "Ikusi laburpena",
+  "sum.photos": "Zure argazkiak",
+  "sum.optional": "(aukerakoa)",
+  "sum.photosHint": "Gehienez 3. Partekatzeko irudian iltzatuta agertuko dira; ez dira inora igotzen.",
+  "sum.addPhoto": "Gehitu",
+  "sum.removePhoto": "Kendu argazkia"
 }

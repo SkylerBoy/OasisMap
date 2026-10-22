@@ -230,5 +230,8 @@
   "plan.deleted": "Plan deleted · tap to undo",
   "pb.clear": "Delete",
   "pb.summary": "Summary",
-  "sum.download": "Download"
+  "sum.download": "Download",
+  "sum.favLabel": "Your favourite",
+  "sum.imageInvite": "Plan your visit at",
+  "sum.imageUrl": "skylerboy.github.io/OasisMap"
 }

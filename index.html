@@ -200,7 +200,14 @@
         <canvas id="sum-map" class="sum-map" aria-hidden="true"></canvas>
         <div id="sum-stats" class="sum-stats"></div>
         <p id="sum-plan" class="sum-line" hidden></p>
-        <p id="sum-fav" class="sum-line" hidden></p>
+        <div id="sum-fav" class="sum-fav" hidden>
+          <img alt="" />
+          <div>
+            <small data-i18n="sum.favLabel">Tu favorito</small>
+            <b id="sum-fav-name"></b>
+            <span id="sum-fav-min"></span>
+          </div>
+        </div>
         <h3 class="plan-presets-title"><span data-i18n="sum.photos">Tus fotos</span> <small data-i18n="sum.optional">(opcional)</small></h3>
         <p class="sum-hint" data-i18n="sum.photosHint">Hasta 3. Saldrán clavadas en la imagen para compartir; no se suben a ningún sitio.</p>
         <div id="sum-photo-list" class="sum-photo-list"></div>

@@ -143,7 +143,13 @@ async function init() {
     navTarget: () => state.navTo?.id ?? null,
     toast,
   });
-  summary = startSummary({ data, log: visitLog, planProgress: () => planner?.progress() ?? null, toast });
+  summary = startSummary({
+    data,
+    log: visitLog,
+    planProgress: () => planner?.progress() ?? null,
+    toast,
+    mapBase: () => pmap.currentBase,
+  });
   window.setInterval(checkReminders, 20_000);
   checkReminders();
   // Opened from a reminder notification.

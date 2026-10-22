@@ -230,5 +230,8 @@
   "plan.deleted": "Piano eliminato · tocca per annullare",
   "pb.clear": "Elimina",
   "pb.summary": "Riepilogo",
-  "sum.download": "Scarica"
+  "sum.download": "Scarica",
+  "sum.favLabel": "Il tuo preferito",
+  "sum.imageInvite": "Pianifica la tua visita su",
+  "sum.imageUrl": "skylerboy.github.io/OasisMap"
 }

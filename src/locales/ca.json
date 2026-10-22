@@ -230,5 +230,8 @@
   "plan.deleted": "Pla esborrat · toca per desfer",
   "pb.clear": "Esborrar",
   "pb.summary": "Resum",
-  "sum.download": "Descarregar"
+  "sum.download": "Descarregar",
+  "sum.favLabel": "El teu preferit",
+  "sum.imageInvite": "Planifica la teva visita a",
+  "sum.imageUrl": "skylerboy.github.io/OasisMap"
 }

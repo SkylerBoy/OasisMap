@@ -1,10 +1,12 @@
+import giraffeUrl from './assets/giraffe.svg';
 import logoUrl from './assets/logo-white.png';
 import type { ParkData } from './data';
 import { poiIcon } from './data';
 import { currentLang, formatDistance, pick, t } from './i18n';
 import { poiIconSvg } from './poi-icons';
+import type { BaseLayer } from './map';
 import type { VisitLog } from './visit-log';
-import { DARK_MAP, drawVisitMap, LIGHT_MAP, loadImage, type MapColors, visitMapAspect } from './visit-map';
+import { DARK_MAP, drawVisitMap, LIGHT_MAP, loadImage, type MapColors } from './visit-map';
 
 /** End-of-visit summary: what you saw, how far you walked… and an image to share. */
 export interface SummaryContext {
@@ -13,6 +15,8 @@ export interface SummaryContext {
   /** Plan stops done / in the plan, if there is a plan for today. */
   planProgress: () => { done: number; total: number } | null;
   toast: (msg: string, action?: () => void, ms?: number) => void;
+  /** Base layer of the map (street map or satellite), for the picture of the map. */
+  mapBase: () => BaseLayer;
 }
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -61,7 +65,13 @@ export function startSummary(ctx: SummaryContext) {
     $('sum-plan').hidden = !plan;
     if (plan) $('sum-plan').textContent = t('sum.plan', { done: plan.done, total: plan.total });
     $('sum-fav').hidden = !s.fav;
-    if (s.fav) $('sum-fav').textContent = t('sum.fav', { name: pick(s.fav.poi.name), n: Math.round(s.fav.min) });
+    if (s.fav) {
+      const img = $('sum-fav').querySelector('img')!;
+      img.hidden = !s.fav.poi.art;
+      if (s.fav.poi.art) img.src = `${import.meta.env.BASE_URL}${s.fav.poi.art}`;
+      $('sum-fav-name').textContent = pick(s.fav.poi.name);
+      $('sum-fav-min').textContent = `${Math.round(s.fav.min)} min`;
+    }
     const ul = $('sum-seen');
     ul.innerHTML = '';
     for (const { poi } of s.seen) {
@@ -77,13 +87,18 @@ export function startSummary(ctx: SummaryContext) {
     void renderMap();
   }
 
-  const mapOptions = (colors: MapColors, art: number) => ({
+  const mapOptions = (colors: MapColors, art: number, density: number, pixelRatio: number, dark: boolean) => ({
     data: ctx.data,
     seen: new Set(Object.keys(ctx.log.visit.seen)),
     track: ctx.log.visit.track ?? [],
     colors,
     art,
+    base: ctx.mapBase(),
+    dark,
+    density,
+    pixelRatio,
   });
+  let mapKey = '';
   const isDark = () => {
     const forced = document.documentElement.dataset.theme;
     return forced ? forced === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -95,14 +110,20 @@ export function startSummary(ctx: SummaryContext) {
     const w = c.clientWidth;
     if (!w) return;
     const art = Math.max(34, w * 0.11);
-    const h = Math.round(Math.min(w * 0.9, (w - art * 1.16) * visitMapAspect(ctx.data) + art * 1.16));
+    const h = Math.round(w * 0.8);
     const dpr = Math.min(3, window.devicePixelRatio || 1);
+    const v = ctx.log.visit;
+    const dark = isDark();
+    // a picture of the map costs a moment: only again when something changed
+    const key = [w, dark, ctx.mapBase(), v.track?.length ?? 0, Object.keys(v.seen).length].join();
+    if (key === mapKey) return;
+    mapKey = key;
     c.width = Math.round(w * dpr);
     c.height = Math.round(h * dpr);
     c.style.height = `${h}px`;
     const g = c.getContext('2d')!;
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 14 }, mapOptions(isDark() ? DARK_MAP : LIGHT_MAP, art));
+    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 14 }, mapOptions(dark ? DARK_MAP : LIGHT_MAP, art, 1, dpr, dark));
   }
 
   // --- your photos for the picture (optional, kept only while the app is open) ----
@@ -175,27 +196,38 @@ export function startSummary(ctx: SummaryContext) {
   }
 
   // --- the image to share -----------------------------------------------------------
+  /** The giraffe-skin pattern of the web, in a colour, at a size. */
+  async function giraffe(g: CanvasRenderingContext2D, color: string, size: number) {
+    const svg = await loadImage(giraffeUrl);
+    if (!svg) return null;
+    const tile = document.createElement('canvas');
+    tile.width = tile.height = size;
+    const tg = tile.getContext('2d')!;
+    tg.drawImage(svg, 0, 0, size, size);
+    tg.globalCompositeOperation = 'source-in';
+    tg.fillStyle = color;
+    tg.fillRect(0, 0, size, size);
+    return g.createPattern(tile, 'repeat');
+  }
+
   /**
    * The picture to share, made for Instagram stories (1080×1920, 9:16). Nothing
-   * important in the top and bottom 250 px, where Instagram puts its own bars.
+   * important in the top and bottom bands, where Instagram puts its own bars.
    */
   async function shareImage(): Promise<Blob | null> {
     const s = stats();
-    await Promise.all([document.fonts.load('60px Cinqcent'), document.fonts.load('30px Public')]).catch(() => undefined);
+    await Promise.all([document.fonts.load('60px Cinqcent'), document.fonts.load('700 30px Public'), document.fonts.load('30px Public')]).catch(
+      () => undefined,
+    );
     const W = 1080;
     const H = 1920;
-    const BOTTOM = 1680; // below this, Instagram's reply bar
+    const M = 70; // side margin
     const c = document.createElement('canvas');
     c.width = W;
     c.height = H;
     const g = c.getContext('2d')!;
     const red = '#a71d2f';
-    const center = (text: string, y: number, font: string, color: string) => {
-      g.font = font;
-      g.fillStyle = color;
-      g.textAlign = 'center';
-      g.fillText(text, W / 2, y, W - 120);
-    };
+    const muted = '#6b6b60';
     const shadow = (blur: number, dy: number, alpha = 0.18) => {
       g.shadowColor = `rgba(60,48,20,${alpha})`;
       g.shadowBlur = blur;
@@ -206,54 +238,68 @@ export function startSummary(ctx: SummaryContext) {
       g.shadowBlur = 0;
       g.shadowOffsetY = 0;
     };
+    const card = (x: number, y: number, w: number, h: number, r: number) => {
+      shadow(22, 6, 0.12);
+      g.fillStyle = '#fff';
+      g.beginPath();
+      g.roundRect(x, y, w, h, r);
+      g.fill();
+      noShadow();
+    };
 
+    // cream page with the giraffe pattern
     g.fillStyle = '#fbf6ec';
     g.fillRect(0, 0, W, H);
+    const cream = await giraffe(g, 'rgba(176,136,64,0.16)', 340);
+    if (cream) {
+      g.fillStyle = cream;
+      g.fillRect(0, 0, W, H);
+    }
 
-    // red header with a wavy bottom edge
-    const waveY = 610;
+    // red header with a wavy bottom edge, the logo and the date
+    const waveY = 500;
+    const header = new Path2D();
+    header.moveTo(0, 0);
+    header.lineTo(W, 0);
+    for (let x = W; x >= 0; x -= 6) header.lineTo(x, waveY + 22 * Math.sin((x / W) * 3.5 * 2 * Math.PI));
+    header.closePath();
     g.fillStyle = red;
-    g.beginPath();
-    g.moveTo(0, 0);
-    g.lineTo(W, 0);
-    for (let x = W; x >= 0; x -= 6) g.lineTo(x, waveY + 22 * Math.sin((x / W) * 3.5 * 2 * Math.PI));
-    g.closePath();
-    g.fill();
-
+    g.fill(header);
+    const onRed = await giraffe(g, 'rgba(255,255,255,0.07)', 340);
+    if (onRed) {
+      g.fillStyle = onRed;
+      g.fill(header);
+    }
     const logo = await loadImage(logoUrl);
-    if (logo) g.drawImage(logo, W / 2 - 140, 240, 280, (280 * logo.height) / logo.width);
-    center(t('sum.imageTitle'), 495, '72px Cinqcent', '#fff');
-    center(dateText(), 552, '32px Public', 'rgba(255,255,255,0.85)');
+    const lw = 460;
+    const lh = logo ? (lw * logo.height) / logo.width : 0;
+    if (logo) g.drawImage(logo, W / 2 - lw / 2, 110, lw, lh);
+    g.textAlign = 'center';
+    g.fillStyle = 'rgba(255,255,255,0.9)';
+    g.font = '36px Public';
+    g.fillText(dateText(), W / 2, 110 + lh + 58, W - 2 * M);
 
-    // the map of the visit, on a white card
+    // the map of the visit
     const hasPhotos = photos.length > 0;
-    const art = 104;
-    const maxMap = hasPhotos ? 440 : 600;
-    const mapH = Math.round(Math.min(maxMap, (W - 168 - art * 1.16) * visitMapAspect(ctx.data) + art * 1.16));
-    const card = { x: 70, y: 660, w: W - 140, h: mapH + 28, r: 40 };
-    shadow(30, 8);
-    g.fillStyle = '#fff';
-    g.beginPath();
-    g.roundRect(card.x, card.y, card.w, card.h, card.r);
-    g.fill();
-    noShadow();
+    const mapBox = { x: M, y: 545, w: W - 2 * M, h: hasPhotos ? 420 : 760, r: 40 };
+    card(mapBox.x, mapBox.y, mapBox.w, mapBox.h, mapBox.r);
     await drawVisitMap(
       g,
-      { x: card.x + 14, y: card.y + 14, w: card.w - 28, h: card.h - 28, r: card.r - 12 },
-      mapOptions(LIGHT_MAP, art),
+      { x: mapBox.x + 12, y: mapBox.y + 12, w: mapBox.w - 24, h: mapBox.h - 24, r: mapBox.r - 10 },
+      mapOptions(LIGHT_MAP, 100, 2, 2, false),
     );
-    let y = card.y + card.h;
+    let y = mapBox.y + mapBox.h;
 
     // your photos, pinned under the map
     if (hasPhotos) {
       const n = photos.length;
-      const size = n === 1 ? [470, 330] : n === 2 ? [400, 290] : [262, 220];
+      const size = n === 1 ? [400, 270] : n === 2 ? [360, 255] : [262, 215];
       const tilt = [-4, 3.5, -2.5];
-      const top = y + 34;
+      const top = y + 36;
       photos.forEach(({ img }, i) => {
         const [pw, ph] = size;
-        const cx = n === 1 ? W / 2 : 70 + ((W - 140) / n) * (i + 0.5);
-        const cy = top + ph / 2 + 14 + (i % 2) * 10;
+        const cx = n === 1 ? W / 2 : M + ((W - 2 * M) / n) * (i + 0.5);
+        const cy = top + ph / 2 + 12 + (i % 2) * 8;
         g.save();
         g.translate(cx, cy);
         g.rotate((tilt[(i + (n === 1 ? 1 : 0)) % 3] * Math.PI) / 180);
@@ -261,12 +307,10 @@ export function startSummary(ctx: SummaryContext) {
         g.fillStyle = '#fff';
         g.fillRect(-pw / 2 - 12, -ph / 2 - 12, pw + 24, ph + 24);
         noShadow();
-        // fill the frame, cropping the photo
         const k = Math.max(pw / img.naturalWidth, ph / img.naturalHeight);
         const sw = pw / k;
         const sh = ph / k;
         g.drawImage(img, (img.naturalWidth - sw) / 2, (img.naturalHeight - sh) / 2, sw, sh, -pw / 2, -ph / 2, pw, ph);
-        // the pin
         const py = -ph / 2 - 4;
         shadow(6, 4, 0.35);
         const grad = g.createRadialGradient(-5, py - 5, 2, 0, py, 16);
@@ -279,60 +323,70 @@ export function startSummary(ctx: SummaryContext) {
         noShadow();
         g.restore();
       });
-      y = top + size[1] + 50;
+      y = top + size[1] + 40;
     }
 
-    // the numbers: a row of four with photos, two by two without
+    // the numbers, and your favourite animal beside them
+    y += 26;
     const cards: [string, string][] = [
       [String(s.animals.length), t('sum.animalsShort')],
       [formatDistance(s.km * 1000), t('sum.walked')],
       [duration(s.minutes), t('sum.time')],
       [String(s.shows.length), t('sum.shows')],
     ];
-    const cols = hasPhotos ? 4 : 2;
-    const gap = hasPhotos ? 14 : 20;
-    const cw = (W - 140 - gap * (cols - 1)) / cols;
-    const ch = hasPhotos ? 112 : 122;
-    y += 26;
+    const favW = s.fav ? 330 : 0;
+    const gap = 14;
+    const gridW = W - 2 * M - (favW ? favW + 16 : 0);
+    const cw = (gridW - gap) / 2;
+    const ch = 122;
     cards.forEach(([value, label], i) => {
-      const x = 70 + (i % cols) * (cw + gap);
-      const cy = y + Math.floor(i / cols) * (ch + 14);
-      g.fillStyle = '#fff';
-      g.beginPath();
-      g.roundRect(x, cy, cw, ch, 28);
-      g.fill();
+      const x = M + (i % 2) * (cw + gap);
+      const cy = y + Math.floor(i / 2) * (ch + gap);
+      card(x, cy, cw, ch, 28);
       g.textAlign = 'center';
       g.fillStyle = red;
-      g.font = `${hasPhotos ? (value.length > 6 ? 38 : 50) : value.length > 7 ? 56 : 70}px Cinqcent`;
-      g.fillText(value, x + cw / 2, cy + (hasPhotos ? 60 : 70), cw - 24);
-      g.fillStyle = '#6b6b60';
-      g.font = `${hasPhotos ? 22 : 28}px Public`;
-      g.fillText(label, x + cw / 2, cy + (hasPhotos ? 94 : 106), cw - 20);
+      g.font = `700 ${value.length > 7 ? 42 : 58}px Public`;
+      g.fillText(value, x + cw / 2, cy + 68, cw - 24);
+      g.fillStyle = muted;
+      g.font = '25px Public';
+      g.fillText(label, x + cw / 2, cy + 104, cw - 20);
     });
-    y += Math.ceil(4 / cols) * (ch + 14);
-
-    // without photos: a row of the drawings you saw, if there is room
-    const arts = s.animals.filter((x) => x.poi.art).sort((a, b) => b.min - a.min);
-    const room = BOTTOM - 74 - (s.fav ? 54 : 0) - y;
-    if (!hasPhotos && arts.length && room >= 90) {
-      const size = Math.min(130, room - 20);
-      const n = Math.min(arts.length, Math.floor((W - 140) / (size + 20)));
-      const imgs = await Promise.all(arts.slice(0, n).map((x) => loadImage(`${import.meta.env.BASE_URL}${x.poi.art}`)));
-      const step = (W - 140) / n;
-      imgs.forEach((img, i) => {
-        if (!img) return;
-        const k = Math.min(size / img.width, size / img.height);
-        const cx = 70 + step * (i + 0.5);
-        g.drawImage(img, cx - (img.width * k) / 2, y + 10 + (size - img.height * k) / 2, img.width * k, img.height * k);
-      });
-      y += size + 20;
-    }
-    y += 10;
     if (s.fav) {
-      center(t('sum.fav', { name: pick(s.fav.poi.name), n: Math.round(s.fav.min) }), y + 30, '32px Public', '#2a2a24');
-      y += 54;
+      const fx = W - M - favW;
+      const fh = 2 * ch + gap;
+      card(fx, y, favW, fh, 28);
+      const art = s.fav.poi.art ? await loadImage(`${import.meta.env.BASE_URL}${s.fav.poi.art}`) : null;
+      if (art) {
+        const k = Math.min(200 / art.width, 118 / art.height);
+        g.drawImage(art, fx + favW / 2 - (art.width * k) / 2, y + 18 + (118 - art.height * k) / 2, art.width * k, art.height * k);
+      }
+      // a red label, like a rosette
+      const label = t('sum.favLabel').toUpperCase();
+      g.font = '700 20px Public';
+      const lw2 = g.measureText(label).width + 32;
+      g.fillStyle = red;
+      g.beginPath();
+      g.roundRect(fx + favW / 2 - lw2 / 2, y + 146, lw2, 34, 17);
+      g.fill();
+      g.fillStyle = '#fff';
+      g.textAlign = 'center';
+      g.fillText(label, fx + favW / 2, y + 170);
+      g.fillStyle = '#2a2a24';
+      g.font = '38px Cinqcent';
+      g.fillText(pick(s.fav.poi.name), fx + favW / 2, y + 218, favW - 30);
+      g.fillStyle = muted;
+      g.font = '24px Public';
+      g.fillText(`${Math.round(s.fav.min)} min`, fx + favW / 2, y + 248);
     }
-    center(t('sum.imageFooter'), y + 30, '600 30px Public', red);
+
+    // the link, bottom left
+    g.textAlign = 'left';
+    g.fillStyle = muted;
+    g.font = '26px Public';
+    g.fillText(t('sum.imageInvite'), M, 1690);
+    g.fillStyle = red;
+    g.font = '700 30px Public';
+    g.fillText(t('sum.imageUrl'), M, 1730);
     return new Promise((resolve) => c.toBlob(resolve, 'image/png'));
   }
 

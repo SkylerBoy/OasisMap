@@ -230,5 +230,8 @@
   "plan.deleted": "Plan gelöscht · tippen zum Rückgängigmachen",
   "pb.clear": "Löschen",
   "pb.summary": "Rückblick",
-  "sum.download": "Herunterladen"
+  "sum.download": "Herunterladen",
+  "sum.favLabel": "Dein Liebling",
+  "sum.imageInvite": "Plane deinen Besuch auf",
+  "sum.imageUrl": "skylerboy.github.io/OasisMap"
 }

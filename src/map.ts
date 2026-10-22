@@ -145,6 +145,30 @@ function style(data: ParkData): StyleSpecification {
   return s;
 }
 
+/** Light or dark colours for the map layers. */
+function paintTheme(m: maplibregl.Map, dark: boolean): void {
+  const paint = (layer: string, prop: string, value: unknown) => {
+    if (m.getLayer(layer)) m.setPaintProperty(layer, prop, value);
+  };
+  paint('bg', 'background-color', dark ? '#1b2019' : '#e8efd9');
+  // OSM: invert the brightness and turn the hues back, so green stays green but dark.
+  paint('osm', 'raster-brightness-min', dark ? 0.82 : 0);
+  paint('osm', 'raster-brightness-max', dark ? 0.06 : 1);
+  paint('osm', 'raster-hue-rotate', dark ? 180 : 0);
+  paint('osm', 'raster-saturation', dark ? -0.35 : 0);
+  paint('osm', 'raster-contrast', dark ? -0.1 : 0);
+  // Orthophoto: just dimmed.
+  paint('pnoa', 'raster-brightness-max', dark ? 0.62 : 1);
+  paint('pnoa', 'raster-saturation', dark ? -0.2 : 0);
+  paint('paths-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+  paint('paths-casing', 'line-opacity', dark ? 0.55 : 0.8);
+  paint('paths', 'line-color', dark ? '#8f7f5c' : '#d9c49a');
+  paint('ecotour-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+  paint('ecotour', 'line-color', dark ? '#4fb3bf' : '#00454f');
+  paint('route-casing', 'line-color', dark ? '#11150f' : '#ffffff');
+  paint('route', 'line-color', dark ? '#e0485c' : '#a3162b');
+}
+
 export interface MapHandlers {
   onPoiClick(poi: Poi): void;
   onMapClick(coord: LngLat): void;
@@ -263,27 +287,7 @@ export class ParkMap {
   }
 
   private applyTheme(dark: boolean): void {
-    const m = this.map;
-    const paint = (layer: string, prop: string, value: unknown) => {
-      if (m.getLayer(layer)) m.setPaintProperty(layer, prop, value);
-    };
-    paint('bg', 'background-color', dark ? '#1b2019' : '#e8efd9');
-    // OSM: invert the brightness and turn the hues back, so green stays green but dark.
-    paint('osm', 'raster-brightness-min', dark ? 0.82 : 0);
-    paint('osm', 'raster-brightness-max', dark ? 0.06 : 1);
-    paint('osm', 'raster-hue-rotate', dark ? 180 : 0);
-    paint('osm', 'raster-saturation', dark ? -0.35 : 0);
-    paint('osm', 'raster-contrast', dark ? -0.1 : 0);
-    // Orthophoto: just dimmed.
-    paint('pnoa', 'raster-brightness-max', dark ? 0.62 : 1);
-    paint('pnoa', 'raster-saturation', dark ? -0.2 : 0);
-    paint('paths-casing', 'line-color', dark ? '#11150f' : '#ffffff');
-    paint('paths-casing', 'line-opacity', dark ? 0.55 : 0.8);
-    paint('paths', 'line-color', dark ? '#8f7f5c' : '#d9c49a');
-    paint('ecotour-casing', 'line-color', dark ? '#11150f' : '#ffffff');
-    paint('ecotour', 'line-color', dark ? '#4fb3bf' : '#00454f');
-    paint('route-casing', 'line-color', dark ? '#11150f' : '#ffffff');
-    paint('route', 'line-color', dark ? '#e0485c' : '#a3162b');
+    paintTheme(this.map, dark);
   }
 
   setBase(base: BaseLayer): void {
@@ -439,5 +443,87 @@ export class ParkMap {
 
   resize(): void {
     this.map.resize();
+  }
+}
+
+/** What a snapshot of the map gives back: the picture and where things are on it. */
+export interface MapSnapshot {
+  canvas: HTMLCanvasElement;
+  /** Map zoom of the picture, to size the drawings like on the map. */
+  zoom: number;
+  /** Positions (CSS px of the snapshot) of the points asked for, by id. */
+  at: Map<string, [number, number]>;
+}
+
+/**
+ * A picture of the park map as seen in the app (base map, paths, Ecotour) with
+ * `track` drawn as the red route, for the visit summary. null if the phone
+ * cannot draw it (no WebGL…).
+ */
+export async function mapSnapshot(
+  data: ParkData,
+  o: { width: number; height: number; pixelRatio: number; base: BaseLayer; dark?: boolean; track: LngLat[]; points: Poi[] },
+): Promise<MapSnapshot | null> {
+  const el = document.createElement('div');
+  el.style.cssText = `position:fixed;left:-20000px;top:0;width:${o.width}px;height:${o.height}px;pointer-events:none;`;
+  document.body.appendChild(el);
+  let m: maplibregl.Map | null = null;
+  try {
+    const all: LngLat[] = [...data.paths.flat(), ...o.points.map((p) => p.coord)];
+    const lons = all.map((c) => c[0]);
+    const lats = all.map((c) => c[1]);
+    m = new maplibregl.Map({
+      container: el,
+      style: style(data),
+      bounds: [
+        [Math.min(...lons), Math.min(...lats)],
+        [Math.max(...lons), Math.max(...lats)],
+      ],
+      fitBoundsOptions: { padding: Math.round(Math.min(o.width, o.height) * 0.05) },
+      interactive: false,
+      attributionControl: false,
+      pixelRatio: o.pixelRatio,
+      fadeDuration: 0,
+      canvasContextAttributes: { preserveDrawingBuffer: true },
+    });
+    const map = m;
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(resolve, 10_000); // tiles that never come: use what there is
+      map.once('error', (e) => {
+        if (!(e as any).sourceId) reject(e);
+      });
+      map.once('load', () => {
+        paintTheme(map, !!o.dark);
+        if (HAS_TILES) {
+          map.setLayoutProperty('osm', 'visibility', o.base === 'osm' ? 'visible' : 'none');
+          map.setLayoutProperty('pnoa', 'visibility', o.base === 'pnoa' ? 'visible' : 'none');
+        }
+        (map.getSource('route') as GeoJSONSource).setData({
+          type: 'FeatureCollection',
+          features:
+            o.track.length > 1 ? [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: o.track } }] : [],
+        });
+        map.once('idle', () => {
+          clearTimeout(timer);
+          resolve();
+        });
+      });
+    });
+    const src = map.getCanvas();
+    const canvas = document.createElement('canvas');
+    canvas.width = src.width;
+    canvas.height = src.height;
+    canvas.getContext('2d')!.drawImage(src, 0, 0);
+    const at = new Map<string, [number, number]>();
+    for (const p of o.points) {
+      const q = map.project(p.coord);
+      at.set(p.id, [q.x, q.y]);
+    }
+    return { canvas, zoom: map.getZoom(), at };
+  } catch {
+    return null;
+  } finally {
+    m?.remove();
+    el.remove();
   }
 }

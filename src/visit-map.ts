@@ -1,5 +1,6 @@
 import type { ParkData } from './data';
 import type { LngLat } from './geo';
+import { mapSnapshot, type BaseLayer } from './map';
 
 /**
  * A small drawn map of today's visit, for the summary and the picture to share:
@@ -39,7 +40,14 @@ export interface VisitMapOptions {
   colors: MapColors;
   /** Size of the drawings: the biggest one is about this many px wide. */
   art: number;
+  /** For the picture of the real map: its base layer, box px per CSS px and render pixel ratio. */
+  base?: BaseLayer;
+  dark?: boolean;
+  density?: number;
+  pixelRatio?: number;
 }
+
+const artScale = (zoom: number) => Math.min(1.4, Math.max(0.6, 0.85 * 2 ** ((zoom - 17) * 0.6)));
 
 const images = new Map<string, Promise<HTMLImageElement | null>>();
 
@@ -98,6 +106,47 @@ export async function drawVisitMap(
   o: VisitMapOptions,
 ) {
   const animals = drawn(o.data);
+  if (o.base) {
+    // a picture of the map as the app shows it, with the drawings on top
+    const density = o.density ?? 1;
+    const snap = await mapSnapshot(o.data, {
+      width: Math.round(box.w / density),
+      height: Math.round(box.h / density),
+      pixelRatio: o.pixelRatio ?? density,
+      base: o.base,
+      dark: o.dark,
+      track: o.track,
+      points: animals,
+    });
+    if (snap) {
+      const imgs = await Promise.all(animals.map((p) => loadImage(`${import.meta.env.BASE_URL}${p.art}`)));
+      const k = artScale(snap.zoom) * density;
+      g.save();
+      g.beginPath();
+      g.roundRect(box.x, box.y, box.w, box.h, box.r);
+      g.clip();
+      g.drawImage(snap.canvas, box.x, box.y, box.w, box.h);
+      const order = animals.map((p, i) => ({ p, img: imgs[i], on: o.seen.has(p.id) })).sort((a, b) => +a.on - +b.on);
+      for (const { p, img, on } of order) {
+        const pos = snap.at.get(p.id);
+        if (!img || !pos) continue;
+        const [aw, ah] = p.artSize ?? [img.width / 4, img.height / 4];
+        const f = on ? 1.15 : 1;
+        const [dw, dh] = [aw * k * f, ah * k * f];
+        const [cx, cy] = [box.x + pos[0] * density, box.y + pos[1] * density];
+        g.globalAlpha = on ? 1 : 0.5;
+        if (on) {
+          g.shadowColor = 'rgba(40,30,10,0.35)';
+          g.shadowBlur = 8 * density;
+          g.shadowOffsetY = 2 * density;
+        }
+        g.drawImage(img, cx - dw / 2, cy - dh / 2, dw, dh);
+        g.shadowColor = 'transparent';
+      }
+      g.restore();
+      return;
+    }
+  }
   const { w, s, e, n, kx } = bounds(o.data);
   const pad = o.art * 0.58;
   const scale = Math.min((box.w - 2 * pad) / ((e - w) * kx), (box.h - 2 * pad) / (n - s));

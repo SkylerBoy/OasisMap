@@ -230,5 +230,8 @@
   "plan.deleted": "Plana ezabatuta · ukitu desegiteko",
   "pb.clear": "Ezabatu",
   "pb.summary": "Laburpena",
-  "sum.download": "Deskargatu"
+  "sum.download": "Deskargatu",
+  "sum.favLabel": "Zure gogokoena",
+  "sum.imageInvite": "Planifikatu zure bisita hemen:",
+  "sum.imageUrl": "skylerboy.github.io/OasisMap"
 }

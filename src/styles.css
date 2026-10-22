@@ -2649,9 +2649,9 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
 }
 
 .sum-stat b {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 1.9rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.75rem;
   color: var(--brand);
   line-height: 1.1;
 }
@@ -2790,4 +2790,50 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
 :root[data-theme='dark'] .btn:not(.primary) {
   background: color-mix(in srgb, var(--brand) 22%, var(--surface));
   color: #ff9aa6;
+}
+
+.sum-fav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+  padding: 12px 16px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+}
+
+.sum-fav img {
+  flex: none;
+  width: 92px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.sum-fav div {
+  display: grid;
+  gap: 2px;
+  justify-items: start;
+}
+
+.sum-fav small {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sum-fav b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.3rem;
+  line-height: 1.15;
+}
+
+.sum-fav span {
+  color: var(--muted);
+  font-size: 0.85rem;
 }

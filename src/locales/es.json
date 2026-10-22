@@ -225,5 +225,10 @@
   "sum.optional": "(opcional)",
   "sum.photosHint": "Hasta 3. Saldrán clavadas en la imagen para compartir; no se suben a ningún sitio.",
   "sum.addPhoto": "Añadir",
-  "sum.removePhoto": "Quitar foto"
+  "sum.removePhoto": "Quitar foto",
+  "plan.delete": "Borrar este plan",
+  "plan.deleted": "Plan borrado · toca para deshacer",
+  "pb.clear": "Borrar",
+  "pb.summary": "Resumen",
+  "sum.download": "Descargar"
 }

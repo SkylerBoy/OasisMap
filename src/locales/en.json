@@ -225,5 +225,10 @@
   "sum.optional": "(optional)",
   "sum.photosHint": "Up to 3. They'll be pinned on the picture to share; they aren't uploaded anywhere.",
   "sum.addPhoto": "Add",
-  "sum.removePhoto": "Remove photo"
+  "sum.removePhoto": "Remove photo",
+  "plan.delete": "Delete this plan",
+  "plan.deleted": "Plan deleted · tap to undo",
+  "pb.clear": "Delete",
+  "pb.summary": "Summary",
+  "sum.download": "Download"
 }

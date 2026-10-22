@@ -1010,6 +1010,8 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     $('pb-name').textContent = s ? `${hhmm(s.start)} · ${stepName(s)}` : t('plan.done');
     $('pb-go').hidden = !s;
     $('pb-done').hidden = !s;
+    $('pb-clear').hidden = !!s;
+    $('pb-summary').hidden = !!s || !ctx.onFinished;
     if (!s) {
       $('pb-status').textContent = '';
       $('pb-replan').hidden = true;
@@ -1046,6 +1048,32 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       return;
     }
     ctx.toast(t('pb.doneNext', { name: stepName(s), next: stepName(n), t: hhmm(n.start) }), () => ctx.navigate(byId.get(n.loc)!), 5000);
+  }
+
+  /** Forget the plan (with a moment to undo it). */
+  function deletePlan() {
+    if (!plan) return;
+    const before = { plan, savedPlan, guide, dayOffset };
+    plan = null;
+    savedPlan = undefined;
+    guide = { onMap: false, following: false, done: new Set() };
+    persist();
+    updateCta();
+    refreshMap();
+    renderBar();
+    if (!$('planner').hidden) show('choose');
+    ctx.toast(
+      t('plan.deleted'),
+      () => {
+        ({ plan, savedPlan, guide, dayOffset } = before);
+        keepPlan();
+        if (!$('planner').hidden) {
+          renderPlan();
+          show('result');
+        }
+      },
+      6000,
+    );
   }
 
   /** Behind time: plan the stops left again, from here and now. */
@@ -1392,6 +1420,9 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     if (n) markDone(n.item.id);
   });
   $('pb-replan').addEventListener('click', replan);
+  $('pb-clear').addEventListener('click', deletePlan);
+  $('pb-summary').addEventListener('click', () => ctx.onFinished?.());
+  $('plan-delete').addEventListener('click', deletePlan);
   $('pb-x').addEventListener('click', () => {
     guide.following = false;
     keepPlan();

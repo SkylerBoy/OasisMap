@@ -225,5 +225,10 @@
   "sum.optional": "(aukerakoa)",
   "sum.photosHint": "Gehienez 3. Partekatzeko irudian iltzatuta agertuko dira; ez dira inora igotzen.",
   "sum.addPhoto": "Gehitu",
-  "sum.removePhoto": "Kendu argazkia"
+  "sum.removePhoto": "Kendu argazkia",
+  "plan.delete": "Ezabatu plan hau",
+  "plan.deleted": "Plana ezabatuta · ukitu desegiteko",
+  "pb.clear": "Ezabatu",
+  "pb.summary": "Laburpena",
+  "sum.download": "Deskargatu"
 }

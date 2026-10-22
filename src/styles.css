@@ -2753,3 +2753,41 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   font-size: 0.8rem;
   color: var(--muted);
 }
+
+.plan-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin: 18px 0 6px;
+  padding: 12px;
+  border: 1.5px solid color-mix(in srgb, var(--brand) 35%, transparent);
+  border-radius: var(--r-md);
+  background: transparent;
+  color: var(--brand);
+  font: inherit;
+  font-weight: 600;
+}
+
+#pb-clear[hidden],
+#pb-summary[hidden] {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .plan-delete { color: #ff9aa6; }
+}
+:root[data-theme='dark'] .plan-delete { color: #ff9aa6; }
+
+/* secondary buttons: the logo red is too dark to read on the dark background */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .btn:not(.primary) {
+    background: color-mix(in srgb, var(--brand) 22%, var(--surface));
+    color: #ff9aa6;
+  }
+}
+:root[data-theme='dark'] .btn:not(.primary) {
+  background: color-mix(in srgb, var(--brand) 22%, var(--surface));
+  color: #ff9aa6;
+}

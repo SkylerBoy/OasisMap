@@ -225,5 +225,10 @@
   "sum.optional": "(facoltativo)",
   "sum.photosHint": "Fino a 3. Saranno appuntate sull'immagine da condividere; non vengono caricate da nessuna parte.",
   "sum.addPhoto": "Aggiungi",
-  "sum.removePhoto": "Rimuovi foto"
+  "sum.removePhoto": "Rimuovi foto",
+  "plan.delete": "Elimina questo piano",
+  "plan.deleted": "Piano eliminato · tocca per annullare",
+  "pb.clear": "Elimina",
+  "pb.summary": "Riepilogo",
+  "sum.download": "Scarica"
 }

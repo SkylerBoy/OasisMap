@@ -336,10 +336,26 @@ export function startSummary(ctx: SummaryContext) {
     return new Promise((resolve) => c.toBlob(resolve, 'image/png'));
   }
 
+  const fileName = () => `oasis-wildlife-${ctx.log.visit.date}.png`;
+
+  /** Save the picture on the phone. */
+  async function download(blob?: Blob | null) {
+    blob ??= await shareImage();
+    if (!blob) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = fileName();
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+    ctx.toast(t('sum.saved'));
+  }
+
   async function share() {
     const blob = await shareImage();
     if (!blob) return;
-    const file = new File([blob], `oasis-wildlife-${ctx.log.visit.date}.png`, { type: 'image/png' });
+    const file = new File([blob], fileName(), { type: 'image/png' });
     const text = t('sum.shareText', { n: stats().animals.length });
     if (navigator.canShare?.({ files: [file] })) {
       try {
@@ -350,14 +366,7 @@ export function startSummary(ctx: SummaryContext) {
       }
     }
     // no file sharing here: save the picture
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = file.name;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
-    ctx.toast(t('sum.saved'));
+    await download(blob);
   }
 
   $('sum-open').addEventListener('click', open);
@@ -367,7 +376,7 @@ export function startSummary(ctx: SummaryContext) {
     open();
   });
   $('sum-close').addEventListener('click', close);
-  $('sum-done').addEventListener('click', close);
+  $('sum-download').addEventListener('click', () => void download());
   $('sum-share').addEventListener('click', () => void share());
   refreshButton();
 

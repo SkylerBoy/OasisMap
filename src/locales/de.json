@@ -225,5 +225,10 @@
   "sum.optional": "(optional)",
   "sum.photosHint": "Bis zu 3. Sie werden auf das Bild zum Teilen gepinnt und nirgendwo hochgeladen.",
   "sum.addPhoto": "Hinzufügen",
-  "sum.removePhoto": "Foto entfernen"
+  "sum.removePhoto": "Foto entfernen",
+  "plan.delete": "Diesen Plan löschen",
+  "plan.deleted": "Plan gelöscht · tippen zum Rückgängigmachen",
+  "pb.clear": "Löschen",
+  "pb.summary": "Rückblick",
+  "sum.download": "Herunterladen"
 }

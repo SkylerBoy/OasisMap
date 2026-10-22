@@ -225,5 +225,10 @@
   "sum.optional": "(opcional)",
   "sum.photosHint": "Fins a 3. Sortiran clavades a la imatge per compartir; no es pugen enlloc.",
   "sum.addPhoto": "Afegir",
-  "sum.removePhoto": "Treure foto"
+  "sum.removePhoto": "Treure foto",
+  "plan.delete": "Esborrar aquest pla",
+  "plan.deleted": "Pla esborrat · toca per desfer",
+  "pb.clear": "Esborrar",
+  "pb.summary": "Resum",
+  "sum.download": "Descarregar"
 }

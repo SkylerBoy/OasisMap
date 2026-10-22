@@ -169,6 +169,10 @@
             <ul id="plan-add-list"></ul>
             <button id="plan-add-more" class="plan-all" type="button" data-i18n="plan.addMore">Ver todo lo demás</button>
           </section>
+          <button id="plan-delete" class="plan-delete" type="button">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="plan.delete">Borrar este plan</span>
+          </button>
         </div>
       </div>
       <footer class="planner-foot">
@@ -206,7 +210,7 @@
         <ul id="sum-seen" class="sum-seen"></ul>
       </div>
       <footer class="planner-foot plan-foot-row">
-        <button id="sum-done" class="btn" type="button" data-i18n="close">Cerrar</button>
+        <button id="sum-download" class="btn" type="button" data-i18n="sum.download">Descargar</button>
         <button id="sum-share" class="btn primary" type="button" data-i18n="sum.share">Compartir imagen</button>
       </footer>
     </section>
@@ -236,6 +240,8 @@
       <button id="pb-open" class="pb-text" type="button"><b id="pb-name"></b><small id="pb-status"></small></button>
       <div class="pb-actions">
         <button id="pb-replan" class="btn pb-replan" type="button" data-i18n="pb.replan" hidden>Reorganizar</button>
+        <button id="pb-clear" class="btn" type="button" data-i18n="pb.clear" hidden>Borrar</button>
+        <button id="pb-summary" class="btn primary" type="button" data-i18n="pb.summary" hidden>Resumen</button>
         <button id="pb-done" class="btn" type="button" data-i18n-title="pb.done">✓</button>
         <button id="pb-go" class="btn primary" type="button" data-i18n="go">Ir</button>
       </div>

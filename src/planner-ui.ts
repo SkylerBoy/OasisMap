@@ -17,7 +17,8 @@ export interface PlannerContext {
   here: () => Snap | null;
   openPoi: (p: Poi) => void;
   /** Draw the plan on the map (stop numbers by point id, and its route), or clear it. */
-  showPlan: (stops: Map<string, string> | null, coords: LngLat[] | null) => void;
+  /** focus: also open the map full screen on the plan (only when the visitor asks for it). */
+  showPlan: (stops: Map<string, string> | null, coords: LngLat[] | null, focus?: boolean) => void;
   /** Start the arrow navigation to a point. */
   navigate: (p: Poi) => void;
   toast: (msg: string, action?: () => void, ms?: number) => void;
@@ -777,7 +778,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     guide.onMap = true;
     keepPlan();
     close();
-    ctx.showPlan(stopNumbers(), routeCoords());
+    ctx.showPlan(stopNumbers(), routeCoords(), true);
   });
   $('plan-go').addEventListener('click', startGuide);
   $('plan-chip-open').addEventListener('click', open);

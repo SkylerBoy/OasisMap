@@ -104,9 +104,9 @@ async function init() {
       return s.dist < 150 ? s : null; // only when you are in the park
     },
     openPoi: openSheet,
-    showPlan: (stops, coords) => {
+    showPlan: (stops, coords, focus) => {
       pmap.setPlan(stops, coords);
-      if (coords?.length) {
+      if (focus && coords?.length) {
         setExpanded(true);
         window.scrollTo({ top: 0 });
         pmap.fitTo(coords, { top: 80, bottom: 120, left: 40, right: 70 });

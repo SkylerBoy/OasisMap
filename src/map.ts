@@ -176,6 +176,9 @@ export class ParkMap {
       dragRotate: false,
       pitchWithRotate: false,
     });
+    // Keep the canvas the size of its box (expanding the map, rotating the phone…);
+    // otherwise the drawing is stretched while the markers sit where they should.
+    new ResizeObserver(() => this.map.resize()).observe(container);
     this.map.touchZoomRotate.disableRotation();
     // Bottom-left so it does not sit under the map buttons on the right.
     this.map.addControl(

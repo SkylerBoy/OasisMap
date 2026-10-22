@@ -1,39 +1,82 @@
-// Offline support: app shell + park data are cached on first visit so the
-// map keeps working with poor coverage inside the park. Map tiles are cached
-// as they are viewed (capped).
-const VERSION = 'v3';
+// Offline support and safe updates.
+//
+// Each build is a "version": index.html + its hashed assets (filled in by the
+// build, see vite.config.ts). A version is stored complete before it is used,
+// so the page and its CSS/JS always match. Rules:
+//  - pages: network first (new deploys show at once), else the stored page;
+//  - hashed assets (assets/…): from storage, else network (they never change);
+//  - park data and drawings: network first, else storage;
+//  - map tiles: storage first, capped;
+//  - never answer a CSS/JS/data request with the HTML page.
+const VERSION = '__VERSION__';
+const ASSETS = [/*__ASSETS__*/];
 const APP = `oasis-app-${VERSION}`;
-const TILES = `oasis-tiles-${VERSION}`;
+const DATA = 'oasis-data';
+const TILES = 'oasis-tiles-v2';
 const MAX_TILES = 1500;
+const DATA_FILES = ['./data/config.json', './data/pois.geojson', './data/paths.geojson', './data/ecotour.geojson', './data/animals.json'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
-    caches.open(APP).then((c) => c.addAll(['./', './index.html', './data/config.json', './data/pois.geojson', './data/paths.geojson'])),
+    (async () => {
+      const app = await caches.open(APP);
+      await app.addAll(['./', './index.html', ...ASSETS].map((u) => new Request(u, { cache: 'reload' })));
+      const data = await caches.open(DATA);
+      await Promise.all(DATA_FILES.map((u) => data.add(new Request(u, { cache: 'reload' })).catch(() => undefined)));
+      await self.skipWaiting();
+    })(),
   );
-  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
   e.waitUntil(
-    caches.keys().then((keys) => Promise.all(keys.filter((k) => ![APP, TILES].includes(k)).map((k) => caches.delete(k)))),
+    (async () => {
+      // keep only this version (and the data and tiles)
+      for (const k of await caches.keys()) if (![APP, DATA, TILES].includes(k)) await caches.delete(k);
+      await self.clients.claim();
+    })(),
   );
-  self.clients.claim();
 });
 
 const isTile = (url) => /tile\.openstreetmap\.org|ign\.es\/wmts/.test(url.href);
 
+async function fromCacheOr(cacheName, request, fallback) {
+  const hit = await caches.match(request);
+  if (hit) return hit;
+  try {
+    const res = await fetch(request);
+    // a page where a file was expected (some servers do that for missing files) is a failure
+    if ((res.headers.get('content-type') || '').includes('text/html')) return Response.error();
+    if (res.ok) (await caches.open(cacheName)).put(request, res.clone());
+    return res;
+  } catch {
+    return fallback ? fallback() : Response.error();
+  }
+}
+
+async function networkFirst(cacheName, request, fallback) {
+  try {
+    const res = await fetch(request, { cache: 'no-cache' });
+    if (res.ok) (await caches.open(cacheName)).put(request, res.clone());
+    return res;
+  } catch {
+    return (await caches.match(request)) || (fallback ? fallback() : Response.error());
+  }
+}
+
 self.addEventListener('fetch', (e) => {
-  const url = new URL(e.request.url);
-  if (e.request.method !== 'GET') return;
+  const { request } = e;
+  if (request.method !== 'GET') return;
+  const url = new URL(request.url);
 
   if (isTile(url)) {
     e.respondWith(
       caches.open(TILES).then(async (cache) => {
-        const hit = await cache.match(e.request);
+        const hit = await cache.match(request);
         if (hit) return hit;
-        const res = await fetch(e.request);
+        const res = await fetch(request);
         if (res.ok) {
-          cache.put(e.request, res.clone());
+          cache.put(request, res.clone());
           cache.keys().then((k) => k.length > MAX_TILES && cache.delete(k[0]));
         }
         return res;
@@ -41,25 +84,21 @@ self.addEventListener('fetch', (e) => {
     );
     return;
   }
-
   if (url.origin !== location.origin) return;
 
-  // Network first, cache as fallback. 'no-cache' revalidates with the server
-  // so a new deploy shows up on the next load instead of after ~10 minutes.
-  e.respondWith(
-    fetch(e.request, { cache: 'no-cache' })
-      .then((res) => {
-        if (res.ok) {
-          const copy = res.clone();
-          caches.open(APP).then((c) => c.put(e.request, copy));
-        }
-        return res;
-      })
-      .catch(() => caches.match(e.request).then((r) => r || caches.match('./index.html'))),
-  );
+  if (request.mode === 'navigate') {
+    // the page: fresh if possible; offline, the stored one (always complete with its assets)
+    e.respondWith(networkFirst(APP, request, () => caches.match('./index.html', { ignoreSearch: true })));
+    return;
+  }
+  if (url.pathname.includes('/assets/')) {
+    // hashed files never change: storage first
+    e.respondWith(fromCacheOr(APP, request));
+    return;
+  }
+  e.respondWith(networkFirst(DATA, request));
 });
 
-// Reminder notifications: open (or focus) the app on that point.
 self.addEventListener('notificationclick', (e) => {
   e.notification.close();
   const poi = e.notification.data?.poi;

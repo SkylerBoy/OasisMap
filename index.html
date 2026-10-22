@@ -208,6 +208,21 @@
     </div>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
+    <script>
+      // Safety net: if the app has not started (code or styles did not arrive, e.g. a bad
+      // connection right after an update), reload once instead of showing a bare page.
+      addEventListener('load', function () {
+        setTimeout(function () {
+          var styled = getComputedStyle(document.documentElement).getPropertyValue('--brand').trim();
+          if (window.__oasisStarted && styled) return;
+          try {
+            if (sessionStorage.getItem('oasis-reloaded')) return;
+            sessionStorage.setItem('oasis-reloaded', '1');
+          } catch (e) {}
+          location.reload();
+        }, 4000);
+      });
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -62,6 +62,13 @@ const params = new URLSearchParams(location.search);
 let captureMode = params.get('mode') === 'dev';
 
 async function init() {
+  // the safety net in index.html checks this; a good start allows it to help again next time
+  (window as unknown as { __oasisStarted: boolean }).__oasisStarted = true;
+  try {
+    sessionStorage.removeItem('oasis-reloaded');
+  } catch {
+    /* private mode */
+  }
   await setLang(detectLang());
   data = await loadPark();
   graph = PathGraph.fromLines(data.paths);

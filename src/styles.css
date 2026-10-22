@@ -1542,14 +1542,24 @@ input, select, textarea, button { font-family: inherit; }
 }
 
 .plan-foot-result {
+  display: grid;
+  gap: 8px;
+}
+
+.plan-foot-row {
   display: flex;
   gap: 8px;
 }
 
-.plan-foot-result .btn {
+.plan-foot-row .btn {
   flex: 1;
-  padding: 12px 8px;
-  font-size: 0.9rem;
+  padding: 10px 6px;
+  font-size: 0.85rem;
+}
+
+.plan-go[hidden],
+.plan-foot-row .btn[hidden] {
+  display: none;
 }
 
 .plan-times {
@@ -1912,3 +1922,175 @@ input, select, textarea, button { font-family: inherit; }
   :root:not([data-theme='light']) .lang-menu button[aria-selected='true'] { color: #ff9aa6; }
 }
 :root[data-theme='dark'] .lang-menu button[aria-selected='true'] { color: #ff9aa6; }
+
+/* stop numbers of the day plan on the map */
+.poi-num[hidden] {
+  display: none;
+}
+
+.poi-num.plan-num {
+  min-width: 20px;
+  border-radius: 999px;
+  background: #00454f;
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.poi-marker.in-plan {
+  z-index: 2;
+}
+
+.z-far .poi-marker.art.in-plan .poi-num {
+  display: block;
+}
+
+/* --- the plan on the map, and the guide bar ------------------------------------------ */
+
+.plan-chip {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 3;
+  display: flex;
+  align-items: stretch;
+  border-radius: 999px;
+  background: #00454f;
+  color: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.3);
+  overflow: hidden;
+}
+
+.plan-chip[hidden] {
+  display: none;
+}
+
+.plan-chip button {
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 0.85rem;
+}
+
+#plan-chip-open {
+  padding: 7px 4px 7px 14px;
+}
+
+.plan-chip-x {
+  padding: 0 12px;
+  font-size: 0.95rem;
+}
+
+.plan-bar {
+  position: fixed;
+  left: 10px;
+  right: 10px;
+  bottom: calc(10px + var(--safe-b));
+  z-index: 25;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: 0 8px 28px rgb(0 0 0 / 0.28);
+  border-left: 5px solid #00454f;
+}
+
+.plan-bar[hidden] {
+  display: none;
+}
+
+.plan-bar.late {
+  border-left-color: #e08a00;
+}
+
+.pb-n {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #00454f;
+  color: #fff;
+  font-weight: 700;
+}
+
+.pb-text {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  border: 0;
+  padding: 0;
+  background: none;
+  color: var(--ink);
+  text-align: left;
+}
+
+.pb-text b {
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pb-text small {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.plan-bar.late .pb-text small {
+  color: #b86e00;
+  font-weight: 700;
+}
+
+.pb-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.pb-actions .btn {
+  flex: none;
+  padding: 9px 12px;
+  font-size: 0.9rem;
+}
+
+.pb-actions .btn[hidden] {
+  display: none;
+}
+
+.pb-x {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--muted);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.25);
+  font-size: 0.75rem;
+}
+
+/* leave room under the list for the bar */
+body.has-plan-bar .browse {
+  padding-bottom: 110px;
+}
+
+body.has-plan-bar .toast {
+  bottom: calc(96px + var(--safe-b));
+}
+
+/* full-screen map with the guide bar: lift the map buttons above it */
+body.has-plan-bar.map-expanded .map-controls {
+  bottom: calc(96px + var(--safe-b));
+}
+
+body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
+  bottom: 84px;
+}
+
+/* the navigation panel takes the top of the map: the plan label steps aside */
+.map-card:has(.nav-hud:not([hidden])) .plan-chip {
+  display: none;
+}

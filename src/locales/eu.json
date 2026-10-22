@@ -122,5 +122,18 @@
   "plan.dragHint": "Sakatu luze geldialdi bat ordena aldatzeko",
   "plan.no.session": "Horrela ez zara {name}(r)en saio batera ere iritsiko",
   "plan.no.closed": "Horrela {name} itxita egongo litzateke",
-  "plan.no.end": "Horrela ez duzu denborarik irteera-ordua baino lehen"
+  "plan.no.end": "Horrela ez duzu denborarik irteera-ordua baino lehen",
+  "plan.go": "Hasi bisita",
+  "plan.goOn": "Jarraitu plana",
+  "plan.hide": "Kendu plana mapatik",
+  "plan.chip": "🗓 Zure plana · {n}tik {left} falta",
+  "pb.replan": "Berrantolatu",
+  "pb.done": "Eginda",
+  "pb.stop": "Utzi plana jarraitzeari",
+  "pb.late": "{n} min berandu zoaz",
+  "pb.leaveAt": "Irten {t}etan · {w} min oinez",
+  "pb.onTime": "{total}tik {n}. geldialdia · garaiz zoaz",
+  "pb.doneNext": "✓ {name}. Hurrengoa: {next} {t}etan · ukitu joateko",
+  "pb.replanned": "Plana hemendik berrantolatuta",
+  "pb.replannedDrop": "Plana berrantolatuta. Ez dira sartzen: {list}"
 }

@@ -122,5 +122,18 @@
   "plan.dragHint": "Maintenez un arrêt appuyé pour changer l’ordre",
   "plan.no.session": "Ainsi, vous ratez toutes les séances de {name}",
   "plan.no.closed": "Ainsi, {name} serait fermé",
-  "plan.no.end": "Ainsi, cela ne rentre pas avant votre départ"
+  "plan.no.end": "Ainsi, cela ne rentre pas avant votre départ",
+  "plan.go": "Commencer la visite",
+  "plan.goOn": "Suivre le plan",
+  "plan.hide": "Retirer le plan de la carte",
+  "plan.chip": "🗓 Votre plan · {left} sur {n} restants",
+  "pb.replan": "Réorganiser",
+  "pb.done": "Fait",
+  "pb.stop": "Ne plus suivre le plan",
+  "pb.late": "Vous avez {n} min de retard",
+  "pb.leaveAt": "Partez à {t} · {w} min à pied",
+  "pb.onTime": "Arrêt {n} sur {total} · dans les temps",
+  "pb.doneNext": "✓ {name}. Ensuite : {next} à {t} · touchez pour y aller",
+  "pb.replanned": "Plan réorganisé depuis ici",
+  "pb.replannedDrop": "Plan réorganisé. Ne rentre plus : {list}"
 }

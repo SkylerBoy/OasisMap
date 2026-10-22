@@ -1,6 +1,6 @@
 import type { ParkData, Poi } from './data';
 import { poiIcon } from './data';
-import type { LngLat } from './geo';
+import { distance, type LngLat } from './geo';
 import type { PathGraph, Snap } from './graph';
 import { currentLang, formatDistance, pick, t } from './i18n';
 import { planDay, scheduleOrder, type Plan, type PlanItem } from './planner';
@@ -16,9 +16,24 @@ export interface PlannerContext {
   /** Where the visitor is, if known and on the park paths. */
   here: () => Snap | null;
   openPoi: (p: Poi) => void;
-  showRoute: (coords: LngLat[]) => void;
-  toast: (msg: string) => void;
+  /** Draw the plan on the map (stop numbers by point id, and its route), or clear it. */
+  showPlan: (stops: Map<string, string> | null, coords: LngLat[] | null) => void;
+  /** Start the arrow navigation to a point. */
+  navigate: (p: Poi) => void;
+  toast: (msg: string, action?: () => void, ms?: number) => void;
 }
+
+export interface PlannerApi {
+  /** Texts again after a language change. */
+  refresh: () => void;
+  /** Navigation reached a point. */
+  arrivedAt: (poiId: string) => void;
+  /** New position: arriving at the next stop marks it as done. */
+  onFix: (coord: LngLat) => void;
+}
+
+const LATE = 10; // minutes behind before offering to reorganise
+const ARRIVED_M = 20;
 
 const SELECTABLE = ['animal', 'show', 'experience', 'botanic'] as const;
 const STAY = { animal: 6, botanic: 10, show: 30, experience: 30 } as const; // experiences: 20 min + queue
@@ -32,8 +47,7 @@ const LAST_ARRIVAL = '16:30';
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
 const hhmm = (m: number) => `${Math.floor(m / 60)}:${String(Math.round(m) % 60).padStart(2, '0')}`;
 
-/** Returns a function that refreshes the planner button (after a language change). */
-export function startPlanner(ctx: PlannerContext): () => void {
+export function startPlanner(ctx: PlannerContext): PlannerApi {
   const { data } = ctx;
   const byId = new Map(data.pois.map((p) => [p.id, p]));
   const choices = data.pois.filter((p) => (SELECTABLE as readonly string[]).includes(p.category) && !p.minor);
@@ -46,6 +60,12 @@ export function startPlanner(ctx: PlannerContext): () => void {
     end: string;
     steps: { id: string; kind: PlanItem['kind']; dur: number; loc: string; walk: number; arrive: number; start: number; end: number }[];
     skipped: { id: string; kind: PlanItem['kind'] }[];
+    /** Shown on the map. */
+    onMap?: boolean;
+    /** The visitor is following it (bar at the bottom). */
+    following?: boolean;
+    /** Ids of the stops already done. */
+    done?: string[];
   }
   let saved: { sel: string[]; lunch: boolean; plan?: SavedPlan } = { sel: [], lunch: true };
   try {
@@ -62,6 +82,8 @@ export function startPlanner(ctx: PlannerContext): () => void {
   const dateOf = (offset: number) => parkDate(new Date(Date.now() + offset * 86_400_000));
   const daysFromToday = (date: string) => Math.round((Date.parse(date) - Date.parse(parkDate())) / 86_400_000);
   let savedPlan: SavedPlan | undefined;
+  /** Following the plan during the visit. */
+  let guide = { onMap: false, following: false, done: new Set<string>() };
 
   const persist = () => {
     try {
@@ -80,6 +102,7 @@ export function startPlanner(ctx: PlannerContext): () => void {
     if (!sp || daysFromToday(sp.date) < 0 || sp.steps.some((x) => !byId.has(x.loc))) return;
     savedPlan = sp;
     dayOffset = daysFromToday(sp.date);
+    guide = { onMap: !!sp.onMap, following: !!sp.following && dayOffset === 0, done: new Set(sp.done ?? []) };
     plan = {
       steps: sp.steps.map((x) => ({ ...x, item: { id: x.id, kind: x.kind, dur: x.dur, locs: [x.loc] } })),
       skipped: sp.skipped.map((x) => ({ id: x.id, kind: x.kind, dur: 0, locs: [] })),
@@ -209,9 +232,14 @@ export function startPlanner(ctx: PlannerContext): () => void {
       end: $('plan-end').dataset.value || CLOSE,
       steps: plan.steps.map((x) => ({ id: x.item.id, kind: x.item.kind, dur: x.item.dur, loc: x.loc, walk: x.walk, arrive: x.arrive, start: x.start, end: x.end })),
       skipped: plan.skipped.map((x) => ({ id: x.id, kind: x.kind })),
+      onMap: guide.onMap,
+      following: guide.following,
+      done: [...guide.done],
     };
     persist();
     updateCta();
+    refreshMap();
+    renderBar();
   }
 
   /** The visitor dragged a stop: same stops in the new order, times worked out again. */
@@ -251,6 +279,7 @@ export function startPlanner(ctx: PlannerContext): () => void {
       startTime: start,
       endTime: end,
     });
+    guide = { onMap: guide.onMap, following: false, done: new Set() };
     keepPlan();
     renderPlan();
     show('result');
@@ -308,6 +337,8 @@ export function startPlanner(ctx: PlannerContext): () => void {
       ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
       : '';
     $('plan-remind').hidden = dayOffset !== 0 || !steps.some((s) => s.item.kind === 'show');
+    $('plan-go').hidden = dayOffset !== 0 || !steps.length;
+    $('plan-go').textContent = t(guide.following ? 'plan.goOn' : 'plan.go');
   }
 
   function routeCoords(): LngLat[] {
@@ -347,8 +378,11 @@ export function startPlanner(ctx: PlannerContext): () => void {
       b.addEventListener('click', () => {
         dayOffset = k;
         plan = null;
+        guide = { onMap: false, following: false, done: new Set() };
         persist();
         updateCta();
+        refreshMap();
+        renderBar();
         renderDays();
         defaultStart();
       });
@@ -470,9 +504,146 @@ export function startPlanner(ctx: PlannerContext): () => void {
   list.addEventListener('pointerup', drop);
   list.addEventListener('pointercancel', drop);
 
+  // --- the plan on the map, and following it during the visit ------------------------
+  let routeCache: { key: string; coords: LngLat[] } | null = null;
+
+  /** Stop number per point (a point twice in the plan shows "2·5"). */
+  function stopNumbers(): Map<string, string> {
+    const m = new Map<string, string>();
+    plan?.steps.forEach((s, i) => m.set(s.loc, m.has(s.loc) ? `${m.get(s.loc)}·${i + 1}` : String(i + 1)));
+    return m;
+  }
+
+  function refreshMap() {
+    const on = !!plan && plan.steps.length > 0 && guide.onMap;
+    $('plan-chip').hidden = !on;
+    if (!on) {
+      ctx.showPlan(null, null);
+      return;
+    }
+    const key = plan!.steps.map((s) => s.loc).join(',');
+    if (routeCache?.key !== key) routeCache = { key, coords: routeCoords() };
+    ctx.showPlan(stopNumbers(), routeCache.coords);
+    const left = plan!.steps.filter((s) => !guide.done.has(s.item.id)).length;
+    $('plan-chip-text').textContent = t('plan.chip', { n: plan!.steps.length, left });
+  }
+
+  const nextStep = () => plan?.steps.find((s) => !guide.done.has(s.item.id));
+  const stepName = (s: { item: PlanItem; loc: string }) =>
+    s.item.id === 'lunch' ? t('plan.lunch', { name: pick(byId.get(s.loc)!.name) }) : pick(byId.get(s.loc)!.name);
+
+  /** Minutes behind the plan for the next stop (negative: ahead). */
+  function lateBy(s: NonNullable<ReturnType<typeof nextStep>>): number {
+    const now = parkMinutes();
+    const here = ctx.here();
+    if (here) {
+      hereSnap = here;
+      trees.delete('here');
+      return now + walkMin('here', s.loc) - s.arrive;
+    }
+    return now - (s.arrive - s.walk); // no position: compare with the time to leave
+  }
+
+  function renderBar() {
+    const bar = $('plan-bar');
+    const on = !!plan && guide.following && dayOffset === 0;
+    bar.hidden = !on;
+    document.body.classList.toggle('has-plan-bar', on);
+    if (!on) return;
+    const s = nextStep();
+    const idx = s ? plan!.steps.indexOf(s) : -1;
+    $('pb-n').textContent = s ? String(idx + 1) : '✓';
+    $('pb-name').textContent = s ? `${hhmm(s.start)} · ${stepName(s)}` : t('plan.done');
+    $('pb-go').hidden = !s;
+    $('pb-done').hidden = !s;
+    if (!s) {
+      $('pb-status').textContent = '';
+      $('pb-replan').hidden = true;
+      bar.classList.remove('late');
+      return;
+    }
+    const late = lateBy(s);
+    const leave = s.arrive - s.walk;
+    $('pb-status').textContent =
+      late >= LATE
+        ? t('pb.late', { n: late })
+        : parkMinutes() < leave - 1
+          ? t('pb.leaveAt', { t: hhmm(leave), w: s.walk })
+          : t('pb.onTime', { n: idx + 1, total: plan!.steps.length });
+    $('pb-replan').hidden = late < LATE;
+    bar.classList.toggle('late', late >= LATE);
+  }
+
+  function markDone(id: string) {
+    if (!plan || guide.done.has(id)) return;
+    const s = plan.steps.find((x) => x.item.id === id)!;
+    guide.done.add(id);
+    keepPlan();
+    const n = nextStep();
+    navigator.vibrate?.(40);
+    ctx.toast(
+      n ? t('pb.doneNext', { name: stepName(s), next: stepName(n), t: hhmm(n.start) }) : t('plan.done'),
+      n ? () => ctx.navigate(byId.get(n.loc)!) : undefined,
+      5000,
+    );
+  }
+
+  /** Behind time: plan the stops left again, from here and now. */
+  function replan() {
+    if (!plan) return;
+    const done = plan.steps.filter((s) => guide.done.has(s.item.id));
+    const left = plan.steps.filter((s) => !guide.done.has(s.item.id));
+    const here = ctx.here();
+    hereSnap = here;
+    trees.clear();
+    const now = Math.ceil(parkMinutes() / 5) * 5;
+    const r = planDay({
+      items: left.map((s) => (s.item.id === 'lunch' ? itemFor('lunch') : itemFor(s.item.id))),
+      walk: walkMin,
+      startLoc: here ? 'here' : done.length ? done[done.length - 1].loc : 'entrada',
+      startTime: now,
+      endTime: toMinutes(savedPlan?.end ?? CLOSE),
+    });
+    plan = { steps: [...done, ...r.steps], skipped: [...plan.skipped, ...r.skipped], walkTotal: 0 };
+    keepPlan();
+    ctx.toast(
+      r.skipped.length
+        ? t('pb.replannedDrop', { list: new Intl.ListFormat(currentLang()).format(r.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
+        : t('pb.replanned'),
+      undefined,
+      5000,
+    );
+  }
+
+  function startGuide() {
+    if (!plan) return;
+    guide.following = true;
+    guide.onMap = true;
+    keepPlan();
+    close();
+    const n = nextStep();
+    if (n) ctx.navigate(byId.get(n.loc)!);
+  }
+
+  function arrivedAt(poiId: string) {
+    const n = nextStep();
+    if (guide.following && n && n.loc === poiId) markDone(n.item.id);
+  }
+
+  function onFix(coord: LngLat) {
+    const n = nextStep();
+    if (!guide.following || !n) return;
+    if (distance(coord, byId.get(n.loc)!.coord) < ARRIVED_M) markDone(n.item.id);
+  }
+
   restore();
   updateCta();
-  window.setInterval(updateCta, 60_000);
+  refreshMap();
+  renderBar();
+  window.setInterval(() => {
+    updateCta();
+    renderBar();
+  }, 30_000);
 
   $('plan-open').addEventListener('click', open);
   $('plan-close').addEventListener('click', close);
@@ -480,13 +651,43 @@ export function startPlanner(ctx: PlannerContext): () => void {
   $('plan-edit').addEventListener('click', () => show('choose'));
   $('plan-lunch').addEventListener('change', persist);
   $('plan-map').addEventListener('click', () => {
-    ctx.showRoute(routeCoords());
+    guide.onMap = true;
+    keepPlan();
     close();
+    ctx.showPlan(stopNumbers(), routeCoords());
+  });
+  $('plan-go').addEventListener('click', startGuide);
+  $('plan-chip-open').addEventListener('click', open);
+  $('plan-chip-x').addEventListener('click', () => {
+    guide.onMap = false;
+    keepPlan();
+  });
+  $('pb-open').addEventListener('click', open);
+  $('pb-go').addEventListener('click', () => {
+    const n = nextStep();
+    if (n) ctx.navigate(byId.get(n.loc)!);
+  });
+  $('pb-done').addEventListener('click', () => {
+    const n = nextStep();
+    if (n) markDone(n.item.id);
+  });
+  $('pb-replan').addEventListener('click', replan);
+  $('pb-x').addEventListener('click', () => {
+    guide.following = false;
+    keepPlan();
   });
   $('plan-remind').addEventListener('click', () => {
     if (!plan) return;
     for (const s of plan.steps) if (s.item.kind === 'show') setReminder(s.item.id, hhmm(s.start));
     ctx.toast(t('remind.added'));
   });
-  return updateCta;
+  return {
+    refresh: () => {
+      updateCta();
+      refreshMap();
+      renderBar();
+    },
+    arrivedAt,
+    onFix,
+  };
 }

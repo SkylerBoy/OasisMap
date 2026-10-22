@@ -122,5 +122,18 @@
   "plan.dragHint": "Mantén premuda una parada per canviar-la d’ordre",
   "plan.no.session": "Així no arribes a cap sessió de {name}",
   "plan.no.closed": "Així {name} ja estaria tancat",
-  "plan.no.end": "Així no et dona temps abans de l’hora de sortida"
+  "plan.no.end": "Així no et dona temps abans de l’hora de sortida",
+  "plan.go": "Començar la visita",
+  "plan.goOn": "Continuar el pla",
+  "plan.hide": "Treure el pla del mapa",
+  "plan.chip": "🗓 El teu pla · en queden {left} de {n}",
+  "pb.replan": "Reorganitzar",
+  "pb.done": "Fet",
+  "pb.stop": "Deixar de seguir el pla",
+  "pb.late": "Vas {n} min tard",
+  "pb.leaveAt": "Surt a les {t} · {w} min a peu",
+  "pb.onTime": "Parada {n} de {total} · vas bé de temps",
+  "pb.doneNext": "✓ {name}. Següent: {next} a les {t} · toca per anar-hi",
+  "pb.replanned": "Pla reorganitzat des d’aquí",
+  "pb.replannedDrop": "Pla reorganitzat. Ja no hi caben: {list}"
 }

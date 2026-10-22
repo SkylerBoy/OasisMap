@@ -40,6 +40,10 @@
 
     <section id="map-card" class="map-card">
       <div id="map"></div>
+      <div id="plan-chip" class="plan-chip" hidden>
+        <button id="plan-chip-open" type="button"><span id="plan-chip-text"></span></button>
+        <button id="plan-chip-x" type="button" class="plan-chip-x" data-i18n-title="plan.hide">✕</button>
+      </div>
 
       <div id="nav-hud" class="nav-hud" hidden>
         <div class="hud-arrow-wrap">
@@ -136,12 +140,25 @@
       <footer class="planner-foot">
         <button id="plan-make" class="btn primary" type="button"></button>
         <div id="plan-foot-result" class="plan-foot-result" hidden>
-          <button id="plan-edit" class="btn" type="button" data-i18n="plan.edit">Cambiar</button>
-          <button id="plan-remind" class="btn" type="button" data-i18n="plan.remind">Avisarme</button>
-          <button id="plan-map" class="btn primary" type="button" data-i18n="plan.onMap">Ver en el mapa</button>
+          <button id="plan-go" class="btn primary plan-go" type="button" data-i18n="plan.go">Empezar la visita</button>
+          <div class="plan-foot-row">
+            <button id="plan-edit" class="btn" type="button" data-i18n="plan.edit">Cambiar</button>
+            <button id="plan-remind" class="btn" type="button" data-i18n="plan.remind">Avisarme</button>
+            <button id="plan-map" class="btn" type="button" data-i18n="plan.onMap">Ver en el mapa</button>
+          </div>
         </div>
       </footer>
     </section>
+    <div id="plan-bar" class="plan-bar" hidden>
+      <span id="pb-n" class="pb-n"></span>
+      <button id="pb-open" class="pb-text" type="button"><b id="pb-name"></b><small id="pb-status"></small></button>
+      <div class="pb-actions">
+        <button id="pb-replan" class="btn pb-replan" type="button" data-i18n="pb.replan" hidden>Reorganizar</button>
+        <button id="pb-done" class="btn" type="button" data-i18n-title="pb.done">✓</button>
+        <button id="pb-go" class="btn primary" type="button" data-i18n="go">Ir</button>
+      </div>
+      <button id="pb-x" class="pb-x" type="button" data-i18n-title="pb.stop">✕</button>
+    </div>
     <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
     <script type="module" src="/src/main.ts"></script>

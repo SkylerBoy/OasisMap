@@ -122,5 +122,18 @@
   "plan.dragHint": "Mantén pulsada una parada para cambiarla de orden",
   "plan.no.session": "Así no llegas a ninguna sesión de {name}",
   "plan.no.closed": "Así {name} ya estaría cerrado",
-  "plan.no.end": "Así no te da tiempo antes de tu hora de salida"
+  "plan.no.end": "Así no te da tiempo antes de tu hora de salida",
+  "plan.go": "Empezar la visita",
+  "plan.goOn": "Seguir el plan",
+  "plan.hide": "Quitar el plan del mapa",
+  "plan.chip": "🗓 Tu plan · quedan {left} de {n}",
+  "pb.replan": "Reorganizar",
+  "pb.done": "Hecho",
+  "pb.stop": "Dejar de seguir el plan",
+  "pb.late": "Vas {n} min tarde",
+  "pb.leaveAt": "Sal a las {t} · {w} min andando",
+  "pb.onTime": "Parada {n} de {total} · vas bien de tiempo",
+  "pb.doneNext": "✓ {name}. Siguiente: {next} a las {t} · toca para ir",
+  "pb.replanned": "Plan reorganizado desde aquí",
+  "pb.replannedDrop": "Plan reorganizado. Ya no caben: {list}"
 }

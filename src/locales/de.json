@@ -122,5 +122,18 @@
   "plan.dragHint": "Halte einen Stopp gedrückt, um die Reihenfolge zu ändern",
   "plan.no.session": "So verpasst du alle Termine von {name}",
   "plan.no.closed": "So wäre {name} schon geschlossen",
-  "plan.no.end": "So reicht die Zeit bis zu deiner Abfahrt nicht"
+  "plan.no.end": "So reicht die Zeit bis zu deiner Abfahrt nicht",
+  "plan.go": "Besuch starten",
+  "plan.goOn": "Plan folgen",
+  "plan.hide": "Plan von der Karte nehmen",
+  "plan.chip": "🗓 Dein Plan · noch {left} von {n}",
+  "pb.replan": "Neu planen",
+  "pb.done": "Erledigt",
+  "pb.stop": "Plan nicht mehr folgen",
+  "pb.late": "Du bist {n} Min. zu spät",
+  "pb.leaveAt": "Los um {t} · {w} Min. zu Fuß",
+  "pb.onTime": "Stopp {n} von {total} · im Zeitplan",
+  "pb.doneNext": "✓ {name}. Weiter: {next} um {t} · tippen zum Hingehen",
+  "pb.replanned": "Plan ab hier neu geplant",
+  "pb.replannedDrop": "Neu geplant. Passt nicht mehr: {list}"
 }

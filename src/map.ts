@@ -56,6 +56,7 @@ function style(data: ParkData): StyleSpecification {
         },
       },
       route: { type: 'geojson', data: EMPTY },
+      plan: { type: 'geojson', data: EMPTY },
       accuracy: { type: 'geojson', data: EMPTY },
     },
     layers: [
@@ -94,6 +95,21 @@ function style(data: ParkData): StyleSpecification {
           'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2, 19, 5],
           'line-dasharray': [1.4, 1.6],
         },
+      },
+      // the visitor's day plan: under the navigation route
+      {
+        id: 'plan-casing',
+        type: 'line',
+        source: 'plan',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#ffffff', 'line-opacity': 0.8, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 5, 19, 13] },
+      },
+      {
+        id: 'plan',
+        type: 'line',
+        source: 'plan',
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: { 'line-color': '#a3162b', 'line-opacity': 0.55, 'line-width': ['interpolate', ['linear'], ['zoom'], 15, 2.5, 19, 7] },
       },
       { id: 'accuracy', type: 'fill', source: 'accuracy', paint: { 'fill-color': '#2f80ed', 'fill-opacity': 0.15 } },
       {
@@ -378,6 +394,33 @@ export class ParkMap {
     const apply = () => (this.map.getSource('route') as GeoJSONSource).setData(fc);
     if (this.map.isStyleLoaded()) apply();
     else this.map.once('load', apply);
+  }
+
+  /**
+   * Show the day plan: its route, and on each planned point its stop number
+   * instead of the printed-map number (other points show no number meanwhile).
+   */
+  setPlan(stops: Map<string, string> | null, coords: LngLat[] | null): void {
+    const fc: GeoJSON.FeatureCollection = coords?.length
+      ? { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: coords } }] }
+      : EMPTY;
+    const apply = () => (this.map.getSource('plan') as GeoJSONSource).setData(fc);
+    if (this.map.isStyleLoaded()) apply();
+    else this.map.once('load', apply);
+    for (const { el, poi } of this.poiMarkers.values()) {
+      let num = el.querySelector<HTMLElement>('.poi-num');
+      const stop = stops?.get(poi.id);
+      if (stop && !num) {
+        num = document.createElement('span');
+        num.className = 'poi-num';
+        el.appendChild(num);
+      }
+      if (!num) continue;
+      num.textContent = stop ?? poi.number ?? '';
+      num.classList.toggle('plan-num', !!stop);
+      num.hidden = (!!stops && !stop) || !num.textContent;
+      el.classList.toggle('in-plan', !!stop);
+    }
   }
 
   fitTo(points: LngLat[], padding: number | maplibregl.PaddingOptions = 60): void {

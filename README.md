@@ -161,7 +161,13 @@ el próximo tren por las siguientes.
 - **Planifica tu visita**: eliges animales, exhibiciones y experiencias, hora de llegada y
   salida, y si quieres comer. `src/planner.ts` respeta las sesiones (llegando 10 min antes),
   los horarios de las experiencias y la comida (12:30–14:45), y ordena el resto para andar lo
-  menos posible. El plan se guarda en el móvil y el botón muestra la siguiente parada. Tiempos: animal 6 min, exhibición 30, experiencia 30 (con cola), comida 45.
+  menos posible. El plan se guarda en el móvil y el botón muestra la siguiente parada.
+  Mantén pulsada una parada para cambiarla de orden.
+- **Plan en el mapa**: recorrido y número de parada en cada punto (los demás puntos no muestran
+  número mientras tanto). La etiqueta de arriba lo abre o lo quita.
+- **Empezar la visita**: barra abajo con la siguiente parada (Ir, ✓ hecho). Al llegar (a 20 m o
+  al terminar la navegación) se marca sola. Con 10 min o más de retraso ofrece *Reorganizar*,
+  que vuelve a planificar lo que queda desde donde estás. Tiempos: animal 6 min, exhibición 30, experiencia 30 (con cola), comida 45.
 
 ## Nuestros animales
 

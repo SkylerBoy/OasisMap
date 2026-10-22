@@ -122,5 +122,18 @@
   "plan.dragHint": "Press and hold a stop to change its order",
   "plan.no.session": "That way you miss every session of {name}",
   "plan.no.closed": "That way {name} would be closed",
-  "plan.no.end": "That way it does not fit before you leave"
+  "plan.no.end": "That way it does not fit before you leave",
+  "plan.go": "Start the visit",
+  "plan.goOn": "Follow the plan",
+  "plan.hide": "Remove the plan from the map",
+  "plan.chip": "🗓 Your plan · {left} of {n} left",
+  "pb.replan": "Rearrange",
+  "pb.done": "Done",
+  "pb.stop": "Stop following the plan",
+  "pb.late": "You are {n} min behind",
+  "pb.leaveAt": "Leave at {t} · {w} min walk",
+  "pb.onTime": "Stop {n} of {total} · on time",
+  "pb.doneNext": "✓ {name}. Next: {next} at {t} · tap to go",
+  "pb.replanned": "Plan rearranged from here",
+  "pb.replannedDrop": "Plan rearranged. No longer fits: {list}"
 }

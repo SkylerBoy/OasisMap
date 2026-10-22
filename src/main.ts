@@ -11,7 +11,7 @@ import { startDevTools } from './dev-tools';
 import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 import { ecotourRun, parkMinutes, poiStatus, toMinutes, type Status } from './status';
-import { startPlanner } from './planner-ui';
+import { startPlanner, type PlannerApi } from './planner-ui';
 import { askPermission, dueReminders, nextSession, notify, reminderFor, toggleReminder } from './reminders';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -52,7 +52,7 @@ let data: ParkData;
 let graph: PathGraph;
 let poiSnaps: Map<string, Snap>;
 let pmap: ParkMap;
-let refreshPlanner: (() => void) | null = null;
+let planner: PlannerApi | null = null;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
@@ -94,7 +94,7 @@ async function init() {
     renderList();
     renderSheet();
   }, 60_000);
-  refreshPlanner = startPlanner({
+  planner = startPlanner({
     data,
     graph,
     snaps: poiSnaps,
@@ -104,11 +104,15 @@ async function init() {
       return s.dist < 150 ? s : null; // only when you are in the park
     },
     openPoi: openSheet,
-    showRoute: (coords) => {
-      pmap.setRoute(coords.length ? coords : null);
-      setExpanded(true);
-      window.scrollTo({ top: 0 });
+    showPlan: (stops, coords) => {
+      pmap.setPlan(stops, coords);
+      if (coords?.length) {
+        setExpanded(true);
+        window.scrollTo({ top: 0 });
+        pmap.fitTo(coords, { top: 80, bottom: 120, left: 40, right: 70 });
+      }
     },
+    navigate: (p) => void startNavigation(p),
     toast,
   });
   window.setInterval(checkReminders, 20_000);
@@ -168,6 +172,7 @@ function onFix(fix: Fix) {
     if (state.selected) renderSheet();
   }
   if (state.navTo) updateNavigation();
+  planner?.onFix(fix.coord);
 }
 
 function currentHeading(): number | null {
@@ -292,7 +297,10 @@ function updateNavigation(fit = false) {
   else if (state.follow) pmap.centerOn(fix.coord);
 
   let instruction: string;
-  if (g.arrived) instruction = t('arrived', { name: pick(poi.name) });
+  if (g.arrived) {
+    instruction = t('arrived', { name: pick(poi.name) });
+    planner?.arrivedAt(poi.id);
+  }
   else if (g.offPath) instruction = t('toPath', { d: formatDistance(route.from.dist) });
   else if (g.turn && g.turn.direction !== 'straight') instruction = t(`turn.${g.turn.direction}`, { d: formatDistance(g.turn.distance) });
   else if (g.turn) instruction = t('turn.straight', { d: formatDistance(g.turn.distance) });
@@ -794,7 +802,7 @@ function bindUi() {
 }
 
 function applyI18n() {
-  refreshPlanner?.();
+  planner?.refresh();
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => (el.textContent = t(el.dataset.i18n!)));
   document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach((el) => (el.title = t(el.dataset.i18nTitle!)));
   document

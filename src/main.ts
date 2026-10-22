@@ -13,6 +13,9 @@ import { poiIconSvg } from './poi-icons';
 import { ecotourRun, parkMinutes, poiStatus, toMinutes, type Status } from './status';
 import { startPlanner, type PlannerApi } from './planner-ui';
 import { VisitTimes } from './visit-times';
+import { VisitLog } from './visit-log';
+import { startSummary, type SummaryApi } from './summary-ui';
+import { parkDate } from './reminders';
 import { askPermission, dueReminders, nextSession, notify, reminderFor, toggleReminder } from './reminders';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -55,6 +58,8 @@ let poiSnaps: Map<string, Snap>;
 let pmap: ParkMap;
 let planner: PlannerApi | null = null;
 let visitTimes: VisitTimes | null = null;
+let visitLog: VisitLog | null = null;
+let summary: SummaryApi | null = null;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
@@ -109,8 +114,14 @@ async function init() {
   $('stats-yes').addEventListener('click', () => answerStats(true));
   $('stats-no').addEventListener('click', () => answerStats(false));
   document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && void visitTimes?.flush());
+  visitLog = new VisitLog(data.pois, () => parkDate());
   planner = startPlanner({
     minutesAt: (id) => visitTimes?.median(id),
+    onDone: (id) => {
+      visitLog?.markSeen(id);
+      summary?.refresh();
+    },
+    onFinished: () => summary?.open(),
     data,
     graph,
     snaps: poiSnaps,
@@ -132,6 +143,7 @@ async function init() {
     navTarget: () => state.navTo?.id ?? null,
     toast,
   });
+  summary = startSummary({ data, log: visitLog, planProgress: () => planner?.progress() ?? null, toast });
   window.setInterval(checkReminders, 20_000);
   checkReminders();
   // Opened from a reminder notification.
@@ -190,7 +202,10 @@ function onFix(fix: Fix) {
   }
   if (state.navTo) updateNavigation();
   planner?.onFix(fix.coord);
+  if (!fix.simulated && !isInsidePark(fix)) summary?.offerOnLeaving(); // just left after a visit
   if (!fix.simulated && isInsidePark(fix)) {
+    visitLog?.onFix(fix.coord, fix.accuracy);
+    summary?.refresh();
     visitTimes?.onFix(fix.coord);
     // once, in the park: may we measure visit times?
     if (visitTimes?.enabled && visitTimes.consent === null) $('stats-ask').hidden = false;
@@ -834,6 +849,7 @@ function bindUi() {
 
 function applyI18n() {
   planner?.refresh();
+  summary?.refresh();
   document.querySelectorAll<HTMLElement>('[data-i18n]').forEach((el) => (el.textContent = t(el.dataset.i18n!)));
   document.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach((el) => (el.title = t(el.dataset.i18nTitle!)));
   document

@@ -30,6 +30,9 @@ export interface PlannerContext {
   toast: (msg: string, action?: () => void, ms?: number) => void;
   /** Median minutes visitors really spend at a point, when known. */
   minutesAt?: (poiId: string) => number | undefined;
+  /** A stop was done (for the visit summary), and the whole plan was. */
+  onDone?: (poiId: string) => void;
+  onFinished?: () => void;
 }
 
 export interface PlannerApi {
@@ -41,6 +44,8 @@ export interface PlannerApi {
   onFix: (coord: LngLat) => void;
   /** The visitor stopped the navigation by hand. */
   navStopped: () => void;
+  /** Stops done / in today's plan, or null. */
+  progress: () => { done: number; total: number } | null;
 }
 
 const LATE = 10; // minutes behind before offering to reorganise
@@ -1032,13 +1037,15 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const s = plan.steps.find((x) => x.item.id === id)!;
     guide.done.add(id);
     keepPlan();
+    ctx.onDone?.(s.loc);
     const n = nextStep();
     navigator.vibrate?.(40);
-    ctx.toast(
-      n ? t('pb.doneNext', { name: stepName(s), next: stepName(n), t: hhmm(n.start) }) : t('plan.done'),
-      n ? () => ctx.navigate(byId.get(n.loc)!) : undefined,
-      5000,
-    );
+    if (!n) {
+      // the whole plan done: show the summary of the visit
+      ctx.toast(t('plan.doneSummary'), ctx.onFinished, 8000);
+      return;
+    }
+    ctx.toast(t('pb.doneNext', { name: stepName(s), next: stepName(n), t: hhmm(n.start) }), () => ctx.navigate(byId.get(n.loc)!), 5000);
   }
 
   /** Behind time: plan the stops left again, from here and now. */
@@ -1460,5 +1467,6 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     arrivedAt,
     onFix,
     navStopped,
+    progress: () => (plan && dayOffset === 0 && guide.following ? { done: guide.done.size, total: plan.steps.length } : null),
   };
 }

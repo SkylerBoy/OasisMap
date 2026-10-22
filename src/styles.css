@@ -2584,3 +2584,106 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   font-size: 0.8rem;
   line-height: 1.35;
 }
+
+/* --- end-of-visit summary ------------------------------------------------------------- */
+
+.sum-cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: -4px 0 12px;
+  padding: 10px 14px;
+  border: 1.5px solid var(--brand);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--brand);
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+.sum-cta[hidden],
+#summary [hidden] {
+  display: none;
+}
+
+.sum-hero {
+  display: grid;
+  gap: 2px;
+  margin: 4px 0 14px;
+  text-align: center;
+}
+
+.sum-hero b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: var(--brand);
+}
+
+.sum-hero small {
+  color: var(--muted);
+}
+
+.sum-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.sum-stat {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  padding: 14px 8px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  text-align: center;
+}
+
+.sum-stat span {
+  font-size: 1.4rem;
+}
+
+.sum-stat b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.9rem;
+  color: var(--brand);
+  line-height: 1.1;
+}
+
+.sum-stat small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.sum-line {
+  margin: 12px 0 0;
+  text-align: center;
+}
+
+.sum-seen {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.sum-seen li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .sum-hero b,
+  :root:not([data-theme='light']) .sum-stat b,
+  :root:not([data-theme='light']) .sum-cta { color: #ff9aa6; }
+}

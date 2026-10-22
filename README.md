@@ -186,6 +186,14 @@ el próximo tren por las siguientes.
   al terminar la navegación) se marca sola. Con 10 min o más de retraso ofrece *Reorganizar*,
   que vuelve a planificar lo que queda desde donde estás. Tiempos: animal 6 min, exhibición 30, experiencia 30 (con cola), comida 45.
 
+## Resumen de la visita
+
+Durante la visita el móvil apunta (solo en el propio móvil) los animales vistos (un rato a menos
+de 20 m o parada del plan hecha), los metros caminados con el GPS (filtrando saltos), el tiempo en
+el parque y las exhibiciones (10 min o más en su sitio). El resumen se ofrece al completar el plan
+y al salir del parque tras 30 min o más, y siempre con el botón "Tu visita de hoy". *Compartir
+imagen* genera una tarjeta 1080×1350 con el logo, las cifras y los dibujos de lo visto.
+
 ## Nuestros animales
 
 Al deslizar hacia arriba la ficha de un animal se ven sus ejemplares (nombre, sexo, edad,

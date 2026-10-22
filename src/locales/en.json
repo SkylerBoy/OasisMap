@@ -233,5 +233,7 @@
   "sum.download": "Download",
   "sum.favLabel": "Your favourite",
   "sum.imageInvite": "Plan your visit at",
-  "sum.imageUrl": "skylerboy.github.io/OasisMap"
+  "sum.imageUrl": "skylerboy.github.io/OasisMap",
+  "plan.useToday": "Do this plan today",
+  "plan.movedToday": "Plan moved to today. Tap “Start the visit” to be guided."
 }

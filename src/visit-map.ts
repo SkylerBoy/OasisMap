@@ -120,7 +120,7 @@ export async function drawVisitMap(
     });
     if (snap) {
       const imgs = await Promise.all(animals.map((p) => loadImage(`${import.meta.env.BASE_URL}${p.art}`)));
-      const k = artScale(snap.zoom) * density;
+      const k = artScale(snap.zoom) * 1.3 * density;
       g.save();
       g.beginPath();
       g.roundRect(box.x, box.y, box.w, box.h, box.r);

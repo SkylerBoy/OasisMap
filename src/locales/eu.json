@@ -233,5 +233,7 @@
   "sum.download": "Deskargatu",
   "sum.favLabel": "Zure gogokoena",
   "sum.imageInvite": "Planifikatu zure bisita hemen:",
-  "sum.imageUrl": "skylerboy.github.io/OasisMap"
+  "sum.imageUrl": "skylerboy.github.io/OasisMap",
+  "plan.useToday": "Egin plan hau gaur",
+  "plan.movedToday": "Plana gaurko jarri da. Sakatu «Hasi bisita» gidatzeko."
 }

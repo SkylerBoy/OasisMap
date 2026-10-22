@@ -495,9 +495,17 @@ export async function mapSnapshot(
       });
       map.once('load', () => {
         paintTheme(map, !!o.dark);
+        // the whole park fits at a low zoom: thicker lines so they still read
+        map.setPaintProperty('paths-casing', 'line-width', 6);
+        map.setPaintProperty('paths', 'line-width', 3.2);
+        map.setPaintProperty('ecotour-casing', 'line-width', 5);
+        map.setPaintProperty('ecotour', 'line-width', 2.4);
+        map.setPaintProperty('route-casing', 'line-width', 9);
+        map.setPaintProperty('route', 'line-width', 5.5);
+        // just the park: no street map or satellite under it
         if (HAS_TILES) {
-          map.setLayoutProperty('osm', 'visibility', o.base === 'osm' ? 'visible' : 'none');
-          map.setLayoutProperty('pnoa', 'visibility', o.base === 'pnoa' ? 'visible' : 'none');
+          map.setLayoutProperty('osm', 'visibility', 'none');
+          map.setLayoutProperty('pnoa', 'visibility', 'none');
         }
         (map.getSource('route') as GeoJSONSource).setData({
           type: 'FeatureCollection',

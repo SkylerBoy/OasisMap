@@ -731,9 +731,10 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => nameOf(i.id))) })
       : '';
     $('plan-remind').hidden = dayOffset !== 0 || !steps.some((s) => s.item.kind === 'show');
-    $('plan-go').hidden = dayOffset !== 0 || !steps.length;
+    // the guided visit (arrow, next stop) is for today; a plan for another day can be moved to today
+    $('plan-go').hidden = !steps.length;
     if (!$('planner').hidden) prepareShortLink(); // likely to be shared: get the short link ready
-    $('plan-go').textContent = t(guide.following ? 'plan.goOn' : 'plan.go');
+    $('plan-go').textContent = t(dayOffset !== 0 ? 'plan.useToday' : guide.following ? 'plan.goOn' : 'plan.go');
   }
 
   /** The part of the Ecotour track between two stops. */
@@ -1104,6 +1105,22 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     );
   }
 
+  /** Do a plan made for another day today: same stops and order, today's times. */
+  function moveToToday() {
+    if (!plan) return;
+    const order = currentOrder();
+    const skipped = plan.skipped;
+    dayOffset = 0;
+    defaultStart();
+    const r = scheduleOrder(order, orderInput());
+    plan = 'steps' in r ? { steps: r.steps, skipped, walkTotal: r.steps.reduce((a, x) => a + x.walk, 0) } : dropIdleBreaks(planDay({ ...orderInput(), items: items() }));
+    guide = { onMap: guide.onMap, following: false, done: new Set() };
+    keepPlan();
+    renderDays();
+    renderPlan();
+    ctx.toast(t('plan.movedToday'));
+  }
+
   function startGuide() {
     if (!plan) return;
     guide.following = true;
@@ -1399,7 +1416,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     close();
     ctx.showPlan(stopNumbers(), routeCoords(), true);
   });
-  $('plan-go').addEventListener('click', startGuide);
+  $('plan-go').addEventListener('click', () => (dayOffset !== 0 ? moveToToday() : startGuide()));
   $('plan-chip-open').addEventListener('click', open);
   $('plan-chip-x').addEventListener('click', () => {
     guide.onMap = false;

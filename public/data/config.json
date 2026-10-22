@@ -20,5 +20,9 @@
   ],
   "base": "osm",
   "overlay": null,
-  "walkingSpeed": 1.1
+  "walkingSpeed": 1.1,
+  "stats": {
+    "url": "",
+    "key": ""
+  }
 }

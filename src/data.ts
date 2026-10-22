@@ -63,6 +63,8 @@ export interface ParkConfig {
   overlay: { url: string; coordinates: [LngLat, LngLat, LngLat, LngLat]; opacity?: number } | null;
   /** Metres per second, for walking time estimates. */
   walkingSpeed: number;
+  /** Supabase project for anonymous visit times (empty: off). See docs/supabase.md. */
+  stats?: { url: string; key: string };
 }
 
 /** IUCN Red List category of the species; DOM = domestic animal. */

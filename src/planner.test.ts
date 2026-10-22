@@ -81,3 +81,13 @@ describe('insertBest', () => {
     expect(insertBest(order, { ...visit('c'), dur: 600 }, { walk, startLoc: 'gate', startTime: h(9), endTime: h(12) })).toBeNull();
   });
 });
+
+describe('interest', () => {
+  it('keeps high-interest stops and drops low-interest ones first', () => {
+    const items = ['a', 'b', 'c', 'food'].map((id, i) => ({ ...visit(id), dur: 25, priority: i === 3 ? 2 : i === 0 ? 0.5 : 1 }));
+    const plan = planDay({ items, walk, startLoc: 'gate', startTime: h(9), endTime: h(10, 30) });
+    const ids = plan.steps.map((s) => s.item.id);
+    expect(ids).toContain('food');
+    expect(plan.skipped.map((s) => s.id)).toEqual(['a']);
+  });
+});

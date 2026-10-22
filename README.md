@@ -159,7 +159,11 @@ el próximo tren por las siguientes.
   + 10 min). Sin servidor de notificaciones push, el aviso solo llega si la web sigue abierta
   (aunque sea en segundo plano); en iPhone, además, hay que instalarla en la pantalla de inicio.
 - **Planifica tu visita**: eliges animales, exhibiciones y experiencias, hora de llegada y
-  salida, y si quieres comer. `src/planner.ts` respeta las sesiones (llegando 10 min antes),
+  salida, si quieres comer, el **ritmo** (% sobre el tiempo habitual: Rápido 75 %, Normal 100 %,
+  Tranquilo 135 %) y, en **Avanzado**, descansos (cada 1 h 30 – 3 h, en un snack o restaurante
+  abierto) y el **interés** (poco / normal / mucho: decide qué se queda si no cabe todo) y el % de
+  tiempo de cada parada. El tiempo habitual de cada punto es la **mediana real** de los visitantes
+  (ver `docs/supabase.md`) o, sin datos, el valor por defecto. `src/planner.ts` respeta las sesiones (llegando 10 min antes),
   los horarios de las experiencias y la comida (12:30–14:45), y ordena el resto para andar lo
   menos posible. El plan se guarda en el móvil y el botón muestra la siguiente parada.
   Mantén pulsada una parada para moverla; deslízala a la izquierda para quitarla. En "Añadir

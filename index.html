@@ -128,6 +128,36 @@
             <div class="plan-time-field"><span data-i18n="plan.end">Salida</span><button id="plan-end" class="plan-time-btn" type="button" data-value="18:00"><span class="plan-time-v">18:00</span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></button></div>
           </div>
           <label class="plan-toggle"><input id="plan-lunch" type="checkbox" checked><span data-i18n="plan.withLunch">Incluir comida (45 min)</span></label>
+          <div class="plan-pace">
+            <div class="plan-pace-head"><span data-i18n="plan.pace">Ritmo de visita</span><b id="plan-pace-v"></b></div>
+            <input id="plan-pace" type="range" min="50" max="200" step="5" value="100">
+            <div class="plan-pace-presets">
+              <button type="button" data-pace="75" data-i18n="plan.paceFast">Rápido</button>
+              <button type="button" data-pace="100" data-i18n="plan.paceNormal">Normal</button>
+              <button type="button" data-pace="135" data-i18n="plan.paceCalm">Tranquilo</button>
+            </div>
+          </div>
+          <details id="plan-adv" class="plan-adv">
+            <summary data-i18n="plan.advanced">Avanzado</summary>
+            <div class="plan-adv-row">
+              <span data-i18n="plan.breaks">Descansos</span>
+              <select id="plan-break-every">
+                <option value="0" data-i18n="plan.breakNone">Sin descansos</option>
+                <option value="90">1 h 30</option>
+                <option value="120">2 h</option>
+                <option value="150">2 h 30</option>
+                <option value="180">3 h</option>
+              </select>
+              <select id="plan-break-dur">
+                <option value="10">10 min</option>
+                <option value="15">15 min</option>
+                <option value="20">20 min</option>
+                <option value="30">30 min</option>
+              </select>
+            </div>
+            <p class="plan-adv-note" data-i18n="plan.prefsNote">Interés y tiempo de cada parada elegida (el interés decide qué se queda si no cabe todo):</p>
+            <ul id="plan-prefs" class="plan-prefs"></ul>
+          </details>
           <div id="plan-groups"></div>
         </div>
         <div id="plan-result" hidden>
@@ -154,6 +184,13 @@
         </div>
       </footer>
     </section>
+    <div id="stats-ask" class="stats-ask" hidden role="dialog">
+      <p data-i18n="stats.ask">¿Nos ayudas a mejorar los tiempos del planificador? Guardaremos de forma anónima cuánto tiempo pasas en cada recinto, nada más.</p>
+      <div class="stats-ask-btns">
+        <button id="stats-no" class="btn" type="button" data-i18n="stats.no">No, gracias</button>
+        <button id="stats-yes" class="btn primary" type="button" data-i18n="stats.yes">Sí, ayudo</button>
+      </div>
+    </div>
     <div id="plan-bar" class="plan-bar" hidden>
       <span id="pb-n" class="pb-n"></span>
       <button id="pb-open" class="pb-text" type="button"><b id="pb-name"></b><small id="pb-status"></small></button>

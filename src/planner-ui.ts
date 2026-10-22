@@ -22,6 +22,8 @@ export interface PlannerContext {
   /** Start the arrow navigation to a point. */
   navigate: (p: Poi) => void;
   toast: (msg: string, action?: () => void, ms?: number) => void;
+  /** Median minutes visitors really spend at a point, when known. */
+  minutesAt?: (poiId: string) => number | undefined;
 }
 
 export interface PlannerApi {
@@ -68,13 +70,31 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     /** Ids of the stops already done. */
     done?: string[];
   }
-  let saved: { sel: string[]; lunch: boolean; plan?: SavedPlan } = { sel: [], lunch: true };
+  interface Prefs {
+    /** interest: 2 high, 1 normal, 0.5 low */
+    i: number;
+    /** time at this stop, % of the usual */
+    p: number;
+  }
+  let saved: {
+    sel: string[];
+    lunch: boolean;
+    plan?: SavedPlan;
+    pace?: number;
+    breaks?: { every: number; dur: number };
+    prefs?: Record<string, Prefs>;
+  } = { sel: [], lunch: true };
   try {
     saved = { ...saved, ...JSON.parse(localStorage.getItem(KEY) ?? '{}') };
   } catch {
     /* defaults */
   }
   const selected = new Set(saved.sel.filter((id) => byId.has(id)));
+  /** Visit pace, % of the usual time at each animal (50–200). */
+  let pace = saved.pace ?? 100;
+  let breaks = saved.breaks ?? { every: 120, dur: 15 };
+  const prefs: Record<string, Prefs> = saved.prefs ?? {};
+  const restSpots = data.pois.filter((p) => p.category === 'food' && p.hours);
   let plan: Plan | null = null;
   /** Days from today (0 = today) and the weekday of the chosen day. */
   let dayOffset = 0;
@@ -90,7 +110,14 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     try {
       localStorage.setItem(
         KEY,
-        JSON.stringify({ sel: [...selected], lunch: $<HTMLInputElement>('plan-lunch').checked, plan: plan ? savedPlan : undefined }),
+        JSON.stringify({
+          sel: [...selected],
+          lunch: $<HTMLInputElement>('plan-lunch').checked,
+          plan: plan ? savedPlan : undefined,
+          pace,
+          breaks,
+          prefs,
+        }),
       );
     } catch {
       /* private mode */
@@ -130,7 +157,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const now = parkMinutes();
     const next = plan.steps.find((x) => x.end > now);
     sub.textContent = next
-      ? t('plan.next', { t: hhmm(next.start), name: next.item.id === 'lunch' ? t('plan.lunch', { name: pick(byId.get(next.loc)!.name) }) : pick(byId.get(next.loc)!.name) })
+      ? t('plan.next', { t: hhmm(next.start), name: nameOf(next.item.id, next.loc) })
       : t('plan.done');
   }
 
@@ -176,23 +203,101 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
         const icon = p.art
           ? `<img src="${import.meta.env.BASE_URL}${p.art}" alt="" loading="lazy">`
           : poiIconSvg(poiIcon(p), 22);
-        li.innerHTML = `<label class="plan-choice"><input type="checkbox"><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-name"></span><small></small></label>`;
+        li.innerHTML = `<label class="plan-choice" data-id="${p.id}"><input type="checkbox"><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-name"></span><small></small></label>`;
         const cb = li.querySelector('input')!;
         cb.checked = selected.has(p.id);
         cb.addEventListener('change', () => {
           cb.checked ? selected.add(p.id) : selected.delete(p.id);
           persist();
           updateCount();
+          if ($<HTMLDetailsElement>('plan-adv').open) renderPrefs();
         });
         li.querySelector('.plan-name')!.textContent = pick(p.name);
         li.querySelector('small')!.textContent = p.days
           ? `${p.days.map((d) => t(`days.${d}`)).join(', ')} ${p.schedule ?? ''}`
-          : (p.schedule ?? '');
+          : (p.schedule ?? (p.category === 'animal' || p.category === 'botanic' ? t('plan.about', { n: stayAt(p.id) }) : ''));
         ul.appendChild(li);
       }
       box.appendChild(group);
     }
     updateCount();
+  }
+
+  // --- pace and advanced options -------------------------------------------------------
+  const paceName = (v: number) => t(v < 90 ? 'plan.paceFast' : v <= 115 ? 'plan.paceNormal' : 'plan.paceCalm');
+
+  function renderPace() {
+    $<HTMLInputElement>('plan-pace').value = String(pace);
+    $('plan-pace-v').textContent = `${paceName(pace)} · ${pace}%`;
+    document.querySelectorAll<HTMLElement>('.plan-pace-presets button').forEach((b) =>
+      b.setAttribute('aria-pressed', String(Number(b.dataset.pace) === pace)),
+    );
+  }
+
+  function setPace(v: number) {
+    pace = Math.min(200, Math.max(50, Math.round(v / 5) * 5));
+    renderPace();
+    persist();
+    // the estimated minutes next to each animal change with the pace
+    document.querySelectorAll<HTMLElement>('.plan-choice').forEach((label) => {
+      const id = label.dataset.id!;
+      const p = byId.get(id)!;
+      if ((p.category === 'animal' || p.category === 'botanic') && !p.schedule)
+        label.querySelector('small')!.textContent = t('plan.about', { n: stayAt(id) });
+    });
+    if ($<HTMLDetailsElement>('plan-adv').open) renderPrefs();
+  }
+
+  /** Interest and own % for each chosen stop. */
+  function renderPrefs() {
+    const ul = $('plan-prefs');
+    ul.innerHTML = '';
+    const ids = [...selected].sort((a, b) => pick(byId.get(a)!.name).localeCompare(pick(byId.get(b)!.name), currentLang()));
+    if (!ids.length) {
+      ul.innerHTML = `<li class="plan-prefs-empty">${t('plan.prefsEmpty')}</li>`;
+      return;
+    }
+    for (const id of ids) {
+      const p = byId.get(id)!;
+      const pr = prefs[id] ?? { i: 1, p: 100 };
+      const timed = p.category === 'animal' || p.category === 'botanic';
+      const li = document.createElement('li');
+      li.className = 'plan-pref';
+      li.innerHTML = `
+        <div class="plan-pref-name"><b></b><small></small></div>
+        <div class="plan-interest" role="group">
+          ${[0.5, 1, 2].map((v) => `<button type="button" data-v="${v}" aria-pressed="${pr.i === v}">${t(`plan.interest.${v}`)}</button>`).join('')}
+        </div>
+        ${timed ? `<div class="plan-pct"><button type="button" data-d="-10" aria-label="−10%"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/></svg></button><span></span><button type="button" data-d="10" aria-label="+10%"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>` : ''}`;
+      li.querySelector('b')!.textContent = pick(p.name);
+      const small = li.querySelector('small')!;
+      const pct = li.querySelector<HTMLElement>('.plan-pct span');
+      const paint = () => {
+        const cur = prefs[id] ?? { i: 1, p: 100 };
+        if (pct) pct.textContent = `${cur.p}%`;
+        small.textContent = timed ? t('plan.about', { n: stayAt(id) }) : '';
+      };
+      paint();
+      const save = (next: Prefs) => {
+        if (next.i === 1 && next.p === 100) delete prefs[id];
+        else prefs[id] = next;
+        persist();
+      };
+      li.querySelectorAll<HTMLButtonElement>('.plan-interest button').forEach((b) =>
+        b.addEventListener('click', () => {
+          save({ ...(prefs[id] ?? { i: 1, p: 100 }), i: Number(b.dataset.v) });
+          li.querySelectorAll('.plan-interest button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        }),
+      );
+      li.querySelectorAll<HTMLButtonElement>('.plan-pct button').forEach((b) =>
+        b.addEventListener('click', () => {
+          const cur = prefs[id] ?? { i: 1, p: 100 };
+          save({ ...cur, p: Math.min(300, Math.max(30, cur.p + Number(b.dataset.d))) });
+          paint();
+        }),
+      );
+      ul.appendChild(li);
+    }
   }
 
   function updateCount() {
@@ -202,7 +307,41 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
 
   // --- plan -------------------------------------------------------------------------
   /** What a stop needs for planning on the chosen day (fixed sessions, opening hours or free). */
+  /** Usual minutes at a point: everyone's median if known, else the default for its kind. */
+  function baseMinutes(id: string): number {
+    const p = byId.get(id)!;
+    return ctx.minutesAt?.(id) ?? STAY[p.category as keyof typeof STAY] ?? 10;
+  }
+
+  /** Minutes planned at an animal or garden: usual time × pace × this stop's own %. */
+  function stayAt(id: string): number {
+    return Math.max(2, Math.round((baseMinutes(id) * pace * (prefs[id]?.p ?? 100)) / 10_000));
+  }
+
+  /** Break number k: around every `breaks.every` minutes, at a snack bar or restaurant open then. */
+  function restItem(k: number): PlanItem {
+    const center = toMinutes($('plan-start').dataset.value || OPEN) + k * breaks.every;
+    const window: [number, number] = [center - 20, center + 20 + breaks.dur];
+    const open = restSpots.filter((r) => toMinutes(r.hours![0]) <= window[0] && toMinutes(r.hours![1]) >= window[0] + breaks.dur);
+    return { id: `rest-${k}`, kind: 'window', dur: breaks.dur, window, locs: (open.length ? open : restSpots).map((r) => r.id) };
+  }
+
+  function restItems(): PlanItem[] {
+    if (!breaks.every || !restSpots.length) return [];
+    const start = toMinutes($('plan-start').dataset.value || OPEN);
+    const end = toMinutes($('plan-end').dataset.value || CLOSE);
+    const lunch = $<HTMLInputElement>('plan-lunch').checked;
+    const out: PlanItem[] = [];
+    for (let k = 1; start + k * breaks.every + breaks.dur < end - 75; k++) { // none in the last hour
+      const center = start + k * breaks.every;
+      if (lunch && Math.abs(center - (LUNCH[0] + LUNCH[1]) / 2) < 75) continue; // lunch is already a break
+      out.push(restItem(k));
+    }
+    return out;
+  }
+
   function itemFor(id: string): PlanItem {
+    if (id.startsWith('rest-')) return restItem(Number(id.slice(5)));
     if (id === 'lunch') {
       // lunch at whichever restaurant fits best; the window is lunch time within its hours
       const locs = restaurants.map((r) => r.id);
@@ -214,15 +353,17 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const cat = p.category as keyof typeof STAY;
     // exhibitions, and weekly sessions (alligator feeding) on their day, have fixed times
     const timed = p.times?.length && p.timesKind !== 'train' && (p.days ? p.days.includes(day) : cat === 'show');
-    if (timed) return { id, kind: 'show', dur: STAY.show, sessions: p.times!.map(toMinutes), locs: [id] };
-    if (p.hours) return { id, kind: 'window', dur: STAY[cat] ?? 20, window: [toMinutes(p.hours[0]), toMinutes(p.hours[1])], locs: [id] };
-    return { id, kind: 'visit', dur: STAY[cat] ?? 10, locs: [id] };
+    const priority = prefs[id]?.i ?? 1;
+    if (timed) return { id, kind: 'show', dur: STAY.show, sessions: p.times!.map(toMinutes), locs: [id], priority };
+    if (p.hours)
+      return { id, kind: 'window', dur: STAY[cat] ?? 20, window: [toMinutes(p.hours[0]), toMinutes(p.hours[1])], locs: [id], priority };
+    return { id, kind: 'visit', dur: stayAt(id), locs: [id], priority };
   }
 
   function items(): PlanItem[] {
     const out = [...selected].map(itemFor);
     if ($<HTMLInputElement>('plan-lunch').checked && restaurants.length) out.push(itemFor('lunch'));
-    return out;
+    return [...out, ...restItems()];
   }
 
   function keepPlan() {
@@ -252,7 +393,15 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   });
   const currentOrder = () => plan!.steps.map((st) => ({ item: { ...itemFor(st.item.id), locs: [st.loc] }, loc: st.loc }));
   const nameOf = (id: string, loc?: string) =>
-    id === 'lunch' ? (loc ? t('plan.lunch', { name: pick(byId.get(loc)!.name) }) : t('plan.lunchShort')) : pick(byId.get(id)!.name);
+    id === 'lunch'
+      ? loc
+        ? t('plan.lunch', { name: pick(byId.get(loc)!.name) })
+        : t('plan.lunchShort')
+      : id.startsWith('rest-')
+        ? loc
+          ? t('plan.rest', { name: pick(byId.get(loc)!.name) })
+          : t('plan.restShort')
+        : pick(byId.get(id)!.name);
 
   /** Take a stop out (swiped away); the rest keep their order. Undo from the toast. */
   function removeStop(idx: number) {
@@ -264,7 +413,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const r = scheduleOrder(order, orderInput());
     if (!('steps' in r)) return renderPlan();
     plan = { ...plan, steps: r.steps, skipped: [...plan.skipped.filter((x) => x.id !== s.item.id), { id: s.item.id, kind: s.item.kind, dur: 0, locs: [] }] };
-    if (s.item.id !== 'lunch') selected.delete(s.item.id);
+    if (byId.has(s.item.id)) selected.delete(s.item.id);
     guide.done.delete(s.item.id);
     keepPlan();
     renderPlan();
@@ -345,7 +494,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     });
     if ('problem' in r) {
       const it = order[r.problem.index];
-      const name = it.item.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(it.loc)!.name);
+      const name = nameOf(it.item.id, it.loc);
       ctx.toast(t(`plan.no.${r.problem.reason}`, { name }));
       navigator.vibrate?.(60);
       return renderPlan();
@@ -408,7 +557,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       li.dataset.idx = String(steps.indexOf(s));
       const icon = p.art ? `<img src="${import.meta.env.BASE_URL}${p.art}" alt="">` : poiIconSvg(poiIcon(p), 22);
       li.innerHTML = `<span class="plan-del" aria-hidden="true">${t('plan.remove')}</span><button type="button"><span class="plan-time">${hhmm(s.start)}</span><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-text"><b></b><small></small></span></button>`;
-      li.querySelector('b')!.textContent = s.item.id === 'lunch' ? t('plan.lunch', { name: pick(p.name) }) : pick(p.name);
+      li.querySelector('b')!.textContent = nameOf(s.item.id, s.loc);
       li.querySelector('small')!.textContent =
         s.item.kind === 'show'
           ? t('plan.showAt', { t: hhmm(s.start), a: hhmm(s.arrive) })
@@ -424,7 +573,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const sk = $('plan-skipped');
     sk.hidden = true; // listed under "Add stops" now
     sk.textContent = plan.skipped.length
-      ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
+      ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => nameOf(i.id))) })
       : '';
     $('plan-remind').hidden = dayOffset !== 0 || !steps.some((s) => s.item.kind === 'show');
     $('plan-go').hidden = dayOffset !== 0 || !steps.length;
@@ -497,6 +646,9 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       setTime('plan-end', savedPlan.end);
     } else defaultStart();
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
+    $<HTMLSelectElement>('plan-break-every').value = String(breaks.every);
+    $<HTMLSelectElement>('plan-break-dur').value = String(breaks.dur);
+    renderPace();
     renderChoices();
     if (plan) renderPlan();
     show(plan ? 'result' : 'choose');
@@ -654,7 +806,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
 
   const nextStep = () => plan?.steps.find((s) => !guide.done.has(s.item.id));
   const stepName = (s: { item: PlanItem; loc: string }) =>
-    s.item.id === 'lunch' ? t('plan.lunch', { name: pick(byId.get(s.loc)!.name) }) : pick(byId.get(s.loc)!.name);
+    nameOf(s.item.id, s.loc);
 
   /** Minutes behind the plan for the next stop (negative: ahead). */
   function lateBy(s: NonNullable<ReturnType<typeof nextStep>>): number {
@@ -722,7 +874,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     trees.clear();
     const now = Math.ceil(parkMinutes() / 5) * 5;
     const r = planDay({
-      items: left.map((s) => (s.item.id === 'lunch' ? itemFor('lunch') : itemFor(s.item.id))),
+      items: left.map((s) => itemFor(s.item.id)),
       walk: walkMin,
       startLoc: here ? 'here' : done.length ? done[done.length - 1].loc : 'entrada',
       startTime: now,
@@ -732,7 +884,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     keepPlan();
     ctx.toast(
       r.skipped.length
-        ? t('pb.replannedDrop', { list: new Intl.ListFormat(currentLang()).format(r.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
+        ? t('pb.replannedDrop', { list: new Intl.ListFormat(currentLang()).format(r.skipped.map((i) => nameOf(i.id))) })
         : t('pb.replanned'),
       undefined,
       5000,
@@ -800,6 +952,18 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     guide.following = false;
     keepPlan();
   });
+  $('plan-pace').addEventListener('input', (e) => setPace(Number((e.target as HTMLInputElement).value)));
+  document.querySelectorAll<HTMLElement>('.plan-pace-presets button').forEach((b) =>
+    b.addEventListener('click', () => setPace(Number(b.dataset.pace))),
+  );
+  const onBreaks = () => {
+    breaks = { every: Number($<HTMLSelectElement>('plan-break-every').value), dur: Number($<HTMLSelectElement>('plan-break-dur').value) };
+    $<HTMLSelectElement>('plan-break-dur').disabled = !breaks.every;
+    persist();
+  };
+  $('plan-break-every').addEventListener('change', onBreaks);
+  $('plan-break-dur').addEventListener('change', onBreaks);
+  $('plan-adv').addEventListener('toggle', () => $<HTMLDetailsElement>('plan-adv').open && renderPrefs());
   $('plan-add-more').addEventListener('click', () => {
     addAll = true;
     renderAdd();

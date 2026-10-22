@@ -22,6 +22,8 @@ export interface PlanItem {
   window?: [number, number];
   /** Where it can happen: point ids (several for "lunch at any restaurant"). */
   locs: string[];
+  /** Visitor's interest: 2 high, 1 normal (default), 0.5 low. High ones go in first; low ones are dropped first. */
+  priority?: number;
 }
 
 export interface PlanStep {
@@ -85,6 +87,9 @@ function simulate(seq: Slot[], inp: PlanInput, margin: number): PlanStep[] | nul
   return steps;
 }
 
+/** Walking-minute cost of each minute the day gets longer. */
+const LONGER_DAY = 0.25;
+
 const walked = (steps: PlanStep[]) => steps.reduce((a, s) => a + s.walk, 0);
 
 /** Every way to pick one session per exhibition (exhibitions without a usable session are left out). */
@@ -127,9 +132,11 @@ export function planDay(inp: PlanInput): Plan {
     for (;;) {
       let pick: { seq: Slot[]; steps: PlanStep[]; idx: number; cost: number } | null = null;
       const windowsLeft = left.some((i) => i.window);
+      // stops with opening hours go in first; then by interest, highest first
+      const tier = windowsLeft ? 0 : Math.max(...left.map((i) => i.priority ?? 1));
       for (let k = 0; k < left.length; k++) {
         const item = left[k];
-        if (windowsLeft && !item.window) continue; // stops with opening hours go in first
+        if (windowsLeft ? !item.window : (item.priority ?? 1) !== tier) continue;
         const options: { pos: number; loc: string; delta: number }[] = [];
         for (const loc of item.locs) {
           for (let pos = 0; pos <= seq.length; pos++) {
@@ -140,14 +147,18 @@ export function planDay(inp: PlanInput): Plan {
           }
         }
         options.sort((x, y) => x.delta - y.delta);
+        // cost = extra walking + a little for every minute the day gets longer,
+        // so free gaps (e.g. before an exhibition) are filled before adding at the end
+        const lastEnd: number = steps.length ? steps[steps.length - 1].end : inp.startTime;
+        let tries = 0;
         for (const o of options) {
           if (pick && o.delta >= pick.cost) break;
           const trial = [...seq.slice(0, o.pos), { item, loc: o.loc }, ...seq.slice(o.pos)];
           const st = simulate(trial, inp, margin);
-          if (st) {
-            pick = { seq: trial, steps: st, idx: k, cost: o.delta };
-            break;
-          }
+          if (!st) continue;
+          const cost: number = o.delta + LONGER_DAY * Math.max(0, st[st.length - 1].end - lastEnd);
+          if (!pick || cost < pick.cost) pick = { seq: trial, steps: st, idx: k, cost };
+          if (++tries >= 6) break; // the cheapest few feasible places are enough
         }
       }
       if (!pick) {
@@ -156,6 +167,10 @@ export function planDay(inp: PlanInput): Plan {
           for (let k = left.length - 1; k >= 0; k--) if (left[k].window) left.splice(k, 1);
           continue;
         }
+        // none of this interest level fits any more: go on with the next level
+        const before = left.length;
+        for (let k = left.length - 1; k >= 0; k--) if ((left[k].priority ?? 1) === tier) left.splice(k, 1);
+        if (left.length && left.length < before) continue;
         break;
       }
       seq = pick.seq;
@@ -163,7 +178,10 @@ export function planDay(inp: PlanInput): Plan {
       left.splice(pick.idx, 1);
     }
     // exhibitions matter most, then stops with opening hours, then the rest; then less walking
-    const count = steps.reduce((a, s) => a + (s.item.kind === 'show' ? 10000 : s.item.kind === 'window' ? 100 : 1), 0);
+    const count = steps.reduce(
+      (a, s) => a + (s.item.kind === 'show' ? 10000 : s.item.kind === 'window' ? 100 : (s.item.priority ?? 1)),
+      0,
+    );
     const w = walked(steps);
     if (!best || count > best.count || (count === best.count && w < best.walk)) best = { steps, count, walk: w };
   }

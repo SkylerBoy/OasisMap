@@ -12,6 +12,7 @@ import { ICONS } from './icons';
 import { poiIconSvg } from './poi-icons';
 import { ecotourRun, parkMinutes, poiStatus, toMinutes, type Status } from './status';
 import { startPlanner, type PlannerApi } from './planner-ui';
+import { VisitTimes } from './visit-times';
 import { askPermission, dueReminders, nextSession, notify, reminderFor, toggleReminder } from './reminders';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -53,6 +54,7 @@ let graph: PathGraph;
 let poiSnaps: Map<string, Snap>;
 let pmap: ParkMap;
 let planner: PlannerApi | null = null;
+let visitTimes: VisitTimes | null = null;
 let tracker: LocationTracker;
 let compass: Compass;
 const params = new URLSearchParams(location.search);
@@ -94,7 +96,14 @@ async function init() {
     renderList();
     renderSheet();
   }, 60_000);
+  visitTimes = new VisitTimes(data.config.stats, data.pois);
+  void visitTimes.loadMedians();
+  void visitTimes.flush();
+  $('stats-yes').addEventListener('click', () => answerStats(true));
+  $('stats-no').addEventListener('click', () => answerStats(false));
+  document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && void visitTimes?.flush());
   planner = startPlanner({
+    minutesAt: (id) => visitTimes?.median(id),
     data,
     graph,
     snaps: poiSnaps,
@@ -173,6 +182,17 @@ function onFix(fix: Fix) {
   }
   if (state.navTo) updateNavigation();
   planner?.onFix(fix.coord);
+  if (!fix.simulated && isInsidePark(fix)) {
+    visitTimes?.onFix(fix.coord);
+    // once, in the park: may we measure visit times?
+    if (visitTimes?.enabled && visitTimes.consent === null) $('stats-ask').hidden = false;
+  }
+}
+
+function answerStats(yes: boolean) {
+  visitTimes?.setConsent(yes);
+  $('stats-ask').hidden = true;
+  if (yes) toast(t('stats.thanks'));
 }
 
 function currentHeading(): number | null {

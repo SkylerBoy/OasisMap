@@ -2641,8 +2641,11 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   text-align: center;
 }
 
-.sum-stat span {
-  font-size: 1.4rem;
+.sum-map {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px;
+  border-radius: var(--r-md);
 }
 
 .sum-stat b {

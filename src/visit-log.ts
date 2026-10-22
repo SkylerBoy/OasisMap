@@ -14,6 +14,8 @@ export interface VisitDay {
   meters: number;
   /** Minutes spent at each point. */
   seen: Record<string, number>;
+  /** Where you walked (a point every few metres), to draw your visit on a map. */
+  track?: [number, number][];
   /** The summary was already offered on leaving. */
   offered?: boolean;
 }
@@ -25,6 +27,8 @@ const SHOW_MIN = 10; // this long at an exhibition counts as watching it
 const MAX_STEP_M = 80; // bigger jumps between fixes are GPS noise
 const MIN_STEP_M = 3; // smaller ones are standing still
 const MAX_ACCURACY_M = 35;
+const TRACK_STEP_M = 8;
+const TRACK_MAX = 4000;
 
 const SEEN_KINDS = new Set(['animal', 'show', 'experience', 'botanic']);
 
@@ -89,6 +93,10 @@ export class VisitLog {
       if (this.last) {
         const step = distance(this.last.coord, coord);
         if (step >= MIN_STEP_M && step <= MAX_STEP_M) d.meters += step;
+        const track = (d.track ??= []);
+        const lastPoint = track[track.length - 1];
+        if (step <= MAX_STEP_M && (!lastPoint || distance(lastPoint, coord) >= TRACK_STEP_M) && track.length < TRACK_MAX)
+          track.push([Math.round(coord[0] * 1e6) / 1e6, Math.round(coord[1] * 1e6) / 1e6]);
         if (step >= MIN_STEP_M || now - this.last.at > 60_000) this.last = { coord, at: now };
       } else this.last = { coord, at: now };
     }

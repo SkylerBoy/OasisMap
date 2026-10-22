@@ -23,9 +23,7 @@ returns text
 language sql
 security definer
 set search_path = public
-as $$
-  select plan from public.shared_plans where code = upper(c) and expires >= current_date;
-$$;
+as 'select plan from public.shared_plans where code = upper(c) and expires >= current_date';
 revoke all on function public.get_plan(text) from public;
 grant execute on function public.get_plan(text) to anon;
 
@@ -35,12 +33,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = public
-as $$
-begin
-  delete from public.shared_plans where expires < current_date;
-  return new;
-end;
-$$;
+as 'begin delete from public.shared_plans where expires < current_date; return new; end';
 drop trigger if exists clear_expired on public.shared_plans;
 create trigger clear_expired after insert on public.shared_plans
   for each statement execute function public.clear_expired_plans();

@@ -1028,7 +1028,128 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     else guideNav();
   }
 
+  // --- share the plan (WhatsApp or any app) and open a shared one ----------------------
+  /** Compact plan for a link: day, times, settings and the stops in order. */
+  interface SharedPlan {
+    v: 1;
+    d: string; // date
+    s: string; // start
+    e: string; // end
+    p: number; // pace
+    t: 0 | 1; // train
+    l: 0 | 1; // lunch
+    b: [number, number]; // breaks every, length
+    x: (string | [string, string])[]; // stop id, or [id, point] for lunch / breaks
+  }
+  const b64 = {
+    enc: (o: unknown) => btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
+    dec: (s: string) => JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g, '+').replace(/_/g, '/'))))),
+  };
+
+  function shareLink(): string {
+    const sp: SharedPlan = {
+      v: 1,
+      d: savedPlan?.date ?? dateOf(dayOffset),
+      s: savedPlan?.start ?? OPEN,
+      e: savedPlan?.end ?? CLOSE,
+      p: pace,
+      t: useTrain ? 1 : 0,
+      l: $<HTMLInputElement>('plan-lunch').checked ? 1 : 0,
+      b: [breaks.every, breaks.dur],
+      x: plan!.steps.map((st) => (st.loc === st.item.id ? st.item.id : [st.item.id, st.loc])),
+    };
+    const url = new URL(location.href);
+    url.search = '';
+    url.hash = '';
+    url.searchParams.set('plan', b64.enc(sp));
+    return url.toString();
+  }
+
+  function shareText(): string {
+    const d = daysFromToday(savedPlan?.date ?? dateOf(0));
+    const day =
+      d <= 0
+        ? t('plan.today')
+        : d === 1
+          ? t('plan.tomorrow')
+          : new Intl.DateTimeFormat(currentLang(), { weekday: 'long', day: 'numeric' }).format(new Date(`${savedPlan!.date}T12:00:00`));
+    const lines = plan!.steps.slice(0, 25).map((st) => `${hhmm(st.start)} ${st.ride ? '🚂 ' : ''}${nameOf(st.item.id, st.loc)}`);
+    if (plan!.steps.length > 25) lines.push(t('plan.shareMore', { n: plan!.steps.length - 25 }));
+    return `${t('plan.shareTitle', { day })}\n\n${lines.join('\n')}\n\n${t('plan.shareOpen')}`;
+  }
+
+  async function sharePlan() {
+    if (!plan?.steps.length) return;
+    const url = shareLink();
+    const text = shareText();
+    // The phone's share sheet (WhatsApp, Telegram, mail…) if there is one, else WhatsApp directly.
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: t('plan.yours'), text, url });
+        return;
+      } catch (e) {
+        if ((e as DOMException).name === 'AbortError') return;
+      }
+    }
+    window.open(`https://wa.me/?text=${encodeURIComponent(`${text}\n${url}`)}`, '_blank', 'noopener');
+  }
+
+  /** Opened from a shared link: offer to use that plan. */
+  function offerShared() {
+    const raw = new URLSearchParams(location.search).get('plan');
+    if (!raw) return;
+    let sp: SharedPlan;
+    try {
+      sp = b64.dec(raw);
+      if (sp.v !== 1 || !Array.isArray(sp.x)) return;
+    } catch {
+      return;
+    }
+    // the link is used once; a reload should not ask again
+    const clean = new URL(location.href);
+    clean.searchParams.delete('plan');
+    history.replaceState(null, '', clean);
+    const stops = sp.x.map((x) => (Array.isArray(x) ? { id: x[0], loc: x[1] } : { id: x, loc: x }));
+    const usable = stops.filter((x) => byId.has(x.loc) && (x.id === 'lunch' || x.id.startsWith('rest-') || byId.has(x.id)));
+    if (!usable.length) return;
+    const d = Math.max(0, daysFromToday(sp.d));
+    const dayName =
+      d === 0 ? t('plan.today') : d === 1 ? t('plan.tomorrow') : new Intl.DateTimeFormat(currentLang(), { weekday: 'long', day: 'numeric' }).format(new Date(`${sp.d}T12:00:00`));
+    $('plan-import-text').textContent = t('plan.importAsk', { n: usable.filter((x) => !x.id.startsWith('rest-')).length, day: dayName });
+    $('plan-import').hidden = false;
+    $('plan-import-no').onclick = () => ($('plan-import').hidden = true);
+    $('plan-import-yes').onclick = () => {
+      $('plan-import').hidden = true;
+      dayOffset = d;
+      pace = sp.p;
+      useTrain = !!sp.t;
+      breaks = { every: sp.b[0], dur: sp.b[1] };
+      $<HTMLInputElement>('plan-lunch').checked = !!sp.l;
+      saved.lunch = !!sp.l;
+      $<HTMLInputElement>('plan-train').checked = useTrain;
+      setTime('plan-start', sp.s);
+      setTime('plan-end', sp.e);
+      selected.clear();
+      usable.forEach((x) => byId.has(x.id) && byId.get(x.id)!.category !== 'food' && selected.add(x.id));
+      hereSnap = null;
+      trees.clear();
+      // same order as the sender; times worked out again here (if they no longer fit, plan afresh)
+      const r = scheduleOrder(
+        usable.map((x) => ({ item: { ...itemFor(x.id), locs: [x.loc] }, loc: x.loc })),
+        orderInput(),
+      );
+      plan = 'steps' in r ? { steps: r.steps, skipped: [], walkTotal: 0 } : planDay({ ...orderInput(), items: items() });
+      guide = { onMap: false, following: false, done: new Set() };
+      keepPlan();
+      open();
+      ctx.toast(t('plan.imported'));
+    };
+  }
+
+  $('plan-share').addEventListener('click', () => void sharePlan());
+
   restore();
+  offerShared();
   updateCta();
   refreshMap();
   renderBar();

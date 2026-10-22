@@ -174,5 +174,14 @@
   "plan.useTrain": "Usa l’Ecotour per camminare meno",
   "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · fermata {from} → {to} ({arr})",
   "pb.train": "Prendi l’Ecotour alle {t} alla fermata {n} (scendi alla {to})",
-  "plan.summary1": "1 tappa · {d} a piedi · finisci alle {t}"
+  "plan.summary1": "1 tappa · {d} a piedi · finisci alle {t}",
+  "plan.share": "Condividi il piano su WhatsApp",
+  "plan.shareShort": "Condividi",
+  "plan.shareTitle": "🦒 Il mio piano a Oasis Wildlife ({day}):",
+  "plan.shareMore": "…e altre {n} tappe",
+  "plan.shareOpen": "Aprilo sulla mappa del parco:",
+  "plan.importAsk": "Ti hanno condiviso un piano di {n} tappe ({day}). Lo usi? Sostituisce il tuo piano.",
+  "plan.importNo": "Non ora",
+  "plan.importYes": "Usa questo piano",
+  "plan.imported": "Piano caricato. Gli orari sono stati ricalcolati."
 }

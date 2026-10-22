@@ -172,6 +172,9 @@ el próximo tren por las siguientes.
   propone el tren si ahorra al menos 5 min de caminar y no tarda mucho más (3 / 8 / 15 min extra
   con ritmo rápido / normal / tranquilo). En este parque el tren es más lento que andar: sirve
   para descansar las piernas. Respeta sus horarios (0 → 5, 5 min entre paradas).
+- **Compartir**: botón verde en el plan. Abre la hoja de compartir del móvil (WhatsApp, Telegram…)
+  o WhatsApp directamente con las paradas y un enlace `?plan=…` que lleva el día, las horas, los
+  ajustes y el orden. Quien lo abre puede usarlo; las horas se recalculan en su móvil.
 - **Plan en el mapa**: recorrido y número de parada en cada punto (los demás puntos no muestran
   número mientras tanto). La etiqueta de arriba lo abre o lo quita.
 - **Empezar la visita**: barra abajo con la siguiente parada (Ir, ✓ hecho). Al llegar (a 20 m o

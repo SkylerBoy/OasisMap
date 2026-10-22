@@ -174,5 +174,14 @@
   "plan.useTrain": "Fer servir l’Ecotour per caminar menys",
   "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · parada {from} → {to} ({arr})",
   "pb.train": "Agafa l’Ecotour a les {t} a la parada {n} (baixa a la {to})",
-  "plan.summary1": "1 parada · {d} a peu · acabes a les {t}"
+  "plan.summary1": "1 parada · {d} a peu · acabes a les {t}",
+  "plan.share": "Compartir el pla per WhatsApp",
+  "plan.shareShort": "Compartir",
+  "plan.shareTitle": "🦒 El meu pla a Oasis Wildlife ({day}):",
+  "plan.shareMore": "…i {n} parades més",
+  "plan.shareOpen": "Obre’l al mapa del parc:",
+  "plan.importAsk": "T’han compartit un pla de {n} parades ({day}). El fas servir? Substitueix el teu pla actual.",
+  "plan.importNo": "Ara no",
+  "plan.importYes": "Fer servir aquest pla",
+  "plan.imported": "Pla carregat. Les hores s’han recalculat."
 }

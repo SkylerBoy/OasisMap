@@ -174,5 +174,14 @@
   "plan.useTrain": "Ecotour nutzen, um weniger zu laufen",
   "plan.ride": "🚶 {w} Min. · 🚂 Ecotour {dep} · Halt {from} → {to} ({arr})",
   "pb.train": "Nimm den Ecotour um {t} an Halt {n} (aussteigen an {to})",
-  "plan.summary1": "1 Stopp · {d} zu Fuß · Ende um {t}"
+  "plan.summary1": "1 Stopp · {d} zu Fuß · Ende um {t}",
+  "plan.share": "Plan per WhatsApp teilen",
+  "plan.shareShort": "Teilen",
+  "plan.shareTitle": "🦒 Mein Plan im Oasis Wildlife ({day}):",
+  "plan.shareMore": "…und {n} weitere Stopps",
+  "plan.shareOpen": "Auf der Parkkarte öffnen:",
+  "plan.importAsk": "Jemand hat einen Plan geteilt: {n} Stopps für {day}. Übernehmen? (Ersetzt deinen Plan)",
+  "plan.importNo": "Jetzt nicht",
+  "plan.importYes": "Diesen Plan nutzen",
+  "plan.imported": "Plan geladen. Die Zeiten wurden neu berechnet."
 }

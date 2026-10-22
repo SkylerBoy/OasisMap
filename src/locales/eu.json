@@ -174,5 +174,14 @@
   "plan.useTrain": "Erabili Ecotour-a gutxiago ibiltzeko",
   "plan.ride": "🚶 {w} min · 🚂 Ecotour {dep} · {from}. geltokia → {to}. ({arr})",
   "pb.train": "Hartu Ecotour-a {t}etan {n}. geltokian ({to}.ean jaitsi)",
-  "plan.summary1": "Geldialdi 1 · {d} oinez · {t}etan amaituko duzu"
+  "plan.summary1": "Geldialdi 1 · {d} oinez · {t}etan amaituko duzu",
+  "plan.share": "Partekatu plana WhatsApp bidez",
+  "plan.shareShort": "Partekatu",
+  "plan.shareTitle": "🦒 Nire plana Oasis Wildlife-n ({day}):",
+  "plan.shareMore": "…eta beste {n} geldialdi",
+  "plan.shareOpen": "Ireki parkeko mapan:",
+  "plan.importAsk": "Plan bat partekatu dizute: {n} geldialdi, {day}. Erabiliko duzu? (Zure plana ordezkatzen du)",
+  "plan.importNo": "Orain ez",
+  "plan.importYes": "Erabili plan hau",
+  "plan.imported": "Plana kargatuta. Orduak berriro kalkulatu dira."
 }

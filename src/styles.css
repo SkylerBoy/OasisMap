@@ -2478,3 +2478,37 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) .plan-walk.plan-ride { color: #4fb3bf; }
 }
+
+/* share the plan */
+.plan-summary-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  margin: 0 0 12px;
+}
+
+.plan-summary-row .plan-summary {
+  flex: 1;
+  margin: 0;
+}
+
+.plan-share {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: #25d366;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.plan-share svg {
+  width: 22px;
+  height: 22px;
+}

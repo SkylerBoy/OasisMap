@@ -7,7 +7,7 @@ import { insertBest, planDay, scheduleOrder, type Plan, type PlanItem } from './
 import { poiIconSvg } from './poi-icons';
 import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
-import { pickTime } from './time-picker';
+import { pickOption, pickTime } from './time-picker';
 
 export interface PlannerContext {
   data: ParkData;
@@ -646,8 +646,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       setTime('plan-end', savedPlan.end);
     } else defaultStart();
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
-    $<HTMLSelectElement>('plan-break-every').value = String(breaks.every);
-    $<HTMLSelectElement>('plan-break-dur').value = String(breaks.dur);
+    renderBreaks();
     renderPace();
     renderChoices();
     if (plan) renderPlan();
@@ -956,13 +955,34 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   document.querySelectorAll<HTMLElement>('.plan-pace-presets button').forEach((b) =>
     b.addEventListener('click', () => setPace(Number(b.dataset.pace))),
   );
-  const onBreaks = () => {
-    breaks = { every: Number($<HTMLSelectElement>('plan-break-every').value), dur: Number($<HTMLSelectElement>('plan-break-dur').value) };
-    $<HTMLSelectElement>('plan-break-dur').disabled = !breaks.every;
+  const everyOptions = () => [
+    { value: 0, label: t('plan.breakNone') },
+    ...[90, 120, 150, 180].map((v) => ({ value: v, label: v % 60 ? `${Math.floor(v / 60)} h ${v % 60}` : `${v / 60} h` })),
+  ];
+  const durOptions = () => [10, 15, 20, 30].map((v) => ({ value: v, label: `${v} min` }));
+  function renderBreaks() {
+    const every = $('plan-break-every');
+    every.dataset.value = String(breaks.every);
+    every.querySelector('span')!.textContent = everyOptions().find((o) => o.value === breaks.every)?.label ?? '';
+    const dur = $<HTMLButtonElement>('plan-break-dur');
+    dur.dataset.value = String(breaks.dur);
+    dur.querySelector('span')!.textContent = `${breaks.dur} min`;
+    dur.disabled = !breaks.every;
+  }
+  $('plan-break-every').addEventListener('click', async () => {
+    const v = await pickOption(t('plan.breaksEvery'), everyOptions(), breaks.every);
+    if (v === null) return;
+    breaks = { ...breaks, every: v };
+    renderBreaks();
     persist();
-  };
-  $('plan-break-every').addEventListener('change', onBreaks);
-  $('plan-break-dur').addEventListener('change', onBreaks);
+  });
+  $('plan-break-dur').addEventListener('click', async () => {
+    const v = await pickOption(t('plan.breaksLong'), durOptions(), breaks.dur);
+    if (v === null) return;
+    breaks = { ...breaks, dur: v };
+    renderBreaks();
+    persist();
+  });
   $('plan-adv').addEventListener('toggle', () => $<HTMLDetailsElement>('plan-adv').open && renderPrefs());
   $('plan-add-more').addEventListener('click', () => {
     addAll = true;

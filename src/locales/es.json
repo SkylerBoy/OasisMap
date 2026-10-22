@@ -161,5 +161,7 @@
   "stats.ask": "¿Nos ayudas a mejorar los tiempos del planificador? Guardaremos de forma anónima cuánto tiempo pasas en cada recinto, nada más.",
   "stats.no": "No, gracias",
   "stats.yes": "Sí, ayudo",
-  "stats.thanks": "¡Gracias! Así los planes serán más realistas."
+  "stats.thanks": "¡Gracias! Así los planes serán más realistas.",
+  "plan.breaksEvery": "Descanso cada",
+  "plan.breaksLong": "Duración del descanso"
 }

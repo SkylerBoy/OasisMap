@@ -161,5 +161,7 @@
   "stats.ask": "Ci aiuti a migliorare i tempi del pianificatore? Registreremo in forma anonima quanto tempo passi in ogni recinto, nient’altro.",
   "stats.no": "No, grazie",
   "stats.yes": "Sì, aiuto",
-  "stats.thanks": "Grazie! Così i piani saranno più realistici."
+  "stats.thanks": "Grazie! Così i piani saranno più realistici.",
+  "plan.breaksEvery": "Pausa ogni",
+  "plan.breaksLong": "Durata della pausa"
 }

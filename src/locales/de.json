@@ -161,5 +161,7 @@
   "stats.ask": "Hilfst du uns, die Zeiten des Planers zu verbessern? Wir speichern anonym, wie lange du an jedem Gehege bist – sonst nichts.",
   "stats.no": "Nein, danke",
   "stats.yes": "Ja, gern",
-  "stats.thanks": "Danke! So werden die Pläne realistischer."
+  "stats.thanks": "Danke! So werden die Pläne realistischer.",
+  "plan.breaksEvery": "Pause alle",
+  "plan.breaksLong": "Pausenlänge"
 }

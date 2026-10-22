@@ -81,3 +81,38 @@ export function pickTime(
     });
   });
 }
+
+/** Choose one option from a list, in the same bottom panel as the time picker. */
+export function pickOption<T extends string | number>(
+  title: string,
+  options: { value: T; label: string }[],
+  current: T,
+): Promise<T | null> {
+  return new Promise((resolve) => {
+    const root = document.createElement('div');
+    root.className = 'tp';
+    root.innerHTML = `
+      <div class="tp-backdrop"></div>
+      <div class="tp-sheet" role="dialog" aria-modal="true">
+        <h3 class="tp-title"></h3>
+        <ul class="tp-options" role="listbox"></ul>
+      </div>`;
+    root.querySelector('.tp-title')!.textContent = title;
+    const ul = root.querySelector('.tp-options')!;
+    const finish = (v: T | null) => {
+      root.classList.remove('open');
+      setTimeout(() => root.remove(), 220);
+      resolve(v);
+    };
+    for (const o of options) {
+      const li = document.createElement('li');
+      li.innerHTML = `<button type="button" role="option" aria-selected="${o.value === current}"><span></span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></button>`;
+      li.querySelector('span')!.textContent = o.label;
+      li.querySelector('button')!.addEventListener('click', () => finish(o.value));
+      ul.appendChild(li);
+    }
+    root.querySelector('.tp-backdrop')!.addEventListener('click', () => finish(null));
+    document.body.appendChild(root);
+    requestAnimationFrame(() => root.classList.add('open'));
+  });
+}

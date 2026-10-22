@@ -161,5 +161,7 @@
   "stats.ask": "Nous aidez-vous à améliorer les temps du planificateur ? Nous enregistrerons anonymement le temps passé à chaque enclos, rien de plus.",
   "stats.no": "Non, merci",
   "stats.yes": "Oui, j’aide",
-  "stats.thanks": "Merci ! Les plans seront plus réalistes."
+  "stats.thanks": "Merci ! Les plans seront plus réalistes.",
+  "plan.breaksEvery": "Pause toutes les",
+  "plan.breaksLong": "Durée de la pause"
 }

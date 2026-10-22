@@ -2275,12 +2275,62 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   flex: 1;
 }
 
-.plan-adv-row select {
-  padding: 7px 8px;
+.plan-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 96px;
+  padding: 8px 10px 8px 12px;
   border: 1.5px solid var(--line);
   border-radius: var(--r-sm);
   background: var(--surface);
   color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.plan-select svg {
+  flex: none;
+  color: var(--brand);
+}
+
+.plan-select:disabled {
+  opacity: 0.45;
+}
+
+/* option list in the bottom panel (same look as the language menu) */
+.tp-options {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tp-options button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 14px 12px;
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--ink);
+  font-size: 1.05rem;
+  text-align: left;
+}
+
+.tp-options button svg {
+  visibility: hidden;
+  color: var(--brand);
+}
+
+.tp-options button[aria-selected='true'] {
+  background: color-mix(in srgb, var(--brand) 12%, var(--surface));
+  color: var(--brand);
+}
+
+.tp-options button[aria-selected='true'] svg {
+  visibility: visible;
 }
 
 .plan-adv-note {
@@ -2382,4 +2432,14 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
 
 .stats-ask-btns .btn {
   flex: 1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .tp-options button[aria-selected='true'] { color: #ff9aa6; }
+  :root:not([data-theme='light']) .tp-options button svg,
+  :root:not([data-theme='light']) .plan-select svg,
+  :root:not([data-theme='light']) .tp-title,
+  :root:not([data-theme='light']) .plan-pace-head b,
+  :root:not([data-theme='light']) .tp-item.on,
+  :root:not([data-theme='light']) .tp-colon { color: #ff9aa6; }
 }

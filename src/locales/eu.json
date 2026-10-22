@@ -161,5 +161,7 @@
   "stats.ask": "Planifikatzailearen denborak hobetzen lagunduko diguzu? Esparru bakoitzean zenbat denbora ematen duzun gordeko dugu, anonimoki, besterik ez.",
   "stats.no": "Ez, eskerrik asko",
   "stats.yes": "Bai, lagunduko dut",
-  "stats.thanks": "Eskerrik asko! Horrela planak errealagoak izango dira."
+  "stats.thanks": "Eskerrik asko! Horrela planak errealagoak izango dira.",
+  "plan.breaksEvery": "Atsedena noizero",
+  "plan.breaksLong": "Atsedenaren iraupena"
 }

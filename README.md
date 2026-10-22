@@ -172,6 +172,10 @@ el próximo tren por las siguientes.
   propone el tren si ahorra al menos 5 min de caminar y no tarda mucho más (3 / 8 / 15 min extra
   con ritmo rápido / normal / tranquilo). En este parque el tren es más lento que andar: sirve
   para descansar las piernas. Respeta sus horarios (0 → 5, 5 min entre paradas).
+- **Planes listos** (Imprescindibles 3 h, Con niños, Solo exhibiciones, Visita rápida 2 h): un toque
+  y planifica. Las listas están en `PRESETS` (`src/planner-ui.ts`).
+- **Calendario**: descarga el plan como `.ics` (cada parada un evento; exhibiciones, comida,
+  experiencias y tren con alarma a la hora de salir). Las alarmas suenan aunque la web esté cerrada.
 - **Compartir**: botón verde en el plan. Abre la hoja de compartir del móvil (WhatsApp, Telegram…)
   o WhatsApp directamente con las paradas y un enlace corto `?p=…` (2 caracteres por parada, códigos
   fijos en `data/link-codes.json`) que lleva el día, las horas, los

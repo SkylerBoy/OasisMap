@@ -184,5 +184,19 @@
   "plan.importNo": "Orain ez",
   "plan.importYes": "Erabili plan hau",
   "plan.imported": "Plana kargatuta. Orduak berriro kalkulatu dira.",
-  "plan.linkGone": "Partekatutako plan hori ez dago eskuragarri edo ez dago konexiorik."
+  "plan.linkGone": "Partekatutako plan hori ez dago eskuragarri edo ez dago konexiorik.",
+  "plan.presets": "Plan prestatuak",
+  "plan.ownPlan": "Edo egin zure neurrira",
+  "plan.preset.musts": "Ezinbestekoak",
+  "plan.preset.musts.hint": "Onena 3 ordutan",
+  "plan.preset.kids": "Haurrekin",
+  "plan.preset.kids.hint": "Lasai, atsedenekin",
+  "plan.preset.shows": "Erakustaldiak soilik",
+  "plan.preset.shows.hint": "Hirurak eta bazkaria",
+  "plan.preset.quick": "Bisita azkarra",
+  "plan.preset.quick.hint": "Onena 2 ordutan",
+  "plan.calendar": "Gehitu plana egutegira",
+  "plan.calendarShort": "Egutegia",
+  "plan.calendarDone": "Ireki deskargatutako fitxategia plana egutegira gehitzeko (garaiz irteteko abisuekin).",
+  "cal.train": "Ecotour {from}. geltokia → {to}."
 }

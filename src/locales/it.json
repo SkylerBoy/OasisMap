@@ -184,5 +184,19 @@
   "plan.importNo": "Non ora",
   "plan.importYes": "Usa questo piano",
   "plan.imported": "Piano caricato. Gli orari sono stati ricalcolati.",
-  "plan.linkGone": "Quel piano condiviso non è più disponibile o non c’è connessione."
+  "plan.linkGone": "Quel piano condiviso non è più disponibile o non c’è connessione.",
+  "plan.presets": "Piani pronti",
+  "plan.ownPlan": "O fallo su misura",
+  "plan.preset.musts": "Imperdibili",
+  "plan.preset.musts.hint": "Il meglio in 3 h",
+  "plan.preset.kids": "Con bambini",
+  "plan.preset.kids.hint": "Tranquillo, con pause",
+  "plan.preset.shows": "Solo esibizioni",
+  "plan.preset.shows.hint": "Tutte e 3 e il pranzo",
+  "plan.preset.quick": "Visita veloce",
+  "plan.preset.quick.hint": "Il top in 2 h",
+  "plan.calendar": "Aggiungi il piano al calendario",
+  "plan.calendarShort": "Calendario",
+  "plan.calendarDone": "Apri il file scaricato per aggiungere il piano al calendario (con avvisi per partire in tempo).",
+  "cal.train": "Ecotour fermata {from} → {to}"
 }

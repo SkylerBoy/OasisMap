@@ -184,5 +184,19 @@
   "plan.importNo": "Not now",
   "plan.importYes": "Use this plan",
   "plan.imported": "Plan loaded. Times have been worked out again.",
-  "plan.linkGone": "That shared plan is no longer available, or there is no connection."
+  "plan.linkGone": "That shared plan is no longer available, or there is no connection.",
+  "plan.presets": "Ready-made plans",
+  "plan.ownPlan": "Or make your own",
+  "plan.preset.musts": "Must-sees",
+  "plan.preset.musts.hint": "The best in 3 h",
+  "plan.preset.kids": "With kids",
+  "plan.preset.kids.hint": "Relaxed, with breaks",
+  "plan.preset.shows": "Exhibitions only",
+  "plan.preset.shows.hint": "All 3 and lunch",
+  "plan.preset.quick": "Quick visit",
+  "plan.preset.quick.hint": "Top picks in 2 h",
+  "plan.calendar": "Add the plan to your calendar",
+  "plan.calendarShort": "Calendar",
+  "plan.calendarDone": "Open the downloaded file to add the plan to your calendar (with alerts to leave on time).",
+  "cal.train": "Ecotour stop {from} → {to}"
 }

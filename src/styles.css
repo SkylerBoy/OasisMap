@@ -2512,3 +2512,58 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   width: 22px;
   height: 22px;
 }
+
+/* one-tap plans */
+.plan-presets-title {
+  margin: 16px 0 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.plan-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.plan-preset {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 8px;
+  align-items: center;
+  padding: 12px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+}
+
+.plan-preset:active {
+  background: color-mix(in srgb, var(--brand) 10%, var(--surface));
+}
+
+.plan-preset-icon {
+  grid-row: 1 / 3;
+  font-size: 1.6rem;
+}
+
+.plan-preset b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.plan-preset small {
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.plan-cal {
+  background: var(--chip);
+  color: var(--ink);
+}

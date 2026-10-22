@@ -184,5 +184,19 @@
   "plan.importNo": "Ara no",
   "plan.importYes": "Fer servir aquest pla",
   "plan.imported": "Pla carregat. Les hores s’han recalculat.",
-  "plan.linkGone": "Aquest pla compartit ja no està disponible o no hi ha connexió."
+  "plan.linkGone": "Aquest pla compartit ja no està disponible o no hi ha connexió.",
+  "plan.presets": "Plans fets",
+  "plan.ownPlan": "O fes-lo a mida",
+  "plan.preset.musts": "Imprescindibles",
+  "plan.preset.musts.hint": "El millor en 3 h",
+  "plan.preset.kids": "Amb nens",
+  "plan.preset.kids.hint": "Tranquil, amb descansos",
+  "plan.preset.shows": "Només exhibicions",
+  "plan.preset.shows.hint": "Les 3 i el dinar",
+  "plan.preset.quick": "Visita ràpida",
+  "plan.preset.quick.hint": "El top en 2 h",
+  "plan.calendar": "Afegir el pla al calendari",
+  "plan.calendarShort": "Calendari",
+  "plan.calendarDone": "Obre el fitxer baixat per afegir el pla al calendari (amb avisos per sortir a temps).",
+  "cal.train": "Ecotour parada {from} → {to}"
 }

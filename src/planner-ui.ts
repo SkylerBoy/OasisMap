@@ -11,6 +11,7 @@ import { parkMinutes, parkWeekday, toMinutes } from './status';
 import { pickOption, pickTime } from './time-picker';
 import { decodePlan, encodePlan } from './plan-link';
 import { loadPlan, SHORT_CODE, storePlan } from './plan-share';
+import { buildIcs, type CalEvent } from './calendar';
 
 export interface PlannerContext {
   data: ParkData;
@@ -50,6 +51,52 @@ const STAY = { animal: 6, botanic: 10, show: 30, experience: 30 } as const; // e
 const LUNCH_MIN = 45;
 const LUNCH: [number, number] = [toMinutes('12:30'), toMinutes('14:45')];
 const KEY = 'oasis.plan';
+
+/** One-tap plans: what to see and how. Edit the lists freely (point ids). */
+const PRESETS: {
+  id: string;
+  icon: string;
+  hours?: number;
+  pace: number;
+  lunch: boolean;
+  breaks: number;
+  train: boolean;
+  stops: string[];
+}[] = [
+  {
+    id: 'musts',
+    icon: '⭐',
+    hours: 3,
+    pace: 100,
+    lunch: false,
+    breaks: 0,
+    train: false,
+    stops: ['jirafas', 'elefantes', 'hipopotamo', 'tunel-lemures', 'cocodrilo-nilo', 'flamencos', 'capibara', 'nutria', 'fenec', 'sea-lion-live', 'birds-live'],
+  },
+  {
+    id: 'kids',
+    icon: '👨‍👩‍👧',
+    pace: 135,
+    lunch: true,
+    breaks: 90,
+    train: true,
+    stops: [
+      'jirafas', 'elefantes', 'hipopotamo', 'tunel-lemures', 'flamencos', 'capibara', 'nutria', 'fenec', 'canguro-pelicano',
+      'puercoespin', 'tortuga-aldabra', 'mono-arana', 'sabana-splash', 'sea-lion-live', 'birds-live', 'fauna-live',
+    ],
+  },
+  { id: 'shows', icon: '🎓', pace: 100, lunch: true, breaks: 0, train: false, stops: ['sea-lion-live', 'fauna-live', 'birds-live', 'aligator'] },
+  {
+    id: 'quick',
+    icon: '⚡',
+    hours: 2,
+    pace: 75,
+    lunch: false,
+    breaks: 0,
+    train: false,
+    stops: ['jirafas', 'elefantes', 'hipopotamo', 'tunel-lemures', 'flamencos', 'capibara', 'nutria', 'cocodrilo-nilo', 'sea-lion-live'],
+  },
+];
 const OPEN = '9:00';
 const CLOSE = '18:00';
 const LAST_ARRIVAL = '16:30';
@@ -329,6 +376,43 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       );
       ul.appendChild(li);
     }
+  }
+
+  // --- one-tap plans -------------------------------------------------------------------
+  function renderPresets() {
+    const box = $('plan-presets');
+    box.innerHTML = '';
+    for (const pr of PRESETS) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'plan-preset';
+      b.innerHTML = `<span class="plan-preset-icon" aria-hidden="true">${pr.icon}</span><b></b><small></small>`;
+      b.querySelector('b')!.textContent = t(`plan.preset.${pr.id}`);
+      b.querySelector('small')!.textContent = t(`plan.preset.${pr.id}.hint`);
+      b.addEventListener('click', () => usePreset(pr));
+      box.appendChild(b);
+    }
+  }
+
+  /** Fill in the choice and settings of a ready plan, and plan it straight away. */
+  function usePreset(pr: (typeof PRESETS)[number]) {
+    selected.clear();
+    pr.stops.filter((id) => byId.has(id)).forEach((id) => selected.add(id));
+    pace = pr.pace;
+    useTrain = pr.train;
+    breaks = { ...breaks, every: pr.breaks };
+    $<HTMLInputElement>('plan-lunch').checked = pr.lunch;
+    saved.lunch = pr.lunch;
+    $<HTMLInputElement>('plan-train').checked = useTrain;
+    if (pr.hours) {
+      const start = toMinutes($('plan-start').dataset.value || OPEN);
+      setTime('plan-end', hhmm(Math.min(toMinutes(CLOSE), start + pr.hours * 60)));
+    } else setTime('plan-end', CLOSE);
+    renderPace();
+    renderBreaks();
+    renderChoices();
+    persist();
+    makePlan();
   }
 
   function updateCount() {
@@ -733,6 +817,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     $<HTMLInputElement>('plan-lunch').checked = saved.lunch;
     renderBreaks();
     renderPace();
+    renderPresets();
     renderChoices();
     if (plan) renderPlan();
     show(plan ? 'result' : 'choose');
@@ -1207,6 +1292,51 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   }
 
   $('plan-share').addEventListener('click', () => void sharePlan());
+  $('plan-cal').addEventListener('click', exportCalendar);
+
+  /** The plan as calendar events: alarms when it is time to leave for fixed-time stops and trains. */
+  function exportCalendar() {
+    if (!plan?.steps.length) return;
+    const date = savedPlan?.date ?? dateOf(dayOffset);
+    const events: CalEvent[] = [];
+    plan.steps.forEach((st, i) => {
+      const poi = byId.get(st.loc)!;
+      const name = nameOf(st.item.id, st.loc);
+      const leave = st.trip ?? st.walk;
+      if (st.ride) {
+        events.push({
+          uid: `${date}-${i}-train@oasismap`,
+          title: `🚂 ${t('cal.train', { from: st.ride.from, to: st.ride.to })}`,
+          date,
+          start: st.ride.dep,
+          end: st.ride.arr,
+          alarm: Math.max(2, st.ride.dep - (st.arrive - leave)), // time to walk to the stop
+          geo: byId.get(`ecotour-${st.ride.from}`)?.coord,
+        });
+      }
+      const fixed = st.item.kind !== 'visit';
+      events.push({
+        uid: `${date}-${i}-${st.item.id}@oasismap`,
+        title: `${st.item.kind === 'show' ? '🎓 ' : st.item.id === 'lunch' ? '🍽️ ' : st.item.id.startsWith('rest-') ? '☕ ' : '🦒 '}${name}`,
+        description: st.item.kind === 'show' ? t('plan.showAt', { t: hhmm(st.start), a: hhmm(st.arrive) }) : t('plan.stay', { n: st.end - st.start }),
+        date,
+        start: st.start,
+        end: st.end,
+        // be told when to leave: walk (or train) plus the margin already in the plan
+        alarm: fixed && !st.ride ? st.start - st.arrive + leave : undefined,
+        geo: poi.coord,
+      });
+    });
+    const ics = buildIcs(events, t('plan.yours'));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' }));
+    a.download = `oasis-wildlife-${date}.ics`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 10_000);
+    ctx.toast(t('plan.calendarDone'), undefined, 6000);
+  }
 
   restore();
   void offerShared();

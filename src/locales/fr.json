@@ -184,5 +184,19 @@
   "plan.importNo": "Pas maintenant",
   "plan.importYes": "Utiliser ce plan",
   "plan.imported": "Plan chargé. Les horaires ont été recalculés.",
-  "plan.linkGone": "Ce plan partagé n’est plus disponible ou il n’y a pas de connexion."
+  "plan.linkGone": "Ce plan partagé n’est plus disponible ou il n’y a pas de connexion.",
+  "plan.presets": "Plans tout prêts",
+  "plan.ownPlan": "Ou faites le vôtre",
+  "plan.preset.musts": "Incontournables",
+  "plan.preset.musts.hint": "Le meilleur en 3 h",
+  "plan.preset.kids": "Avec des enfants",
+  "plan.preset.kids.hint": "Tranquille, avec pauses",
+  "plan.preset.shows": "Présentations seulement",
+  "plan.preset.shows.hint": "Les 3 et le déjeuner",
+  "plan.preset.quick": "Visite rapide",
+  "plan.preset.quick.hint": "L’essentiel en 2 h",
+  "plan.calendar": "Ajouter le plan au calendrier",
+  "plan.calendarShort": "Calendrier",
+  "plan.calendarDone": "Ouvrez le fichier téléchargé pour ajouter le plan à votre calendrier (avec des alertes pour partir à temps).",
+  "cal.train": "Ecotour arrêt {from} → {to}"
 }

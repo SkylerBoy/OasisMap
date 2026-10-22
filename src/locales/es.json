@@ -184,5 +184,19 @@
   "plan.importNo": "Ahora no",
   "plan.importYes": "Usar este plan",
   "plan.imported": "Plan cargado. Las horas se han recalculado.",
-  "plan.linkGone": "Ese plan compartido ya no está disponible o no hay conexión."
+  "plan.linkGone": "Ese plan compartido ya no está disponible o no hay conexión.",
+  "plan.presets": "Planes listos",
+  "plan.ownPlan": "O hazlo a tu medida",
+  "plan.preset.musts": "Imprescindibles",
+  "plan.preset.musts.hint": "Lo mejor en 3 h",
+  "plan.preset.kids": "Con niños",
+  "plan.preset.kids.hint": "Tranquilo, con descansos",
+  "plan.preset.shows": "Solo exhibiciones",
+  "plan.preset.shows.hint": "Las 3 y la comida",
+  "plan.preset.quick": "Visita rápida",
+  "plan.preset.quick.hint": "Lo top en 2 h",
+  "plan.calendar": "Añadir el plan al calendario",
+  "plan.calendarShort": "Calendario",
+  "plan.calendarDone": "Abre el archivo descargado para añadir el plan a tu calendario (con avisos para salir a tiempo).",
+  "cal.train": "Ecotour parada {from} → {to}"
 }

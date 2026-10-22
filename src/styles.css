@@ -2567,3 +2567,19 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   background: var(--chip);
   color: var(--ink);
 }
+
+.plan-adv-toggle {
+  align-items: flex-start;
+  margin: 12px 0 4px;
+}
+
+.plan-adv-toggle > span {
+  display: grid;
+  gap: 2px;
+}
+
+.plan-adv-toggle small {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}

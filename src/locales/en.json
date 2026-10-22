@@ -198,5 +198,7 @@
   "plan.calendar": "Add the plan to your calendar",
   "plan.calendarShort": "Calendar",
   "plan.calendarDone": "Open the downloaded file to add the plan to your calendar (with alerts to leave on time).",
-  "cal.train": "Ecotour stop {from} → {to}"
+  "cal.train": "Ecotour stop {from} → {to}",
+  "plan.offline": "Offline links",
+  "plan.offlineHint": "When sharing, send a longer link that carries the plan and opens without internet (nothing is stored on the server)."
 }

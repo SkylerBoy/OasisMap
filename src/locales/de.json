@@ -198,5 +198,7 @@
   "plan.calendar": "Plan zum Kalender hinzufügen",
   "plan.calendarShort": "Kalender",
   "plan.calendarDone": "Öffne die geladene Datei, um den Plan in deinen Kalender zu übernehmen (mit Erinnerungen zum Losgehen).",
-  "cal.train": "Ecotour Halt {from} → {to}"
+  "cal.train": "Ecotour Halt {from} → {to}",
+  "plan.offline": "Offline-Links",
+  "plan.offlineHint": "Beim Teilen einen längeren Link senden, der den Plan enthält und ohne Internet öffnet (nichts wird auf dem Server gespeichert)."
 }

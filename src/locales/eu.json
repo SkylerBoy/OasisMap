@@ -198,5 +198,7 @@
   "plan.calendar": "Gehitu plana egutegira",
   "plan.calendarShort": "Egutegia",
   "plan.calendarDone": "Ireki deskargatutako fitxategia plana egutegira gehitzeko (garaiz irteteko abisuekin).",
-  "cal.train": "Ecotour {from}. geltokia → {to}."
+  "cal.train": "Ecotour {from}. geltokia → {to}.",
+  "plan.offline": "Konexiorik gabeko estekak",
+  "plan.offlineHint": "Partekatzean, plana barruan duen esteka luzeago bat bidali, internetik gabe irekitzen dena (zerbitzarian ez da ezer gordetzen)."
 }

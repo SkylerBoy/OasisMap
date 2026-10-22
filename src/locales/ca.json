@@ -198,5 +198,7 @@
   "plan.calendar": "Afegir el pla al calendari",
   "plan.calendarShort": "Calendari",
   "plan.calendarDone": "Obre el fitxer baixat per afegir el pla al calendari (amb avisos per sortir a temps).",
-  "cal.train": "Ecotour parada {from} → {to}"
+  "cal.train": "Ecotour parada {from} → {to}",
+  "plan.offline": "Enllaços sense connexió",
+  "plan.offlineHint": "En compartir, enviar un enllaç més llarg que porta el pla a dins i s’obre sense internet (no es desa res al servidor)."
 }

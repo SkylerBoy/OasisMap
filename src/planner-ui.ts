@@ -148,6 +148,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     pace?: number;
     breaks?: { every: number; dur: number };
     train?: boolean;
+    offline?: boolean;
     prefs?: Record<string, Prefs>;
   } = { sel: [], lunch: true };
   try {
@@ -163,6 +164,8 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   const restSpots = data.pois.filter((p) => p.category === 'food' && p.hours);
   /** Use the Ecotour train when it saves walking. */
   let useTrain = saved.train ?? true;
+  /** Share long, self-contained links instead of short ones kept on the server. */
+  let offlineLinks = saved.offline ?? false;
   const trainStops: TrainStop[] = data.pois
     .filter((p) => /^ecotour-\d$/.test(p.id) && p.times?.length)
     .map((p) => ({ id: p.id, n: Number(p.id.slice(-1)), times: p.times!.map(toMinutes) }));
@@ -195,6 +198,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
           breaks,
           prefs,
           train: useTrain,
+          offline: offlineLinks,
         }),
       );
     } catch {
@@ -1164,7 +1168,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   let shortening: Promise<void> | null = null;
 
   function prepareShortLink() {
-    if (!plan?.steps.length) return;
+    if (!plan?.steps.length || offlineLinks) return;
     const p = packed();
     if (short?.packed === p) return;
     const expires = dateOf(Math.max(0, daysFromToday(savedPlan?.date ?? dateOf(0))) + 1);
@@ -1176,6 +1180,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   /** Short ?plan=CODE link if it could be stored, else the long one that works offline. */
   async function shareLink(): Promise<string> {
     const p = packed();
+    if (offlineLinks) return `${baseUrl()}?p=${p}`;
     if (short?.packed !== p) {
       prepareShortLink();
       await Promise.race([shortening, new Promise((r) => setTimeout(r, 2500))]);
@@ -1383,6 +1388,11 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   $('pb-x').addEventListener('click', () => {
     guide.following = false;
     keepPlan();
+  });
+  $<HTMLInputElement>('plan-offline').checked = offlineLinks;
+  $('plan-offline').addEventListener('change', () => {
+    offlineLinks = $<HTMLInputElement>('plan-offline').checked;
+    persist();
   });
   $<HTMLInputElement>('plan-train').checked = useTrain;
   $('plan-train').addEventListener('change', () => {

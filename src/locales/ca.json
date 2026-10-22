@@ -163,5 +163,12 @@
   "stats.yes": "Sí, ajudo",
   "stats.thanks": "Gràcies! Així els plans seran més realistes.",
   "plan.breaksEvery": "Descans cada",
-  "plan.breaksLong": "Durada del descans"
+  "plan.breaksLong": "Durada del descans",
+  "plan.breakNoneHint": "Només el dinar, si l’inclous",
+  "plan.breakCount": "≈ {n} descansos a la visita",
+  "plan.breakDur.10": "Un respir",
+  "plan.breakDur.15": "Un refresc",
+  "plan.breakDur.20": "Berenar",
+  "plan.breakDur.30": "Sense presses",
+  "plan.breakCount1": "≈ 1 descans a la visita"
 }

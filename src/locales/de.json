@@ -163,5 +163,12 @@
   "stats.yes": "Ja, gern",
   "stats.thanks": "Danke! So werden die Pläne realistischer.",
   "plan.breaksEvery": "Pause alle",
-  "plan.breaksLong": "Pausenlänge"
+  "plan.breaksLong": "Pausenlänge",
+  "plan.breakNoneHint": "Nur das Mittagessen, falls gewählt",
+  "plan.breakCount": "≈ {n} Pausen im Besuch",
+  "plan.breakDur.10": "Kurz durchatmen",
+  "plan.breakDur.15": "Ein Getränk",
+  "plan.breakDur.20": "Ein Snack",
+  "plan.breakDur.30": "Ganz in Ruhe",
+  "plan.breakCount1": "≈ 1 Pause im Besuch"
 }

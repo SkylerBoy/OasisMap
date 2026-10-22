@@ -7,6 +7,30 @@ import { t } from './i18n';
 
 const ROW = 44; // px per wheel row
 
+/** Like the animal sheet: drag the top of the panel down to close it. */
+function swipeToClose(sheet: HTMLElement, grab: HTMLElement, close: () => void) {
+  let y0: number | null = null;
+  grab.addEventListener('touchstart', (e) => (y0 = e.touches[0].clientY), { passive: true });
+  grab.addEventListener(
+    'touchmove',
+    (e) => {
+      if (y0 == null) return;
+      e.preventDefault();
+      sheet.style.transition = 'none';
+      sheet.style.transform = `translateY(${Math.max(0, e.touches[0].clientY - y0)}px)`;
+    },
+    { passive: false },
+  );
+  grab.addEventListener('touchend', (e) => {
+    if (y0 == null) return;
+    const dy = e.changedTouches[0].clientY - y0;
+    y0 = null;
+    sheet.style.transition = '';
+    sheet.style.transform = '';
+    if (dy > 70) close();
+  });
+}
+
 function wheel(values: number[], selected: number, label: (v: number) => string): { el: HTMLElement; value: () => number } {
   const el = document.createElement('div');
   el.className = 'tp-wheel';
@@ -49,7 +73,7 @@ export function pickTime(
     root.innerHTML = `
       <div class="tp-backdrop"></div>
       <div class="tp-sheet" role="dialog" aria-modal="true">
-        <h3 class="tp-title"></h3>
+        <div class="tp-grab"><div class="sheet-handle"></div><h3 class="tp-title"></h3></div>
         <div class="tp-wheels"><div class="tp-band" aria-hidden="true"></div><span class="tp-colon">:</span></div>
         <div class="tp-actions">
           <button type="button" class="btn tp-cancel"></button>
@@ -74,6 +98,7 @@ export function pickTime(
     };
     root.querySelector('.tp-backdrop')!.addEventListener('click', () => finish(null));
     root.querySelector('.tp-cancel')!.addEventListener('click', () => finish(null));
+    swipeToClose(root.querySelector('.tp-sheet')!, root.querySelector('.tp-grab')!, () => finish(null));
     root.querySelector('.tp-ok')!.addEventListener('click', () => {
       // keep it within the allowed range (e.g. 16:45 when the latest is 16:30)
       const v = Math.min(hi, Math.max(lo, hw.value() * 60 + mw.value()));
@@ -85,7 +110,7 @@ export function pickTime(
 /** Choose one option from a list, in the same bottom panel as the time picker. */
 export function pickOption<T extends string | number>(
   title: string,
-  options: { value: T; label: string }[],
+  options: { value: T; label: string; hint?: string }[],
   current: T,
 ): Promise<T | null> {
   return new Promise((resolve) => {
@@ -94,7 +119,7 @@ export function pickOption<T extends string | number>(
     root.innerHTML = `
       <div class="tp-backdrop"></div>
       <div class="tp-sheet" role="dialog" aria-modal="true">
-        <h3 class="tp-title"></h3>
+        <div class="tp-grab"><div class="sheet-handle"></div><h3 class="tp-title"></h3></div>
         <ul class="tp-options" role="listbox"></ul>
       </div>`;
     root.querySelector('.tp-title')!.textContent = title;
@@ -106,12 +131,14 @@ export function pickOption<T extends string | number>(
     };
     for (const o of options) {
       const li = document.createElement('li');
-      li.innerHTML = `<button type="button" role="option" aria-selected="${o.value === current}"><span></span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg></button>`;
-      li.querySelector('span')!.textContent = o.label;
+      li.innerHTML = `<button type="button" role="option" aria-selected="${o.value === current}"><b></b><small></small></button>`;
+      li.querySelector('b')!.textContent = o.label;
+      li.querySelector('small')!.textContent = o.hint ?? '';
       li.querySelector('button')!.addEventListener('click', () => finish(o.value));
       ul.appendChild(li);
     }
     root.querySelector('.tp-backdrop')!.addEventListener('click', () => finish(null));
+    swipeToClose(root.querySelector('.tp-sheet')!, root.querySelector('.tp-sheet')!, () => finish(null));
     document.body.appendChild(root);
     requestAnimationFrame(() => root.classList.add('open'));
   });

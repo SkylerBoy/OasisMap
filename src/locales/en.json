@@ -163,5 +163,12 @@
   "stats.yes": "Yes, I’ll help",
   "stats.thanks": "Thank you! Plans will be more realistic.",
   "plan.breaksEvery": "Break every",
-  "plan.breaksLong": "Break length"
+  "plan.breaksLong": "Break length",
+  "plan.breakNoneHint": "Only lunch, if you include it",
+  "plan.breakCount": "≈ {n} breaks in your visit",
+  "plan.breakDur.10": "A breather",
+  "plan.breakDur.15": "A drink",
+  "plan.breakDur.20": "A snack",
+  "plan.breakDur.30": "No rush",
+  "plan.breakCount1": "≈ 1 break in your visit"
 }

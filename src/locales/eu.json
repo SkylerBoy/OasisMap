@@ -163,5 +163,12 @@
   "stats.yes": "Bai, lagunduko dut",
   "stats.thanks": "Eskerrik asko! Horrela planak errealagoak izango dira.",
   "plan.breaksEvery": "Atsedena noizero",
-  "plan.breaksLong": "Atsedenaren iraupena"
+  "plan.breaksLong": "Atsedenaren iraupena",
+  "plan.breakNoneHint": "Bazkaria bakarrik, sartzen baduzu",
+  "plan.breakCount": "≈ {n} atseden bisitan",
+  "plan.breakDur.10": "Arnasaldi bat",
+  "plan.breakDur.15": "Freskagarri bat",
+  "plan.breakDur.20": "Askaria",
+  "plan.breakDur.30": "Presarik gabe",
+  "plan.breakCount1": "≈ atseden 1 bisitan"
 }

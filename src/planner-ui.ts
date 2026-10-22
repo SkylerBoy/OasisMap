@@ -955,11 +955,21 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   document.querySelectorAll<HTMLElement>('.plan-pace-presets button').forEach((b) =>
     b.addEventListener('click', () => setPace(Number(b.dataset.pace))),
   );
+  /** How many breaks a visit would get with breaks every `every` minutes. */
+  const breaksIn = (every: number) => {
+    const span = toMinutes($('plan-end').dataset.value || CLOSE) - toMinutes($('plan-start').dataset.value || OPEN);
+    return Math.max(0, Math.floor((span - 75) / every) - ($<HTMLInputElement>('plan-lunch').checked ? 1 : 0));
+  };
   const everyOptions = () => [
-    { value: 0, label: t('plan.breakNone') },
-    ...[90, 120, 150, 180].map((v) => ({ value: v, label: v % 60 ? `${Math.floor(v / 60)} h ${v % 60}` : `${v / 60} h` })),
+    { value: 0, label: t('plan.breakNone'), hint: t('plan.breakNoneHint') },
+    ...[90, 120, 150, 180].map((v) => ({
+      value: v,
+      label: v % 60 ? `${Math.floor(v / 60)} h ${v % 60}` : `${v / 60} h`,
+      hint: breaksIn(v) === 1 ? t('plan.breakCount1') : t('plan.breakCount', { n: breaksIn(v) }),
+    })),
   ];
-  const durOptions = () => [10, 15, 20, 30].map((v) => ({ value: v, label: `${v} min` }));
+  const durOptions = () =>
+    [10, 15, 20, 30].map((v) => ({ value: v, label: `${v} min`, hint: t(`plan.breakDur.${v}`) }));
   function renderBreaks() {
     const every = $('plan-break-every');
     every.dataset.value = String(breaks.every);

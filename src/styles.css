@@ -1763,12 +1763,21 @@ input, select, textarea, button { font-family: inherit; }
   transform: none;
 }
 
+.tp-grab {
+  padding-bottom: 4px;
+  touch-action: none;
+}
+
+.tp-sheet {
+  padding-top: 8px;
+}
+
 .tp-title {
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 1.35rem;
-  color: var(--brand);
+  font-size: 1.6rem;
+  color: var(--ink);
 }
 
 .tp-wheels {
@@ -2298,39 +2307,57 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   opacity: 0.45;
 }
 
-/* option list in the bottom panel (same look as the language menu) */
+/* option cards in the bottom panel, like the animal sheet */
 .tp-options {
   list-style: none;
-  margin: 0;
+  margin: 4px 0 4px;
   padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* an odd first option (e.g. "no breaks") takes the whole row */
+.tp-options li:first-child:nth-last-child(odd) {
+  grid-column: 1 / -1;
 }
 
 .tp-options button {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  gap: 2px;
   width: 100%;
-  padding: 14px 12px;
-  border: 0;
-  border-radius: var(--r-sm);
-  background: none;
+  min-height: 72px;
+  padding: 12px 14px;
+  border: 2px solid transparent;
+  border-radius: var(--r-md);
+  background: var(--chip);
   color: var(--ink);
-  font-size: 1.05rem;
   text-align: left;
 }
 
-.tp-options button svg {
-  visibility: hidden;
-  color: var(--brand);
+.tp-options b {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.1;
+}
+
+.tp-options small {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.tp-options small:empty {
+  display: none;
 }
 
 .tp-options button[aria-selected='true'] {
-  background: color-mix(in srgb, var(--brand) 12%, var(--surface));
-  color: var(--brand);
+  border-color: var(--brand);
+  background: color-mix(in srgb, var(--brand) 10%, var(--surface));
 }
 
-.tp-options button[aria-selected='true'] svg {
-  visibility: visible;
+.tp-options button[aria-selected='true'] b {
+  color: var(--brand);
 }
 
 .plan-adv-note {
@@ -2435,10 +2462,9 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) .tp-options button[aria-selected='true'] { color: #ff9aa6; }
+  :root:not([data-theme='light']) .tp-options button[aria-selected='true'] b { color: #ff9aa6; }
   :root:not([data-theme='light']) .tp-options button svg,
   :root:not([data-theme='light']) .plan-select svg,
-  :root:not([data-theme='light']) .tp-title,
   :root:not([data-theme='light']) .plan-pace-head b,
   :root:not([data-theme='light']) .tp-item.on,
   :root:not([data-theme='light']) .tp-colon { color: #ff9aa6; }

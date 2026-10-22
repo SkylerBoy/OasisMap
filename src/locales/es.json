@@ -163,5 +163,12 @@
   "stats.yes": "Sí, ayudo",
   "stats.thanks": "¡Gracias! Así los planes serán más realistas.",
   "plan.breaksEvery": "Descanso cada",
-  "plan.breaksLong": "Duración del descanso"
+  "plan.breaksLong": "Duración del descanso",
+  "plan.breakNoneHint": "Solo la comida, si la incluyes",
+  "plan.breakCount": "≈ {n} descansos en tu visita",
+  "plan.breakDur.10": "Un respiro",
+  "plan.breakDur.15": "Un refresco",
+  "plan.breakDur.20": "Merienda",
+  "plan.breakDur.30": "Sin prisas",
+  "plan.breakCount1": "≈ 1 descanso en tu visita"
 }

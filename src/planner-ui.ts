@@ -22,6 +22,8 @@ export interface PlannerContext {
   showPlan: (stops: Map<string, string> | null, coords: LngLat[] | null, focus?: boolean) => void;
   /** Start the arrow navigation to a point. */
   navigate: (p: Poi) => void;
+  /** Point the arrow navigation is going to now, if any. */
+  navTarget: () => string | null;
   toast: (msg: string, action?: () => void, ms?: number) => void;
   /** Median minutes visitors really spend at a point, when known. */
   minutesAt?: (poiId: string) => number | undefined;
@@ -34,6 +36,8 @@ export interface PlannerApi {
   arrivedAt: (poiId: string) => void;
   /** New position: arriving at the next stop marks it as done. */
   onFix: (coord: LngLat) => void;
+  /** The visitor stopped the navigation by hand. */
+  navStopped: () => void;
 }
 
 const LATE = 10; // minutes behind before offering to reorganise
@@ -928,6 +932,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
             : t('pb.onTime', { n: idx + 1, total: plan!.steps.length });
     $('pb-replan').hidden = late < LATE;
     bar.classList.toggle('late', late >= LATE);
+    guideNav();
   }
 
   function markDone(id: string) {
@@ -976,10 +981,39 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     if (!plan) return;
     guide.following = true;
     guide.onMap = true;
+    navDismissed.clear();
     keepPlan();
     close();
-    const n = nextStep();
-    if (n) ctx.navigate(byId.get(n.loc)!);
+    guideNav(true);
+  }
+
+  // --- the arrow follows the plan -------------------------------------------------------
+  /** "stop id > point" the visitor closed the navigation for: not opened again for it. */
+  const navDismissed = new Set<string>();
+  let autoNav: string | null = null;
+
+  /** Where to walk now for the next stop: the train stop first if it is a train leg. */
+  function navTargetFor(s: NonNullable<ReturnType<typeof nextStep>>): string {
+    return s.ride && parkMinutes() <= s.ride.dep ? `ecotour-${s.ride.from}` : s.loc;
+  }
+
+  /** Following the plan: when it is time to leave, the arrow points to the next stop. */
+  function guideNav(now = false) {
+    if (!plan || !guide.following || dayOffset !== 0) return;
+    const s = nextStep();
+    if (!s) return;
+    const target = navTargetFor(s);
+    const key = `${s.item.id}>${target}`;
+    if (ctx.navTarget() === target || navDismissed.has(key)) return;
+    const leave = s.arrive - (s.trip ?? s.walk);
+    if (!now && parkMinutes() < leave - 2) return; // still time at the current stop
+    autoNav = key;
+    ctx.navigate(byId.get(target)!);
+  }
+
+  function navStopped() {
+    if (autoNav) navDismissed.add(autoNav);
+    autoNav = null;
   }
 
   function arrivedAt(poiId: string) {
@@ -991,6 +1025,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const n = nextStep();
     if (!guide.following || !n) return;
     if (distance(coord, byId.get(n.loc)!.coord) < ARRIVED_M) markDone(n.item.id);
+    else guideNav();
   }
 
   restore();
@@ -1024,8 +1059,10 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     const n = nextStep();
     if (!n) return;
     // taking the train: first to the stop where you get on
-    const stop = n.ride && parkMinutes() <= n.ride.dep ? byId.get(`ecotour-${n.ride.from}`) : undefined;
-    ctx.navigate(stop ?? byId.get(n.loc)!);
+    const target = navTargetFor(n);
+    navDismissed.delete(`${n.item.id}>${target}`);
+    autoNav = `${n.item.id}>${target}`;
+    ctx.navigate(byId.get(target)!);
   });
   $('pb-done').addEventListener('click', () => {
     const n = nextStep();
@@ -1101,5 +1138,6 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     },
     arrivedAt,
     onFix,
+    navStopped,
   };
 }

@@ -122,6 +122,7 @@ async function init() {
       }
     },
     navigate: (p) => void startNavigation(p),
+    navTarget: () => state.navTo?.id ?? null,
     toast,
   });
   window.setInterval(checkReminders, 20_000);
@@ -731,7 +732,10 @@ function bindUi() {
   });
   $('sheet-backdrop').addEventListener('click', closeSheet);
   $('sheet-go').addEventListener('click', () => state.selected && startNavigation(state.selected));
-  $('hud-stop').addEventListener('click', stopNavigation);
+  $('hud-stop').addEventListener('click', () => {
+    planner?.navStopped();
+    stopNavigation();
+  });
   $('hud-compass').addEventListener('click', async () => {
     $('hud-compass').hidden = await compass.start();
   });

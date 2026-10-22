@@ -187,34 +187,32 @@
         </div>
       </footer>
     </section>
-    <section id="summary" class="planner" hidden aria-modal="true" role="dialog">
-      <header class="planner-head">
-        <h2 data-i18n="sum.title">Tu visita</h2>
-        <button id="sum-close" class="planner-x" type="button" data-i18n-title="close">✕</button>
-      </header>
-      <div class="planner-body">
-        <div class="sum-hero">
-          <b data-i18n="sum.thanks">¡Gracias por tu visita!</b>
+    <section id="summary" class="planner summary" hidden aria-modal="true" role="dialog" aria-labelledby="sum-title">
+      <button id="sum-close" class="planner-x sum-x" type="button" data-i18n-title="close">✕</button>
+      <div class="planner-body sum-body">
+        <header class="sum-head">
+          <span class="sum-head-pattern" aria-hidden="true"></span>
+          <h2 id="sum-title" class="sr-only" data-i18n="sum.title">Tu visita</h2>
+          <img class="sum-logo" src="/src/assets/logo-white.png" alt="Oasis Wildlife Fuerteventura" width="600" height="371" />
           <small id="sum-date"></small>
-        </div>
-        <canvas id="sum-map" class="sum-map" aria-hidden="true"></canvas>
-        <div id="sum-stats" class="sum-stats"></div>
-        <p id="sum-plan" class="sum-line" hidden></p>
-        <div id="sum-fav" class="sum-fav" hidden>
-          <img alt="" />
-          <div>
+        </header>
+        <div class="sum-map-card"><canvas id="sum-map" class="sum-map" aria-hidden="true"></canvas></div>
+        <p id="sum-empty" class="sum-line" data-i18n="sum.empty" hidden>Aún no hemos visto que pases por ningún recinto.</p>
+        <ul id="sum-seen" class="sum-strip"></ul>
+        <div class="sum-grid">
+          <div id="sum-stats" class="sum-stats"></div>
+          <div id="sum-fav" class="sum-fav" hidden>
+            <img alt="" />
             <small data-i18n="sum.favLabel">Tu favorito</small>
             <b id="sum-fav-name"></b>
             <span id="sum-fav-min"></span>
           </div>
         </div>
+        <p id="sum-plan" class="sum-line" hidden></p>
         <h3 class="plan-presets-title"><span data-i18n="sum.photos">Tus fotos</span> <small data-i18n="sum.optional">(opcional)</small></h3>
         <p class="sum-hint" data-i18n="sum.photosHint">Hasta 3. Saldrán clavadas en la imagen para compartir; no se suben a ningún sitio.</p>
         <div id="sum-photo-list" class="sum-photo-list"></div>
         <input id="sum-photo-input" type="file" accept="image/*" multiple hidden />
-        <h3 class="plan-presets-title" data-i18n="sum.seen">Lo que has visto</h3>
-        <p id="sum-empty" class="sum-line" data-i18n="sum.empty" hidden>Aún no hemos visto que pases por ningún recinto.</p>
-        <ul id="sum-seen" class="sum-seen"></ul>
       </div>
       <footer class="planner-foot plan-foot-row">
         <button id="sum-download" class="btn" type="button" data-i18n="sum.download">Descargar</button>

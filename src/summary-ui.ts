@@ -59,6 +59,7 @@ export function startSummary(ctx: SummaryContext) {
       .querySelectorAll('.sum-stat')
       .forEach((el, i) => {
         el.querySelector('b')!.textContent = cards[i][0];
+        el.classList.toggle('long', cards[i][0].length > 6);
         el.querySelector('small')!.textContent = cards[i][1];
       });
     const plan = ctx.planProgress();
@@ -72,16 +73,20 @@ export function startSummary(ctx: SummaryContext) {
       $('sum-fav-name').textContent = pick(s.fav.poi.name);
       $('sum-fav-min').textContent = `${Math.round(s.fav.min)} min`;
     }
+    // the strip of what you saw: animals first, longest stay first
     const ul = $('sum-seen');
+    ul.setAttribute('aria-label', t('sum.seen'));
     ul.innerHTML = '';
-    for (const { poi } of s.seen) {
+    const order = [...s.seen].sort((a, b) => +(b.poi.category === 'animal') - +(a.poi.category === 'animal') || b.min - a.min);
+    for (const { poi } of order) {
       const li = document.createElement('li');
-      li.innerHTML = `<span class="plan-icon cat-${poi.category}">${
-        poi.art ? `<img src="${import.meta.env.BASE_URL}${poi.art}" alt="">` : poiIconSvg(poiIcon(poi), 22)
-      }</span><span></span>`;
-      li.querySelector('span:last-child')!.textContent = pick(poi.name);
+      li.innerHTML = `<span class="sum-strip-art cat-${poi.category}">${
+        poi.art ? `<img src="${import.meta.env.BASE_URL}${poi.art}" alt="">` : poiIconSvg(poiIcon(poi), 30)
+      }</span><small></small>`;
+      li.querySelector('small')!.textContent = pick(poi.name);
       ul.appendChild(li);
     }
+    ul.hidden = !s.seen.length;
     $('sum-empty').hidden = s.seen.length > 0;
     renderPhotos();
     void renderMap();
@@ -123,7 +128,7 @@ export function startSummary(ctx: SummaryContext) {
     c.style.height = `${h}px`;
     const g = c.getContext('2d')!;
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
-    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 14 }, mapOptions(dark ? DARK_MAP : LIGHT_MAP, art, 1, dpr, dark));
+    await drawVisitMap(g, { x: 0, y: 0, w, h, r: 18 }, mapOptions(dark ? DARK_MAP : LIGHT_MAP, art, 1, dpr, dark));
   }
 
   // --- your photos for the picture (optional, kept only while the app is open) ----

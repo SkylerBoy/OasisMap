@@ -2847,3 +2847,276 @@ body.has-plan-bar.map-expanded .maplibregl-ctrl-bottom-left {
   :root:not([data-theme='light']) .toast { background: #f4f0e2; color: #23261f; box-shadow: 0 6px 20px rgb(0 0 0 / 0.5); }
 }
 :root[data-theme='dark'] .toast { background: #f4f0e2; color: #23261f; box-shadow: 0 6px 20px rgb(0 0 0 / 0.5); }
+
+/* --- visit summary: looks like the picture to share ------------------------------ */
+.summary {
+  isolation: isolate;
+}
+
+/* giraffe pattern over the cream page */
+.summary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--pattern);
+  -webkit-mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
+  mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
+}
+
+.summary .sum-body {
+  padding: 0 16px 24px;
+}
+
+.sum-x {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top));
+  right: 14px;
+  z-index: 3;
+  /* stays visible over the map once the red header has scrolled away */
+  background: color-mix(in srgb, var(--brand) 82%, #000);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.25);
+}
+
+.sum-head {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 0 -16px 34px;
+  padding: calc(30px + env(safe-area-inset-top)) 16px 22px;
+  background: var(--brand);
+  color: #fff;
+  text-align: center;
+}
+
+/* wavy bottom edge */
+.sum-head::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -16px;
+  height: 18px;
+  background: var(--brand);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='18' viewBox='0 0 180 18'%3E%3Cpath d='M0 0H180V9Q157.5 18 135 9T90 9T45 9T0 9Z'/%3E%3C/svg%3E") 0 0 / 180px 18px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='18' viewBox='0 0 180 18'%3E%3Cpath d='M0 0H180V9Q157.5 18 135 9T90 9T45 9T0 9Z'/%3E%3C/svg%3E") 0 0 / 180px 18px repeat-x;
+}
+
+.sum-head-pattern {
+  position: absolute;
+  inset: 0;
+  background: rgb(255 255 255 / 0.07);
+  -webkit-mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
+  mask: url('./assets/giraffe.svg') 0 0 / 260px 260px repeat;
+  pointer-events: none;
+}
+
+.sum-logo {
+  position: relative;
+  width: min(200px, 52vw);
+  height: auto;
+}
+
+.sum-head small {
+  position: relative;
+  color: rgb(255 255 255 / 0.9);
+  font-size: 0.95rem;
+}
+
+.sum-map-card {
+  padding: 6px;
+  border-radius: 22px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.sum-map-card .sum-map {
+  margin: 0;
+  border-radius: 18px;
+}
+
+/* the strip of what you saw */
+.sum-strip {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 0;
+  padding: 10px 8px;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.sum-strip[hidden] {
+  display: none;
+}
+
+.sum-strip li {
+  flex: none;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 4px;
+  width: 78px;
+  text-align: center;
+}
+
+.sum-strip-art {
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 52px;
+}
+
+.sum-strip-art img {
+  max-width: 70px;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.sum-strip-art svg {
+  color: var(--muted);
+}
+
+.sum-strip small {
+  font-size: 0.68rem;
+  line-height: 1.2;
+  color: var(--muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* numbers two by two, the favourite beside them */
+.sum-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.sum-grid:has(.sum-fav[hidden]) {
+  grid-template-columns: 1fr;
+}
+
+.summary .sum-stats {
+  gap: 8px;
+}
+
+.summary .sum-stat {
+  padding: 10px 4px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.summary .sum-stat b {
+  font-size: 1.35rem;
+  white-space: nowrap;
+}
+
+.summary .sum-stat.long b {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.summary .sum-stat small {
+  font-size: 0.7rem;
+}
+
+.summary .sum-fav {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 4px;
+  margin: 0;
+  padding: 10px 6px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.summary .sum-fav[hidden] {
+  display: none;
+}
+
+.summary .sum-fav img {
+  width: 100%;
+  max-width: 96px;
+  height: 58px;
+}
+
+.summary .sum-fav small {
+  font-size: 0.58rem;
+  padding: 2px 8px;
+}
+
+.summary .sum-fav b {
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.summary .sum-fav span {
+  font-size: 0.72rem;
+}
+
+.summary .sum-line {
+  margin-top: 14px;
+}
+
+.summary .plan-presets-title {
+  margin-top: 22px;
+}
+
+/* your photos, pinned */
+.summary .sum-photo-list {
+  gap: 14px;
+  padding: 8px 4px 4px;
+}
+
+.summary .sum-photo:not(.sum-photo-add) {
+  overflow: visible;
+  padding: 5px;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(60 48 20 / 0.25);
+  transform: rotate(-3deg);
+}
+
+.summary .sum-photo:not(.sum-photo-add):nth-child(2) {
+  transform: rotate(2.5deg);
+}
+
+.summary .sum-photo:not(.sum-photo-add):nth-child(3) {
+  transform: rotate(-1.5deg);
+}
+
+.summary .sum-photo:not(.sum-photo-add) img {
+  border-radius: 1px;
+}
+
+/* the pin */
+.summary .sum-photo:not(.sum-photo-add)::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ff7686, var(--brand) 70%);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.35);
+  z-index: 1;
+}
+
+.summary .sum-photo-x {
+  top: auto;
+  bottom: 9px;
+  right: 9px;
+}

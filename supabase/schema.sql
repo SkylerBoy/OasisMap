@@ -12,6 +12,11 @@ create table if not exists public.visits (
 
 alter table public.visits enable row level security;
 
+-- Explicit rights (works whether or not "expose new tables" is on):
+-- the public key may only add visits, never read, change or delete them.
+revoke all on public.visits from anon, authenticated;
+grant insert (poi, minutes) on public.visits to anon;
+
 -- Visitors' phones may only add rows (no reading, changing or deleting).
 drop policy if exists "anyone can add a visit" on public.visits;
 create policy "anyone can add a visit" on public.visits
@@ -28,4 +33,5 @@ create or replace view public.poi_times as
   group by poi
   having count(*) >= 20;
 
+revoke all on public.poi_times from anon, authenticated;
 grant select on public.poi_times to anon;

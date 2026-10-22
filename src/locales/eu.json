@@ -119,7 +119,7 @@
   "plan.next": "Hurrengoa: {t} · {name}",
   "plan.forDay": "{day} · {n} geldialdi",
   "plan.done": "Plana osatuta. Eskerrik asko bisitagatik!",
-  "plan.dragHint": "Sakatu luze geldialdi bat ordena aldatzeko",
+  "plan.dragHint": "Sakatu luze geldialdi bat mugitzeko · irristatu ezkerrera kentzeko",
   "plan.no.session": "Horrela ez zara {name}(r)en saio batera ere iritsiko",
   "plan.no.closed": "Horrela {name} itxita egongo litzateke",
   "plan.no.end": "Horrela ez duzu denborarik irteera-ordua baino lehen",
@@ -135,5 +135,12 @@
   "pb.onTime": "{total}tik {n}. geldialdia · garaiz zoaz",
   "pb.doneNext": "✓ {name}. Hurrengoa: {next} {t}etan · ukitu joateko",
   "pb.replanned": "Plana hemendik berrantolatuta",
-  "pb.replannedDrop": "Plana berrantolatuta. Ez dira sartzen: {list}"
+  "pb.replannedDrop": "Plana berrantolatuta. Ez dira sartzen: {list}",
+  "plan.addTitle": "Gehitu geldialdiak",
+  "plan.addMore": "Ikusi gainerako guztia",
+  "plan.remove": "Kendu",
+  "plan.removed": "{name} planetik kenduta · ukitu desegiteko",
+  "plan.added": "{name} gehituta, {t}etan",
+  "plan.noFit": "{name} ez da sartzen zure ordutegian",
+  "plan.notIn": "Ez zen sartzen edo kendu duzu"
 }

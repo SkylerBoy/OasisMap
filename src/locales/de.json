@@ -119,7 +119,7 @@
   "plan.next": "Als Nächstes: {t} · {name}",
   "plan.forDay": "{day} · {n} Stopps",
   "plan.done": "Plan erledigt. Danke für deinen Besuch!",
-  "plan.dragHint": "Halte einen Stopp gedrückt, um die Reihenfolge zu ändern",
+  "plan.dragHint": "Gedrückt halten zum Verschieben · nach links wischen zum Entfernen",
   "plan.no.session": "So verpasst du alle Termine von {name}",
   "plan.no.closed": "So wäre {name} schon geschlossen",
   "plan.no.end": "So reicht die Zeit bis zu deiner Abfahrt nicht",
@@ -135,5 +135,12 @@
   "pb.onTime": "Stopp {n} von {total} · im Zeitplan",
   "pb.doneNext": "✓ {name}. Weiter: {next} um {t} · tippen zum Hingehen",
   "pb.replanned": "Plan ab hier neu geplant",
-  "pb.replannedDrop": "Neu geplant. Passt nicht mehr: {list}"
+  "pb.replannedDrop": "Neu geplant. Passt nicht mehr: {list}",
+  "plan.addTitle": "Stopps hinzufügen",
+  "plan.addMore": "Alles andere ansehen",
+  "plan.remove": "Entfernen",
+  "plan.removed": "{name} entfernt · tippen zum Rückgängigmachen",
+  "plan.added": "{name} um {t} hinzugefügt",
+  "plan.noFit": "{name} passt nicht in deine Zeit",
+  "plan.notIn": "Passte nicht oder entfernt"
 }

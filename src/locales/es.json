@@ -119,7 +119,7 @@
   "plan.next": "Siguiente: {t} · {name}",
   "plan.forDay": "{day} · {n} paradas",
   "plan.done": "Plan completado. ¡Gracias por tu visita!",
-  "plan.dragHint": "Mantén pulsada una parada para cambiarla de orden",
+  "plan.dragHint": "Mantén pulsada una parada para moverla · desliza a la izquierda para quitarla",
   "plan.no.session": "Así no llegas a ninguna sesión de {name}",
   "plan.no.closed": "Así {name} ya estaría cerrado",
   "plan.no.end": "Así no te da tiempo antes de tu hora de salida",
@@ -135,5 +135,12 @@
   "pb.onTime": "Parada {n} de {total} · vas bien de tiempo",
   "pb.doneNext": "✓ {name}. Siguiente: {next} a las {t} · toca para ir",
   "pb.replanned": "Plan reorganizado desde aquí",
-  "pb.replannedDrop": "Plan reorganizado. Ya no caben: {list}"
+  "pb.replannedDrop": "Plan reorganizado. Ya no caben: {list}",
+  "plan.addTitle": "Añadir paradas",
+  "plan.addMore": "Ver todo lo demás",
+  "plan.remove": "Quitar",
+  "plan.removed": "{name} quitado del plan · toca para deshacer",
+  "plan.added": "{name} añadido a las {t}",
+  "plan.noFit": "{name} no cabe en tu horario",
+  "plan.notIn": "No cabía o lo quitaste"
 }

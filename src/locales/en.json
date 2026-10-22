@@ -119,7 +119,7 @@
   "plan.next": "Next: {t} · {name}",
   "plan.forDay": "{day} · {n} stops",
   "plan.done": "Plan completed. Thanks for visiting!",
-  "plan.dragHint": "Press and hold a stop to change its order",
+  "plan.dragHint": "Press and hold a stop to move it · swipe left to remove it",
   "plan.no.session": "That way you miss every session of {name}",
   "plan.no.closed": "That way {name} would be closed",
   "plan.no.end": "That way it does not fit before you leave",
@@ -135,5 +135,12 @@
   "pb.onTime": "Stop {n} of {total} · on time",
   "pb.doneNext": "✓ {name}. Next: {next} at {t} · tap to go",
   "pb.replanned": "Plan rearranged from here",
-  "pb.replannedDrop": "Plan rearranged. No longer fits: {list}"
+  "pb.replannedDrop": "Plan rearranged. No longer fits: {list}",
+  "plan.addTitle": "Add stops",
+  "plan.addMore": "See everything else",
+  "plan.remove": "Remove",
+  "plan.removed": "{name} removed from the plan · tap to undo",
+  "plan.added": "{name} added at {t}",
+  "plan.noFit": "{name} does not fit in your time",
+  "plan.notIn": "Did not fit or you removed it"
 }

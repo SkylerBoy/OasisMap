@@ -119,7 +119,7 @@
   "plan.next": "Següent: {t} · {name}",
   "plan.forDay": "{day} · {n} parades",
   "plan.done": "Pla completat. Gràcies per la visita!",
-  "plan.dragHint": "Mantén premuda una parada per canviar-la d’ordre",
+  "plan.dragHint": "Mantén premuda una parada per moure-la · llisca a l’esquerra per treure-la",
   "plan.no.session": "Així no arribes a cap sessió de {name}",
   "plan.no.closed": "Així {name} ja estaria tancat",
   "plan.no.end": "Així no et dona temps abans de l’hora de sortida",
@@ -135,5 +135,12 @@
   "pb.onTime": "Parada {n} de {total} · vas bé de temps",
   "pb.doneNext": "✓ {name}. Següent: {next} a les {t} · toca per anar-hi",
   "pb.replanned": "Pla reorganitzat des d’aquí",
-  "pb.replannedDrop": "Pla reorganitzat. Ja no hi caben: {list}"
+  "pb.replannedDrop": "Pla reorganitzat. Ja no hi caben: {list}",
+  "plan.addTitle": "Afegir parades",
+  "plan.addMore": "Veure tota la resta",
+  "plan.remove": "Treure",
+  "plan.removed": "{name} tret del pla · toca per desfer",
+  "plan.added": "{name} afegit a les {t}",
+  "plan.noFit": "{name} no hi cap en el teu horari",
+  "plan.notIn": "No hi cabia o el vas treure"
 }

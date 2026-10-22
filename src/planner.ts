@@ -209,3 +209,29 @@ export function scheduleOrder(
   }
   return { steps };
 }
+
+/**
+ * Add one stop to a plan the visitor has already arranged: keep their order and
+ * put it where it adds the least walking while every time still works.
+ */
+export function insertBest(
+  order: { item: PlanItem; loc: string }[],
+  item: PlanItem,
+  inp: Omit<PlanInput, 'items'>,
+): PlanStep[] | null {
+  let best: PlanStep[] | null = null;
+  let bestWalk = Infinity;
+  for (const loc of item.locs) {
+    for (let pos = 0; pos <= order.length; pos++) {
+      const trial = [...order.slice(0, pos), { item, loc }, ...order.slice(pos)];
+      const r = scheduleOrder(trial, inp);
+      if (!('steps' in r)) continue;
+      const w = r.steps.reduce((a, s) => a + s.walk, 0);
+      if (w < bestWalk) {
+        best = r.steps;
+        bestWalk = w;
+      }
+    }
+  }
+  return best;
+}

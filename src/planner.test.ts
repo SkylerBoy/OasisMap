@@ -67,3 +67,17 @@ describe('scheduleOrder', () => {
     expect('problem' in r && r.problem).toEqual({ index: 1, reason: 'session' });
   });
 });
+
+import { insertBest } from './planner';
+
+describe('insertBest', () => {
+  it('slots a new stop where it adds the least walking', () => {
+    const order = ['a', 'c'].map((id) => ({ item: visit(id), loc: id }));
+    const steps = insertBest(order, visit('b'), { walk, startLoc: 'gate', startTime: h(9), endTime: h(17) })!;
+    expect(steps.map((s) => s.loc)).toEqual(['a', 'b', 'c']);
+  });
+  it('returns null when it cannot fit', () => {
+    const order = [{ item: visit('a'), loc: 'a' }];
+    expect(insertBest(order, { ...visit('c'), dur: 600 }, { walk, startLoc: 'gate', startTime: h(9), endTime: h(12) })).toBeNull();
+  });
+});

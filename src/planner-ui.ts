@@ -3,7 +3,7 @@ import { poiIcon } from './data';
 import { distance, type LngLat } from './geo';
 import type { PathGraph, Snap } from './graph';
 import { currentLang, formatDistance, pick, t } from './i18n';
-import { planDay, scheduleOrder, type Plan, type PlanItem } from './planner';
+import { insertBest, planDay, scheduleOrder, type Plan, type PlanItem } from './planner';
 import { poiIconSvg } from './poi-icons';
 import { parkDate, setReminder } from './reminders';
 import { parkMinutes, parkWeekday, toMinutes } from './status';
@@ -242,6 +242,94 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
     renderBar();
   }
 
+  /** Times for a plan in the visitor's own order. */
+  const orderInput = () => ({
+    walk: walkMin,
+    startLoc: hereSnap ? 'here' : 'entrada',
+    startTime: toMinutes($('plan-start').dataset.value || OPEN),
+    endTime: toMinutes($('plan-end').dataset.value || CLOSE),
+  });
+  const currentOrder = () => plan!.steps.map((st) => ({ item: { ...itemFor(st.item.id), locs: [st.loc] }, loc: st.loc }));
+  const nameOf = (id: string, loc?: string) =>
+    id === 'lunch' ? (loc ? t('plan.lunch', { name: pick(byId.get(loc)!.name) }) : t('plan.lunchShort')) : pick(byId.get(id)!.name);
+
+  /** Take a stop out (swiped away); the rest keep their order. Undo from the toast. */
+  function removeStop(idx: number) {
+    if (!plan) return;
+    const before = { plan, done: new Set(guide.done), sel: new Set(selected) };
+    const s = plan.steps[idx];
+    const order = currentOrder();
+    order.splice(idx, 1);
+    const r = scheduleOrder(order, orderInput());
+    if (!('steps' in r)) return renderPlan();
+    plan = { ...plan, steps: r.steps, skipped: [...plan.skipped.filter((x) => x.id !== s.item.id), { id: s.item.id, kind: s.item.kind, dur: 0, locs: [] }] };
+    if (s.item.id !== 'lunch') selected.delete(s.item.id);
+    guide.done.delete(s.item.id);
+    keepPlan();
+    renderPlan();
+    ctx.toast(
+      t('plan.removed', { name: nameOf(s.item.id, s.loc) }),
+      () => {
+        plan = before.plan;
+        guide.done = before.done;
+        selected.clear();
+        before.sel.forEach((x) => selected.add(x));
+        keepPlan();
+        renderPlan();
+      },
+      5000,
+    );
+  }
+
+  /** Put a stop in where it adds the least walking, keeping the visitor's order. */
+  function addStop(id: string) {
+    if (!plan) return;
+    const steps = insertBest(currentOrder(), itemFor(id), orderInput());
+    if (!steps) {
+      ctx.toast(t('plan.noFit', { name: nameOf(id) }), undefined, 4000);
+      navigator.vibrate?.(60);
+      return;
+    }
+    plan = { ...plan, steps, skipped: plan.skipped.filter((x) => x.id !== id) };
+    if (id !== 'lunch') selected.add(id);
+    keepPlan();
+    renderPlan();
+    const s = steps.find((x) => x.item.id === id)!;
+    ctx.toast(t('plan.added', { name: nameOf(id, s.loc), t: hhmm(s.start) }));
+  }
+
+  let addAll = false;
+
+  /** "Add stops": what did not fit or was taken out first, then (on demand) everything else. */
+  function renderAdd() {
+    if (!plan) return;
+    const inPlan = new Set(plan.steps.map((s) => s.item.id));
+    const skipped = plan.skipped.map((x) => x.id).filter((id) => !inPlan.has(id) && (id === 'lunch' || byId.has(id)));
+    const rest = addAll
+      ? [
+          ...(inPlan.has('lunch') || skipped.includes('lunch') || !restaurants.length ? [] : ['lunch']),
+          ...choices
+            .filter((p) => !inPlan.has(p.id) && !skipped.includes(p.id))
+            .sort((a, b) => pick(a.name).localeCompare(pick(b.name), currentLang()))
+            .map((p) => p.id),
+        ]
+      : [];
+    const ul = $('plan-add-list');
+    ul.innerHTML = '';
+    for (const id of [...skipped, ...rest]) {
+      const p = id === 'lunch' ? restaurants[0] : byId.get(id)!;
+      const li = document.createElement('li');
+      const icon = id !== 'lunch' && p.art ? `<img src="${import.meta.env.BASE_URL}${p.art}" alt="" loading="lazy">` : poiIconSvg(poiIcon(p), 22);
+      li.innerHTML = `<button type="button" class="plan-add-item"><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-text"><b></b><small></small></span><span class="plan-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>`;
+      li.querySelector('b')!.textContent = nameOf(id);
+      li.querySelector('small')!.textContent = skipped.includes(id) ? t('plan.notIn') : id === 'lunch' ? '' : (p.schedule ?? '');
+      li.querySelector('button')!.addEventListener('click', () => addStop(id));
+      ul.appendChild(li);
+    }
+    $('plan-add-more').hidden = addAll;
+    $('plan-add').hidden = dayOffset < 0;
+  }
+
   /** The visitor dragged a stop: same stops in the new order, times worked out again. */
   function reorder(from: number, to: number) {
     if (!plan || from === to) return renderPlan();
@@ -318,7 +406,7 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       li.className = `plan-step kind-${s.item.kind}`;
       li.dataset.idx = String(steps.indexOf(s));
       const icon = p.art ? `<img src="${import.meta.env.BASE_URL}${p.art}" alt="">` : poiIconSvg(poiIcon(p), 22);
-      li.innerHTML = `<button type="button"><span class="plan-time">${hhmm(s.start)}</span><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-text"><b></b><small></small></span></button>`;
+      li.innerHTML = `<span class="plan-del" aria-hidden="true">${t('plan.remove')}</span><button type="button"><span class="plan-time">${hhmm(s.start)}</span><span class="plan-icon cat-${p.category}">${icon}</span><span class="plan-text"><b></b><small></small></span></button>`;
       li.querySelector('b')!.textContent = s.item.id === 'lunch' ? t('plan.lunch', { name: pick(p.name) }) : pick(p.name);
       li.querySelector('small')!.textContent =
         s.item.kind === 'show'
@@ -331,8 +419,9 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
       });
       ol.appendChild(li);
     }
+    renderAdd();
     const sk = $('plan-skipped');
-    sk.hidden = plan.skipped.length === 0;
+    sk.hidden = true; // listed under "Add stops" now
     sk.textContent = plan.skipped.length
       ? t('plan.skipped', { list: new Intl.ListFormat(currentLang()).format(plan.skipped.map((i) => (i.id === 'lunch' ? t('plan.lunchShort') : pick(byId.get(i.id)!.name)))) })
       : '';
@@ -441,6 +530,8 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   let pressTimer = 0;
   let pressAt: { x: number; y: number; li: HTMLElement; pointer: number } | null = null;
   let dragJustEnded = false;
+  let swipe: { li: HTMLElement; btn: HTMLElement; x0: number; dx: number; pointer: number } | null = null;
+  const SWIPE_REMOVE = 90;
   const list = $('plan-steps');
 
   list.addEventListener('pointerdown', (e) => {
@@ -458,9 +549,29 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   });
 
   list.addEventListener('pointermove', (e) => {
-    if (pressAt && !drag && Math.hypot(e.clientX - pressAt.x, e.clientY - pressAt.y) > 8) {
-      clearTimeout(pressTimer); // it is a scroll, not a long press
-      pressAt = null;
+    if (swipe && e.pointerId === swipe.pointer) {
+      const dx = Math.min(0, e.clientX - swipe.x0);
+      swipe.dx = dx;
+      swipe.btn.style.transform = `translateX(${dx}px)`;
+      swipe.li.classList.toggle('will-remove', dx < -SWIPE_REMOVE);
+      return;
+    }
+    if (pressAt && !drag) {
+      const dx = e.clientX - pressAt.x;
+      const dy = e.clientY - pressAt.y;
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.3 && dx < 0) {
+        // sideways: swipe to remove
+        clearTimeout(pressTimer);
+        const btn = pressAt.li.querySelector<HTMLElement>('button')!;
+        swipe = { li: pressAt.li, btn, x0: pressAt.x, dx: 0, pointer: pressAt.pointer };
+        pressAt.li.classList.add('swiping');
+        pressAt = null;
+        return;
+      }
+      if (Math.hypot(dx, dy) > 8) {
+        clearTimeout(pressTimer); // it is a scroll, not a long press
+        pressAt = null;
+      }
     }
     if (!drag || e.pointerId !== drag.pointer) return;
     const dy = e.clientY - drag.y0;
@@ -490,6 +601,18 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   const drop = () => {
     clearTimeout(pressTimer);
     pressAt = null;
+    if (swipe) {
+      const { li, btn, dx } = swipe;
+      swipe = null;
+      dragJustEnded = true;
+      setTimeout(() => (dragJustEnded = false), 50);
+      li.classList.remove('swiping', 'will-remove');
+      if (dx < -SWIPE_REMOVE) {
+        btn.style.transform = 'translateX(-110%)';
+        setTimeout(() => removeStop(Number(li.dataset.idx)), 160);
+      } else btn.style.transform = '';
+      return;
+    }
     if (!drag) return;
     const { li, from } = drag;
     drag = null;
@@ -675,6 +798,10 @@ export function startPlanner(ctx: PlannerContext): PlannerApi {
   $('pb-x').addEventListener('click', () => {
     guide.following = false;
     keepPlan();
+  });
+  $('plan-add-more').addEventListener('click', () => {
+    addAll = true;
+    renderAdd();
   });
   $('plan-remind').addEventListener('click', () => {
     if (!plan) return;

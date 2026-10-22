@@ -119,7 +119,7 @@
   "plan.next": "Prossimo: {t} · {name}",
   "plan.forDay": "{day} · {n} tappe",
   "plan.done": "Piano completato. Grazie della visita!",
-  "plan.dragHint": "Tieni premuta una tappa per cambiarne l’ordine",
+  "plan.dragHint": "Tieni premuta una tappa per spostarla · scorri a sinistra per toglierla",
   "plan.no.session": "Così perdi tutte le sessioni di {name}",
   "plan.no.closed": "Così {name} sarebbe già chiuso",
   "plan.no.end": "Così non ci stai prima dell’uscita",
@@ -135,5 +135,12 @@
   "pb.onTime": "Tappa {n} di {total} · in orario",
   "pb.doneNext": "✓ {name}. Prossima: {next} alle {t} · tocca per andare",
   "pb.replanned": "Piano riorganizzato da qui",
-  "pb.replannedDrop": "Piano riorganizzato. Non ci stanno più: {list}"
+  "pb.replannedDrop": "Piano riorganizzato. Non ci stanno più: {list}",
+  "plan.addTitle": "Aggiungi tappe",
+  "plan.addMore": "Vedi tutto il resto",
+  "plan.remove": "Togli",
+  "plan.removed": "{name} tolto dal piano · tocca per annullare",
+  "plan.added": "{name} aggiunto alle {t}",
+  "plan.noFit": "{name} non rientra nel tuo orario",
+  "plan.notIn": "Non ci stava o l’hai tolto"
 }

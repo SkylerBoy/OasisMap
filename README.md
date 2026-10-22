@@ -162,7 +162,8 @@ el próximo tren por las siguientes.
   salida, y si quieres comer. `src/planner.ts` respeta las sesiones (llegando 10 min antes),
   los horarios de las experiencias y la comida (12:30–14:45), y ordena el resto para andar lo
   menos posible. El plan se guarda en el móvil y el botón muestra la siguiente parada.
-  Mantén pulsada una parada para cambiarla de orden.
+  Mantén pulsada una parada para moverla; deslízala a la izquierda para quitarla. En "Añadir
+  paradas" se recupera lo que no cabía o se añade cualquier otra (va donde menos rodeo añade).
 - **Plan en el mapa**: recorrido y número de parada en cada punto (los demás puntos no muestran
   número mientras tanto). La etiqueta de arriba lo abre o lo quita.
 - **Empezar la visita**: barra abajo con la siguiente parada (Ir, ✓ hecho). Al llegar (a 20 m o

@@ -119,7 +119,7 @@
   "plan.next": "Ensuite : {t} · {name}",
   "plan.forDay": "{day} · {n} arrêts",
   "plan.done": "Plan terminé. Merci de votre visite !",
-  "plan.dragHint": "Maintenez un arrêt appuyé pour changer l’ordre",
+  "plan.dragHint": "Maintenez un arrêt pour le déplacer · glissez à gauche pour le retirer",
   "plan.no.session": "Ainsi, vous ratez toutes les séances de {name}",
   "plan.no.closed": "Ainsi, {name} serait fermé",
   "plan.no.end": "Ainsi, cela ne rentre pas avant votre départ",
@@ -135,5 +135,12 @@
   "pb.onTime": "Arrêt {n} sur {total} · dans les temps",
   "pb.doneNext": "✓ {name}. Ensuite : {next} à {t} · touchez pour y aller",
   "pb.replanned": "Plan réorganisé depuis ici",
-  "pb.replannedDrop": "Plan réorganisé. Ne rentre plus : {list}"
+  "pb.replannedDrop": "Plan réorganisé. Ne rentre plus : {list}",
+  "plan.addTitle": "Ajouter des arrêts",
+  "plan.addMore": "Voir tout le reste",
+  "plan.remove": "Retirer",
+  "plan.removed": "{name} retiré du plan · touchez pour annuler",
+  "plan.added": "{name} ajouté à {t}",
+  "plan.noFit": "{name} ne rentre pas dans votre horaire",
+  "plan.notIn": "Ne rentrait pas ou retiré"
 }
